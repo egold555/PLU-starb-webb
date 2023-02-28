@@ -24,4 +24,7 @@ To start server:  `./gradlew bootRun`
 
 ## Tests
 
-Tests are located in 
+Tests are located in `src/test/java`.  To execute tests using IntelliJ,
+use the green arrow.  To execute using Gradle run:
+
+`./gradlew test`
