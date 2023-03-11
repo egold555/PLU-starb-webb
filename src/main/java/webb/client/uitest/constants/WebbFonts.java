@@ -1,6 +1,8 @@
 package webb.client.uitest.constants;
 
-import java.awt.*;
+
+import java.awt.Font;
+import java.awt.GraphicsEnvironment;
 import java.io.File;
 import java.io.InputStream;
 
@@ -15,7 +17,8 @@ public class WebbFonts {
     private static final Font BALSAMIQ_SANS_BOLD_ITALIC = loadFontFromFile("BalsamiqSans-BoldItalic");
 
     public static final Font BALSAMIQ_SANS_REGULAR_20 = BALSAMIQ_SANS_REGULAR.deriveFont(20f);
-
+    public static final Font BALSAMIQ_SANS_REGULAR_32 = BALSAMIQ_SANS_REGULAR.deriveFont(32f);
+    public static final Font BALSAMIQ_SANS_REGULAR_72 = BALSAMIQ_SANS_REGULAR.deriveFont(72f);
 
     private static Font loadFontFromFile(String fontName) {
         final String fontPath = "/webb/fonts/" + fontName + ".ttf";

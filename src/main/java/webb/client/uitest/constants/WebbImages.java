@@ -1,7 +1,7 @@
 package webb.client.uitest.constants;
 
+import java.awt.Color;
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.InputStream;
 
