@@ -1,16 +1,19 @@
 package webb.client.uitest.components;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import javax.swing.JButton;
 import javax.swing.border.EmptyBorder;
 import webb.client.uitest.constants.WebbColors;
 import webb.client.uitest.constants.WebbFonts;
+import webb.client.uitest.constants.WebbImages;
 
 public class WebbButton extends JButton {
 
@@ -21,30 +24,34 @@ public class WebbButton extends JButton {
     private String text = null;
     private BufferedImage image = null;
     private Font font = WebbFonts.BALSAMIQ_SANS_REGULAR_20;
-
-    public WebbButton() {
-        this(null, null);
-    }
+    private boolean drawBackground = true;
+    private Color backgroundColor = WebbColors.B7;
 
     public WebbButton(String text) {
-        this(text, null);
-    }
-
-    public WebbButton(BufferedImage image) {
-        this(null, image);
-    }
-
-    public WebbButton(String text, BufferedImage image) {
-        super();
         this.text = text;
-        this.image = image;
+    }
+
+    public WebbButton(BufferedImage imageIn, int width, int height) {
+        this.image = imageIn;
+        this.setDrawBackground(false);
+        this.setPreferredSize(new Dimension(width, height));
+    }
+
+    public WebbButton() {
         setContentAreaFilled(false);
         setBorder(new EmptyBorder(8, 8, 8, 8));
         setForeground(Color.WHITE);
     }
 
+
+
     public void setBorderSize(int borderSize) {this.borderSize = borderSize;}
     public void setTextColor(Color textColor) {this.textColor = textColor;}
+    public void setDrawBackground(boolean drawBackground) {
+        this.drawBackground = drawBackground;
+        this.setOpaque(drawBackground);
+    }
+    public void setBackgroundColor(Color backgroundColor) {this.backgroundColor = backgroundColor;}
 
     @Override public void setFont(Font font) {this.font = font;}
     @Override public Font getFont() {return font;}
@@ -55,10 +62,13 @@ public class WebbButton extends JButton {
     @Override
     public void paint(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
-        g2.setColor(WebbColors.B7);
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2.fillRoundRect(0, 0, getWidth(), getHeight(), borderSize, borderSize);
 
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+        if(drawBackground) {
+            g2.setColor(backgroundColor);
+            g2.fillRoundRect(0, 0, getWidth(), getHeight(), borderSize, borderSize);
+        }
         //draw center text
         if(this.text != null) {
             g2.setColor(textColor);
@@ -71,9 +81,7 @@ public class WebbButton extends JButton {
 
         //draw center image
         if(this.image != null) {
-            int x = (getWidth() - this.image.getWidth()) / 2;
-            int y = (getHeight() - this.image.getHeight()) / 2;
-            g2.drawImage(this.image, x, y, null);
+            g2.drawImage(this.image, 0, 0, getWidth(), getHeight(), null);
         }
 
         g2.dispose();
