@@ -1,4 +1,4 @@
-package webb.client.uitest;
+package webb.client.uitest.screens;
 
 import java.awt.Container;
 import javax.swing.JLabel;

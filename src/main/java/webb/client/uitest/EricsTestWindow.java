@@ -1,6 +1,7 @@
 package webb.client.uitest;
 
 import javax.swing.JFrame;
+import webb.client.uitest.screens.CreditsScreen;
 
 
 public class EricsTestWindow extends JFrame {
