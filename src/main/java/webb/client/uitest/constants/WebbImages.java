@@ -1,6 +1,12 @@
 package webb.client.uitest.constants;
 
 import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.RenderingHints;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
+import java.io.IOException;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.InputStream;
@@ -9,8 +15,8 @@ public class WebbImages {
 
     private static final BufferedImage ERROR_IMAGE = createErrorImage(300, 300);
 
-    public static final BufferedImage TEST = loadImage("test.png");
-    public static final BufferedImage NOT_FOUND = loadImage("notfound.png");
+    public static final BufferedImage BACK_ARROW = loadImage("back_arrow.png");
+    public static final BufferedImage TEST_NOT_FOUND = loadImage("notfound.png");
 
     private static BufferedImage loadImage(String imageName) {
         final String imagePath = "/webb/images/" + imageName;
@@ -50,4 +56,5 @@ public class WebbImages {
 
         return image;
     }
+
 }

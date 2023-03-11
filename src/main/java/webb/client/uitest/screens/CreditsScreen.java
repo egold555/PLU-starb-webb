@@ -1,11 +1,14 @@
 package webb.client.uitest.screens;
 
 import java.awt.Container;
+import java.awt.Dimension;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
+import webb.client.uitest.components.WebbButton;
 import webb.client.uitest.constants.WebbColors;
 import webb.client.uitest.constants.WebbFonts;
+import webb.client.uitest.constants.WebbImages;
 
 public class CreditsScreen extends JPanel {
 
@@ -63,6 +66,12 @@ public class CreditsScreen extends JPanel {
             layout.putConstraint(SpringLayout.NORTH, authorSeth, 0, SpringLayout.SOUTH, authorBrandon);
             layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, authorSeth, 0, SpringLayout.HORIZONTAL_CENTER, contentPane);
             this.add(authorSeth);
+
+            WebbButton backButton = new WebbButton(WebbImages.BACK_ARROW, 42, 42);
+            layout.putConstraint(SpringLayout.NORTH, backButton, 10, SpringLayout.NORTH, contentPane);
+            layout.putConstraint(SpringLayout.WEST, backButton, 10, SpringLayout.WEST, contentPane);
+
+            this.add(backButton);
 
             this.setLayout(layout);
         }
