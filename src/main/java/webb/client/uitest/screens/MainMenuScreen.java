@@ -40,6 +40,11 @@ public class MainMenuScreen extends JPanel {
         playButton.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_32);
         layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, playButton, 0, SpringLayout.HORIZONTAL_CENTER, contentPane);
         layout.putConstraint(SpringLayout.NORTH, playButton, 50, SpringLayout.SOUTH, mainMenuText2);
+
+        playButton.addActionListener((e) -> {
+            System.out.println("Play button pressed");
+        });
+
         this.add(playButton);
 
         WebbButton creditsButton = new WebbButton("Credits");
@@ -47,6 +52,11 @@ public class MainMenuScreen extends JPanel {
         creditsButton.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_32);
         layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, creditsButton, 0, SpringLayout.HORIZONTAL_CENTER, contentPane);
         layout.putConstraint(SpringLayout.NORTH, creditsButton, 10, SpringLayout.SOUTH, playButton);
+
+        creditsButton.addActionListener((e) -> {
+            System.out.println("Credits button pressed");
+        });
+
         this.add(creditsButton);
 
         WebbButton exitButton = new WebbButton("Exit");
@@ -54,6 +64,11 @@ public class MainMenuScreen extends JPanel {
         exitButton.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_32);
         layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, exitButton, 0, SpringLayout.HORIZONTAL_CENTER, contentPane);
         layout.putConstraint(SpringLayout.NORTH, exitButton, 10, SpringLayout.SOUTH, creditsButton);
+
+        exitButton.addActionListener((e) -> {
+            System.out.println("Exit button pressed");
+        });
+
         this.add(exitButton);
 
         this.setLayout(layout);

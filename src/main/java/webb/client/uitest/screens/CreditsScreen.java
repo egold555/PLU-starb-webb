@@ -70,7 +70,9 @@ public class CreditsScreen extends JPanel {
             WebbButton backButton = new WebbButton(WebbImages.BACK_ARROW, 42, 42);
             layout.putConstraint(SpringLayout.NORTH, backButton, 10, SpringLayout.NORTH, contentPane);
             layout.putConstraint(SpringLayout.WEST, backButton, 10, SpringLayout.WEST, contentPane);
-
+            backButton.addActionListener(e -> {
+                System.out.println("Back button pressed");
+            });
             this.add(backButton);
 
             this.setLayout(layout);
