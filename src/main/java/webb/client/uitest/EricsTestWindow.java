@@ -9,7 +9,8 @@ public class EricsTestWindow extends JFrame {
             this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             this.setTitle("Example Window");
 
-            this.add(new MainMenuScreen());
+            //this.add(new MainMenuScreen());
+            this.add(new CreditsScreen());
 
 
             this.setSize(600, 600);
