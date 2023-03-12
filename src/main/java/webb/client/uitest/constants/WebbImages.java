@@ -15,8 +15,16 @@ public class WebbImages {
 
     private static final BufferedImage ERROR_IMAGE = createErrorImage(300, 300);
 
-    public static final BufferedImage BACK_ARROW = loadImage("back_arrow.png");
-    public static final BufferedImage TEST_NOT_FOUND = loadImage("notfound.png");
+    public static final BufferedImage ARROW_PAGE_BACK = loadImage("arrow_page_back.png");
+    public static final BufferedImage ARROW_FORWARD = loadImage("arrow_forward.png");
+    public static final BufferedImage ARROW_BACK = loadImage("arrow_back.png");
+    public static final BufferedImage BUTTON_TROPHY = loadImage("button_trophy.png");
+    public static final BufferedImage BUTTON_STATS = loadImage("button_stats.png");
+
+    public static final BufferedImage LEVEL_COMPLETE_EMBLEM = loadImage("level_complete_emblem.png");
+    public static final BufferedImage STAR = loadImage("star.png");
+
+    public static final BufferedImage PLACEHOLDER = loadImage("notfound.png");
 
     private static BufferedImage loadImage(String imageName) {
         final String imagePath = "/webb/images/" + imageName;
