@@ -1,16 +1,14 @@
 package webb.client.uitest.components;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.swing.JButton;
 import javax.swing.border.EmptyBorder;
+
+import org.springframework.core.metrics.StartupStep;
 import webb.client.uitest.constants.WebbColors;
 import webb.client.uitest.constants.WebbFonts;
 import webb.client.uitest.constants.WebbImages;
@@ -28,22 +26,27 @@ public class WebbButton extends JButton {
     private Color backgroundColor = WebbColors.B7;
 
     public WebbButton(String text) {
+        this(true);
         this.text = text;
     }
 
     public WebbButton(BufferedImage imageIn, int width, int height) {
+        this(true);
         this.image = imageIn;
         this.setDrawBackground(false);
         this.setPreferredSize(new Dimension(width, height));
     }
 
     public WebbButton() {
+        this(true);
         setContentAreaFilled(false);
         setBorder(new EmptyBorder(8, 8, 8, 8));
         setForeground(Color.WHITE);
+
     }
-
-
+    public WebbButton(boolean defaultConfig) {
+        setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+    }
 
     public void setBorderSize(int borderSize) {this.borderSize = borderSize;}
     public void setTextColor(Color textColor) {this.textColor = textColor;}
