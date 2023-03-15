@@ -1,4 +1,10 @@
-# Iteration 1 UI Sketch/Design
+# Iteration 1 
+
+#  Domain Model
+
+![Domain model of Star Battle Odyssey](star_battle_domain_diagram_1-1.png)
+
+# UI Sketch/Design
 
 ## Project Information
 * **Team:** Webb
