@@ -4,16 +4,13 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.GridLayout;
 import java.util.concurrent.ThreadLocalRandom;
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SpringLayout;
+import javax.swing.*;
 import javax.swing.plaf.basic.BasicBorders;
 import webb.client.uitest.components.WebbButton;
 import webb.client.uitest.constants.WebbColors;
 import webb.client.uitest.constants.WebbFonts;
 import webb.client.uitest.constants.WebbImages;
+
 
 public class SelectPuzzleScreen extends JPanel {
 
@@ -97,6 +94,7 @@ public class SelectPuzzleScreen extends JPanel {
 
                 stats.addActionListener(e -> {
                         System.out.println("Stats button pressed");
+                        TestModal test = new TestModal( (JFrame) SwingUtilities.getRootPane(this).getParent());
                 });
                 bottomBar.add(stats);
 
