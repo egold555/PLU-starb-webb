@@ -1,9 +1,9 @@
 package webb.client.ui.screens;
 
 import java.awt.Container;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
+import webb.client.ui.WebbWindow;
 import webb.client.ui.constants.WebbColors;
 
 public abstract class Screen extends JPanel {
@@ -20,5 +20,24 @@ public abstract class Screen extends JPanel {
 
     // ContentPane is really 'this', but it makes it easier to understand the code
     protected abstract void populateComponents(Container contentPane, SpringLayout layout);
+
+    public void switchScreenTo(ScreenType screen) {
+        WebbWindow.getInstance().switchScreen(screen);
+    }
+
+    public enum ScreenType {
+        MAIN_MENU(new MainMenuScreen()),
+        CREDITS(new CreditsScreen()),
+
+        ;
+        private final Screen screen;
+        ScreenType(Screen screen) {
+            this.screen = screen;
+        }
+
+        public Screen getScreen() {
+            return screen;
+        }
+    }
 
 }

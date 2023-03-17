@@ -3,7 +3,6 @@ package webb.client.ui.screens;
 import java.awt.Container;
 import java.awt.Dimension;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 import webb.client.ui.WebbWindow;
 import webb.client.ui.components.WebbButton;
@@ -52,6 +51,7 @@ public class MainMenuScreen extends Screen {
 
         creditsButton.addActionListener((e) -> {
             System.out.println("Credits button pressed");
+            this.switchScreenTo(ScreenType.CREDITS);
         });
 
         this.add(creditsButton);

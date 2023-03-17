@@ -2,7 +2,6 @@ package webb.client.ui.screens;
 
 import java.awt.Container;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 import webb.client.ui.WebbWindow;
 import webb.client.ui.components.WebbButton;
@@ -72,6 +71,7 @@ public class CreditsScreen extends Screen {
         layout.putConstraint(SpringLayout.WEST, backButton, 10, SpringLayout.WEST, contentPane);
         backButton.addActionListener(e -> {
             System.out.println("Back button pressed");
+            switchScreenTo(ScreenType.MAIN_MENU);
         });
         this.add(backButton);
     }
