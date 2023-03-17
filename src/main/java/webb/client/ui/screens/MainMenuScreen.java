@@ -39,6 +39,7 @@ public class MainMenuScreen extends Screen {
 
         playButton.addActionListener((e) -> {
             System.out.println("Play button pressed");
+            this.switchScreenTo(ScreenType.SELECT_PUZZLE);
         });
 
         this.add(playButton);

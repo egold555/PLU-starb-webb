@@ -106,6 +106,7 @@ public class SelectPuzzleScreen extends Screen {
                 layout.putConstraint(SpringLayout.WEST, backButton, 10, SpringLayout.WEST, contentPane);
                 backButton.addActionListener(e -> {
                         System.out.println("Back button pressed");
+                        this.switchScreenTo(ScreenType.MAIN_MENU);
                 });
                 this.add(backButton);
         }

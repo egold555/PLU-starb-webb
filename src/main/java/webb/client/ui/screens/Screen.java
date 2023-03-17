@@ -5,6 +5,7 @@ import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 import webb.client.ui.WebbWindow;
 import webb.client.ui.constants.WebbColors;
+import webb.client.ui.screens.selectpuzzle.SelectPuzzleScreen;
 
 public abstract class Screen extends JPanel {
 
@@ -28,6 +29,7 @@ public abstract class Screen extends JPanel {
     public enum ScreenType {
         MAIN_MENU(new MainMenuScreen()),
         CREDITS(new CreditsScreen()),
+        SELECT_PUZZLE(new SelectPuzzleScreen()),
 
         ;
         private final Screen screen;
