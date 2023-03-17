@@ -1,9 +1,8 @@
-package webb.client.uitest.constants;
+package webb.client.ui.constants;
 
 
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
-import java.io.File;
 import java.io.InputStream;
 
 public class WebbFonts {

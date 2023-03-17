@@ -1,12 +1,6 @@
-package webb.client.uitest.constants;
+package webb.client.ui.constants;
 
 import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.RenderingHints;
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
-import java.io.IOException;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.InputStream;
