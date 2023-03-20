@@ -1,26 +1,21 @@
-package webb.client.uitest.screens;
+package webb.client.ui.screens;
 
 import java.awt.Container;
 import java.awt.Dimension;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.SpringLayout;
-import webb.client.uitest.components.WebbButton;
-import webb.client.uitest.constants.WebbColors;
-import webb.client.uitest.constants.WebbFonts;
+import webb.client.ui.WebbWindow;
+import webb.client.ui.components.WebbButton;
+import webb.client.ui.constants.WebbColors;
+import webb.client.ui.constants.WebbFonts;
 
-public class MainMenuScreen extends JPanel {
+/**
+ * The main menu screen.
+ */
+public class MainMenuScreen extends Screen {
 
-    public MainMenuScreen() {
-
-        Container contentPane = this;
-        SpringLayout layout = new SpringLayout();
-
-        this.setBackground(WebbColors.D9);
-
-
-
-
+    @Override
+    protected void populateComponents(Container contentPane, SpringLayout layout) {
         JLabel mainMenuText1 = new JLabel("Star Battle");
         mainMenuText1.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_72);
         mainMenuText1.setForeground(WebbColors.TEXT_COLOR_BLACK);
@@ -43,6 +38,7 @@ public class MainMenuScreen extends JPanel {
 
         playButton.addActionListener((e) -> {
             System.out.println("Play button pressed");
+            this.switchScreenTo(ScreenType.SELECT_PUZZLE);
         });
 
         this.add(playButton);
@@ -55,6 +51,7 @@ public class MainMenuScreen extends JPanel {
 
         creditsButton.addActionListener((e) -> {
             System.out.println("Credits button pressed");
+            this.switchScreenTo(ScreenType.CREDITS);
         });
 
         this.add(creditsButton);
@@ -70,8 +67,6 @@ public class MainMenuScreen extends JPanel {
         });
 
         this.add(exitButton);
-
-        this.setLayout(layout);
     }
 
 }

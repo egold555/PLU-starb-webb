@@ -1,4 +1,4 @@
-package webb.client.uitest.screens.selectpuzzle;
+package webb.client.ui.screens.selectpuzzle;
 
 import javax.swing.*;
 import java.awt.*;

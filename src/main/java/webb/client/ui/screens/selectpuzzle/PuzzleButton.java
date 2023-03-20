@@ -1,18 +1,15 @@
-package webb.client.uitest.screens.selectpuzzle;
+package webb.client.ui.screens.selectpuzzle;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
-import webb.client.uitest.components.RoundedJPanel;
-import webb.client.uitest.components.SimpleImage;
-import webb.client.uitest.components.WebbButton;
-import webb.client.uitest.constants.WebbColors;
-import webb.client.uitest.constants.WebbImages;
+import webb.client.ui.components.RoundedJPanel;
+import webb.client.ui.components.WebbButton;
+import webb.client.ui.constants.WebbColors;
+import webb.client.ui.constants.WebbImages;
 
 public class PuzzleButton extends JPanel {
 

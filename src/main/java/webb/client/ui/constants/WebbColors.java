@@ -1,4 +1,4 @@
-package webb.client.uitest.constants;
+package webb.client.ui.constants;
 
 import java.awt.Color;
 public class WebbColors {

@@ -1,17 +1,12 @@
-package webb.client.uitest.components;
+package webb.client.ui.components;
 
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import javax.swing.JButton;
 import javax.swing.border.EmptyBorder;
 
-import org.springframework.core.metrics.StartupStep;
-import webb.client.uitest.constants.WebbColors;
-import webb.client.uitest.constants.WebbFonts;
-import webb.client.uitest.constants.WebbImages;
+import webb.client.ui.constants.WebbColors;
+import webb.client.ui.constants.WebbFonts;
 
 public class WebbButton extends JButton {
 

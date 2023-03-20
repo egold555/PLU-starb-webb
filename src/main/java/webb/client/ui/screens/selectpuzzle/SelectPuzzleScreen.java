@@ -1,26 +1,22 @@
-package webb.client.uitest.screens.selectpuzzle;
+package webb.client.ui.screens.selectpuzzle;
 
-import java.awt.Color;
 import java.awt.Container;
-import java.awt.GridLayout;
 import java.util.concurrent.ThreadLocalRandom;
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicBorders;
-import webb.client.uitest.components.WebbButton;
-import webb.client.uitest.constants.WebbColors;
-import webb.client.uitest.constants.WebbFonts;
-import webb.client.uitest.constants.WebbImages;
+import webb.client.ui.components.WebbButton;
+import webb.client.ui.constants.WebbColors;
+import webb.client.ui.constants.WebbFonts;
+import webb.client.ui.constants.WebbImages;
+import webb.client.ui.screens.Screen;
 
 
-public class SelectPuzzleScreen extends JPanel {
+/**
+ * The screen that allows the user to select a puzzle to play.
+ */
+public class SelectPuzzleScreen extends Screen {
 
-        public SelectPuzzleScreen() {
-
-                Container contentPane = this;
-                SpringLayout layout = new SpringLayout();
-
-                this.setBackground(WebbColors.D9);
-
+        @Override
+        protected void populateComponents(Container contentPane, SpringLayout layout) {
                 JLabel titleText = new JLabel("Select Puzzle");
                 titleText.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_64);
                 titleText.setForeground(WebbColors.TEXT_COLOR_BLACK);
@@ -109,12 +105,9 @@ public class SelectPuzzleScreen extends JPanel {
                 layout.putConstraint(SpringLayout.WEST, backButton, 10, SpringLayout.WEST, contentPane);
                 backButton.addActionListener(e -> {
                         System.out.println("Back button pressed");
+                        this.switchScreenTo(ScreenType.MAIN_MENU);
                 });
                 this.add(backButton);
-
-
-                this.setLayout(layout);
-
         }
 
 
