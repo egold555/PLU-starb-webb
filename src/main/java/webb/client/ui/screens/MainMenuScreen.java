@@ -9,11 +9,10 @@ import webb.client.ui.components.WebbButton;
 import webb.client.ui.constants.WebbColors;
 import webb.client.ui.constants.WebbFonts;
 
+/**
+ * The main menu screen.
+ */
 public class MainMenuScreen extends Screen {
-
-    public MainMenuScreen() {
-        super();
-    }
 
     @Override
     protected void populateComponents(Container contentPane, SpringLayout layout) {

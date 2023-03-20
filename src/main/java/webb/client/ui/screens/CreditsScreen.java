@@ -9,11 +9,10 @@ import webb.client.ui.constants.WebbColors;
 import webb.client.ui.constants.WebbFonts;
 import webb.client.ui.constants.WebbImages;
 
+/**
+ * The credits screen.
+ */
 public class CreditsScreen extends Screen {
-
-    public CreditsScreen() {
-        super();
-    }
 
     @Override
     protected void populateComponents(Container contentPane, SpringLayout layout) {
