@@ -10,11 +10,10 @@ import webb.client.ui.constants.WebbImages;
 import webb.client.ui.screens.Screen;
 
 
+/**
+ * The screen that allows the user to select a puzzle to play.
+ */
 public class SelectPuzzleScreen extends Screen {
-
-        public SelectPuzzleScreen() {
-            super();
-        }
 
         @Override
         protected void populateComponents(Container contentPane, SpringLayout layout) {
