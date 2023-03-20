@@ -7,12 +7,15 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 import javax.swing.SwingUtilities;
 import webb.client.ui.components.RoundedJPanel;
 import webb.client.ui.components.WebbBackButton;
 import webb.client.ui.components.WebbButton;
+import webb.client.ui.constants.WebbColors;
+import webb.client.ui.constants.WebbFonts;
 import webb.client.ui.constants.WebbImages;
 import webb.client.ui.screens.Screen;
 
@@ -22,6 +25,23 @@ import webb.client.ui.screens.Screen;
 public abstract class WebbPopup extends JDialog {
 
     private JFrame parent;
+    private final String title;
+
+    /**
+     * Creates a new popup with no title.
+     */
+    public WebbPopup() {
+        this(null);
+    }
+
+    /**
+     * Creates a new popup with the given title.
+     *
+     * @param title The title of the popup.
+     */
+    public WebbPopup(String title) {
+        this.title = title;
+    }
 
     /**
      * Shows the popup on top of the screen.
@@ -77,6 +97,15 @@ public abstract class WebbPopup extends JDialog {
         layout.putConstraint(SpringLayout.EAST, dialogCloseButton, -10, SpringLayout.EAST, roundedJPanel);
         this.add(dialogCloseButton);
 
+        if(title != null) {
+            JLabel titleLabel = new JLabel(title);
+            titleLabel.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_32);
+            titleLabel.setForeground(WebbColors.TEXT_COLOR_BLACK);
+            layout.putConstraint(SpringLayout.NORTH, titleLabel, 10, SpringLayout.NORTH, roundedJPanel);
+            layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, titleLabel, 0, SpringLayout.HORIZONTAL_CENTER, roundedJPanel);
+            this.add(titleLabel);
+        }
+
         this.setLayout(layout);
 
         this.setSize(parent.getWidth() / 2, parent.getHeight() / 2);
@@ -96,7 +125,7 @@ public abstract class WebbPopup extends JDialog {
         this.dispose();
         parent.getGlassPane().setVisible(false);
         parent.setEnabled(true);
-        parent.setAlwaysOnTop(true);
+        parent.toFront();
         parent.setFocusableWindowState(true);
     }
 

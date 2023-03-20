@@ -10,6 +10,10 @@ import javax.swing.SpringLayout;
  */
 public class ExampleWebbPopup extends WebbPopup {
 
+    public ExampleWebbPopup() {
+        super("Example popup");
+    }
+
     @Override
     protected void populateComponents(JPanel contentPane, SpringLayout layout) {
         JLabel label = new JLabel("Hello world!");
