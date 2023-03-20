@@ -1,6 +1,7 @@
 package webb.client.ui.screens.popup;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -35,10 +36,6 @@ public abstract class WebbPopup extends JDialog {
         parent.setGlassPane(glassPane);
         glassPane.setVisible(true);
 
-        this.setLocationRelativeTo(this.parent);
-
-
-
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -54,19 +51,23 @@ public abstract class WebbPopup extends JDialog {
 
         SpringLayout layout = new SpringLayout();
         populateComponents(this, layout);
-        WebbButton closeButton = new WebbButton(WebbImages.ARROW_PAGE_BACK, 45, 45);
+        WebbButton closeButton = new WebbButton(WebbImages.ARROW_PAGE_BACK, 42, 42);
 
         closeButton.addActionListener(e -> {
             close();
         });
 
-        layout.putConstraint(SpringLayout.VERTICAL_CENTER, closeButton, 10, SpringLayout.VERTICAL_CENTER, this);
-        layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, closeButton, 10, SpringLayout.HORIZONTAL_CENTER, this);
+        layout.putConstraint(SpringLayout.NORTH, closeButton, 10, SpringLayout.NORTH, this);
+        layout.putConstraint(SpringLayout.WEST, closeButton, 10, SpringLayout.WEST, this);
         this.add(closeButton);
 
         this.setLayout(layout);
 
         this.setSize(parent.getWidth() / 2, parent.getHeight() / 2);
+        this.setPreferredSize(new Dimension(this.getWidth(), this.getHeight()));
+
+        // Call after setting the size
+        this.setLocationRelativeTo(this.parent);
         this.setVisible(true);
     }
 
