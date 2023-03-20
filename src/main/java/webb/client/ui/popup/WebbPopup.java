@@ -3,6 +3,7 @@ package webb.client.ui.popup;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JDialog;
@@ -10,8 +11,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 import javax.swing.SwingUtilities;
+import webb.client.ui.components.RoundedJPanel;
 import webb.client.ui.components.WebbBackButton;
 import webb.client.ui.components.WebbButton;
+import webb.client.ui.constants.WebbColors;
 import webb.client.ui.constants.WebbImages;
 import webb.client.ui.screens.Screen;
 
@@ -51,9 +54,17 @@ public abstract class WebbPopup extends JDialog {
         this.setAlwaysOnTop(true);
 
         SpringLayout layout = new SpringLayout();
-        populateComponents(this, layout);
 
-        this.add(new WebbBackButton(this, layout, this::close));
+        // Create the rounded panel illusion
+        RoundedJPanel roundedJPanel = new RoundedJPanel();
+        this.setContentPane(roundedJPanel);
+        this.setUndecorated(true);
+        this.setBackground(new Color(0, 0, 0, 0));
+        this.setModal(true);
+
+        populateComponents(roundedJPanel, layout);
+
+        this.add(new WebbBackButton(roundedJPanel, layout, this::close));
 
         this.setLayout(layout);
 
@@ -63,7 +74,6 @@ public abstract class WebbPopup extends JDialog {
         // Call after setting the size
         this.setLocationRelativeTo(this.parent);
 
-        this.setUndecorated(true);
 
         this.setVisible(true);
     }
@@ -76,5 +86,5 @@ public abstract class WebbPopup extends JDialog {
         parent.setFocusableWindowState(true);
     }
 
-    protected abstract void populateComponents(JDialog contentPane, SpringLayout layout);
+    protected abstract void populateComponents(JPanel contentPane, SpringLayout layout);
 }
