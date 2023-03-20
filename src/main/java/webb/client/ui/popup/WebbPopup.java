@@ -3,7 +3,6 @@ package webb.client.ui.popup;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JDialog;
@@ -13,20 +12,24 @@ import javax.swing.SpringLayout;
 import javax.swing.SwingUtilities;
 import webb.client.ui.components.RoundedJPanel;
 import webb.client.ui.components.WebbBackButton;
-import webb.client.ui.components.WebbButton;
-import webb.client.ui.constants.WebbColors;
-import webb.client.ui.constants.WebbImages;
 import webb.client.ui.screens.Screen;
 
+/**
+ * A popup that is displayed on top of the screen.
+ */
 public abstract class WebbPopup extends JDialog {
 
     private JFrame parent;
-    private JPanel glassPane;
 
+    /**
+     * Shows the popup on top of the screen.
+     *
+     * @param screen The screen to show the popup on top of.
+     */
     public void show(Screen screen) {
         this.parent = (JFrame) SwingUtilities.getRootPane(screen).getParent();
 
-        glassPane = new JPanel() {
+        JPanel glassPane = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
@@ -78,6 +81,9 @@ public abstract class WebbPopup extends JDialog {
         this.setVisible(true);
     }
 
+    /**
+     * Closes the popup.
+     */
     private void close() {
         this.dispose();
         parent.getGlassPane().setVisible(false);
@@ -86,5 +92,11 @@ public abstract class WebbPopup extends JDialog {
         parent.setFocusableWindowState(true);
     }
 
+    /**
+     * Populates the components of the popup.
+     *
+     * @param contentPane The content pane of the popup.
+     * @param layout The layout of the popup.
+     */
     protected abstract void populateComponents(JPanel contentPane, SpringLayout layout);
 }

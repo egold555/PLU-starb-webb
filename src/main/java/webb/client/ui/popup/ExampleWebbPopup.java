@@ -1,11 +1,14 @@
 package webb.client.ui.popup;
 
-import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 
-public class PopupTest extends WebbPopup {
+/**
+ * An example popup for a screen.
+ * Just displays some Hello World text centered.
+ */
+public class ExampleWebbPopup extends WebbPopup {
 
     @Override
     protected void populateComponents(JPanel contentPane, SpringLayout layout) {

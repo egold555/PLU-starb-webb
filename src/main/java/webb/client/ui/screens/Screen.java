@@ -26,8 +26,6 @@ public abstract class Screen extends JPanel {
 
         populateComponents(this, layout);
 
-
-
         this.setBackground(WebbColors.D9);
         this.setLayout(layout);
     }
@@ -47,6 +45,10 @@ public abstract class Screen extends JPanel {
         WebbWindow.getInstance().switchScreen(screen);
     }
 
+    /**
+     * Shows a popup on the screen.
+     * @param popup The popup to show.
+     */
     public void showPopup(WebbPopup popup) {
         popup.show(this);
     }

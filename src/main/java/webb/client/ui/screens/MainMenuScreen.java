@@ -7,7 +7,7 @@ import javax.swing.SpringLayout;
 import webb.client.ui.components.WebbButton;
 import webb.client.ui.constants.WebbColors;
 import webb.client.ui.constants.WebbFonts;
-import webb.client.ui.popup.PopupTest;
+import webb.client.ui.popup.ExampleWebbPopup;
 import webb.client.ui.popup.WebbPopup;
 
 /**
@@ -79,7 +79,7 @@ public class MainMenuScreen extends Screen {
         testButton.addActionListener((e) -> {
             System.out.println("Test button pressed");
 
-            WebbPopup test = new PopupTest();
+            WebbPopup test = new ExampleWebbPopup();
             this.showPopup(test);
         });
 
