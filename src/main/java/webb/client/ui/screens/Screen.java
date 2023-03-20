@@ -5,6 +5,7 @@ import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 import webb.client.ui.WebbWindow;
 import webb.client.ui.constants.WebbColors;
+import webb.client.ui.screens.popup.WebbPopup;
 import webb.client.ui.screens.puzzlescreen.PuzzleScreen;
 import webb.client.ui.screens.selectpuzzle.SelectPuzzleScreen;
 
@@ -24,6 +25,8 @@ public abstract class Screen extends JPanel {
 
         populateComponents(this, layout);
 
+
+
         this.setBackground(WebbColors.D9);
         this.setLayout(layout);
     }
@@ -41,6 +44,10 @@ public abstract class Screen extends JPanel {
      */
     public void switchScreenTo(ScreenType screen) {
         WebbWindow.getInstance().switchScreen(screen);
+    }
+
+    public void showPopup(WebbPopup popup) {
+        popup.show(this);
     }
 
     /**
