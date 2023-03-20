@@ -12,6 +12,8 @@ import javax.swing.SpringLayout;
 import javax.swing.SwingUtilities;
 import webb.client.ui.components.RoundedJPanel;
 import webb.client.ui.components.WebbBackButton;
+import webb.client.ui.components.WebbButton;
+import webb.client.ui.constants.WebbImages;
 import webb.client.ui.screens.Screen;
 
 /**
@@ -67,7 +69,13 @@ public abstract class WebbPopup extends JDialog {
 
         populateComponents(roundedJPanel, layout);
 
-        this.add(new WebbBackButton(roundedJPanel, layout, this::close));
+        WebbButton dialogCloseButton = new WebbButton(WebbImages.POPUP_CLOSE, 42, 42);
+        dialogCloseButton.addActionListener(e -> {
+            close();
+        });
+        layout.putConstraint(SpringLayout.NORTH, dialogCloseButton, 10, SpringLayout.NORTH, roundedJPanel);
+        layout.putConstraint(SpringLayout.EAST, dialogCloseButton, -10, SpringLayout.EAST, roundedJPanel);
+        this.add(dialogCloseButton);
 
         this.setLayout(layout);
 

@@ -18,6 +18,8 @@ public class WebbImages {
     public static final BufferedImage LEVEL_COMPLETE_EMBLEM = loadImage("level_complete_emblem.png");
     public static final BufferedImage STAR = loadImage("star.png");
 
+    public static final BufferedImage POPUP_CLOSE = loadImage("popup_close_button.png");
+
     public static final BufferedImage PLACEHOLDER = loadImage("notfound.png");
 
     private static BufferedImage loadImage(String imageName) {
