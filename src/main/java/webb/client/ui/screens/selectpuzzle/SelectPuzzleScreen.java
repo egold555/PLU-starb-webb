@@ -3,6 +3,7 @@ package webb.client.ui.screens.selectpuzzle;
 import java.awt.Container;
 import java.util.concurrent.ThreadLocalRandom;
 import javax.swing.*;
+import webb.client.ui.components.WebbBackButton;
 import webb.client.ui.components.WebbButton;
 import webb.client.ui.constants.WebbColors;
 import webb.client.ui.constants.WebbFonts;
@@ -99,15 +100,10 @@ public class SelectPuzzleScreen extends Screen {
                 this.add(bottomBar);
 
 
-
-                WebbButton backButton = new WebbButton(WebbImages.ARROW_PAGE_BACK, 42, 42);
-                layout.putConstraint(SpringLayout.NORTH, backButton, 0, SpringLayout.NORTH, contentPane);
-                layout.putConstraint(SpringLayout.WEST, backButton, 10, SpringLayout.WEST, contentPane);
-                backButton.addActionListener(e -> {
+                this.add(new WebbBackButton(contentPane, layout, () -> {
                         System.out.println("Back button pressed");
-                        this.switchScreenTo(ScreenType.MAIN_MENU);
-                });
-                this.add(backButton);
+                        switchScreenTo(ScreenType.MAIN_MENU);
+                }));
         }
 
 

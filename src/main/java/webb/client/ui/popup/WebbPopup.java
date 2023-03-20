@@ -1,4 +1,4 @@
-package webb.client.ui.screens.popup;
+package webb.client.ui.popup;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 import javax.swing.SwingUtilities;
+import webb.client.ui.components.WebbBackButton;
 import webb.client.ui.components.WebbButton;
 import webb.client.ui.constants.WebbImages;
 import webb.client.ui.screens.Screen;
@@ -51,15 +52,8 @@ public abstract class WebbPopup extends JDialog {
 
         SpringLayout layout = new SpringLayout();
         populateComponents(this, layout);
-        WebbButton closeButton = new WebbButton(WebbImages.ARROW_PAGE_BACK, 42, 42);
 
-        closeButton.addActionListener(e -> {
-            close();
-        });
-
-        layout.putConstraint(SpringLayout.NORTH, closeButton, 10, SpringLayout.NORTH, this);
-        layout.putConstraint(SpringLayout.WEST, closeButton, 10, SpringLayout.WEST, this);
-        this.add(closeButton);
+        this.add(new WebbBackButton(this, layout, this::close));
 
         this.setLayout(layout);
 
@@ -68,6 +62,9 @@ public abstract class WebbPopup extends JDialog {
 
         // Call after setting the size
         this.setLocationRelativeTo(this.parent);
+
+        this.setUndecorated(true);
+
         this.setVisible(true);
     }
 

@@ -1,10 +1,8 @@
-package webb.client.ui.screens.popup;
+package webb.client.ui.popup;
 
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.SpringLayout;
-import webb.client.ui.screens.Screen;
 
 public class PopupTest extends WebbPopup {
 

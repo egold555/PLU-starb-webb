@@ -7,8 +7,8 @@ import javax.swing.SpringLayout;
 import webb.client.ui.components.WebbButton;
 import webb.client.ui.constants.WebbColors;
 import webb.client.ui.constants.WebbFonts;
-import webb.client.ui.screens.popup.PopupTest;
-import webb.client.ui.screens.popup.WebbPopup;
+import webb.client.ui.popup.PopupTest;
+import webb.client.ui.popup.WebbPopup;
 
 /**
  * The main menu screen.
