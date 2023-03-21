@@ -79,8 +79,7 @@ public class MainMenuScreen extends Screen {
         testButton.addActionListener((e) -> {
             System.out.println("Test button pressed");
 
-            WebbPopup test = new ExampleWebbPopup();
-            this.showPopup(test);
+            this.switchScreenTo(ScreenType.TEST_POPUP);
         });
 
         this.add(testButton);

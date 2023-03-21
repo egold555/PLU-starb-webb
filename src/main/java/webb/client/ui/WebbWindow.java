@@ -1,5 +1,8 @@
 package webb.client.ui;
 
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 import javax.swing.JFrame;;
 import webb.client.ui.screens.Screen;
 import webb.client.ui.screens.Screen.ScreenType;
@@ -17,14 +20,16 @@ public class WebbWindow extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("Star Battle Odyssey");
 
-        this.switchScreen(ScreenType.MAIN_MENU);
+        this.switchScreen(ScreenType.TEST_POPUP);
 
+        //maximizes the window for testing
+        this.setExtendedState(this.getExtendedState() | JFrame.MAXIMIZED_BOTH);
         this.setSize(600, 600);
     }
 
     /**
-    Returns the instance of the WebbWindow.
-    If the instance is null, it creates a new instance and returns it.
+     Returns the instance of the WebbWindow.
+     If the instance is null, it creates a new instance and returns it.
      */
     public static WebbWindow getInstance() {
         if (instance == null) {
@@ -39,6 +44,16 @@ public class WebbWindow extends JFrame {
      */
     public void switchScreen(ScreenType screen) {
         switchScreen(screen.getScreen());
+
+        //Needs to be called 1ms later to prevent a bug where the screen doesn't show.
+        //Still not sure why this happens.
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                screen.getScreen().onShow();
+            }
+        }, 1);
+
     }
 
     /**

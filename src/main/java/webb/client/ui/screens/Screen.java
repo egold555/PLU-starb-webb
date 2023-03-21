@@ -9,6 +9,7 @@ import webb.client.ui.popup.WebbPopup;
 import webb.client.ui.screens.creditsscreen.CreditsScreen;
 import webb.client.ui.screens.puzzlescreen.PuzzleScreen;
 import webb.client.ui.screens.selectpuzzle.SelectPuzzleScreen;
+import webb.client.ui.screens.test.ScreenPopupTest;
 
 /**
  * A JPanel wrapper with some extra functionality.
@@ -54,6 +55,11 @@ public abstract class Screen extends JPanel {
     }
 
     /**
+     * Called when the screen is made visible
+     */
+    public void onShow() {}
+
+    /**
      * Screen type instances
      */
     public enum ScreenType {
@@ -62,6 +68,7 @@ public abstract class Screen extends JPanel {
         SELECT_PUZZLE(new SelectPuzzleScreen()),
         PLAY_PUZZLE(new PuzzleScreen()),
 
+        TEST_POPUP(new ScreenPopupTest());
         ;
         private final Screen screen;
         ScreenType(Screen screen) {
@@ -71,6 +78,7 @@ public abstract class Screen extends JPanel {
         public Screen getScreen() {
             return screen;
         }
+
     }
 
 }

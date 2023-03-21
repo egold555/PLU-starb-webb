@@ -48,7 +48,7 @@ public abstract class WebbPopup extends JDialog {
      *
      * @param screen The screen to show the popup on top of.
      */
-    public void show(Screen screen) {
+    public final void show(Screen screen) {
         this.parent = (JFrame) SwingUtilities.getRootPane(screen).getParent();
 
         JPanel glassPane = new JPanel() {
@@ -87,6 +87,9 @@ public abstract class WebbPopup extends JDialog {
         this.setBackground(new Color(0, 0, 0, 0));
         this.setModal(true);
 
+        this.setSize(parent.getWidth() / 2, parent.getHeight() / 2);
+        this.setPreferredSize(new Dimension(this.getWidth(), this.getHeight()));
+
         populateComponents(roundedJPanel, layout);
 
         WebbButton dialogCloseButton = new WebbButton(WebbImages.POPUP_CLOSE, 42, 42);
@@ -108,8 +111,7 @@ public abstract class WebbPopup extends JDialog {
 
         this.setLayout(layout);
 
-        this.setSize(parent.getWidth() / 2, parent.getHeight() / 2);
-        this.setPreferredSize(new Dimension(this.getWidth(), this.getHeight()));
+
 
         // Call after setting the size
         this.setLocationRelativeTo(this.parent);
