@@ -11,6 +11,7 @@ import webb.client.ui.popup.PopupCongratulations;
 import webb.client.ui.popup.PopupStatistics;
 import webb.client.ui.screens.Screen;
 import webb.client.ui.testing.DummyData;
+import webb.client.ui.testing.DummyData.DummyCongratulations;
 import webb.client.ui.testing.DummyData.DummyStatistics;
 
 public class ScreenPopupTest extends Screen {
@@ -72,7 +73,7 @@ public class ScreenPopupTest extends Screen {
     }
 
     private void showPopupCongratulations() {
-        showPopup(new PopupCongratulations());
+        showPopup(new PopupCongratulations(DummyCongratulations.SOLVE_TIME));
     }
 
     private void showPopupStatistics() {
