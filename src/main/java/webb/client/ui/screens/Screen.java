@@ -5,6 +5,8 @@ import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 import webb.client.ui.WebbWindow;
 import webb.client.ui.constants.WebbColors;
+import webb.client.ui.popup.WebbPopup;
+import webb.client.ui.screens.creditsscreen.CreditsScreen;
 import webb.client.ui.screens.puzzlescreen.PuzzleScreen;
 import webb.client.ui.screens.selectpuzzle.SelectPuzzleScreen;
 
@@ -41,6 +43,14 @@ public abstract class Screen extends JPanel {
      */
     public void switchScreenTo(ScreenType screen) {
         WebbWindow.getInstance().switchScreen(screen);
+    }
+
+    /**
+     * Shows a popup on the screen.
+     * @param popup The popup to show.
+     */
+    public void showPopup(WebbPopup popup) {
+        popup.show(this);
     }
 
     /**
