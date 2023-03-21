@@ -11,8 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 import javax.swing.SwingUtilities;
-import webb.client.ui.components.RoundedJPanel;
-import webb.client.ui.components.WebbBackButton;
+import webb.client.ui.components.WebbRoundedJPanel;
 import webb.client.ui.components.WebbButton;
 import webb.client.ui.constants.WebbColors;
 import webb.client.ui.constants.WebbFonts;
@@ -81,7 +80,7 @@ public abstract class WebbPopup extends JDialog {
         SpringLayout layout = new SpringLayout();
 
         // Create the rounded panel illusion
-        RoundedJPanel roundedJPanel = new RoundedJPanel();
+        WebbRoundedJPanel roundedJPanel = new WebbRoundedJPanel();
         this.setContentPane(roundedJPanel);
         this.setUndecorated(true);
         this.setBackground(new Color(0, 0, 0, 0));

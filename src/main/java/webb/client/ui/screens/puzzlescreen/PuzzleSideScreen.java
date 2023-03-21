@@ -1,26 +1,15 @@
 package webb.client.ui.screens.puzzlescreen;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.GridLayout;
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.SpringLayout;
-import javax.swing.SwingConstants;
-import javax.swing.border.TitledBorder;
-import webb.client.ui.components.RoundedJPanel;
+import webb.client.ui.components.WebbRoundedJPanel;
 import webb.client.ui.constants.WebbColors;
 import webb.client.ui.constants.WebbFonts;
-import webb.client.ui.screens.Screen;
 
-public class PuzzleSideScreen extends RoundedJPanel {
+public class PuzzleSideScreen extends WebbRoundedJPanel {
 
     public PuzzleSideScreen() {
         this.setBackground(WebbColors.c90);
@@ -29,7 +18,7 @@ public class PuzzleSideScreen extends RoundedJPanel {
         //this.setPreferredSize( new Dimension(200, 500) );
 
 
-        JPanel titlePanel = new RoundedJPanel();
+        JPanel titlePanel = new WebbRoundedJPanel();
         titlePanel.setBackground(WebbColors.D9);
         titlePanel.setLayout(new BorderLayout());
 

@@ -6,7 +6,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
-import webb.client.ui.components.RoundedJPanel;
+import webb.client.ui.components.WebbRoundedJPanel;
 import webb.client.ui.components.WebbButton;
 import webb.client.ui.constants.WebbColors;
 import webb.client.ui.constants.WebbImages;
@@ -22,7 +22,7 @@ public class PuzzleButton extends JPanel {
 
         SpringLayout innerLayout = new SpringLayout();
 
-        RoundedJPanel panel = new RoundedJPanel(10, 10);
+        WebbRoundedJPanel panel = new WebbRoundedJPanel(10, 10);
 
 
         panel.setLayout(new BorderLayout());

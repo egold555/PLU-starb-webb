@@ -5,7 +5,7 @@ import java.util.concurrent.TimeUnit;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
-import webb.client.ui.components.RoundedJPanel;
+import webb.client.ui.components.WebbRoundedJPanel;
 import webb.client.ui.constants.WebbColors;
 import webb.client.ui.constants.WebbFonts;
 
@@ -27,7 +27,7 @@ public class PopupStatistics extends WebbPopup {
      * @param gamesMax Number of games max
      * @param solveTimeMin Minimum time to solve a puzzle in milliseconds
      * @param solveTimeMax Maximum time to solve a puzzle in milliseconds
-     * @param solveTimeAverage Average time to solve a puzzle
+     * @param solveTimeAverage Average time to solve a puzzle in milliseconds
      *
      */
     public PopupStatistics(String currentTitle, int gamesCompleted, int gamesMax, long solveTimeMin, long solveTimeMax, long solveTimeAverage) {
@@ -43,7 +43,7 @@ public class PopupStatistics extends WebbPopup {
     @Override
     protected void populateComponents(JPanel contentPane, SpringLayout layout) {
 
-        RoundedJPanel panel = new RoundedJPanel();
+        WebbRoundedJPanel panel = new WebbRoundedJPanel();
         SpringLayout panelLayout = new SpringLayout();
         panel.setLayout(panelLayout);
         panel.setBackground(WebbColors.B7);

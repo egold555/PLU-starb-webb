@@ -5,15 +5,15 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import javax.swing.JPanel;
 
-public class RoundedJPanel extends JPanel {
+public class WebbRoundedJPanel extends JPanel {
 
     private final int rWidth, rHeight;
 
-    public RoundedJPanel() {
+    public WebbRoundedJPanel() {
         this(15, 15);
     }
 
-    public RoundedJPanel(int width, int height) {
+    public WebbRoundedJPanel(int width, int height) {
         this.rWidth = width;
         this.rHeight = height;
         this.setOpaque(false);
