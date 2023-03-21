@@ -4,10 +4,11 @@ import java.awt.Container;
 import java.awt.Dimension;
 import javax.swing.JLabel;
 import javax.swing.SpringLayout;
-import webb.client.ui.WebbWindow;
 import webb.client.ui.components.WebbButton;
 import webb.client.ui.constants.WebbColors;
 import webb.client.ui.constants.WebbFonts;
+import webb.client.ui.popup.ExampleWebbPopup;
+import webb.client.ui.popup.WebbPopup;
 
 /**
  * The main menu screen.
@@ -67,6 +68,22 @@ public class MainMenuScreen extends Screen {
         });
 
         this.add(exitButton);
+
+
+        WebbButton testButton = new WebbButton("Test");
+        testButton.setPreferredSize(new Dimension(142, 43));
+        testButton.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_32);
+        layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, testButton, 0, SpringLayout.HORIZONTAL_CENTER, contentPane);
+        layout.putConstraint(SpringLayout.NORTH, testButton, 10, SpringLayout.SOUTH, exitButton);
+
+        testButton.addActionListener((e) -> {
+            System.out.println("Test button pressed");
+
+            WebbPopup test = new ExampleWebbPopup();
+            this.showPopup(test);
+        });
+
+        this.add(testButton);
     }
 
 }
