@@ -21,26 +21,34 @@ public class WebbButton extends JButton {
     private Color backgroundColor = WebbColors.B7;
 
     public WebbButton(String text) {
-        this(true);
+        this(text, null);
+    }
+
+    public WebbButton(String text, Runnable onClick) {
+        this(onClick);
         this.text = text;
     }
 
     public WebbButton(BufferedImage imageIn, int width, int height) {
-        this(true);
+        this(imageIn, width, height, null);
+    }
+
+    public WebbButton(BufferedImage imageIn, int width, int height, Runnable onClick) {
+        this(onClick);
         this.image = imageIn;
         this.setDrawBackground(false);
         this.setPreferredSize(new Dimension(width, height));
     }
 
-    public WebbButton() {
-        this(true);
+    public WebbButton(Runnable onClick) {
         setContentAreaFilled(false);
         setBorder(new EmptyBorder(8, 8, 8, 8));
         setForeground(Color.WHITE);
-
-    }
-    public WebbButton(boolean defaultConfig) {
         setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+        if(onClick != null) {
+            this.addActionListener(e -> onClick.run());
+        }
     }
 
     public void setBorderSize(int borderSize) {this.borderSize = borderSize;}
