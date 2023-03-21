@@ -8,6 +8,7 @@ import javax.swing.SpringLayout;
 import webb.client.ui.components.WebbRoundedJPanel;
 import webb.client.ui.constants.WebbColors;
 import webb.client.ui.constants.WebbFonts;
+import webb.client.ui.helpers.WebbTextUtilities;
 
 public class PopupStatistics extends WebbPopup {
 
@@ -105,7 +106,7 @@ public class PopupStatistics extends WebbPopup {
         panelLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, labelSolveTimeMin, -200, SpringLayout.HORIZONTAL_CENTER, panel);
         panel.add(labelSolveTimeMin);
 
-        JLabel solveTimeMin = new JLabel(formatTime(this.solveTimeMin));
+        JLabel solveTimeMin = new JLabel(WebbTextUtilities.formatMinSec(this.solveTimeMin));
         solveTimeMin.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_32);
         solveTimeMin.setForeground(WebbColors.TEXT_COLOR_BLACK);
         panelLayout.putConstraint(SpringLayout.NORTH, solveTimeMin, 10, SpringLayout.SOUTH, labelSolveTimeMin);
@@ -121,7 +122,7 @@ public class PopupStatistics extends WebbPopup {
         panelLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, labelSolveTimeAverage, 0, SpringLayout.HORIZONTAL_CENTER, panel);
         panel.add(labelSolveTimeAverage);
 
-        JLabel solveTimeAvgerage = new JLabel(formatTime(this.solveTimeAverage));
+        JLabel solveTimeAvgerage = new JLabel(WebbTextUtilities.formatMinSec(this.solveTimeAverage));
         solveTimeAvgerage.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_32);
         solveTimeAvgerage.setForeground(WebbColors.TEXT_COLOR_BLACK);
         panelLayout.putConstraint(SpringLayout.NORTH, solveTimeAvgerage, 10, SpringLayout.SOUTH, labelSolveTimeAverage);
@@ -136,18 +137,12 @@ public class PopupStatistics extends WebbPopup {
         panelLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, labelSolveTimeMax, 200, SpringLayout.HORIZONTAL_CENTER, panel);
         panel.add(labelSolveTimeMax);
 
-        JLabel solveTimeMax = new JLabel(formatTime(this.solveTimeMax));
+        JLabel solveTimeMax = new JLabel(WebbTextUtilities.formatMinSec(this.solveTimeMax));
         solveTimeMax.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_32);
         solveTimeMax.setForeground(WebbColors.TEXT_COLOR_BLACK);
         panelLayout.putConstraint(SpringLayout.NORTH, solveTimeMax, 10, SpringLayout.SOUTH, labelSolveTimeMax);
         panelLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, solveTimeMax, 200, SpringLayout.HORIZONTAL_CENTER, panel);
         panel.add(solveTimeMax);
-    }
-
-    private static String formatTime(long time) {
-        long minutes = TimeUnit.MILLISECONDS.toMinutes(time);
-        long seconds = TimeUnit.MILLISECONDS.toSeconds(time) - TimeUnit.MINUTES.toSeconds(minutes);
-        return String.format("%02d:%02d", minutes, seconds);
     }
 
 }

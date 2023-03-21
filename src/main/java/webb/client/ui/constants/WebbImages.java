@@ -7,7 +7,7 @@ import java.io.InputStream;
 
 public class WebbImages {
 
-    private static final BufferedImage ERROR_IMAGE = createErrorImage(300, 300);
+    public static final BufferedImage ERROR_IMAGE = createErrorImage(300, 300);
 
     public static final BufferedImage ARROW_PAGE_BACK = loadImage("arrow_page_back.png");
     public static final BufferedImage ARROW_FORWARD = loadImage("arrow_forward.png");
@@ -20,7 +20,8 @@ public class WebbImages {
 
     public static final BufferedImage POPUP_CLOSE = loadImage("popup_close_button.png");
 
-    public static final BufferedImage PLACEHOLDER = loadImage("notfound.png");
+    public static final BufferedImage POPUP_CONGRATULATIONS_STAR = loadImage("congratulations_star.png");
+    public static final BufferedImage POPUP_CONGRATULATIONS_STAR_ROTATED = loadImage("congratulations_star_rotated.png");
 
     private static BufferedImage loadImage(String imageName) {
         final String imagePath = "/webb/images/" + imageName;

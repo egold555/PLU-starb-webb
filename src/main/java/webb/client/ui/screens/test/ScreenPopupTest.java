@@ -7,6 +7,7 @@ import webb.client.ui.components.WebbBackButton;
 import webb.client.ui.components.WebbButton;
 import webb.client.ui.constants.WebbFonts;
 import webb.client.ui.popup.ExampleWebbPopup;
+import webb.client.ui.popup.PopupCongratulations;
 import webb.client.ui.popup.PopupStatistics;
 import webb.client.ui.screens.Screen;
 import webb.client.ui.testing.DummyData;
@@ -23,8 +24,7 @@ public class ScreenPopupTest extends Screen {
         add(backButton);
 
         WebbButton btn1 = new WebbButton("Example", () -> {
-            ExampleWebbPopup popup = new ExampleWebbPopup();
-            showPopup(popup);
+            showPopupExample();
         });
         btn1.setPreferredSize(new Dimension(142, 43));
         btn1.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_32);
@@ -34,14 +34,7 @@ public class ScreenPopupTest extends Screen {
         this.add(btn1);
 
         WebbButton btn2 = new WebbButton("Statistics", () -> {
-            showPopup(new PopupStatistics(
-                    DummyStatistics.CURRENT_TITLE,
-                    DummyStatistics.GAMES_COMPLETED,
-                    DummyStatistics.GAMES_MAX,
-                    DummyStatistics.SOLVE_TIME_MIN,
-                    DummyStatistics.SOLVE_TIME_MAX,
-                    DummyStatistics.SOLVE_TIME_AVERAGE
-            ));
+            showPopupStatistics();
         });
         btn2.setPreferredSize(new Dimension(142, 43));
         btn2.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_32);
@@ -50,8 +43,8 @@ public class ScreenPopupTest extends Screen {
 
         this.add(btn2);
 
-        WebbButton btn3 = new WebbButton("BTN3", () -> {
-
+        WebbButton btn3 = new WebbButton("Congrats", () -> {
+            showPopupCongratulations();
         });
         btn3.setPreferredSize(new Dimension(142, 43));
         btn3.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_32);
@@ -75,6 +68,14 @@ public class ScreenPopupTest extends Screen {
 
     @Override
     public void onShow() {
+        showPopupCongratulations();
+    }
+
+    private void showPopupCongratulations() {
+        showPopup(new PopupCongratulations());
+    }
+
+    private void showPopupStatistics() {
         showPopup(new PopupStatistics(
                 DummyStatistics.CURRENT_TITLE,
                 DummyStatistics.GAMES_COMPLETED,
@@ -83,6 +84,10 @@ public class ScreenPopupTest extends Screen {
                 DummyStatistics.SOLVE_TIME_MAX,
                 DummyStatistics.SOLVE_TIME_AVERAGE
         ));
+    }
+
+    private void showPopupExample() {
+        showPopup(new ExampleWebbPopup());
     }
 
 }

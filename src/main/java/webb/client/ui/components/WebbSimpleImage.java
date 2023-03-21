@@ -5,12 +5,11 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import javax.swing.JComponent;
 
-public class SimpleImage extends JComponent {
+public class WebbSimpleImage extends JComponent {
 
     private final BufferedImage image;
 
-    public SimpleImage(BufferedImage image, int width, int height) {
-        super();
+    public WebbSimpleImage(BufferedImage image, int width, int height) {
         this.image = image;
         this.setPreferredSize(new Dimension(width, height));
         this.setOpaque(false);

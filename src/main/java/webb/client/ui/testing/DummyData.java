@@ -14,4 +14,8 @@ public class DummyData {
         public static final long SOLVE_TIME_AVERAGE = TimeUnit.MINUTES.toMillis(1) + TimeUnit.SECONDS.toMillis(33);
     }
 
+    public static class DummyCongratulations {
+        public static final long SOLVE_TIME = TimeUnit.MINUTES.toMillis(1) + TimeUnit.SECONDS.toMillis(2);
+    }
+
 }

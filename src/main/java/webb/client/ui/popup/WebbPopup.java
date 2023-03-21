@@ -25,6 +25,7 @@ public abstract class WebbPopup extends JDialog {
 
     private JFrame parent;
     private final String title;
+    private boolean exitButton = true;
 
     /**
      * Creates a new popup with no title.
@@ -86,18 +87,20 @@ public abstract class WebbPopup extends JDialog {
         this.setBackground(new Color(0, 0, 0, 0));
         this.setModal(true);
 
-        this.setSize(parent.getWidth() / 2, parent.getHeight() / 2);
+        this.setSize(parent.getWidth() - 100, parent.getHeight() - 100);
         this.setPreferredSize(new Dimension(this.getWidth(), this.getHeight()));
 
         populateComponents(roundedJPanel, layout);
 
-        WebbButton dialogCloseButton = new WebbButton(WebbImages.POPUP_CLOSE, 42, 42);
-        dialogCloseButton.addActionListener(e -> {
-            close();
-        });
-        layout.putConstraint(SpringLayout.NORTH, dialogCloseButton, 10, SpringLayout.NORTH, roundedJPanel);
-        layout.putConstraint(SpringLayout.EAST, dialogCloseButton, -10, SpringLayout.EAST, roundedJPanel);
-        this.add(dialogCloseButton);
+        if(exitButton) {
+            WebbButton dialogCloseButton = new WebbButton(WebbImages.POPUP_CLOSE, 42, 42);
+            dialogCloseButton.addActionListener(e -> {
+                close();
+            });
+            layout.putConstraint(SpringLayout.NORTH, dialogCloseButton, 10, SpringLayout.NORTH, roundedJPanel);
+            layout.putConstraint(SpringLayout.EAST, dialogCloseButton, -10, SpringLayout.EAST, roundedJPanel);
+            this.add(dialogCloseButton);
+        }
 
         if(title != null) {
             JLabel titleLabel = new JLabel(title);
@@ -122,7 +125,7 @@ public abstract class WebbPopup extends JDialog {
     /**
      * Closes the popup.
      */
-    private void close() {
+    protected void close() {
         this.dispose();
         parent.getGlassPane().setVisible(false);
         parent.setEnabled(true);
@@ -137,4 +140,11 @@ public abstract class WebbPopup extends JDialog {
      * @param layout The layout of the popup.
      */
     protected abstract void populateComponents(JPanel contentPane, SpringLayout layout);
+
+    /**
+     * Sets whether the popup should have an exit button.
+     *
+     * @param exitButton Whether the popup should have an exit button.
+     */
+    public void setExitButton(boolean exitButton) {this.exitButton = exitButton;}
 }
