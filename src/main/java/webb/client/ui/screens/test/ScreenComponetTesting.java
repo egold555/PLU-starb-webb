@@ -3,9 +3,12 @@ package webb.client.ui.screens.test;
 import java.awt.Container;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
+import javax.swing.JScrollPane;
 import javax.swing.SpringLayout;
+import webb.client.ui.components.WebbCustomScrollbar;
+import webb.client.ui.constants.WebbColors;
+import webb.client.ui.popup.leaderboard.LeaderboardScore;
 import webb.client.ui.popup.leaderboard.WebbLeaderboardTable;
-import webb.client.ui.popup.leaderboard.WebbTableScroller;
 import webb.client.ui.screens.Screen;
 
 public class ScreenComponetTesting extends Screen {
@@ -17,7 +20,13 @@ public class ScreenComponetTesting extends Screen {
         WebbLeaderboardTable table = new WebbLeaderboardTable(generateDummyData(1000));
 
 
-        WebbTableScroller scrollPane = new WebbTableScroller(table);
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.getVerticalScrollBar().setUI(new WebbCustomScrollbar(
+                WebbColors.c90,
+                WebbColors.c6C,
+                WebbColors.c6C.darker(),
+                WebbColors.c6C.darker().darker()
+        ));
 
         layout.putConstraint(SpringLayout.NORTH, scrollPane, 0, SpringLayout.NORTH, contentPane);
         layout.putConstraint(SpringLayout.WEST, scrollPane, 0, SpringLayout.WEST, contentPane);
@@ -26,12 +35,10 @@ public class ScreenComponetTesting extends Screen {
         contentPane.add(scrollPane);
     }
 
-    private static String[][] generateDummyData(int amount) {
-        String[][] data = new String[amount][3];
+    private static LeaderboardScore[] generateDummyData(int amount) {
+        LeaderboardScore[] data = new LeaderboardScore[amount];
         for (int i = 0; i < amount; i++) {
-            data[i][0] = "" + i;
-            data[i][1] = UUID.randomUUID().toString();
-            data[i][2] = "" + ThreadLocalRandom.current().nextInt(0, 100);
+            data[i] = new LeaderboardScore(UUID.randomUUID().toString(), ThreadLocalRandom.current().nextInt(0, 100000));
         }
         return data;
     }

@@ -1,6 +1,7 @@
 package webb.client.ui.popup.leaderboard;
 
 import java.awt.Component;
+import java.util.Arrays;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
@@ -9,8 +10,8 @@ import webb.client.ui.constants.WebbColors;
 import webb.client.ui.constants.WebbFonts;
 
 public class WebbLeaderboardTable extends WebbTable {
-    public WebbLeaderboardTable(String[][] data) {
-        super(new String[]{"Rank", "Name", "# Puzzles"}, data);
+    public WebbLeaderboardTable(LeaderboardScore... scores) {
+        super(new String[]{"Rank", "Name", "# Puzzles"}, generateFromLeaderboardScore(scores));
         setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_24);
         setAlternatingColors(WebbColors.c6C, WebbColors.c90);
         setHeaderColor(WebbColors.c6C.darker());
@@ -25,5 +26,16 @@ public class WebbLeaderboardTable extends WebbTable {
         this.setColWidth(2, 200);
 
        // resizeColumnWidth(this);
+    }
+
+    private static String[][] generateFromLeaderboardScore(LeaderboardScore[] scores) {
+        Arrays.sort(scores);
+        String[][] data = new String[scores.length][3];
+        for (int i = 0; i < scores.length; i++) {
+            data[i][0] = "" + (i + 1);
+            data[i][1] = scores[i].getName();
+            data[i][2] = "" + scores[i].getScore();
+        }
+        return data;
     }
 }
