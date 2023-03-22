@@ -9,6 +9,7 @@ import webb.client.ui.popup.WebbPopup;
 import webb.client.ui.screens.creditsscreen.CreditsScreen;
 import webb.client.ui.screens.puzzlescreen.PuzzleScreen;
 import webb.client.ui.screens.selectpuzzle.SelectPuzzleScreen;
+import webb.client.ui.screens.test.ScreenComponetTesting;
 import webb.client.ui.screens.test.ScreenPopupTest;
 
 /**
@@ -68,7 +69,8 @@ public abstract class Screen extends JPanel {
         SELECT_PUZZLE(new SelectPuzzleScreen()),
         PLAY_PUZZLE(new PuzzleScreen()),
 
-        TEST_POPUP(new ScreenPopupTest());
+        TEST_POPUP(new ScreenPopupTest()),
+        TEST_COMPONENTS(new ScreenComponetTesting()),
         ;
         private final Screen screen;
         ScreenType(Screen screen) {
