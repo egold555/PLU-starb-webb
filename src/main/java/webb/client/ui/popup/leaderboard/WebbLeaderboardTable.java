@@ -1,10 +1,7 @@
 package webb.client.ui.popup.leaderboard;
 
-import java.awt.Component;
 import java.util.Arrays;
 import javax.swing.JTable;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumnModel;
 import webb.client.ui.components.WebbTable;
 import webb.client.ui.constants.WebbColors;
 import webb.client.ui.constants.WebbFonts;
@@ -25,7 +22,8 @@ public class WebbLeaderboardTable extends WebbTable {
         this.setColWidth(0, 100);
         this.setColWidth(2, 200);
 
-       // resizeColumnWidth(this);
+        this.removeCellLines();
+
     }
 
     private static String[][] generateFromLeaderboardScore(LeaderboardScore[] scores) {
