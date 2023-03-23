@@ -13,8 +13,16 @@ public class UserManager {
             return false;
         }
 
-        currentUser = user;
+        UserManager.setCurrentUser(user);
         System.out.println("Authenticated!");
         return true;
+    }
+
+    public static void setCurrentUser(User currentUser) {
+        UserManager.currentUser = currentUser;
+    }
+
+    public static User getCurrentUser() {
+        return currentUser;
     }
 }
