@@ -29,7 +29,7 @@ public class WebbLeaderboardTable extends WebbTable {
     }
 
     private static String[][] generateFromLeaderboardScore(LeaderboardScore[] scores) {
-        Arrays.sort(scores);
+        Arrays.sort(scores); // Sorts using the compareTo method in LeaderboardScore
         String[][] data = new String[scores.length][3];
         for (int i = 0; i < scores.length; i++) {
             data[i][0] = "" + (i + 1);

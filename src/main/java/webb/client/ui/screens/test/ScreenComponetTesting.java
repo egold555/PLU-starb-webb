@@ -1,6 +1,7 @@
 package webb.client.ui.screens.test;
 
 import java.awt.Container;
+import java.awt.Dimension;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 import javax.swing.JScrollPane;
@@ -17,7 +18,7 @@ public class ScreenComponetTesting extends Screen {
 
 
 
-        WebbLeaderboardTable table = new WebbLeaderboardTable(generateDummyData(1000));
+        WebbLeaderboardTable table = new WebbLeaderboardTable(generateDummyData(100));
 
 
         JScrollPane scrollPane = new JScrollPane(table);
@@ -27,6 +28,11 @@ public class ScreenComponetTesting extends Screen {
                 WebbColors.c6C.darker(),
                 WebbColors.c6C.darker().darker()
         ));
+
+        Dimension tmpSize = new Dimension(10, 0);
+        scrollPane.getVerticalScrollBar().setMaximumSize(tmpSize);
+        scrollPane.getVerticalScrollBar().setPreferredSize(tmpSize);
+        scrollPane.getVerticalScrollBar().setMinimumSize(tmpSize);
 
         layout.putConstraint(SpringLayout.NORTH, scrollPane, 0, SpringLayout.NORTH, contentPane);
         layout.putConstraint(SpringLayout.WEST, scrollPane, 0, SpringLayout.WEST, contentPane);
