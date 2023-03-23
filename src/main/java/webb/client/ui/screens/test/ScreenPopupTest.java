@@ -14,6 +14,7 @@ import webb.client.ui.screens.Screen;
 import webb.client.ui.testing.DummyData.DummyCongratulationsData;
 import webb.client.ui.testing.DummyData.DummyLeaderboardData;
 import webb.client.ui.testing.DummyData.DummyStatisticsData;
+import webb.client.ui.screens.ScreenType;
 
 public class ScreenPopupTest extends Screen {
 

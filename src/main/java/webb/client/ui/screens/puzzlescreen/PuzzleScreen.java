@@ -1,10 +1,7 @@
 package webb.client.ui.screens.puzzlescreen;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Container;
 import javax.swing.SpringLayout;
-import webb.client.ui.constants.WebbColors;
 import webb.client.ui.screens.Screen;
 import webb.client.ui.testing.DummyData.DummyPlayPuzzleData;
 

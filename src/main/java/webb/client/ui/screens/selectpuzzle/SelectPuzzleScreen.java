@@ -2,7 +2,9 @@ package webb.client.ui.screens.selectpuzzle;
 
 import java.awt.Container;
 import java.util.concurrent.ThreadLocalRandom;
-import javax.swing.*;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SpringLayout;
 import webb.client.ui.components.WebbBackButton;
 import webb.client.ui.components.WebbButton;
 import webb.client.ui.constants.WebbColors;
@@ -13,7 +15,7 @@ import webb.client.ui.popup.leaderboard.PopupLeaderboard;
 import webb.client.ui.screens.Screen;
 import webb.client.ui.testing.DummyData.DummyLeaderboardData;
 import webb.client.ui.testing.DummyData.DummyStatisticsData;
-
+import webb.client.ui.screens.ScreenType;
 
 /**
  * The screen that allows the user to select a puzzle to play.

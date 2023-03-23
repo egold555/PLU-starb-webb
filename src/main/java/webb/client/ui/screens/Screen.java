@@ -43,7 +43,7 @@ public abstract class Screen extends JPanel {
      * Switches the display screen to the given screen.
      * @param screen The screen to switch to.
      */
-    public void switchScreenTo(ScreenType screen) {
+    public void switchScreenTo(Screen screen) {
         WebbWindow.getInstance().switchScreen(screen);
     }
 
@@ -59,28 +59,5 @@ public abstract class Screen extends JPanel {
      * Called when the screen is made visible
      */
     public void onShow() {}
-
-    /**
-     * Screen type instances
-     */
-    public enum ScreenType {
-        MAIN_MENU(new MainMenuScreen()),
-        CREDITS(new CreditsScreen()),
-        SELECT_PUZZLE(new SelectPuzzleScreen()),
-        PLAY_PUZZLE(new PuzzleScreen()),
-
-        TEST_POPUP(new ScreenPopupTest()),
-        TEST_COMPONENTS(new ScreenComponetTesting()),
-        ;
-        private final Screen screen;
-        ScreenType(Screen screen) {
-            this.screen = screen;
-        }
-
-        public Screen getScreen() {
-            return screen;
-        }
-
-    }
 
 }

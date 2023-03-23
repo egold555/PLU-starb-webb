@@ -3,13 +3,11 @@ package webb.client.ui.screens.creditsscreen;
 import java.awt.Container;
 import javax.swing.JLabel;
 import javax.swing.SpringLayout;
-import webb.client.ui.WebbWindow;
 import webb.client.ui.components.WebbBackButton;
-import webb.client.ui.components.WebbButton;
 import webb.client.ui.constants.WebbColors;
 import webb.client.ui.constants.WebbFonts;
-import webb.client.ui.constants.WebbImages;
 import webb.client.ui.screens.Screen;
+import webb.client.ui.screens.ScreenType;
 
 /**
  * The credits screen.

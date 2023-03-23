@@ -2,10 +2,12 @@ package webb.client.ui;
 
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.TimeUnit;
-import javax.swing.JFrame;;
+import javax.swing.JFrame;
 import webb.client.ui.screens.Screen;
-import webb.client.ui.screens.Screen.ScreenType;
+import webb.client.ui.screens.ScreenType;
+
+
+;
 
 /**
  * The main window of the Webb client.
@@ -39,32 +41,19 @@ public class WebbWindow extends JFrame {
     }
 
     /**
-     Switches the display screen to the given screen.
-     @param screen The screen to switch to.
-     */
-    public void switchScreen(ScreenType screen) {
-        switchScreen(screen.getScreen());
-
-        //Needs to be called 1ms later to prevent a bug where the screen doesn't show.
-        //Still not sure why this happens.
-        new Timer().schedule(new TimerTask() {
-            @Override
-            public void run() {
-                screen.getScreen().onShow();
-            }
-        }, 1);
-
-    }
-
-    /**
      * Switches the display screen to the given screen.
      * @param screen The screen instance to switch to.
-     * @see WebbWindow#switchScreen(ScreenType)
      */
-    private void switchScreen(Screen screen) {
+    public void switchScreen(Screen screen) {
         this.getContentPane().removeAll();
         this.getContentPane().add(screen);
         this.getContentPane().revalidate();
         this.getContentPane().repaint();
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                screen.onShow();
+            }
+        }, 1);
     }
 }
