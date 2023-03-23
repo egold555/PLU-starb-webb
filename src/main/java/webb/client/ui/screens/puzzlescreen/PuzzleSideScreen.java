@@ -7,6 +7,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
+import webb.client.ui.components.WebbButton;
 import webb.client.ui.components.WebbRoundedJPanel;
 import webb.client.ui.components.WebbSimpleImage;
 import webb.client.ui.constants.WebbColors;
@@ -59,10 +60,68 @@ public class PuzzleSideScreen extends WebbRoundedJPanel {
         puzzleNumber.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_32);
         puzzleNumber.setForeground(WebbColors.TEXT_COLOR_BLACK);
         innerLayout.putConstraint(SpringLayout.NORTH, puzzleNumber, 25, SpringLayout.NORTH, innerPanel);
-        innerLayout.putConstraint(SpringLayout.WEST, puzzleNumber, 20, SpringLayout.EAST, starLabel);
+        innerLayout.putConstraint(SpringLayout.WEST, puzzleNumber, 30, SpringLayout.EAST, starLabel);
         innerPanel.add(puzzleNumber);
 
+        //----------------- Lower Panel -----------------
+        JLabel timeLabel = new JLabel("00:30");
+        timeLabel.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_48);
+        timeLabel.setForeground(WebbColors.TEXT_COLOR_BLACK);
+        innerLayout.putConstraint(SpringLayout.NORTH, timeLabel, 120, SpringLayout.NORTH, innerPanel);
+        innerLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, timeLabel, 0, SpringLayout.HORIZONTAL_CENTER, innerPanel);
+        innerPanel.add(timeLabel);
 
+        // Buttons
+        WebbButton validateButton = new WebbButton(WebbImages.PLAY_PUZZLE_VALIDATE_BUTTON, 38, 38);
+        innerLayout.putConstraint(SpringLayout.NORTH, validateButton, 20, SpringLayout.SOUTH, timeLabel);
+        innerLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, validateButton, -50, SpringLayout.HORIZONTAL_CENTER, innerPanel);
+        innerPanel.add(validateButton);
+
+        WebbButton highlightMovesButton = new WebbButton(WebbImages.PLAY_PUZZLE_HINT_BUTTON, 38, 38);
+        innerLayout.putConstraint(SpringLayout.NORTH, highlightMovesButton, 20, SpringLayout.SOUTH, timeLabel);
+        innerLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, highlightMovesButton, 0, SpringLayout.HORIZONTAL_CENTER, innerPanel);
+        innerPanel.add(highlightMovesButton);
+
+        WebbButton resetButton = new WebbButton(WebbImages.PLAY_PUZZLE_RESET_BUTTON, 38, 38);
+        innerLayout.putConstraint(SpringLayout.NORTH, resetButton, 20, SpringLayout.SOUTH, timeLabel);
+        innerLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, resetButton, 50, SpringLayout.HORIZONTAL_CENTER, innerPanel);
+        innerPanel.add(resetButton);
+
+        // Star background
+        WebbSimpleImage starBackground = new WebbSimpleImage(WebbImages.PLAY_PUZZLE_STAR_BACKGROUND, 198, 223);
+        innerLayout.putConstraint(SpringLayout.VERTICAL_CENTER, starBackground, 0, SpringLayout.VERTICAL_CENTER, innerPanel);
+        innerLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, starBackground, 0, SpringLayout.HORIZONTAL_CENTER, innerPanel);
+
+
+        JLabel starsRemainingLabel = new JLabel("Stars Remaining");
+        starsRemainingLabel.setFont(WebbFonts.BALSAMIQ_SANS_BOLD_24);
+        starsRemainingLabel.setForeground(WebbColors.TEXT_COLOR_BLACK);
+        innerLayout.putConstraint(SpringLayout.VERTICAL_CENTER, starsRemainingLabel, 0, SpringLayout.VERTICAL_CENTER, starBackground);
+        innerLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, starsRemainingLabel, 0, SpringLayout.HORIZONTAL_CENTER, innerPanel);
+        innerPanel.add(starsRemainingLabel);
+
+        JLabel starsRemainingNumber = new JLabel("7 / 8");
+        starsRemainingNumber.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_24);
+        starsRemainingNumber.setForeground(WebbColors.TEXT_COLOR_BLACK);
+        innerLayout.putConstraint(SpringLayout.VERTICAL_CENTER, starsRemainingNumber, 40, SpringLayout.VERTICAL_CENTER, starBackground);
+        innerLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, starsRemainingNumber, 0, SpringLayout.HORIZONTAL_CENTER, innerPanel);
+        innerPanel.add(starsRemainingNumber);
+
+        innerPanel.add(starBackground); //We need to add this after the text so the text is infront of it. Java is backwards.
+
+
+        // Exit button
+
+        //Kind of a dumb hack, but drawing spaces nudges the text over
+        WebbButton exitButton = new WebbButton("    E x i t", WebbImages.PLAY_PUZZLE_EXIT_BUTTON, 93, 24, () -> {
+            System.out.println("Exit button pressed");
+        });
+        exitButton.setDrawBackground(false);
+        exitButton.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_24);
+        exitButton.setForeground(WebbColors.TEXT_COLOR_BLACK);
+        innerLayout.putConstraint(SpringLayout.SOUTH, exitButton, -50, SpringLayout.SOUTH, innerPanel);
+        innerLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, exitButton, 0, SpringLayout.HORIZONTAL_CENTER, innerPanel);
+        innerPanel.add(exitButton);
 
 
         innerPanel.setLayout(innerLayout);

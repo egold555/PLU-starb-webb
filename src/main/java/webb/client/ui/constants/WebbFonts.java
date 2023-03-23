@@ -15,6 +15,8 @@ public class WebbFonts {
     private static final Font BALSAMIQ_SANS_ITALIC = loadFontFromFile("BalsamiqSans-Italic");
     private static final Font BALSAMIQ_SANS_BOLD_ITALIC = loadFontFromFile("BalsamiqSans-BoldItalic");
 
+    public static final Font BALSAMIQ_SANS_BOLD_24 = BALSAMIQ_SANS_BOLD.deriveFont(24f);
+
     public static final Font BALSAMIQ_SANS_REGULAR_20 = BALSAMIQ_SANS_REGULAR.deriveFont(20f);
     public static final Font BALSAMIQ_SANS_REGULAR_24 = BALSAMIQ_SANS_REGULAR.deriveFont(24f);
     public static final Font BALSAMIQ_SANS_REGULAR_32 = BALSAMIQ_SANS_REGULAR.deriveFont(32f);

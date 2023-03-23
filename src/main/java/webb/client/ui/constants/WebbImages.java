@@ -7,7 +7,7 @@ import java.io.InputStream;
 
 public class WebbImages {
 
-    public static final BufferedImage ERROR_IMAGE = createErrorImage(300, 300);
+    private static final BufferedImage ERROR_IMAGE = createErrorImage(300, 300);
 
     public static final BufferedImage PUZZLE_SELECTION_ARROW_PAGE_BACK = loadImage("arrow_page_back.png");
     public static final BufferedImage PUZZLE_SELECTION_ARROW_FORWARD = loadImage("arrow_forward.png");
@@ -24,6 +24,11 @@ public class WebbImages {
     public static final BufferedImage POPUP_CONGRATULATIONS_STAR_ROTATED = loadImage("congratulations_star_rotated.png");
 
     public static final BufferedImage PLAY_PUZZLE_STAR = loadImage("play_puzzle_star.png");
+    public static final BufferedImage PLAY_PUZZLE_VALIDATE_BUTTON = ERROR_IMAGE;
+    public static final BufferedImage PLAY_PUZZLE_HINT_BUTTON = ERROR_IMAGE;
+    public static final BufferedImage PLAY_PUZZLE_RESET_BUTTON = ERROR_IMAGE;
+    public static final BufferedImage PLAY_PUZZLE_STAR_BACKGROUND = loadImage("play_puzzle_background_star.png");
+    public static final BufferedImage PLAY_PUZZLE_EXIT_BUTTON = loadImage("play_puzzle_exit_button.png");
 
     private static BufferedImage loadImage(String imageName) {
         final String imagePath = "/webb/images/" + imageName;

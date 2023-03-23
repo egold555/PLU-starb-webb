@@ -20,6 +20,7 @@ public class WebbButton extends JButton {
     private boolean drawBackground = true;
     private Color backgroundColor = WebbColors.B7;
 
+    @Deprecated
     public WebbButton(String text) {
         this(text, null);
     }
@@ -29,9 +30,16 @@ public class WebbButton extends JButton {
         this.text = text;
     }
 
+    @Deprecated
     public WebbButton(BufferedImage imageIn, int width, int height) {
         this(imageIn, width, height, null);
     }
+
+    public WebbButton(String text, BufferedImage imageIn, int width, int height, Runnable onClick) {
+        this(imageIn, width, height, onClick);
+        this.text = text;
+    }
+
 
     public WebbButton(BufferedImage imageIn, int width, int height, Runnable onClick) {
         this(onClick);
