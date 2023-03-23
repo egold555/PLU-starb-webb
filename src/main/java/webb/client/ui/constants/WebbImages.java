@@ -9,19 +9,21 @@ public class WebbImages {
 
     public static final BufferedImage ERROR_IMAGE = createErrorImage(300, 300);
 
-    public static final BufferedImage ARROW_PAGE_BACK = loadImage("arrow_page_back.png");
-    public static final BufferedImage ARROW_FORWARD = loadImage("arrow_forward.png");
-    public static final BufferedImage ARROW_BACK = loadImage("arrow_back.png");
-    public static final BufferedImage BUTTON_TROPHY = loadImage("button_trophy.png");
-    public static final BufferedImage BUTTON_STATS = loadImage("button_stats.png");
-
-    public static final BufferedImage LEVEL_COMPLETE_EMBLEM = loadImage("level_complete_emblem.png");
-    public static final BufferedImage STAR = loadImage("star.png");
+    public static final BufferedImage PUZZLE_SELECTION_ARROW_PAGE_BACK = loadImage("arrow_page_back.png");
+    public static final BufferedImage PUZZLE_SELECTION_ARROW_FORWARD = loadImage("arrow_forward.png");
+    public static final BufferedImage PUZZLE_SELECTION_ARROW_BACK = loadImage("arrow_back.png");
+    public static final BufferedImage PUZZLE_SELECTION_BUTTON_TROPHY = loadImage("button_trophy.png");
+    public static final BufferedImage PUZZLE_SELECTION_BUTTON_STATS = loadImage("button_stats.png");
+    public static final BufferedImage PUZZLE_SELECTION_LEVEL_COMPLETE_EMBLEM = loadImage("level_complete_emblem.png");
+    public static final BufferedImage PUZZLE_SELECTION_STAR = loadImage("star.png");
 
     public static final BufferedImage POPUP_CLOSE = loadImage("popup_close_button.png");
 
+    //Popup congratulation images
     public static final BufferedImage POPUP_CONGRATULATIONS_STAR = loadImage("congratulations_star.png");
     public static final BufferedImage POPUP_CONGRATULATIONS_STAR_ROTATED = loadImage("congratulations_star_rotated.png");
+
+    public static final BufferedImage PLAY_PUZZLE_STAR = loadImage("play_puzzle_star.png");
 
     private static BufferedImage loadImage(String imageName) {
         final String imagePath = "/webb/images/" + imageName;

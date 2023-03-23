@@ -61,7 +61,7 @@ public class PuzzleButton extends JPanel {
         super.paint(g);
         Graphics2D g2 = (Graphics2D) g;
         if(completed) {
-            g2.drawImage(WebbImages.LEVEL_COMPLETE_EMBLEM, 120, 0, 50, 50, null);
+            g2.drawImage(WebbImages.PUZZLE_SELECTION_LEVEL_COMPLETE_EMBLEM, 120, 0, 50, 50, null);
         }
 
         g2.setColor(WebbColors.c91);
@@ -73,16 +73,16 @@ public class PuzzleButton extends JPanel {
         //and java swing is murdering me.
         //TODO: Replace with a JPanel with a BorderLayout
         if(stars == 1) {
-            g2.drawImage(WebbImages.STAR, this.getWidth()/2 - 15, this.getHeight() - 40, 30, 30, null);
+            g2.drawImage(WebbImages.PUZZLE_SELECTION_STAR, this.getWidth()/2 - 15, this.getHeight() - 40, 30, 30, null);
         }
         else if(stars == 2) {
-            g2.drawImage(WebbImages.STAR, this.getWidth()/2 - 30, this.getHeight() - 40, 30, 30, null);
-            g2.drawImage(WebbImages.STAR, this.getWidth()/2 + 5, this.getHeight() - 40, 30, 30, null);
+            g2.drawImage(WebbImages.PUZZLE_SELECTION_STAR, this.getWidth()/2 - 30, this.getHeight() - 40, 30, 30, null);
+            g2.drawImage(WebbImages.PUZZLE_SELECTION_STAR, this.getWidth()/2 + 5, this.getHeight() - 40, 30, 30, null);
         }
         else if(stars == 3) {
-            g2.drawImage(WebbImages.STAR, this.getWidth()/2 - 45, this.getHeight() - 40, 30, 30, null);
-            g2.drawImage(WebbImages.STAR, this.getWidth()/2 - 10, this.getHeight() - 40, 30, 30, null);
-            g2.drawImage(WebbImages.STAR, this.getWidth()/2 + 25, this.getHeight() - 40, 30, 30, null);
+            g2.drawImage(WebbImages.PUZZLE_SELECTION_STAR, this.getWidth()/2 - 45, this.getHeight() - 40, 30, 30, null);
+            g2.drawImage(WebbImages.PUZZLE_SELECTION_STAR, this.getWidth()/2 - 10, this.getHeight() - 40, 30, 30, null);
+            g2.drawImage(WebbImages.PUZZLE_SELECTION_STAR, this.getWidth()/2 + 25, this.getHeight() - 40, 30, 30, null);
         }
 
     }
