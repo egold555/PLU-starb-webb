@@ -72,7 +72,14 @@ public class ScreenPopupTest extends Screen {
     }
 
     private void showPopupCongratulations() {
-        showPopup(new PopupCongratulations(DummyCongratulations.SOLVE_TIME));
+        showPopup(new PopupCongratulations(
+                DummyCongratulations.SOLVE_TIME,
+                DummyCongratulations.PROGRESS_MIN,
+                DummyCongratulations.PROGRESS_MAX,
+                DummyCongratulations.PROGRESS_CURRENT,
+                DummyCongratulations.CURRENT_TITLE,
+                DummyCongratulations.NEXT_TITLE
+        ));
     }
 
     private void showPopupStatistics() {

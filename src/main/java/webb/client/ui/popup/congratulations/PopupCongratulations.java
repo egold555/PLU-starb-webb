@@ -5,6 +5,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 import webb.client.ui.components.WebbButton;
+import webb.client.ui.components.WebbProgressBar;
 import webb.client.ui.components.WebbRoundedJPanel;
 import webb.client.ui.components.WebbSimpleImage;
 import webb.client.ui.constants.WebbColors;
@@ -12,16 +13,25 @@ import webb.client.ui.constants.WebbFonts;
 import webb.client.ui.constants.WebbImages;
 import webb.client.ui.helpers.WebbTextUtilities;
 import webb.client.ui.popup.WebbPopup;
-import webb.client.ui.testing.DummyData.DummyCongratulations;
 
 public class PopupCongratulations extends WebbPopup {
 
-    private final long time;
+    private final long TIME;
+    private final int PROGRESS_MIN;
+    private final int PROGRESS_MAX;
+    private final int PROGRESS_CURRENT;
+    private final String CURRENT_TITLE;
+    private final String NEXT_TITLE;
 
-    public PopupCongratulations(long time) {
+    public PopupCongratulations(long time, int progressMin, int progressMax, int progressCurrent, String currentTitle, String nextTitle) {
         super("Congratulations!");
         this.setExitButton(false);
-        this.time = time;
+        this.TIME = time;
+        this.PROGRESS_MIN = progressMin;
+        this.PROGRESS_MAX = progressMax;
+        this.PROGRESS_CURRENT = progressCurrent;
+        this.CURRENT_TITLE = currentTitle;
+        this.NEXT_TITLE = nextTitle;
     }
 
     @Override
@@ -66,13 +76,38 @@ public class PopupCongratulations extends WebbPopup {
         solveTimePanelLayout.putConstraint(SpringLayout.VERTICAL_CENTER, solveTimeLabel, 0, SpringLayout.VERTICAL_CENTER, solveTimePanel);
         solveTimePanel.add(solveTimeLabel);
 
-        JLabel solveTimeValue = new JLabel(WebbTextUtilities.formatMinSec(time));
+        JLabel solveTimeValue = new JLabel(WebbTextUtilities.formatMinSec(TIME));
         solveTimeValue.setForeground(WebbColors.TEXT_COLOR_BLACK);
         solveTimeValue.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_48);
 
         layout.putConstraint(SpringLayout.NORTH, solveTimeValue, 50, SpringLayout.NORTH, solveTimePanel);
         layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, solveTimeValue, 0, SpringLayout.HORIZONTAL_CENTER, contentPane);
         contentPane.add(solveTimeValue);
+
+
+        //------------ Progress Bar ------------
+        WebbProgressBar progressBar = new WebbProgressBar(WebbColors.c90, WebbColors.D9);
+        progressBar.setMinimum(PROGRESS_MIN);
+        progressBar.setMaximum(PROGRESS_MAX);
+        progressBar.setValue(PROGRESS_CURRENT);
+        progressBar.setPreferredSize(new Dimension(400, 40));
+        layout.putConstraint(SpringLayout.NORTH, progressBar, 200, SpringLayout.SOUTH, solveTimePanel);
+        layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, progressBar, 0, SpringLayout.HORIZONTAL_CENTER, contentPane);
+        contentPane.add(progressBar);
+
+        JLabel currentRankLabel = new JLabel(CURRENT_TITLE);
+        currentRankLabel.setForeground(WebbColors.TEXT_COLOR_BLACK);
+        currentRankLabel.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_20);
+        layout.putConstraint(SpringLayout.SOUTH, currentRankLabel, -10, SpringLayout.NORTH, progressBar);
+        layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, currentRankLabel, -160, SpringLayout.HORIZONTAL_CENTER, contentPane);
+        contentPane.add(currentRankLabel);
+
+        JLabel nextRankLabel = new JLabel(NEXT_TITLE);
+        nextRankLabel.setForeground(WebbColors.TEXT_COLOR_BLACK);
+        nextRankLabel.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_20);
+        layout.putConstraint(SpringLayout.SOUTH, nextRankLabel, -10, SpringLayout.NORTH, progressBar);
+        layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, nextRankLabel, 160, SpringLayout.HORIZONTAL_CENTER, contentPane);
+        contentPane.add(nextRankLabel);
 
 
         //------------ Buttons ------------

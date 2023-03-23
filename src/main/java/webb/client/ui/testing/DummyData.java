@@ -16,6 +16,11 @@ public class DummyData {
 
     public static class DummyCongratulations {
         public static final long SOLVE_TIME = TimeUnit.MINUTES.toMillis(1) + TimeUnit.SECONDS.toMillis(2);
+        public static final int PROGRESS_MIN = 0;
+        public static final int PROGRESS_MAX = 4;
+        public static final int PROGRESS_CURRENT = 2;
+        public static final String CURRENT_TITLE = "Cadet";
+        public static final String NEXT_TITLE = "Ensign";
     }
 
 }
