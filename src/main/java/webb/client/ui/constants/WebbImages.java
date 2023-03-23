@@ -30,6 +30,10 @@ public class WebbImages {
     public static final BufferedImage PLAY_PUZZLE_STAR_BACKGROUND = loadImage("play_puzzle_background_star.png");
     public static final BufferedImage PLAY_PUZZLE_EXIT_BUTTON = loadImage("play_puzzle_exit_button.png");
 
+    public static final BufferedImage PLAY_PUZZLE_GRID_STAR = loadImage("play_puzzle_grid_star.png");
+    public static final BufferedImage PLAY_PUZZLE_GRID_INVALID_CELL = loadImage("play_puzzle_grid_invalid_cell.png");
+    public static final BufferedImage PLAY_PUZZLE_GRID_STAR_RED = loadImage("play_puzzle_grid_star_red.png");
+
     private static BufferedImage loadImage(String imageName) {
         final String imagePath = "/webb/images/" + imageName;
         try {

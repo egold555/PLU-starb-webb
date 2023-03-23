@@ -15,17 +15,13 @@ public class PuzzleScreen extends Screen {
 
     public PuzzleScreen() {
         super();
-        setBackground(Color.RED
-        );
+       // setBackground(Color.RED);
     }
 
     @Override
     protected void populateComponents(Container contentPane, SpringLayout layout) {
 
-//        puzzleComponent = new PuzzleComponent();
-//        layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, puzzleComponent, 0, SpringLayout.HORIZONTAL_CENTER, this);
-//        layout.putConstraint(SpringLayout.VERTICAL_CENTER, puzzleComponent, 0, SpringLayout.VERTICAL_CENTER, this);
-//        this.add(puzzleComponent);
+
 
         sidePanel = new PuzzleSideScreen();
         layout.putConstraint(SpringLayout.EAST, sidePanel, -10, SpringLayout.EAST, contentPane);
@@ -33,6 +29,14 @@ public class PuzzleScreen extends Screen {
         layout.putConstraint(SpringLayout.HEIGHT, sidePanel, -10, SpringLayout.HEIGHT, contentPane);
         //layout.putConstraint(SpringLayout.WIDTH, sidePanel, 100, "None", contentPane);
         this.add(sidePanel);
+
+
+        puzzleComponent = new PuzzleComponent();
+        layout.putConstraint(SpringLayout.NORTH, puzzleComponent, 10, SpringLayout.NORTH, contentPane);
+        layout.putConstraint(SpringLayout.WEST, puzzleComponent, 10, SpringLayout.WEST, contentPane);
+        layout.putConstraint(SpringLayout.SOUTH, puzzleComponent, -10, SpringLayout.SOUTH, contentPane);
+        layout.putConstraint(SpringLayout.EAST, puzzleComponent, -10, SpringLayout.WEST, sidePanel);
+        this.add(puzzleComponent);
 
         populateWithDummyData();
 
