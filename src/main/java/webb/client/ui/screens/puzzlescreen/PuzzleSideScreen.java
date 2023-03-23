@@ -13,8 +13,14 @@ import webb.client.ui.components.WebbSimpleImage;
 import webb.client.ui.constants.WebbColors;
 import webb.client.ui.constants.WebbFonts;
 import webb.client.ui.constants.WebbImages;
+import webb.client.ui.helpers.WebbTextUtilities;
 
 public class PuzzleSideScreen extends WebbRoundedJPanel {
+
+    private final JLabel starLabel;
+    private final JLabel starsRemainingNumber;
+    private final JLabel timeLabel;
+    private final JLabel puzzleNumber;
 
     public PuzzleSideScreen() {
         this.setBackground(WebbColors.c90);
@@ -44,7 +50,7 @@ public class PuzzleSideScreen extends WebbRoundedJPanel {
 
         //----------------- Upper Panel -----------------
 
-        JLabel starLabel = new JLabel("1");
+        starLabel = new JLabel("?");
         starLabel.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_32);
         starLabel.setForeground(WebbColors.TEXT_COLOR_WHITE);
         innerLayout.putConstraint(SpringLayout.NORTH, starLabel, 25, SpringLayout.NORTH, innerPanel);
@@ -56,7 +62,7 @@ public class PuzzleSideScreen extends WebbRoundedJPanel {
         innerLayout.putConstraint(SpringLayout.WEST, starImage, 15, SpringLayout.WEST, innerPanel);
         innerPanel.add(starImage);
 
-        JLabel puzzleNumber = new JLabel("Puzzle 4");
+        puzzleNumber = new JLabel("Puzzle ?");
         puzzleNumber.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_32);
         puzzleNumber.setForeground(WebbColors.TEXT_COLOR_BLACK);
         innerLayout.putConstraint(SpringLayout.NORTH, puzzleNumber, 25, SpringLayout.NORTH, innerPanel);
@@ -64,7 +70,7 @@ public class PuzzleSideScreen extends WebbRoundedJPanel {
         innerPanel.add(puzzleNumber);
 
         //----------------- Lower Panel -----------------
-        JLabel timeLabel = new JLabel("00:30");
+        timeLabel = new JLabel("00:00");
         timeLabel.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_48);
         timeLabel.setForeground(WebbColors.TEXT_COLOR_BLACK);
         innerLayout.putConstraint(SpringLayout.NORTH, timeLabel, 120, SpringLayout.NORTH, innerPanel);
@@ -100,7 +106,7 @@ public class PuzzleSideScreen extends WebbRoundedJPanel {
         innerLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, starsRemainingLabel, 0, SpringLayout.HORIZONTAL_CENTER, innerPanel);
         innerPanel.add(starsRemainingLabel);
 
-        JLabel starsRemainingNumber = new JLabel("7 / 8");
+        starsRemainingNumber = new JLabel("? / ?");
         starsRemainingNumber.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_24);
         starsRemainingNumber.setForeground(WebbColors.TEXT_COLOR_BLACK);
         innerLayout.putConstraint(SpringLayout.VERTICAL_CENTER, starsRemainingNumber, 40, SpringLayout.VERTICAL_CENTER, starBackground);
@@ -126,5 +132,32 @@ public class PuzzleSideScreen extends WebbRoundedJPanel {
 
         innerPanel.setLayout(innerLayout);
         this.setLayout(layout);
+    }
+
+    /**
+     * Sets the puzzle number
+     * @param puzzleNumber The puzzle number
+     * @param stars The number of stars the puzzle is
+     */
+    public void setPuzzleNumber(int puzzleNumber, int stars) {
+        this.puzzleNumber.setText("Puzzle " + puzzleNumber);
+        this.starLabel.setText("" + stars);
+    }
+
+    /**
+     * Sets the number of stars remaining
+     * @param starsRemaining The number of stars remaining
+     * @param starsMax The maximum number of stars
+     */
+    public void setStarsRemaining(int starsRemaining, int starsMax) {
+        this.starsRemainingNumber.setText(starsRemaining + " / " + starsMax);
+    }
+
+    /**
+     * Sets the time remaining
+     * @param timeRemaining The time remaining in milliseconds
+     */
+    public void setTimeRemaining(long timeRemaining) {
+        this.timeLabel.setText(WebbTextUtilities.formatMinSec(timeRemaining));
     }
 }

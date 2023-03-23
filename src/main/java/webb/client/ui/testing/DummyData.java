@@ -6,7 +6,19 @@ import webb.client.ui.popup.leaderboard.LeaderboardScore;
 
 public class DummyData {
 
-    public static class DummyStatisticsData {
+    private DummyData() {}
+
+    public static final class DummyPlayPuzzleData {
+
+        public static final int SIDEBAR_PUZZLE_NUMBER = 4;
+        public static final int SIDEBAR_PUZZLE_STAR = 1;
+        public static final long SIDEBAR_TIME_REMAINING = TimeUnit.SECONDS.toMillis(30);
+        public static final int SIDEBAR_STARTS_REMAINING = 7;
+        public static final int SIDEBAR_STARTS_TOTAL = 8;
+
+    }
+
+    public static final class DummyStatisticsData {
         public static final String CURRENT_TITLE = "Cadet";
         public static final int GAMES_COMPLETED = 200;
         public static final int GAMES_MAX = 500;
@@ -16,7 +28,7 @@ public class DummyData {
         public static final long SOLVE_TIME_AVERAGE = TimeUnit.MINUTES.toMillis(1) + TimeUnit.SECONDS.toMillis(33);
     }
 
-    public static class DummyCongratulationsData {
+    public static final class DummyCongratulationsData {
         public static final long SOLVE_TIME = TimeUnit.MINUTES.toMillis(1) + TimeUnit.SECONDS.toMillis(2);
         public static final int PROGRESS_MIN = 0;
         public static final int PROGRESS_MAX = 4;
@@ -25,7 +37,7 @@ public class DummyData {
         public static final String NEXT_TITLE = "Ensign";
     }
 
-    public static class DummyLeaderboardData {
+    public static final class DummyLeaderboardData {
         public static final LeaderboardScore[] SCORES_300 = new LeaderboardScore[]{
                 new LeaderboardScore("rcraik0", 84780),
                 new LeaderboardScore("nblaisdell1", 67851),

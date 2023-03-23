@@ -6,6 +6,7 @@ import java.awt.Container;
 import javax.swing.SpringLayout;
 import webb.client.ui.constants.WebbColors;
 import webb.client.ui.screens.Screen;
+import webb.client.ui.testing.DummyData.DummyPlayPuzzleData;
 
 public class PuzzleScreen extends Screen {
 
@@ -32,6 +33,15 @@ public class PuzzleScreen extends Screen {
         layout.putConstraint(SpringLayout.HEIGHT, sidePanel, -10, SpringLayout.HEIGHT, contentPane);
         //layout.putConstraint(SpringLayout.WIDTH, sidePanel, 100, "None", contentPane);
         this.add(sidePanel);
+
+        populateWithDummyData();
+
+    }
+
+    private void populateWithDummyData() {
+        sidePanel.setStarsRemaining(DummyPlayPuzzleData.SIDEBAR_STARTS_REMAINING, DummyPlayPuzzleData.SIDEBAR_STARTS_TOTAL);
+        sidePanel.setPuzzleNumber(DummyPlayPuzzleData.SIDEBAR_PUZZLE_NUMBER, DummyPlayPuzzleData.SIDEBAR_PUZZLE_STAR);
+        sidePanel.setTimeRemaining(DummyPlayPuzzleData.SIDEBAR_TIME_REMAINING);
 
     }
 
