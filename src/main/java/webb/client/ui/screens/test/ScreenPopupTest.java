@@ -7,10 +7,9 @@ import webb.client.ui.components.WebbBackButton;
 import webb.client.ui.components.WebbButton;
 import webb.client.ui.constants.WebbFonts;
 import webb.client.ui.popup.ExampleWebbPopup;
-import webb.client.ui.popup.PopupCongratulations;
+import webb.client.ui.popup.congratulations.PopupCongratulations;
 import webb.client.ui.popup.PopupStatistics;
 import webb.client.ui.screens.Screen;
-import webb.client.ui.testing.DummyData;
 import webb.client.ui.testing.DummyData.DummyCongratulations;
 import webb.client.ui.testing.DummyData.DummyStatistics;
 

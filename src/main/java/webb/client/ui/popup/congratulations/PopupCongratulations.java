@@ -1,4 +1,4 @@
-package webb.client.ui.popup;
+package webb.client.ui.popup.congratulations;
 
 import java.awt.Dimension;
 import javax.swing.JLabel;
@@ -11,6 +11,7 @@ import webb.client.ui.constants.WebbColors;
 import webb.client.ui.constants.WebbFonts;
 import webb.client.ui.constants.WebbImages;
 import webb.client.ui.helpers.WebbTextUtilities;
+import webb.client.ui.popup.WebbPopup;
 import webb.client.ui.testing.DummyData.DummyCongratulations;
 
 public class PopupCongratulations extends WebbPopup {
