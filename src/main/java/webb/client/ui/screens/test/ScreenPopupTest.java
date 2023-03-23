@@ -9,8 +9,10 @@ import webb.client.ui.constants.WebbFonts;
 import webb.client.ui.popup.ExampleWebbPopup;
 import webb.client.ui.popup.congratulations.PopupCongratulations;
 import webb.client.ui.popup.PopupStatistics;
+import webb.client.ui.popup.leaderboard.PopupLeaderboard;
 import webb.client.ui.screens.Screen;
 import webb.client.ui.testing.DummyData.DummyCongratulations;
+import webb.client.ui.testing.DummyData.DummyLeaderboard;
 import webb.client.ui.testing.DummyData.DummyStatistics;
 
 public class ScreenPopupTest extends Screen {
@@ -54,8 +56,8 @@ public class ScreenPopupTest extends Screen {
         this.add(btn3);
 
 
-        WebbButton btn4 = new WebbButton("BTN4", () -> {
-
+        WebbButton btn4 = new WebbButton("Leaderboard", () -> {
+            showPopupLeaderboard();
         });
         btn4.setPreferredSize(new Dimension(142, 43));
         btn4.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_32);
@@ -68,7 +70,7 @@ public class ScreenPopupTest extends Screen {
 
     @Override
     public void onShow() {
-        //showPopupCongratulations();
+        showPopupLeaderboard();
     }
 
     private void showPopupCongratulations() {
@@ -90,6 +92,12 @@ public class ScreenPopupTest extends Screen {
                 DummyStatistics.SOLVE_TIME_MIN,
                 DummyStatistics.SOLVE_TIME_MAX,
                 DummyStatistics.SOLVE_TIME_AVERAGE
+        ));
+    }
+
+    private void showPopupLeaderboard() {
+        showPopup(new PopupLeaderboard(
+                DummyLeaderboard.SCORES_100
         ));
     }
 
