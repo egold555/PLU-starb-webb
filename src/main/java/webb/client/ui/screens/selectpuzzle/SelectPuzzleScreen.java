@@ -9,8 +9,10 @@ import webb.client.ui.constants.WebbColors;
 import webb.client.ui.constants.WebbFonts;
 import webb.client.ui.constants.WebbImages;
 import webb.client.ui.popup.PopupStatistics;
+import webb.client.ui.popup.leaderboard.PopupLeaderboard;
 import webb.client.ui.screens.Screen;
-import webb.client.ui.testing.DummyData.DummyStatistics;
+import webb.client.ui.testing.DummyData.DummyLeaderboardData;
+import webb.client.ui.testing.DummyData.DummyStatisticsData;
 
 
 /**
@@ -83,6 +85,11 @@ public class SelectPuzzleScreen extends Screen {
 
                 trophy.addActionListener(e -> {
                         System.out.println("Trophy button pressed");
+
+                        //TODO: Show actual leaderboard data
+                        showPopup(new PopupLeaderboard(
+                                DummyLeaderboardData.SCORES_300
+                        ));
                 });
                 bottomBar.add(trophy);
 
@@ -96,12 +103,12 @@ public class SelectPuzzleScreen extends Screen {
 
                         //TODO: Replace with actual stats
                         showPopup(new PopupStatistics(
-                                DummyStatistics.CURRENT_TITLE,
-                                DummyStatistics.GAMES_COMPLETED,
-                                DummyStatistics.GAMES_MAX,
-                                DummyStatistics.SOLVE_TIME_MIN,
-                                DummyStatistics.SOLVE_TIME_MAX,
-                                DummyStatistics.SOLVE_TIME_AVERAGE
+                                DummyStatisticsData.CURRENT_TITLE,
+                                DummyStatisticsData.GAMES_COMPLETED,
+                                DummyStatisticsData.GAMES_MAX,
+                                DummyStatisticsData.SOLVE_TIME_MIN,
+                                DummyStatisticsData.SOLVE_TIME_MAX,
+                                DummyStatisticsData.SOLVE_TIME_AVERAGE
                         ));
                 });
                 bottomBar.add(stats);

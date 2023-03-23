@@ -11,9 +11,9 @@ import webb.client.ui.popup.congratulations.PopupCongratulations;
 import webb.client.ui.popup.PopupStatistics;
 import webb.client.ui.popup.leaderboard.PopupLeaderboard;
 import webb.client.ui.screens.Screen;
-import webb.client.ui.testing.DummyData.DummyCongratulations;
-import webb.client.ui.testing.DummyData.DummyLeaderboard;
-import webb.client.ui.testing.DummyData.DummyStatistics;
+import webb.client.ui.testing.DummyData.DummyCongratulationsData;
+import webb.client.ui.testing.DummyData.DummyLeaderboardData;
+import webb.client.ui.testing.DummyData.DummyStatisticsData;
 
 public class ScreenPopupTest extends Screen {
 
@@ -75,29 +75,29 @@ public class ScreenPopupTest extends Screen {
 
     private void showPopupCongratulations() {
         showPopup(new PopupCongratulations(
-                DummyCongratulations.SOLVE_TIME,
-                DummyCongratulations.PROGRESS_MIN,
-                DummyCongratulations.PROGRESS_MAX,
-                DummyCongratulations.PROGRESS_CURRENT,
-                DummyCongratulations.CURRENT_TITLE,
-                DummyCongratulations.NEXT_TITLE
+                DummyCongratulationsData.SOLVE_TIME,
+                DummyCongratulationsData.PROGRESS_MIN,
+                DummyCongratulationsData.PROGRESS_MAX,
+                DummyCongratulationsData.PROGRESS_CURRENT,
+                DummyCongratulationsData.CURRENT_TITLE,
+                DummyCongratulationsData.NEXT_TITLE
         ));
     }
 
     private void showPopupStatistics() {
         showPopup(new PopupStatistics(
-                DummyStatistics.CURRENT_TITLE,
-                DummyStatistics.GAMES_COMPLETED,
-                DummyStatistics.GAMES_MAX,
-                DummyStatistics.SOLVE_TIME_MIN,
-                DummyStatistics.SOLVE_TIME_MAX,
-                DummyStatistics.SOLVE_TIME_AVERAGE
+                DummyStatisticsData.CURRENT_TITLE,
+                DummyStatisticsData.GAMES_COMPLETED,
+                DummyStatisticsData.GAMES_MAX,
+                DummyStatisticsData.SOLVE_TIME_MIN,
+                DummyStatisticsData.SOLVE_TIME_MAX,
+                DummyStatisticsData.SOLVE_TIME_AVERAGE
         ));
     }
 
     private void showPopupLeaderboard() {
         showPopup(new PopupLeaderboard(
-                DummyLeaderboard.SCORES_100
+                DummyLeaderboardData.SCORES_300
         ));
     }
 

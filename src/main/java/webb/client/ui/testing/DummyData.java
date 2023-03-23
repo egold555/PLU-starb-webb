@@ -1,17 +1,12 @@
 package webb.client.ui.testing;
 
 import java.util.Arrays;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 import webb.client.ui.popup.leaderboard.LeaderboardScore;
 
 public class DummyData {
 
-    public static class DummyStatistics {
+    public static class DummyStatisticsData {
         public static final String CURRENT_TITLE = "Cadet";
         public static final int GAMES_COMPLETED = 200;
         public static final int GAMES_MAX = 500;
@@ -21,7 +16,7 @@ public class DummyData {
         public static final long SOLVE_TIME_AVERAGE = TimeUnit.MINUTES.toMillis(1) + TimeUnit.SECONDS.toMillis(33);
     }
 
-    public static class DummyCongratulations {
+    public static class DummyCongratulationsData {
         public static final long SOLVE_TIME = TimeUnit.MINUTES.toMillis(1) + TimeUnit.SECONDS.toMillis(2);
         public static final int PROGRESS_MIN = 0;
         public static final int PROGRESS_MAX = 4;
@@ -30,7 +25,7 @@ public class DummyData {
         public static final String NEXT_TITLE = "Ensign";
     }
 
-    public static class DummyLeaderboard {
+    public static class DummyLeaderboardData {
         public static final LeaderboardScore[] SCORES_300 = new LeaderboardScore[]{
                 new LeaderboardScore("rcraik0", 84780),
                 new LeaderboardScore("nblaisdell1", 67851),
