@@ -68,7 +68,7 @@ public class ScreenPopupTest extends Screen {
 
     @Override
     public void onShow() {
-        showPopupCongratulations();
+        //showPopupCongratulations();
     }
 
     private void showPopupCongratulations() {

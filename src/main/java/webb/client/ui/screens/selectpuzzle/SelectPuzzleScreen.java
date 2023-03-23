@@ -8,7 +8,9 @@ import webb.client.ui.components.WebbButton;
 import webb.client.ui.constants.WebbColors;
 import webb.client.ui.constants.WebbFonts;
 import webb.client.ui.constants.WebbImages;
+import webb.client.ui.popup.PopupStatistics;
 import webb.client.ui.screens.Screen;
+import webb.client.ui.testing.DummyData.DummyStatistics;
 
 
 /**
@@ -91,7 +93,16 @@ public class SelectPuzzleScreen extends Screen {
 
                 stats.addActionListener(e -> {
                         System.out.println("Stats button pressed");
-                        TestModal test = new TestModal( (JFrame) SwingUtilities.getRootPane(this).getParent());
+
+                        //TODO: Replace with actual stats
+                        showPopup(new PopupStatistics(
+                                DummyStatistics.CURRENT_TITLE,
+                                DummyStatistics.GAMES_COMPLETED,
+                                DummyStatistics.GAMES_MAX,
+                                DummyStatistics.SOLVE_TIME_MIN,
+                                DummyStatistics.SOLVE_TIME_MAX,
+                                DummyStatistics.SOLVE_TIME_AVERAGE
+                        ));
                 });
                 bottomBar.add(stats);
 
