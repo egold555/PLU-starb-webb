@@ -23,6 +23,8 @@ Steps to log in:
 4) In the VM options text field, add `-Dusername=test.` The argument username is required field followed by any username that is not currently in `src/main/resources/webb/data/userdata.json`
 <img src="doc/tutorial/authentication/5_authstep.png" width="500px">
 
+Now, you will be able to start the program with no problems!
+
 ### Java Client
 
 To start the Java client: `./gradlew run`
