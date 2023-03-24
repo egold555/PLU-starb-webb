@@ -1,8 +1,11 @@
 package webb.client.ui.screens.test;
 
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 import javax.swing.SpringLayout;
 import webb.client.ui.components.WebbBackButton;
 import webb.client.ui.components.WebbButton;
@@ -111,11 +114,39 @@ public class ScreenTestComponents extends Screen {
                 throw new RuntimeException(e);
             }
         });
+
         btn7.setPreferredSize(BUTTON_DIMENSION);
         btn7.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_32);
         layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, btn7, 0, SpringLayout.HORIZONTAL_CENTER, contentPane);
         layout.putConstraint(SpringLayout.NORTH, btn7, 10, SpringLayout.SOUTH, btn6);
         this.add(btn7);
+
+
+        WebbButton btn8 = new WebbButton("Mouse Release", (self, rightClicked) -> {
+            self.setTextColor(Color.GREEN);
+            System.out.println("Click");
+            if(rightClicked) {
+                self.setText("Right");
+            } else {
+                self.setText("Left");
+            }
+        });
+        btn8.setClickReleaseListener((self, rightClicked) -> {
+            System.out.println("Release");
+            self.setTextColor(Color.RED);
+            if(rightClicked) {
+                self.setText("Release Right");
+            } else {
+                self.setText("Release Left");
+            }
+
+
+        });
+        btn8.setPreferredSize(BUTTON_DIMENSION);
+        btn8.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_32);
+        layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, btn8, 0, SpringLayout.HORIZONTAL_CENTER, contentPane);
+        layout.putConstraint(SpringLayout.NORTH, btn8, 10, SpringLayout.SOUTH, btn7);
+        this.add(btn8);
 
     }
 
