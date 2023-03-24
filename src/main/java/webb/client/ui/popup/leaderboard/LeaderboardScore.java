@@ -9,11 +9,6 @@ public class LeaderboardScore implements Comparable<LeaderboardScore> {
     private final int score;
     private final long time;
 
-    @Deprecated
-    public LeaderboardScore(String name, int score) {
-        this(name, score, 0);
-    }
-
     /**
      * Creates a new LeaderboardScore.
      *

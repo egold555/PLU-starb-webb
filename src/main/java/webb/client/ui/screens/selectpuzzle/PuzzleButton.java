@@ -34,9 +34,10 @@ public class PuzzleButton extends JPanel {
 
         panel.setBackground(WebbColors.B7);
 
-        WebbButton button = new WebbButton("" + id);
+        WebbButton button = new WebbButton("" + id, () -> {
+            System.out.println("Puzzle button " + id + " clicked!");
+        });
         button.setDrawBackground(false);
-        button.addActionListener(e -> System.out.println("Puzzle button " + id + " clicked!"));
 
         innerLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, panel, 0, SpringLayout.HORIZONTAL_CENTER, this);
         innerLayout.putConstraint(SpringLayout.VERTICAL_CENTER, panel, 0, SpringLayout.VERTICAL_CENTER, this);

@@ -26,11 +26,6 @@ public class WebbButton extends JButton {
     private boolean drawBackground = true;
     private Color backgroundColor = WebbColors.B7;
 
-    @Deprecated
-    public WebbButton(String text) {
-        this(text, null);
-    }
-
     /**
      * Creates a new WebbButton with the given text.
      * @param text The text to display on the button.
@@ -39,11 +34,6 @@ public class WebbButton extends JButton {
     public WebbButton(String text, Runnable onClick) {
         this(onClick);
         this.text = text;
-    }
-
-    @Deprecated
-    public WebbButton(BufferedImage imageIn, int width, int height) {
-        this(imageIn, width, height, null);
     }
 
     /**

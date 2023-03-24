@@ -61,31 +61,25 @@ public class SelectPuzzleScreen extends Screen {
 
 
 
-                WebbButton puzzleBack = new WebbButton(WebbImages.PUZZLE_SELECTION_ARROW_BACK, 42, 42);
+                WebbButton puzzleBack = new WebbButton(WebbImages.PUZZLE_SELECTION_ARROW_BACK, 42, 42, () -> {
+                        System.out.println("Puzzle back button pressed");
+                });
                 bottomBarLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, puzzleBack, -200, SpringLayout.HORIZONTAL_CENTER, bottomBar);
                 bottomBarLayout.putConstraint(SpringLayout.VERTICAL_CENTER, puzzleBack, 0, SpringLayout.VERTICAL_CENTER, bottomBar);
 
-                puzzleBack.addActionListener(e -> {
-                        System.out.println("Puzzle back button pressed");
-                });
                 bottomBar.add(puzzleBack);
 
 
-                WebbButton puzzleForward = new WebbButton(WebbImages.PUZZLE_SELECTION_ARROW_FORWARD, 42, 42);
+                WebbButton puzzleForward = new WebbButton(WebbImages.PUZZLE_SELECTION_ARROW_FORWARD, 42, 42, () -> {
+                        System.out.println("Puzzle forward button pressed");
+                });
                 bottomBarLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, puzzleForward, 200, SpringLayout.HORIZONTAL_CENTER, bottomBar);
                 bottomBarLayout.putConstraint(SpringLayout.VERTICAL_CENTER, puzzleForward, 0, SpringLayout.VERTICAL_CENTER, bottomBar);
 
-                puzzleForward.addActionListener(e -> {
-                        System.out.println("Puzzle forward button pressed");
-                });
                 bottomBar.add(puzzleForward);
 
 
-                WebbButton trophy = new WebbButton(WebbImages.PUZZLE_SELECTION_BUTTON_TROPHY, 42, 42);
-                bottomBarLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, trophy, -32, SpringLayout.HORIZONTAL_CENTER, bottomBar);
-                bottomBarLayout.putConstraint(SpringLayout.VERTICAL_CENTER, trophy, 0, SpringLayout.VERTICAL_CENTER, bottomBar);
-
-                trophy.addActionListener(e -> {
+                WebbButton trophy = new WebbButton(WebbImages.PUZZLE_SELECTION_BUTTON_TROPHY, 42, 42, () -> {
                         System.out.println("Trophy button pressed");
 
                         //TODO: Show actual leaderboard data
@@ -93,14 +87,13 @@ public class SelectPuzzleScreen extends Screen {
                                 DummyLeaderboardData.SCORES_300
                         ));
                 });
+                bottomBarLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, trophy, -32, SpringLayout.HORIZONTAL_CENTER, bottomBar);
+                bottomBarLayout.putConstraint(SpringLayout.VERTICAL_CENTER, trophy, 0, SpringLayout.VERTICAL_CENTER, bottomBar);
+
                 bottomBar.add(trophy);
 
 
-                WebbButton stats = new WebbButton(WebbImages.PUZZLE_SELECTION_BUTTON_STATS, 42, 42);
-                bottomBarLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, stats, 32, SpringLayout.HORIZONTAL_CENTER, bottomBar);
-                bottomBarLayout.putConstraint(SpringLayout.VERTICAL_CENTER, stats, 0, SpringLayout.VERTICAL_CENTER, bottomBar);
-
-                stats.addActionListener(e -> {
+                WebbButton stats = new WebbButton(WebbImages.PUZZLE_SELECTION_BUTTON_STATS, 42, 42, () -> {
                         System.out.println("Stats button pressed");
 
                         //TODO: Replace with actual stats
@@ -113,6 +106,9 @@ public class SelectPuzzleScreen extends Screen {
                                 DummyStatisticsData.SOLVE_TIME_AVERAGE
                         ));
                 });
+                bottomBarLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, stats, 32, SpringLayout.HORIZONTAL_CENTER, bottomBar);
+                bottomBarLayout.putConstraint(SpringLayout.VERTICAL_CENTER, stats, 0, SpringLayout.VERTICAL_CENTER, bottomBar);
+
                 bottomBar.add(stats);
 
 

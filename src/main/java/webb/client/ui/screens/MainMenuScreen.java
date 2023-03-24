@@ -33,58 +33,50 @@ public class MainMenuScreen extends Screen {
 
         //------ Play button ------
 
-        WebbButton playButton = new WebbButton("Play");
+        WebbButton playButton = new WebbButton("Play", () -> {
+            System.out.println("Play button pressed");
+            this.switchScreenTo(ScreenType.SELECT_PUZZLE);
+        });
         playButton.setPreferredSize(new Dimension(142, 43));
         playButton.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_32);
         layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, playButton, 0, SpringLayout.HORIZONTAL_CENTER, contentPane);
         layout.putConstraint(SpringLayout.NORTH, playButton, 50, SpringLayout.SOUTH, mainMenuText2);
 
-        playButton.addActionListener((e) -> {
-            System.out.println("Play button pressed");
-            this.switchScreenTo(ScreenType.SELECT_PUZZLE);
-        });
-
         this.add(playButton);
 
         //------ Credits button ------
-        WebbButton creditsButton = new WebbButton("Credits");
+        WebbButton creditsButton = new WebbButton("Credits", () -> {
+            System.out.println("Credits button pressed");
+            this.switchScreenTo(ScreenType.CREDITS);
+        });
         creditsButton.setPreferredSize(new Dimension(142, 43));
         creditsButton.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_32);
         layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, creditsButton, 0, SpringLayout.HORIZONTAL_CENTER, contentPane);
         layout.putConstraint(SpringLayout.NORTH, creditsButton, 10, SpringLayout.SOUTH, playButton);
 
-        creditsButton.addActionListener((e) -> {
-            System.out.println("Credits button pressed");
-            this.switchScreenTo(ScreenType.CREDITS);
-        });
-
         this.add(creditsButton);
 
         //---------- Exit button ----------
-        WebbButton exitButton = new WebbButton("Exit");
+        WebbButton exitButton = new WebbButton("Exit", () -> {
+            System.out.println("Exit button pressed");
+            System.exit(0);
+        });
         exitButton.setPreferredSize(new Dimension(142, 43));
         exitButton.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_32);
         layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, exitButton, 0, SpringLayout.HORIZONTAL_CENTER, contentPane);
         layout.putConstraint(SpringLayout.NORTH, exitButton, 10, SpringLayout.SOUTH, creditsButton);
 
-        exitButton.addActionListener((e) -> {
-            System.out.println("Exit button pressed");
-        });
-
         this.add(exitButton);
 
         //----------- Test button ----------------
-        WebbButton testButton = new WebbButton("Test");
+        WebbButton testButton = new WebbButton("Test", () -> {
+            System.out.println("Test button pressed");
+            this.switchScreenTo(ScreenType.TEST_POPUP);
+        });
         testButton.setPreferredSize(new Dimension(142, 43));
         testButton.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_32);
         layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, testButton, 0, SpringLayout.HORIZONTAL_CENTER, contentPane);
         layout.putConstraint(SpringLayout.NORTH, testButton, 10, SpringLayout.SOUTH, exitButton);
-
-        testButton.addActionListener((e) -> {
-            System.out.println("Test button pressed");
-
-            this.switchScreenTo(ScreenType.TEST_POPUP);
-        });
 
         this.add(testButton);
     }
