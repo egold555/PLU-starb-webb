@@ -64,9 +64,11 @@ public class PuzzleScreen extends Screen {
     /**
      * Sets the puzzle to display on the screen.
      * @param puzzle The puzzle to display.
+     * TODO: Finish this method once we have real data!
      */
     public void setPuzzle(PuzzleDTO puzzle) {
-        sidePanel.setStarsRemaining(puzzle.getNumStars(), puzzle.getNumStars());
+        sidePanel.setStarsRemaining(puzzle.getTotalStars(), puzzle.getTotalStars());
+        sidePanel.setPuzzleNumber(0, puzzle.getNumStars());
         puzzleComponent.setPuzzle(puzzle);
     }
 

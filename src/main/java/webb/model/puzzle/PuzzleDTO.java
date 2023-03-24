@@ -34,9 +34,14 @@ public class PuzzleDTO {
     public int getGridSize() {return gridSize;}
 
     /**
-     * @return the number of stars in the puzzle
+     * @return the number of stars per region
      */
     public int getNumStars() {return numStars;}
+
+    /**
+     * @return the total number of stars in the puzzle
+     */
+    public int getTotalStars() {return numStars * regions.size();}
 
     /**
      * Creates a PuzzleDTO from a JSON file
