@@ -1,8 +1,12 @@
 package webb.client.ui.screens.puzzlescreen;
 
+import java.awt.Color;
 import java.awt.Container;
+import java.awt.Point;
+import java.util.Map.Entry;
 import javax.swing.SpringLayout;
 import webb.client.ui.screens.Screen;
+import webb.client.ui.screens.puzzlescreen.Cell.CellType;
 import webb.client.ui.testing.DummyData.DummyPlayPuzzleData;
 
 public class PuzzleScreen extends Screen {
@@ -12,7 +16,7 @@ public class PuzzleScreen extends Screen {
 
     public PuzzleScreen() {
         super();
-       // setBackground(Color.RED);
+        //setBackground(Color.GREEN);
     }
 
     @Override
@@ -44,6 +48,11 @@ public class PuzzleScreen extends Screen {
         sidePanel.setPuzzleNumber(DummyPlayPuzzleData.SIDEBAR_PUZZLE_NUMBER, DummyPlayPuzzleData.SIDEBAR_PUZZLE_STAR);
         sidePanel.setTimeRemaining(DummyPlayPuzzleData.SIDEBAR_TIME_REMAINING);
 
+        puzzleComponent.setGridSize(DummyPlayPuzzleData.PUZZLE_GRID_SIZE);
+
+        for(Entry<Point, CellType> entry : DummyPlayPuzzleData.PUZZLE_GRID_STARS.entrySet()) {
+            puzzleComponent.getCell(entry.getKey().x, entry.getKey().y).setType(entry.getValue());
+        }
     }
 
 }

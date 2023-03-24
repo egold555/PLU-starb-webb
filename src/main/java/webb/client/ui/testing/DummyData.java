@@ -1,14 +1,33 @@
 package webb.client.ui.testing;
 
+import java.awt.Point;
 import java.util.Arrays;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import webb.client.ui.popup.leaderboard.LeaderboardScore;
+import webb.client.ui.screens.puzzlescreen.Cell.CellType;
 
 public class DummyData {
 
     private DummyData() {}
 
     public static final class DummyPlayPuzzleData {
+
+        public static final Map<Point, CellType> PUZZLE_GRID_STARS = Map.of(
+
+                //COl, ROW
+                new Point(0, 8), CellType.STAR,
+                new Point(4, 1), CellType.INVALID,
+                new Point(0, 2), CellType.STAR_RED,
+                new Point(3, 3), CellType.STAR,
+                new Point(5, 6), CellType.INVALID,
+                new Point(1, 2), CellType.INVALID,
+                new Point(7, 0), CellType.INVALID,
+                new Point(2, 9), CellType.STAR,
+                new Point(2, 2), CellType.STAR_RED
+        );
+
+        public static final int PUZZLE_GRID_SIZE = 10;
 
         public static final int SIDEBAR_PUZZLE_NUMBER = 4;
         public static final int SIDEBAR_PUZZLE_STAR = 1;
