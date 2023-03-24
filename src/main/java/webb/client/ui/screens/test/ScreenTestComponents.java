@@ -21,7 +21,7 @@ import webb.client.ui.testing.DummyData.DummyStatisticsData;
  */
 public class ScreenTestComponents extends Screen {
 
-    private static final Dimension BUTTON_DIMENSION = new Dimension(142, 43);
+    private static final Dimension BUTTON_DIMENSION = new Dimension(200, 43);
 
     @Override
     protected void populateComponents(Container contentPane, SpringLayout layout) {
@@ -75,6 +75,7 @@ public class ScreenTestComponents extends Screen {
         layout.putConstraint(SpringLayout.NORTH, btn4, 10, SpringLayout.SOUTH, btn3);
         this.add(btn4);
 
+        //Mousre test
         WebbButton btn5 = new WebbButton("Mouse Btn", (self, rightClicked) -> {
             if(rightClicked) {
                 self.setText("Right");
@@ -88,6 +89,16 @@ public class ScreenTestComponents extends Screen {
         layout.putConstraint(SpringLayout.NORTH, btn5, 10, SpringLayout.SOUTH, btn4);
 
         this.add(btn5);
+
+
+        WebbButton btn6 = new WebbButton("Play Game", (self, rightClicked) -> {
+            switchScreenTo(ScreenType.PLAY_PUZZLE);
+        });
+        btn6.setPreferredSize(BUTTON_DIMENSION);
+        btn6.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_32);
+        layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, btn6, 0, SpringLayout.HORIZONTAL_CENTER, contentPane);
+        layout.putConstraint(SpringLayout.NORTH, btn6, 10, SpringLayout.SOUTH, btn5);
+        this.add(btn6);
 
     }
 
