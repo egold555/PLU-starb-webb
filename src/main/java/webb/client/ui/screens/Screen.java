@@ -6,9 +6,6 @@ import javax.swing.SpringLayout;
 import webb.client.ui.WebbWindow;
 import webb.client.ui.constants.WebbColors;
 import webb.client.ui.popup.WebbPopup;
-import webb.client.ui.screens.creditsscreen.CreditsScreen;
-import webb.client.ui.screens.puzzlescreen.PuzzleScreen;
-import webb.client.ui.screens.selectpuzzle.SelectPuzzleScreen;
 
 /**
  * A JPanel wrapper with some extra functionality.
@@ -54,23 +51,8 @@ public abstract class Screen extends JPanel {
     }
 
     /**
-     * Screen type instances
+     * Called when the screen is made visible
      */
-    public enum ScreenType {
-        MAIN_MENU(new MainMenuScreen()),
-        CREDITS(new CreditsScreen()),
-        SELECT_PUZZLE(new SelectPuzzleScreen()),
-        PLAY_PUZZLE(new PuzzleScreen()),
-
-        ;
-        private final Screen screen;
-        ScreenType(Screen screen) {
-            this.screen = screen;
-        }
-
-        public Screen getScreen() {
-            return screen;
-        }
-    }
+    public void onShow() {}
 
 }
