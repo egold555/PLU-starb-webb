@@ -78,9 +78,10 @@ public class WebbButton extends JButton {
 
         if(clickListener != null) {
             WebbButton self = this;
+
             this.addMouseListener(new MouseAdapter() {
                 @Override
-                public void mouseClicked(MouseEvent e) {
+                public void mousePressed(MouseEvent e) {
 
                     final boolean isLeftClick = e.getButton() == MouseEvent.BUTTON1;
                     final boolean isRightClick = e.getButton() == MouseEvent.BUTTON3;
@@ -97,8 +98,29 @@ public class WebbButton extends JButton {
                 }
             });
 
-//            this.addActionListener(e -> onClick.run());
         }
+    }
+
+    /**
+     * Sets the action to perform when the button is released.
+     * @param clickReleaseListener The action to perform when the button is released.
+     */
+    public void setClickReleaseListener(ClickReleaseListener clickReleaseListener) {
+        WebbButton self = this;
+        this.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                final boolean isLeftClick = e.getButton() == MouseEvent.BUTTON1;
+                final boolean isRightClick = e.getButton() == MouseEvent.BUTTON3;
+
+                //they middle clicked or something?
+                if(!isLeftClick && !isRightClick) return;
+
+                self.getModel().setPressed(false);
+
+                clickReleaseListener.onClickRelease(self, isRightClick);
+            }
+        });
     }
 
     /**
@@ -194,5 +216,14 @@ public class WebbButton extends JButton {
          * @param rightClick Whether or not the right mouse button was clicked.
          */
         void onClick(WebbButton self, boolean rightClick);
+    }
+
+    public static interface ClickReleaseListener {
+        /**
+         * Called when the button is released.
+         * @param self The button that was released.
+         * @param rightClick Whether or not the right mouse button was released.
+         */
+        void onClickRelease(WebbButton self, boolean rightClick);
     }
 }
