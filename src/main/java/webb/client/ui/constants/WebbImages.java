@@ -15,32 +15,34 @@ public class WebbImages {
 
     private static final BufferedImage ERROR_IMAGE = createErrorImage(300, 300);
 
-    //Puzzle selection screen
+
     public static final BufferedImage PUZZLE_SELECTION_ARROW_PAGE_BACK = loadImage("arrow_page_back.png");
-    public static final BufferedImage PUZZLE_SELECTION_ARROW_FORWARD = loadImage("arrow_forward.png");
-    public static final BufferedImage PUZZLE_SELECTION_ARROW_BACK = loadImage("arrow_back.png");
-    public static final BufferedImage PUZZLE_SELECTION_BUTTON_TROPHY = loadImage("button_trophy.png");
-    public static final BufferedImage PUZZLE_SELECTION_BUTTON_STATS = loadImage("button_stats.png");
-    public static final BufferedImage PUZZLE_SELECTION_LEVEL_COMPLETE_EMBLEM = loadImage("level_complete_emblem.png");
-    public static final BufferedImage PUZZLE_SELECTION_STAR = loadImage("star.png");
+
+    //Puzzle selection screen
+    public static final BufferedImage PUZZLE_SELECTION_ARROW_FORWARD = loadImage("screen_puzzle_selection/arrow_forward.png");
+    public static final BufferedImage PUZZLE_SELECTION_ARROW_BACK = loadImage("screen_puzzle_selection/arrow_back.png");
+    public static final BufferedImage PUZZLE_SELECTION_BUTTON_TROPHY = loadImage("screen_puzzle_selection/button_trophy.png");
+    public static final BufferedImage PUZZLE_SELECTION_BUTTON_STATS = loadImage("screen_puzzle_selection/button_stats.png");
+    public static final BufferedImage PUZZLE_SELECTION_LEVEL_COMPLETE_EMBLEM = loadImage("screen_puzzle_selection/level_complete_emblem.png");
+    public static final BufferedImage PUZZLE_SELECTION_STAR = loadImage("screen_puzzle_selection/star.png");
 
     public static final BufferedImage POPUP_CLOSE = loadImage("popup_close_button.png");
 
     //Popup congratulation images
-    public static final BufferedImage POPUP_CONGRATULATIONS_STAR = loadImage("congratulations_star.png");
-    public static final BufferedImage POPUP_CONGRATULATIONS_STAR_ROTATED = loadImage("congratulations_star_rotated.png");
+    public static final BufferedImage POPUP_CONGRATULATIONS_STAR = loadImage("popup_congratulations/congratulations_star.png");
+    public static final BufferedImage POPUP_CONGRATULATIONS_STAR_ROTATED = loadImage("popup_congratulations/congratulations_star_rotated.png");
 
     //Play puzzle screen
-    public static final BufferedImage PLAY_PUZZLE_STAR = loadImage("play_puzzle_star.png");
-    public static final BufferedImage PLAY_PUZZLE_VALIDATE_BUTTON = loadImage("play_puzzle_validate_button.png");
-    public static final BufferedImage PLAY_PUZZLE_HINT_BUTTON = loadImage("play_puzzle_hint_button.png");
-    public static final BufferedImage PLAY_PUZZLE_RESET_BUTTON = loadImage("play_puzzle_reset_button.png");
-    public static final BufferedImage PLAY_PUZZLE_STAR_BACKGROUND = loadImage("play_puzzle_background_star.png");
-    public static final BufferedImage PLAY_PUZZLE_EXIT_BUTTON = loadImage("play_puzzle_exit_button.png");
+    public static final BufferedImage PLAY_PUZZLE_STAR = loadImage("screen_play_puzzle/play_puzzle_star.png");
+    public static final BufferedImage PLAY_PUZZLE_VALIDATE_BUTTON = loadImage("screen_play_puzzle/play_puzzle_validate_button.png");
+    public static final BufferedImage PLAY_PUZZLE_HINT_BUTTON = loadImage("screen_play_puzzle/play_puzzle_hint_button.png");
+    public static final BufferedImage PLAY_PUZZLE_RESET_BUTTON = loadImage("screen_play_puzzle/play_puzzle_reset_button.png");
+    public static final BufferedImage PLAY_PUZZLE_STAR_BACKGROUND = loadImage("screen_play_puzzle/play_puzzle_background_star.png");
+    public static final BufferedImage PLAY_PUZZLE_EXIT_BUTTON = loadImage("screen_play_puzzle/play_puzzle_exit_button.png");
 
-    public static final BufferedImage PLAY_PUZZLE_GRID_STAR = loadImage("play_puzzle_grid_star.png");
-    public static final BufferedImage PLAY_PUZZLE_GRID_INVALID_CELL = loadImage("play_puzzle_grid_invalid_cell.png");
-    public static final BufferedImage PLAY_PUZZLE_GRID_STAR_RED = loadImage("play_puzzle_grid_star_red.png");
+    public static final BufferedImage PLAY_PUZZLE_GRID_STAR = loadImage("screen_play_puzzle/play_puzzle_grid_star.png");
+    public static final BufferedImage PLAY_PUZZLE_GRID_INVALID_CELL = loadImage("screen_play_puzzle/play_puzzle_grid_invalid_cell.png");
+    public static final BufferedImage PLAY_PUZZLE_GRID_STAR_RED = loadImage("screen_play_puzzle/play_puzzle_grid_star_red.png");
 
     /**
      * Attempts to load an image from the resources folder.
