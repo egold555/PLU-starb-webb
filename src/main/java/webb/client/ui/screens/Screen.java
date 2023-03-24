@@ -43,7 +43,7 @@ public abstract class Screen extends JPanel {
      * Switches the display screen to the given screen.
      * @param screen The screen to switch to.
      */
-    public void switchScreenTo(Screen screen) {
+    public void switchScreenTo(ScreenType screen) {
         WebbWindow.getInstance().switchScreen(screen);
     }
 

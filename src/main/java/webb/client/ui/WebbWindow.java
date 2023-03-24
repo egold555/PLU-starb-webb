@@ -44,7 +44,16 @@ public class WebbWindow extends JFrame {
      * Switches the display screen to the given screen.
      * @param screen The screen instance to switch to.
      */
-    public void switchScreen(Screen screen) {
+    public void switchScreen(ScreenType screen) {
+        this.switchScreen(screen.getScreenInstance());
+    }
+
+    /**
+     * Switches the display screen to the given screen.
+     * @param screen The screen instance to switch to.
+     * @see webb.client.ui.WebbWindow#switchScreen(webb.client.ui.screens.ScreenType)
+     */
+    private void switchScreen(Screen screen) {
         this.getContentPane().removeAll();
         this.getContentPane().add(screen);
         this.getContentPane().revalidate();
