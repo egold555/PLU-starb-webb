@@ -80,13 +80,36 @@ public class Cell {
         System.out.println("Clicked on cell: " + col + ", " + row + " rightClick: " + rightClick);
     }
 
+    /**
+     * Set the group of the cell
+     * @param group Group of the cell
+     */
     protected void setGroup(int group) {this.group = group;}
 
+    /**
+     * Get the group of the cell
+     * @return Group of the cell
+     */
     protected int getGroup() {return group;}
 
+    /**
+     * Set witch side(s) of the cell has a wall
+     * @see Cell#WALL_NORTH
+     * @see Cell#WALL_EAST
+     * @see Cell#WALL_SOUTH
+     * @see Cell#WALL_WEST
+     * @param wall Side to set the wall on
+     */
     protected void setWall(int wall) {walls[wall] = true;}
 
+    /**
+     * Set the cell as in the solution
+     * */
     protected void setSolutionStar() {this.isSolutionStar = true;}
+
+    /**
+     * Check if the cell is in the solution
+     */
     protected boolean isSolutionStar() {return isSolutionStar;}
 
     /**

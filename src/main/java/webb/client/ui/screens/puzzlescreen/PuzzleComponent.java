@@ -51,7 +51,11 @@ public class PuzzleComponent extends JComponent {
         });
     }
 
-    public void setGridSize(int size) {
+    /**
+     * Sets the size of the grid, and resets the cells
+     * @param size Size of the grid
+     */
+    private void setGridSize(int size) {
         gridSize = size;
         cells = null;
         cells = new Cell[gridSize][gridSize];
@@ -66,6 +70,10 @@ public class PuzzleComponent extends JComponent {
         //}
     }
 
+    /**
+     * Set the puzzle to be displayed
+     * @param puzzle Puzzle to be displayed
+     */
     public void setPuzzle(PuzzleDTO puzzle) {
 
         //Set the puzzle size & reset the cells
@@ -129,6 +137,10 @@ public class PuzzleComponent extends JComponent {
         this.repaint();
     }
 
+    /**
+     * Paints the component
+     * @param g the Graphics object
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -210,6 +222,12 @@ public class PuzzleComponent extends JComponent {
         return cells[col][row];
     }
 
+    /**
+     * Check if a cell position is valid
+     * @param col Column of the cell
+     * @param row Row of the cell
+     * @return True if the position is valid, false otherwise
+     */
     private boolean isCellValid(int col, int row) {
         return col >= 0 && col < gridSize && row >= 0 && row < gridSize;
     }

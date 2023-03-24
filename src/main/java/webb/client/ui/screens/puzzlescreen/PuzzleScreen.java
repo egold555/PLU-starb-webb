@@ -61,6 +61,10 @@ public class PuzzleScreen extends Screen {
         setPuzzle(DummyPlayPuzzleData.PUZZLE_1_1_1);
     }
 
+    /**
+     * Sets the puzzle to display on the screen.
+     * @param puzzle The puzzle to display.
+     */
     public void setPuzzle(PuzzleDTO puzzle) {
         sidePanel.setStarsRemaining(puzzle.getNumStars(), puzzle.getNumStars());
         puzzleComponent.setPuzzle(puzzle);
