@@ -25,7 +25,7 @@ public class PuzzleDTO {
     public int getNumStars() {return numStars;}
 
     public static PuzzleDTO fromJSON(File jsonFile) throws IOException {
-        return new ObjectMapper().readValue(new File("puzzles/puzzle-1-1-1.json"), PuzzleDTO.class);
+        return new ObjectMapper().readValue(jsonFile, PuzzleDTO.class);
     }
 
     @Override

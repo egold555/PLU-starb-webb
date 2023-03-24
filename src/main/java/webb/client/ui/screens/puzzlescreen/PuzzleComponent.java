@@ -5,8 +5,12 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Line2D;
+import java.util.List;
 import javax.swing.JComponent;
 import webb.client.ui.constants.WebbColors;
+import webb.client.ui.screens.puzzlescreen.Cell.CellType;
+import webb.model.puzzle.CellDTO;
+import webb.model.puzzle.PuzzleDTO;
 
 public class PuzzleComponent extends JComponent {
 
@@ -58,8 +62,71 @@ public class PuzzleComponent extends JComponent {
         }
 
         //if(repaint) {
-            this.repaint();
+        this.repaint();
         //}
+    }
+
+    public void setPuzzle(PuzzleDTO puzzle) {
+
+        //Set the puzzle size & reset the cells
+        this.setGridSize(puzzle.getGridSize());
+
+        //Set the cell groups
+        //Loop through every region, and set the group of every cell in that region to the region index
+        for(int i = 0; i < puzzle.getRegions().size(); i++ ) {
+            List<CellDTO> listOfCells = puzzle.getRegions().get(i);
+            for(CellDTO cellDTO : listOfCells) {
+                Cell cell = getCell(cellDTO.getCol(), cellDTO.getRow());
+                cell.setGroup(i);
+            }
+        }
+
+        //Set the solution boolean for every cell that is in the solution
+        for(CellDTO cellDTO : puzzle.getSolution()) {
+            Cell cell = getCell(cellDTO.getCol(), cellDTO.getRow());
+            cell.setSolutionStar();
+
+            //TODO: Testing - Show the solution
+            cell.setType(CellType.STAR);
+        }
+
+        //Set cell walls
+        /*
+        Go through every row and column.
+        If cell isn't valid (out of bounds) then it's a wall on that side.
+        If the cell next or below is in a different group then it's a wall.
+        else it's not a wall.
+         */
+        for(int row = 0; row < gridSize; row++ ) {
+            for(int col = 0; col < gridSize; col++ ) {
+                Cell cell = getCell(col, row);
+
+
+                //North
+                if(row == 0 || getCell(col, row - 1).getGroup() != cell.getGroup()) {
+                    cell.setWall(Cell.WALL_NORTH);
+                }
+
+                //East
+                if(col == gridSize - 1 || getCell(col + 1, row).getGroup() != cell.getGroup()) {
+                    cell.setWall(Cell.WALL_EAST);
+                }
+
+                //South
+                if(row == gridSize - 1 || getCell(col, row + 1).getGroup() != cell.getGroup()) {
+                    cell.setWall(Cell.WALL_SOUTH);
+                }
+
+                //West
+                if(col == 0 || getCell(col - 1, row).getGroup() != cell.getGroup()) {
+                    cell.setWall(Cell.WALL_WEST);
+                }
+
+            }
+        }
+
+        //repaint
+        this.repaint();
     }
 
     @Override
@@ -137,9 +204,13 @@ public class PuzzleComponent extends JComponent {
      * @throws IllegalArgumentException if the position is invalid
      */
     public Cell getCell(int col, int row) {
-        if(col < 0 || col >= gridSize || row < 0 || row >= gridSize) {
+        if(!isCellValid(col, row)) {
             throw new IllegalArgumentException("Invalid cell position!");
         }
         return cells[col][row];
+    }
+
+    private boolean isCellValid(int col, int row) {
+        return col >= 0 && col < gridSize && row >= 0 && row < gridSize;
     }
 }

@@ -1,17 +1,33 @@
 package webb.client.ui.testing;
 
 import java.awt.Point;
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import webb.client.ui.popup.leaderboard.LeaderboardScore;
 import webb.client.ui.screens.puzzlescreen.Cell.CellType;
+import webb.model.puzzle.PuzzleDTO;
 
 public class DummyData {
 
     private DummyData() {}
 
     public static final class DummyPlayPuzzleData {
+
+
+
+        static {
+            try {
+                PUZZLE_1_1_1 = PuzzleDTO.fromJSON(new File("puzzles/puzzle-1-1-1.json"));
+            } catch (IOException e) {
+                System.err.println("Failed to load puzzle 1-1-1");
+                e.printStackTrace();
+            }
+        }
+
+        public static PuzzleDTO PUZZLE_1_1_1;
 
         public static final Map<Point, CellType> PUZZLE_GRID_STARS = Map.of(
 

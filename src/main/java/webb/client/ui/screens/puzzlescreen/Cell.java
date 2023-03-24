@@ -1,6 +1,9 @@
 package webb.client.ui.screens.puzzlescreen;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Graphics2D;
+import webb.client.ui.constants.WebbColors;
 import webb.client.ui.constants.WebbImages;
 
 /**
@@ -13,6 +16,17 @@ public class Cell {
     private final int row, col;
     private double sx, sy, sw, sh;
     private CellType type = CellType.EMPTY;
+
+    public static final int NO_GROUP = -1;
+    private int group = NO_GROUP;
+
+    protected static final int WALL_NORTH = 0;
+    protected static final int WALL_EAST = 1;
+    protected static final int WALL_SOUTH = 2;
+    protected static final int WALL_WEST = 3;
+    private final boolean[] walls = new boolean[4]; //N, E, S, W
+
+    private boolean isSolutionStar = false;
 
     /**
      * Create a new cell
@@ -66,6 +80,15 @@ public class Cell {
         System.out.println("Clicked on cell: " + col + ", " + row + " rightClick: " + rightClick);
     }
 
+    protected void setGroup(int group) {this.group = group;}
+
+    protected int getGroup() {return group;}
+
+    protected void setWall(int wall) {walls[wall] = true;}
+
+    protected void setSolutionStar() {this.isSolutionStar = true;}
+    protected boolean isSolutionStar() {return isSolutionStar;}
+
     /**
      * Draw the image for the cell, given the cell type
      * @param g2d Graphics2D object to draw with
@@ -90,6 +113,30 @@ public class Cell {
             case X:
                 g2d.drawImage(WebbImages.PLAY_PUZZLE_GRID_INVALID_CELL, imgX, imgY, imgW, imgH, null );
                 break;
+        }
+
+        //Draw walls
+        g2d.setColor(Color.RED );
+        g2d.setStroke( new BasicStroke( 5 ));
+
+        //North
+        if(walls[WALL_NORTH]) {
+            g2d.drawLine((int)sx, (int)sy, (int)(sx+sw), (int)sy);
+        }
+
+        //East
+        if(walls[WALL_EAST]) {
+            g2d.drawLine((int)(sx+sw), (int)sy, (int)(sx+sw), (int)(sy+sh));
+        }
+
+        //South
+        if(walls[WALL_SOUTH]) {
+            g2d.drawLine((int)(sx+sw), (int)(sy+sh), (int)sx, (int)(sy+sh));
+        }
+
+        //West
+        if(walls[WALL_WEST]) {
+            g2d.drawLine((int)sx, (int)(sy+sh), (int)sx, (int)sy);
         }
     }
 

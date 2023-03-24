@@ -7,6 +7,7 @@ import javax.swing.SpringLayout;
 import webb.client.ui.screens.Screen;
 import webb.client.ui.screens.puzzlescreen.Cell.CellType;
 import webb.client.ui.testing.DummyData.DummyPlayPuzzleData;
+import webb.model.puzzle.PuzzleDTO;
 
 /**
  * The screen that displays the puzzle, that the user interacts with.
@@ -50,12 +51,19 @@ public class PuzzleScreen extends Screen {
         sidePanel.setTimeRemaining(DummyPlayPuzzleData.SIDEBAR_TIME_REMAINING);
         sidePanel.setPlayersCompleted(DummyPlayPuzzleData.SIDEBAR_PLAYERS_COMPLETED);
 
-        puzzleComponent.setGridSize(DummyPlayPuzzleData.PUZZLE_GRID_SIZE);
+//        puzzleComponent.setGridSize(DummyPlayPuzzleData.PUZZLE_GRID_SIZE);
+//
+//
+//        for(Entry<Point, CellType> entry : DummyPlayPuzzleData.PUZZLE_GRID_STARS.entrySet()) {
+//            puzzleComponent.getCell(entry.getKey().x, entry.getKey().y).setType(entry.getValue());
+//        }
 
+        setPuzzle(DummyPlayPuzzleData.PUZZLE_1_1_1);
+    }
 
-        for(Entry<Point, CellType> entry : DummyPlayPuzzleData.PUZZLE_GRID_STARS.entrySet()) {
-            puzzleComponent.getCell(entry.getKey().x, entry.getKey().y).setType(entry.getValue());
-        }
+    public void setPuzzle(PuzzleDTO puzzle) {
+        sidePanel.setStarsRemaining(puzzle.getNumStars(), puzzle.getNumStars());
+        puzzleComponent.setPuzzle(puzzle);
     }
 
 }
