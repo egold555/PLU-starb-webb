@@ -33,7 +33,7 @@ public class MainMenuScreen extends Screen {
 
         //------ Play button ------
 
-        WebbButton playButton = new WebbButton("Play", () -> {
+        WebbButton playButton = new WebbButton("Play", (self, rightClicked) -> {
             System.out.println("Play button pressed");
             this.switchScreenTo(ScreenType.SELECT_PUZZLE);
         });
@@ -45,7 +45,7 @@ public class MainMenuScreen extends Screen {
         this.add(playButton);
 
         //------ Credits button ------
-        WebbButton creditsButton = new WebbButton("Credits", () -> {
+        WebbButton creditsButton = new WebbButton("Credits", (self, rightClicked) -> {
             System.out.println("Credits button pressed");
             this.switchScreenTo(ScreenType.CREDITS);
         });
@@ -57,7 +57,7 @@ public class MainMenuScreen extends Screen {
         this.add(creditsButton);
 
         //---------- Exit button ----------
-        WebbButton exitButton = new WebbButton("Exit", () -> {
+        WebbButton exitButton = new WebbButton("Exit", (self, rightClicked) -> {
             System.out.println("Exit button pressed");
             System.exit(0);
         });
@@ -69,9 +69,9 @@ public class MainMenuScreen extends Screen {
         this.add(exitButton);
 
         //----------- Test button ----------------
-        WebbButton testButton = new WebbButton("Test", () -> {
+        WebbButton testButton = new WebbButton("Test", (self, rightClicked) -> {
             System.out.println("Test button pressed");
-            this.switchScreenTo(ScreenType.TEST_POPUP);
+            this.switchScreenTo(ScreenType.TEST_COMPONENTS);
         });
         testButton.setPreferredSize(new Dimension(142, 43));
         testButton.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_32);

@@ -19,22 +19,24 @@ import webb.client.ui.testing.DummyData.DummyStatisticsData;
 /**
  * A screen for testing popups.
  */
-public class ScreenPopupTest extends Screen {
+public class ScreenTestComponents extends Screen {
+
+    private static final Dimension BUTTON_DIMENSION = new Dimension(142, 43);
 
     @Override
     protected void populateComponents(Container contentPane, SpringLayout layout) {
 
         // Back button
-        WebbBackButton backButton = new WebbBackButton(contentPane, layout, () -> {
+        WebbBackButton backButton = new WebbBackButton(contentPane, layout, (self, rightClicked) -> {
             this.switchScreenTo(ScreenType.MAIN_MENU);
         });
         add(backButton);
 
         // Example popup
-        WebbButton btn1 = new WebbButton("Example", () -> {
+        WebbButton btn1 = new WebbButton("Example", (self, rightClicked) -> {
             showPopupExample();
         });
-        btn1.setPreferredSize(new Dimension(142, 43));
+        btn1.setPreferredSize(BUTTON_DIMENSION);
         btn1.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_32);
         layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, btn1, 0, SpringLayout.HORIZONTAL_CENTER, contentPane);
         layout.putConstraint(SpringLayout.NORTH, btn1, 50, SpringLayout.NORTH, contentPane);
@@ -42,10 +44,10 @@ public class ScreenPopupTest extends Screen {
         this.add(btn1);
 
         // Statistics popup
-        WebbButton btn2 = new WebbButton("Statistics", () -> {
+        WebbButton btn2 = new WebbButton("Statistics", (self, rightClicked) -> {
             showPopupStatistics();
         });
-        btn2.setPreferredSize(new Dimension(142, 43));
+        btn2.setPreferredSize(BUTTON_DIMENSION);
         btn2.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_32);
         layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, btn2, 0, SpringLayout.HORIZONTAL_CENTER, contentPane);
         layout.putConstraint(SpringLayout.NORTH, btn2, 10, SpringLayout.SOUTH, btn1);
@@ -53,10 +55,10 @@ public class ScreenPopupTest extends Screen {
         this.add(btn2);
 
         // Congratulations popup
-        WebbButton btn3 = new WebbButton("Congrats", () -> {
+        WebbButton btn3 = new WebbButton("Congrats", (self, rightClicked) -> {
             showPopupCongratulations();
         });
-        btn3.setPreferredSize(new Dimension(142, 43));
+        btn3.setPreferredSize(BUTTON_DIMENSION);
         btn3.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_32);
         layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, btn3, 0, SpringLayout.HORIZONTAL_CENTER, contentPane);
         layout.putConstraint(SpringLayout.NORTH, btn3, 10, SpringLayout.SOUTH, btn2);
@@ -64,22 +66,35 @@ public class ScreenPopupTest extends Screen {
         this.add(btn3);
 
         // Leaderboard popup
-        WebbButton btn4 = new WebbButton("Leaderboard", () -> {
+        WebbButton btn4 = new WebbButton("Leaderboard", (self, rightClicked) -> {
             showPopupLeaderboard();
         });
-        btn4.setPreferredSize(new Dimension(142, 43));
+        btn4.setPreferredSize(BUTTON_DIMENSION);
         btn4.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_32);
         layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, btn4, 0, SpringLayout.HORIZONTAL_CENTER, contentPane);
         layout.putConstraint(SpringLayout.NORTH, btn4, 10, SpringLayout.SOUTH, btn3);
-
         this.add(btn4);
+
+        WebbButton btn5 = new WebbButton("Mouse Btn", (self, rightClicked) -> {
+            if(rightClicked) {
+                self.setText("Right");
+            } else {
+                self.setText("Left");
+            }
+        });
+        btn5.setPreferredSize(BUTTON_DIMENSION);
+        btn5.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_32);
+        layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, btn5, 0, SpringLayout.HORIZONTAL_CENTER, contentPane);
+        layout.putConstraint(SpringLayout.NORTH, btn5, 10, SpringLayout.SOUTH, btn4);
+
+        this.add(btn5);
 
     }
 
     //Show the popup on window load for easy testing
     @Override
     public void onShow() {
-        showPopupLeaderboard();
+        //showPopupLeaderboard();
     }
 
     // Show the congratulations popup with dummy data

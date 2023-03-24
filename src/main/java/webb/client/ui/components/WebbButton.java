@@ -8,6 +8,8 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import javax.swing.JButton;
 import javax.swing.border.EmptyBorder;
@@ -29,10 +31,10 @@ public class WebbButton extends JButton {
     /**
      * Creates a new WebbButton with the given text.
      * @param text The text to display on the button.
-     * @param onClick The action to perform when the button is clicked.
+     * @param clickListener The action to perform when the button is clicked.
      */
-    public WebbButton(String text, Runnable onClick) {
-        this(onClick);
+    public WebbButton(String text, ClickListener clickListener) {
+        this(clickListener);
         this.text = text;
     }
 
@@ -42,10 +44,10 @@ public class WebbButton extends JButton {
      * @param imageIn
      * @param width
      * @param height
-     * @param onClick
+     * @param clickListener
      */
-    public WebbButton(String text, BufferedImage imageIn, int width, int height, Runnable onClick) {
-        this(imageIn, width, height, onClick);
+    public WebbButton(String text, BufferedImage imageIn, int width, int height, ClickListener clickListener) {
+        this(imageIn, width, height, clickListener);
         this.text = text;
     }
 
@@ -55,10 +57,10 @@ public class WebbButton extends JButton {
      * @param imageIn The image to display on the button.
      * @param width The width of the image / button.
      * @param height The height of the image / button.
-     * @param onClick The action to perform when the button is clicked.
+     * @param clickListener The action to perform when the button is clicked.
      */
-    public WebbButton(BufferedImage imageIn, int width, int height, Runnable onClick) {
-        this(onClick);
+    public WebbButton(BufferedImage imageIn, int width, int height, ClickListener clickListener) {
+        this(clickListener);
         this.image = imageIn;
         this.setDrawBackground(false);
         this.setPreferredSize(new Dimension(width, height));
@@ -66,16 +68,36 @@ public class WebbButton extends JButton {
 
     /**
      * Creates a new blank WebbBackButton.
-     * @param onClick The action to perform when the button is clicked.
+     * @param clickListener The action to perform when the button is clicked.
      */
-    public WebbButton(Runnable onClick) {
+    public WebbButton(ClickListener clickListener) {
         setContentAreaFilled(false);
         setBorder(new EmptyBorder(8, 8, 8, 8));
         setForeground(Color.WHITE);
         setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
-        if(onClick != null) {
-            this.addActionListener(e -> onClick.run());
+        if(clickListener != null) {
+            WebbButton self = this;
+            this.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+
+                    final boolean isLeftClick = e.getButton() == MouseEvent.BUTTON1;
+                    final boolean isRightClick = e.getButton() == MouseEvent.BUTTON3;
+
+                    //they middle clicked or something?
+                    if(!isLeftClick && !isRightClick) return;
+
+                    if (isRightClick) {
+                        self.getModel().setPressed(true);
+                    }
+
+                    clickListener.onClick(self, isRightClick);
+
+                }
+            });
+
+//            this.addActionListener(e -> onClick.run());
         }
     }
 
@@ -163,5 +185,14 @@ public class WebbButton extends JButton {
 
         g2.dispose();
         super.paint(g);
+    }
+
+    public static interface ClickListener {
+        /**
+         * Called when the button is clicked.
+         * @param self The button that was clicked.
+         * @param rightClick Whether or not the right mouse button was clicked.
+         */
+        void onClick(WebbButton self, boolean rightClick);
     }
 }

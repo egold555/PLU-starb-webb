@@ -124,7 +124,7 @@ public class PopupCongratulations extends WebbPopup {
 
 
         //------------ Buttons ------------
-        WebbButton restartButton = new WebbButton("Restart", () -> {
+        WebbButton restartButton = new WebbButton("Restart", (self, rightClicked) -> {
             System.out.println("Restart button clicked");
         });
         restartButton.setPreferredSize(new Dimension(142, 43));
@@ -132,7 +132,7 @@ public class PopupCongratulations extends WebbPopup {
         layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, restartButton, -75, SpringLayout.HORIZONTAL_CENTER, contentPane);
         contentPane.add(restartButton);
 
-        WebbButton exitButton = new WebbButton("Exit", () -> {
+        WebbButton exitButton = new WebbButton("Exit", (self, rightClicked) -> {
             System.out.println("Exit button clicked");
             this.close();
         });

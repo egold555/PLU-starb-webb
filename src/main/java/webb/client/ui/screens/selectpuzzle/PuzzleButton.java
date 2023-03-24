@@ -34,7 +34,7 @@ public class PuzzleButton extends JPanel {
 
         panel.setBackground(WebbColors.B7);
 
-        WebbButton button = new WebbButton("" + id, () -> {
+        WebbButton button = new WebbButton("" + id, (self, rightClicked) -> {
             System.out.println("Puzzle button " + id + " clicked!");
         });
         button.setDrawBackground(false);

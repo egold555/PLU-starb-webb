@@ -61,7 +61,7 @@ public class SelectPuzzleScreen extends Screen {
 
 
 
-                WebbButton puzzleBack = new WebbButton(WebbImages.PUZZLE_SELECTION_ARROW_BACK, 42, 42, () -> {
+                WebbButton puzzleBack = new WebbButton(WebbImages.PUZZLE_SELECTION_ARROW_BACK, 42, 42, (self, rightClicked) -> {
                         System.out.println("Puzzle back button pressed");
                 });
                 bottomBarLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, puzzleBack, -200, SpringLayout.HORIZONTAL_CENTER, bottomBar);
@@ -70,7 +70,7 @@ public class SelectPuzzleScreen extends Screen {
                 bottomBar.add(puzzleBack);
 
 
-                WebbButton puzzleForward = new WebbButton(WebbImages.PUZZLE_SELECTION_ARROW_FORWARD, 42, 42, () -> {
+                WebbButton puzzleForward = new WebbButton(WebbImages.PUZZLE_SELECTION_ARROW_FORWARD, 42, 42, (self, rightClicked) -> {
                         System.out.println("Puzzle forward button pressed");
                 });
                 bottomBarLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, puzzleForward, 200, SpringLayout.HORIZONTAL_CENTER, bottomBar);
@@ -79,7 +79,7 @@ public class SelectPuzzleScreen extends Screen {
                 bottomBar.add(puzzleForward);
 
 
-                WebbButton trophy = new WebbButton(WebbImages.PUZZLE_SELECTION_BUTTON_TROPHY, 42, 42, () -> {
+                WebbButton trophy = new WebbButton(WebbImages.PUZZLE_SELECTION_BUTTON_TROPHY, 42, 42, (self, rightClicked) -> {
                         System.out.println("Trophy button pressed");
 
                         //TODO: Show actual leaderboard data
@@ -93,7 +93,7 @@ public class SelectPuzzleScreen extends Screen {
                 bottomBar.add(trophy);
 
 
-                WebbButton stats = new WebbButton(WebbImages.PUZZLE_SELECTION_BUTTON_STATS, 42, 42, () -> {
+                WebbButton stats = new WebbButton(WebbImages.PUZZLE_SELECTION_BUTTON_STATS, 42, 42, (self, rightClicked) -> {
                         System.out.println("Stats button pressed");
 
                         //TODO: Replace with actual stats
@@ -116,7 +116,7 @@ public class SelectPuzzleScreen extends Screen {
                 this.add(bottomBar);
 
 
-                this.add(new WebbBackButton(contentPane, layout, () -> {
+                this.add(new WebbBackButton(contentPane, layout, (self, rightClicked) -> {
                         System.out.println("Back button pressed");
                         switchScreenTo(ScreenType.MAIN_MENU);
                 }));

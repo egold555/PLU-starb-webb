@@ -13,10 +13,10 @@ public class WebbBackButton extends WebbButton {
      * Creates a new WebbBackButton.
      * @param contentPane The content pane of the frame.
      * @param layout The layout of the content pane.
-     * @param onClick The action to perform when the button is clicked.
+     * @param clickListener The action to perform when the button is clicked.
      */
-    public WebbBackButton(Component contentPane, SpringLayout layout, Runnable onClick) {
-        super(WebbImages.PUZZLE_SELECTION_ARROW_PAGE_BACK, 42, 42, onClick);
+    public WebbBackButton(Component contentPane, SpringLayout layout, ClickListener clickListener) {
+        super(WebbImages.PUZZLE_SELECTION_ARROW_PAGE_BACK, 42, 42, clickListener);
         layout.putConstraint(SpringLayout.NORTH, this, 10, SpringLayout.NORTH, contentPane);
         layout.putConstraint(SpringLayout.WEST, this, 10, SpringLayout.WEST, contentPane);
     }

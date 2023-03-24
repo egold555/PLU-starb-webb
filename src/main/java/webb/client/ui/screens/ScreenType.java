@@ -3,7 +3,7 @@ package webb.client.ui.screens;
 import webb.client.ui.screens.creditsscreen.CreditsScreen;
 import webb.client.ui.screens.puzzlescreen.PuzzleScreen;
 import webb.client.ui.screens.selectpuzzle.SelectPuzzleScreen;
-import webb.client.ui.screens.test.ScreenPopupTest;
+import webb.client.ui.screens.test.ScreenTestComponents;
 
 /**
  * This enum is used to store all the screens in the game.
@@ -15,7 +15,7 @@ public enum ScreenType {
     CREDITS(new CreditsScreen()),
     SELECT_PUZZLE(new SelectPuzzleScreen()),
     PLAY_PUZZLE(new PuzzleScreen()),
-    TEST_POPUP(new ScreenPopupTest()),
+    TEST_COMPONENTS(new ScreenTestComponents()),
 
     ;
 

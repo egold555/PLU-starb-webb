@@ -93,7 +93,7 @@ public abstract class WebbPopup extends JDialog {
         populateComponents(roundedJPanel, layout);
 
         if(exitButton) {
-            WebbButton dialogCloseButton = new WebbButton(WebbImages.POPUP_CLOSE, 42, 42, this::close);
+            WebbButton dialogCloseButton = new WebbButton(WebbImages.POPUP_CLOSE, 42, 42, (self, rightClicked) -> close());
             layout.putConstraint(SpringLayout.NORTH, dialogCloseButton, 10, SpringLayout.NORTH, roundedJPanel);
             layout.putConstraint(SpringLayout.EAST, dialogCloseButton, -10, SpringLayout.EAST, roundedJPanel);
             this.add(dialogCloseButton);

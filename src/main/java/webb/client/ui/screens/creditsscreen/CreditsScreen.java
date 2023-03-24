@@ -53,7 +53,7 @@ public class CreditsScreen extends Screen {
         this.add(authorSeth);
 
         //------ Back Button ------
-        this.add(new WebbBackButton(contentPane, layout, () -> {
+        this.add(new WebbBackButton(contentPane, layout, (self, rightClicked) -> {
             System.out.println("Back button pressed");
             switchScreenTo(ScreenType.MAIN_MENU);
         }));
