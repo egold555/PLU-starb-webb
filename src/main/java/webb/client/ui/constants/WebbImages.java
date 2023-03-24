@@ -29,20 +29,20 @@ public class WebbImages {
     public static final BufferedImage POPUP_CLOSE = loadImage("popup_close_button.png");
 
     //Popup congratulation images
-    public static final BufferedImage POPUP_CONGRATULATIONS_STAR = loadImage("popup_congratulations/congratulations_star.png");
-    public static final BufferedImage POPUP_CONGRATULATIONS_STAR_ROTATED = loadImage("popup_congratulations/congratulations_star_rotated.png");
+    public static final BufferedImage POPUP_CONGRATULATIONS_STAR = loadImage("popup_congratulations/star.png");
+    public static final BufferedImage POPUP_CONGRATULATIONS_STAR_ROTATED = loadImage("popup_congratulations/star_rotated.png");
 
     //Play puzzle screen
-    public static final BufferedImage PLAY_PUZZLE_STAR = loadImage("screen_play_puzzle/play_puzzle_star.png");
-    public static final BufferedImage PLAY_PUZZLE_VALIDATE_BUTTON = loadImage("screen_play_puzzle/play_puzzle_validate_button.png");
-    public static final BufferedImage PLAY_PUZZLE_HINT_BUTTON = loadImage("screen_play_puzzle/play_puzzle_hint_button.png");
-    public static final BufferedImage PLAY_PUZZLE_RESET_BUTTON = loadImage("screen_play_puzzle/play_puzzle_reset_button.png");
-    public static final BufferedImage PLAY_PUZZLE_STAR_BACKGROUND = loadImage("screen_play_puzzle/play_puzzle_background_star.png");
-    public static final BufferedImage PLAY_PUZZLE_EXIT_BUTTON = loadImage("screen_play_puzzle/play_puzzle_exit_button.png");
+    public static final BufferedImage PLAY_PUZZLE_STAR = loadImage("screen_play_puzzle/star.png");
+    public static final BufferedImage PLAY_PUZZLE_VALIDATE_BUTTON = loadImage("screen_play_puzzle/validate_button.png");
+    public static final BufferedImage PLAY_PUZZLE_HINT_BUTTON = loadImage("screen_play_puzzle/hint_button.png");
+    public static final BufferedImage PLAY_PUZZLE_RESET_BUTTON = loadImage("screen_play_puzzle/reset_button.png");
+    public static final BufferedImage PLAY_PUZZLE_STAR_BACKGROUND = loadImage("screen_play_puzzle/background_star.png");
+    public static final BufferedImage PLAY_PUZZLE_EXIT_BUTTON = loadImage("screen_play_puzzle/exit_button.png");
 
-    public static final BufferedImage PLAY_PUZZLE_GRID_STAR = loadImage("screen_play_puzzle/play_puzzle_grid_star.png");
-    public static final BufferedImage PLAY_PUZZLE_GRID_INVALID_CELL = loadImage("screen_play_puzzle/play_puzzle_grid_invalid_cell.png");
-    public static final BufferedImage PLAY_PUZZLE_GRID_STAR_RED = loadImage("screen_play_puzzle/play_puzzle_grid_star_red.png");
+    public static final BufferedImage PLAY_PUZZLE_GRID_STAR = loadImage("screen_play_puzzle/grid_star.png");
+    public static final BufferedImage PLAY_PUZZLE_GRID_INVALID_CELL = loadImage("screen_play_puzzle/grid_invalid_cell.png");
+    public static final BufferedImage PLAY_PUZZLE_GRID_STAR_RED = loadImage("screen_play_puzzle/grid_star_red.png");
 
     /**
      * Attempts to load an image from the resources folder.
