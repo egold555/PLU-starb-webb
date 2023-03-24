@@ -1,6 +1,7 @@
 package webb.client.ui.components;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -30,7 +31,8 @@ public class WebbCustomScrollpane extends JScrollPane {
      * @param barHoverColor The color of the bar when hovered
      * @param barClickColor The color of the bar when clicked
      */
-    public WebbCustomScrollpane(Color trackColor, Color barColor, Color barHoverColor, Color barClickColor) {
+    public WebbCustomScrollpane(Component view, Color trackColor, Color barColor, Color barHoverColor, Color barClickColor) {
+        super(view);
         this.TRACK_COLOR = trackColor;
         this.BAR_COLOR = barColor;
         this.BAR_COLOR_HOVER = barHoverColor;

@@ -30,6 +30,7 @@ public class PopupLeaderboard extends WebbPopup {
         WebbLeaderboardTable table = new WebbLeaderboardTable(scores);
 
         WebbCustomScrollpane scrollPane = new WebbCustomScrollpane(
+                table,
                 WebbColors.c90,
                 WebbColors.c6C,
                 WebbColors.c6C.darker(),
