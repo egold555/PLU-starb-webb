@@ -6,11 +6,6 @@ import javax.swing.SpringLayout;
 import webb.client.ui.WebbWindow;
 import webb.client.ui.constants.WebbColors;
 import webb.client.ui.popup.WebbPopup;
-import webb.client.ui.screens.creditsscreen.CreditsScreen;
-import webb.client.ui.screens.puzzlescreen.PuzzleScreen;
-import webb.client.ui.screens.selectpuzzle.SelectPuzzleScreen;
-import webb.client.ui.screens.test.ScreenComponetTesting;
-import webb.client.ui.screens.test.ScreenPopupTest;
 
 /**
  * A JPanel wrapper with some extra functionality.

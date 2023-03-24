@@ -1,9 +1,6 @@
 package webb.client.ui.screens.puzzlescreen;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
-import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
@@ -15,6 +12,9 @@ import webb.client.ui.constants.WebbFonts;
 import webb.client.ui.constants.WebbImages;
 import webb.client.ui.helpers.WebbTextUtilities;
 
+/**
+ * The side panel of the puzzle screen
+ */
 public class PuzzleSideScreen extends WebbRoundedJPanel {
 
     private final JLabel starLabel;

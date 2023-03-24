@@ -1,6 +1,5 @@
 package webb.client.ui.screens.puzzlescreen;
 
-import java.awt.Color;
 import java.awt.Container;
 import java.awt.Point;
 import java.util.Map.Entry;
@@ -9,29 +8,26 @@ import webb.client.ui.screens.Screen;
 import webb.client.ui.screens.puzzlescreen.Cell.CellType;
 import webb.client.ui.testing.DummyData.DummyPlayPuzzleData;
 
+/**
+ * The screen that displays the puzzle, that the user interacts with.
+ * This screen also has the sidebar, which displays the puzzle number, stars remaining, etc.
+ */
 public class PuzzleScreen extends Screen {
 
     private PuzzleComponent puzzleComponent;
     private PuzzleSideScreen sidePanel;
 
-    public PuzzleScreen() {
-        super();
-        //setBackground(Color.GREEN);
-    }
-
     @Override
     protected void populateComponents(Container contentPane, SpringLayout layout) {
 
-
-
+        //------------------ SIDEBAR ------------------
         sidePanel = new PuzzleSideScreen();
         layout.putConstraint(SpringLayout.EAST, sidePanel, -10, SpringLayout.EAST, contentPane);
         layout.putConstraint(SpringLayout.VERTICAL_CENTER, sidePanel, 0, SpringLayout.VERTICAL_CENTER, contentPane);
         layout.putConstraint(SpringLayout.HEIGHT, sidePanel, -10, SpringLayout.HEIGHT, contentPane);
-        //layout.putConstraint(SpringLayout.WIDTH, sidePanel, 100, "None", contentPane);
         this.add(sidePanel);
 
-
+        //------------------ PUZZLE COMPONENT ------------------
         puzzleComponent = new PuzzleComponent();
         layout.putConstraint(SpringLayout.NORTH, puzzleComponent, 10, SpringLayout.NORTH, contentPane);
         layout.putConstraint(SpringLayout.WEST, puzzleComponent, 10, SpringLayout.WEST, contentPane);
@@ -39,10 +35,15 @@ public class PuzzleScreen extends Screen {
         layout.putConstraint(SpringLayout.EAST, puzzleComponent, -10, SpringLayout.WEST, sidePanel);
         this.add(puzzleComponent);
 
+        // Populate with dummy data for testing
         populateWithDummyData();
 
     }
 
+    /**
+     * Populates the puzzle screen with dummy data for testing.
+     * TODO: Remove this method once we have real data!
+     */
     private void populateWithDummyData() {
         sidePanel.setStarsRemaining(DummyPlayPuzzleData.SIDEBAR_STARTS_REMAINING, DummyPlayPuzzleData.SIDEBAR_STARTS_TOTAL);
         sidePanel.setPuzzleNumber(DummyPlayPuzzleData.SIDEBAR_PUZZLE_NUMBER, DummyPlayPuzzleData.SIDEBAR_PUZZLE_STAR);

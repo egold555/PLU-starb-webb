@@ -1,7 +1,6 @@
 package webb.client.ui.popup;
 
 import java.awt.Dimension;
-import java.util.concurrent.TimeUnit;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
@@ -10,6 +9,9 @@ import webb.client.ui.constants.WebbColors;
 import webb.client.ui.constants.WebbFonts;
 import webb.client.ui.helpers.WebbTextUtilities;
 
+/**
+ * Popup that displays the statistics of the player.
+ */
 public class PopupStatistics extends WebbPopup {
 
     private final String currentTitle;

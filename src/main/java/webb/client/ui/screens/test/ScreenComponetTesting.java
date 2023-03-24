@@ -12,6 +12,9 @@ import webb.client.ui.popup.leaderboard.LeaderboardScore;
 import webb.client.ui.popup.leaderboard.WebbLeaderboardTable;
 import webb.client.ui.screens.Screen;
 
+/**
+ * A screen for testing the leaderboard table
+ */
 public class ScreenComponetTesting extends Screen {
     @Override
     protected void populateComponents(Container contentPane, SpringLayout layout) {
@@ -41,6 +44,11 @@ public class ScreenComponetTesting extends Screen {
         contentPane.add(scrollPane);
     }
 
+    /**
+     * Generates dummy data for the leaderboard.
+     * @param amount The amount of data to generate.
+     * @return The generated data.
+     */
     private static LeaderboardScore[] generateDummyData(int amount) {
         LeaderboardScore[] data = new LeaderboardScore[amount];
         for (int i = 0; i < amount; i++) {

@@ -6,7 +6,14 @@ import webb.client.ui.components.WebbTable;
 import webb.client.ui.constants.WebbColors;
 import webb.client.ui.constants.WebbFonts;
 
+/**
+ * A table that displays the leaderboard scores.
+ */
 public class WebbLeaderboardTable extends WebbTable {
+    /**
+     * Creates a new table with the given scores.
+     * @param scores The scores to display.
+     */
     public WebbLeaderboardTable(LeaderboardScore... scores) {
         super(new String[]{"Rank", "Name", "# Puzzles"}, generateFromLeaderboardScore(scores));
         setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_24);
@@ -26,6 +33,11 @@ public class WebbLeaderboardTable extends WebbTable {
 
     }
 
+    /**
+     * Generates a 2D array of data from the given scores.
+     * @param scores The scores to generate data from.
+     * @return A 2D array of data.
+     */
     private static String[][] generateFromLeaderboardScore(LeaderboardScore[] scores) {
         Arrays.sort(scores); // Sorts using the compareTo method in LeaderboardScore
         String[][] data = new String[scores.length][3];

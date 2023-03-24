@@ -13,9 +13,9 @@ import webb.client.ui.constants.WebbImages;
 import webb.client.ui.popup.PopupStatistics;
 import webb.client.ui.popup.leaderboard.PopupLeaderboard;
 import webb.client.ui.screens.Screen;
+import webb.client.ui.screens.ScreenType;
 import webb.client.ui.testing.DummyData.DummyLeaderboardData;
 import webb.client.ui.testing.DummyData.DummyStatisticsData;
-import webb.client.ui.screens.ScreenType;
 
 /**
  * The screen that allows the user to select a puzzle to play.

@@ -14,6 +14,9 @@ import webb.client.ui.constants.WebbImages;
 import webb.client.ui.helpers.WebbTextUtilities;
 import webb.client.ui.popup.WebbPopup;
 
+/**
+ * A popup that congratulates the user for completing a puzzle.
+ */
 public class PopupCongratulations extends WebbPopup {
 
     private final long TIME;
@@ -23,6 +26,16 @@ public class PopupCongratulations extends WebbPopup {
     private final String CURRENT_TITLE;
     private final String NEXT_TITLE;
 
+    /**
+     * Creates a new PopupCongratulations.
+     *
+     * @param time The time it took the user to complete the puzzle. (in milliseconds)
+     * @param progressMin The minimum progress value.
+     * @param progressMax The maximum progress value.
+     * @param progressCurrent The current progress value.
+     * @param currentTitle The title of the user.
+     * @param nextTitle The title of the next rank
+     */
     public PopupCongratulations(long time, int progressMin, int progressMax, int progressCurrent, String currentTitle, String nextTitle) {
         super("Congratulations!");
         this.setExitButton(false);

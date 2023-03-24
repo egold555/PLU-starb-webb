@@ -6,6 +6,10 @@ import webb.client.ui.screens.selectpuzzle.SelectPuzzleScreen;
 import webb.client.ui.screens.test.ScreenComponetTesting;
 import webb.client.ui.screens.test.ScreenPopupTest;
 
+/**
+ * This enum is used to store all the screens in the game.
+ * It is used to get the screen instance from the enum.
+ */
 public enum ScreenType {
 
     MAIN_MENU(new MainMenuScreen()),

@@ -6,7 +6,6 @@ import javax.swing.JFrame;
 import webb.client.ui.screens.Screen;
 import webb.client.ui.screens.ScreenType;
 
-
 ;
 
 /**

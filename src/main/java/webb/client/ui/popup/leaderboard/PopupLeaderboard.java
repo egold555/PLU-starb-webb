@@ -8,10 +8,18 @@ import webb.client.ui.components.WebbCustomScrollbar;
 import webb.client.ui.constants.WebbColors;
 import webb.client.ui.popup.WebbPopup;
 
+/**
+ * A popup that displays the leaderboard.
+ */
 public class PopupLeaderboard extends WebbPopup {
 
     private final LeaderboardScore[] scores;
 
+    /**
+     * Creates a new PopupLeaderboard.
+     *
+     * @param scores The scores to display.
+     */
     public PopupLeaderboard(LeaderboardScore[] scores) {
         super("Leaderboard");
         this.scores = scores;
@@ -29,6 +37,7 @@ public class PopupLeaderboard extends WebbPopup {
                 WebbColors.c6C.darker().darker()
         ));
 
+        // Make the scrollbar thinner
         Dimension tmpSize = new Dimension(10, 0);
         scrollPane.getVerticalScrollBar().setMaximumSize(tmpSize);
         scrollPane.getVerticalScrollBar().setPreferredSize(tmpSize);

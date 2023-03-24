@@ -17,12 +17,12 @@ public class DummyData {
 
                 //COl, ROW
                 new Point(0, 8), CellType.STAR,
-                new Point(4, 1), CellType.INVALID,
+                new Point(4, 1), CellType.X,
                 new Point(0, 2), CellType.STAR_RED,
                 new Point(3, 3), CellType.STAR,
-                new Point(5, 6), CellType.INVALID,
-                new Point(1, 2), CellType.INVALID,
-                new Point(7, 0), CellType.INVALID,
+                new Point(5, 6), CellType.X,
+                new Point(1, 2), CellType.X,
+                new Point(7, 0), CellType.X,
                 new Point(2, 9), CellType.STAR,
                 new Point(2, 2), CellType.STAR_RED
         );

@@ -16,6 +16,8 @@ public class CreditsScreen extends Screen {
 
     @Override
     protected void populateComponents(Container contentPane, SpringLayout layout) {
+
+        //------ Title Text ------
         JLabel titleText = new JLabel("Credits");
         titleText.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_64);
         titleText.setForeground(WebbColors.TEXT_COLOR_BLACK);
@@ -37,6 +39,7 @@ public class CreditsScreen extends Screen {
         layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, madeBy2, 0, SpringLayout.HORIZONTAL_CENTER, contentPane);
         this.add(madeBy2);
 
+        //------ Author Credits ------
         AuthorCreditsLabel authorEric = new AuthorCreditsLabel("Eric", 50, contentPane, madeBy2, layout);
         this.add(authorEric);
 
@@ -49,6 +52,7 @@ public class CreditsScreen extends Screen {
         AuthorCreditsLabel authorSeth = new AuthorCreditsLabel("Seth", contentPane, authorBrandon, layout);
         this.add(authorSeth);
 
+        //------ Back Button ------
         this.add(new WebbBackButton(contentPane, layout, () -> {
             System.out.println("Back button pressed");
             switchScreenTo(ScreenType.MAIN_MENU);

@@ -6,11 +6,15 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
-import webb.client.ui.components.WebbRoundedJPanel;
 import webb.client.ui.components.WebbButton;
+import webb.client.ui.components.WebbRoundedJPanel;
 import webb.client.ui.constants.WebbColors;
 import webb.client.ui.constants.WebbImages;
 
+/**
+ * A button that represents a puzzle.
+ * Used in the puzzle selection screen.
+ */
 public class PuzzleButton extends JPanel {
 
     private boolean completed = false;
@@ -42,18 +46,14 @@ public class PuzzleButton extends JPanel {
         this.setPreferredSize(new Dimension(180, 180));
         this.add(panel);
 
-//        RoundedJPanel starPanel = new RoundedJPanel(10, 10);
-//        starPanel.setBackground(Color.blue);
-//        starPanel.setPreferredSize(new Dimension(100, 50));
-// //       starPanel.setLayout(new BorderLayout());
-////        innerLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, starPanel, 0, SpringLayout.HORIZONTAL_CENTER, this);
-//        innerLayout.putConstraint(SpringLayout.VERTICAL_CENTER, starPanel, -20, SpringLayout.VERTICAL_CENTER, panel);
-//        this.add(starPanel);
-
 
         this.setLayout(innerLayout);
     }
 
+    /**
+     * Sets whether or not this puzzle is completed.
+     * @param completed True if completed, false otherwise.
+     */
     public void setCompleted(boolean completed) {this.completed = completed;}
 
     @Override
@@ -87,13 +87,4 @@ public class PuzzleButton extends JPanel {
 
     }
 
-    //    @Override
-//    protected void paintComponent(Graphics g) {
-//        super.paintComponent(g);
-//        Graphics2D g2 = (Graphics2D) g;
-//        g2.drawImage(WebbImages.LEVEL_COMPLETE_EMBLEM, 0, 0, getWidth(), getHeight(), null);
-//
-//        //super.paintComponent(g);
-//
-//    }
 }

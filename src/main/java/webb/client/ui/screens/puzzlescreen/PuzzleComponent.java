@@ -54,7 +54,6 @@ public class PuzzleComponent extends JComponent {
         for(int row = 0; row < gridSize; row++ ) {
             for(int col = 0; col < gridSize; col++ ) {
                 cells[col][row] = new Cell( col, row );
-//                cells[col][row].setType( Cell.CellType.values()[ (int) (Math.random() * Cell.CellType.values().length) ] );
             }
         }
 
@@ -69,6 +68,7 @@ public class PuzzleComponent extends JComponent {
 
         Graphics2D g2d = (Graphics2D) g;
 
+        //do some fun math to calculate all the positions we need based on the component size
         final int width = this.getWidth();
         final int height = this.getHeight();
 
@@ -119,6 +119,7 @@ public class PuzzleComponent extends JComponent {
             }
         }
 
+        //draw all the cells
         for(int row = 0; row < this.gridSize; row++ ) {
             for(int col = 0; col < this.gridSize; col++ ) {
                 Cell cell = getCell(col, row);
@@ -128,6 +129,13 @@ public class PuzzleComponent extends JComponent {
 
     }
 
+    /**
+     * Get a cell at a specific position
+     * @param col Column of the cell
+     * @param row Row of the cell
+     * @return The cell at the specified position
+     * @throws IllegalArgumentException if the position is invalid
+     */
     public Cell getCell(int col, int row) {
         if(col < 0 || col >= gridSize || row < 0 || row >= gridSize) {
             throw new IllegalArgumentException("Invalid cell position!");

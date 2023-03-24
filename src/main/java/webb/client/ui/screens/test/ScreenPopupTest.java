@@ -7,25 +7,30 @@ import webb.client.ui.components.WebbBackButton;
 import webb.client.ui.components.WebbButton;
 import webb.client.ui.constants.WebbFonts;
 import webb.client.ui.popup.ExampleWebbPopup;
-import webb.client.ui.popup.congratulations.PopupCongratulations;
 import webb.client.ui.popup.PopupStatistics;
+import webb.client.ui.popup.congratulations.PopupCongratulations;
 import webb.client.ui.popup.leaderboard.PopupLeaderboard;
 import webb.client.ui.screens.Screen;
+import webb.client.ui.screens.ScreenType;
 import webb.client.ui.testing.DummyData.DummyCongratulationsData;
 import webb.client.ui.testing.DummyData.DummyLeaderboardData;
 import webb.client.ui.testing.DummyData.DummyStatisticsData;
-import webb.client.ui.screens.ScreenType;
 
+/**
+ * A screen for testing popups.
+ */
 public class ScreenPopupTest extends Screen {
 
     @Override
     protected void populateComponents(Container contentPane, SpringLayout layout) {
 
+        // Back button
         WebbBackButton backButton = new WebbBackButton(contentPane, layout, () -> {
             this.switchScreenTo(ScreenType.MAIN_MENU);
         });
         add(backButton);
 
+        // Example popup
         WebbButton btn1 = new WebbButton("Example", () -> {
             showPopupExample();
         });
@@ -36,6 +41,7 @@ public class ScreenPopupTest extends Screen {
 
         this.add(btn1);
 
+        // Statistics popup
         WebbButton btn2 = new WebbButton("Statistics", () -> {
             showPopupStatistics();
         });
@@ -46,6 +52,7 @@ public class ScreenPopupTest extends Screen {
 
         this.add(btn2);
 
+        // Congratulations popup
         WebbButton btn3 = new WebbButton("Congrats", () -> {
             showPopupCongratulations();
         });
@@ -56,7 +63,7 @@ public class ScreenPopupTest extends Screen {
 
         this.add(btn3);
 
-
+        // Leaderboard popup
         WebbButton btn4 = new WebbButton("Leaderboard", () -> {
             showPopupLeaderboard();
         });
@@ -69,11 +76,13 @@ public class ScreenPopupTest extends Screen {
 
     }
 
+    //Show the popup on window load for easy testing
     @Override
     public void onShow() {
         showPopupLeaderboard();
     }
 
+    // Show the congratulations popup with dummy data
     private void showPopupCongratulations() {
         showPopup(new PopupCongratulations(
                 DummyCongratulationsData.SOLVE_TIME,
@@ -85,6 +94,7 @@ public class ScreenPopupTest extends Screen {
         ));
     }
 
+    // Show the statistics popup with dummy data
     private void showPopupStatistics() {
         showPopup(new PopupStatistics(
                 DummyStatisticsData.CURRENT_TITLE,
@@ -96,12 +106,14 @@ public class ScreenPopupTest extends Screen {
         ));
     }
 
+    // Show the leaderboard popup with dummy data
     private void showPopupLeaderboard() {
         showPopup(new PopupLeaderboard(
                 DummyLeaderboardData.SCORES_300
         ));
     }
 
+    // Show the example popup
     private void showPopupExample() {
         showPopup(new ExampleWebbPopup());
     }

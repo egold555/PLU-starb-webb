@@ -7,8 +7,6 @@ import javax.swing.SpringLayout;
 import webb.client.ui.components.WebbButton;
 import webb.client.ui.constants.WebbColors;
 import webb.client.ui.constants.WebbFonts;
-import webb.client.ui.popup.ExampleWebbPopup;
-import webb.client.ui.popup.WebbPopup;
 
 /**
  * The main menu screen.
@@ -17,6 +15,8 @@ public class MainMenuScreen extends Screen {
 
     @Override
     protected void populateComponents(Container contentPane, SpringLayout layout) {
+
+        //------ Title text ------
         JLabel mainMenuText1 = new JLabel("Star Battle");
         mainMenuText1.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_72);
         mainMenuText1.setForeground(WebbColors.TEXT_COLOR_BLACK);
@@ -31,6 +31,8 @@ public class MainMenuScreen extends Screen {
         layout.putConstraint(SpringLayout.NORTH, mainMenuText2, 0, SpringLayout.SOUTH, mainMenuText1);
         this.add(mainMenuText2);
 
+        //------ Play button ------
+
         WebbButton playButton = new WebbButton("Play");
         playButton.setPreferredSize(new Dimension(142, 43));
         playButton.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_32);
@@ -44,6 +46,7 @@ public class MainMenuScreen extends Screen {
 
         this.add(playButton);
 
+        //------ Credits button ------
         WebbButton creditsButton = new WebbButton("Credits");
         creditsButton.setPreferredSize(new Dimension(142, 43));
         creditsButton.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_32);
@@ -57,6 +60,7 @@ public class MainMenuScreen extends Screen {
 
         this.add(creditsButton);
 
+        //---------- Exit button ----------
         WebbButton exitButton = new WebbButton("Exit");
         exitButton.setPreferredSize(new Dimension(142, 43));
         exitButton.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_32);
@@ -69,7 +73,7 @@ public class MainMenuScreen extends Screen {
 
         this.add(exitButton);
 
-
+        //----------- Test button ----------------
         WebbButton testButton = new WebbButton("Test");
         testButton.setPreferredSize(new Dimension(142, 43));
         testButton.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_32);
