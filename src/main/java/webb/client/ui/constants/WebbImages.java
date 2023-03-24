@@ -24,9 +24,9 @@ public class WebbImages {
     public static final BufferedImage POPUP_CONGRATULATIONS_STAR_ROTATED = loadImage("congratulations_star_rotated.png");
 
     public static final BufferedImage PLAY_PUZZLE_STAR = loadImage("play_puzzle_star.png");
-    public static final BufferedImage PLAY_PUZZLE_VALIDATE_BUTTON = ERROR_IMAGE;
-    public static final BufferedImage PLAY_PUZZLE_HINT_BUTTON = ERROR_IMAGE;
-    public static final BufferedImage PLAY_PUZZLE_RESET_BUTTON = ERROR_IMAGE;
+    public static final BufferedImage PLAY_PUZZLE_VALIDATE_BUTTON = loadImage("play_puzzle_validate_button.png");
+    public static final BufferedImage PLAY_PUZZLE_HINT_BUTTON = loadImage("play_puzzle_hint_button.png");
+    public static final BufferedImage PLAY_PUZZLE_RESET_BUTTON = loadImage("play_puzzle_reset_button.png");
     public static final BufferedImage PLAY_PUZZLE_STAR_BACKGROUND = loadImage("play_puzzle_background_star.png");
     public static final BufferedImage PLAY_PUZZLE_EXIT_BUTTON = loadImage("play_puzzle_exit_button.png");
 
