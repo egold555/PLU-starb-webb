@@ -80,7 +80,7 @@ public class WebbButton extends JButton {
             WebbButton self = this;
             this.addMouseListener(new MouseAdapter() {
                 @Override
-                public void mouseClicked(MouseEvent e) {
+                public void mousePressed(MouseEvent e) {
 
                     final boolean isLeftClick = e.getButton() == MouseEvent.BUTTON1;
                     final boolean isRightClick = e.getButton() == MouseEvent.BUTTON3;
