@@ -6,7 +6,7 @@ import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 import javax.swing.JScrollPane;
 import javax.swing.SpringLayout;
-import webb.client.ui.components.WebbCustomScrollbar;
+import webb.client.ui.components.WebbCustomScrollpane;
 import webb.client.ui.constants.WebbColors;
 import webb.client.ui.popup.leaderboard.LeaderboardScore;
 import webb.client.ui.popup.leaderboard.WebbLeaderboardTable;
@@ -24,18 +24,15 @@ public class ScreenComponetTesting extends Screen {
         WebbLeaderboardTable table = new WebbLeaderboardTable(generateDummyData(100));
 
 
-        JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.getVerticalScrollBar().setUI(new WebbCustomScrollbar(
+        WebbCustomScrollpane scrollPane = new WebbCustomScrollpane(
                 WebbColors.c90,
                 WebbColors.c6C,
                 WebbColors.c6C.darker(),
                 WebbColors.c6C.darker().darker()
-        ));
+        );
 
-        Dimension tmpSize = new Dimension(10, 0);
-        scrollPane.getVerticalScrollBar().setMaximumSize(tmpSize);
-        scrollPane.getVerticalScrollBar().setPreferredSize(tmpSize);
-        scrollPane.getVerticalScrollBar().setMinimumSize(tmpSize);
+        // Make the scrollbar thinner
+        scrollPane.setVerticalScrollbarWidth(10);
 
         layout.putConstraint(SpringLayout.NORTH, scrollPane, 0, SpringLayout.NORTH, contentPane);
         layout.putConstraint(SpringLayout.WEST, scrollPane, 0, SpringLayout.WEST, contentPane);
