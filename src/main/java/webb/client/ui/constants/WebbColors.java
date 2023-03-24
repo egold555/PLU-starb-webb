@@ -12,6 +12,7 @@ public class WebbColors {
     public static final Color c34 = Color.decode("#343434");
     public static final Color DC = Color.decode("#DCDCDC");
     public static final Color c70 = Color.decode("#707070");
+    public static final Color c7F = Color.decode("#7F7F7F");
 
 
     public static final Color TEXT_COLOR_WHITE = Color.WHITE;

@@ -21,6 +21,7 @@ public class PuzzleSideScreen extends WebbRoundedJPanel {
     private final JLabel starsRemainingNumber;
     private final JLabel timeLabel;
     private final JLabel puzzleNumber;
+    private final  JLabel completedByLabel;
 
     public PuzzleSideScreen() {
         this.setBackground(WebbColors.c90);
@@ -113,6 +114,13 @@ public class PuzzleSideScreen extends WebbRoundedJPanel {
         innerLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, starsRemainingNumber, 0, SpringLayout.HORIZONTAL_CENTER, innerPanel);
         innerPanel.add(starsRemainingNumber);
 
+        completedByLabel = new JLabel("Completed by ? players");
+        completedByLabel.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_13);
+        completedByLabel.setForeground(WebbColors.c7F);
+        innerLayout.putConstraint(SpringLayout.SOUTH, completedByLabel, -10, SpringLayout.SOUTH, innerPanel);
+        innerLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, completedByLabel, 0, SpringLayout.HORIZONTAL_CENTER, innerPanel);
+        innerPanel.add(completedByLabel);
+
         innerPanel.add(starBackground); //We need to add this after the text so the text is infront of it. Java is backwards.
 
 
@@ -159,5 +167,13 @@ public class PuzzleSideScreen extends WebbRoundedJPanel {
      */
     public void setTimeRemaining(long timeRemaining) {
         this.timeLabel.setText(WebbTextUtilities.formatMinSec(timeRemaining));
+    }
+
+    /**
+     * Sets the number of players who have completed the puzzle
+     * @param playersCompleted The number of players who have completed the puzzle
+     */
+    public void setPlayersCompleted(int playersCompleted) {
+        this.completedByLabel.setText("Completed by " + playersCompleted + " players");
     }
 }

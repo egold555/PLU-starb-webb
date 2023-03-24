@@ -34,6 +34,7 @@ public class DummyData {
         public static final long SIDEBAR_TIME_REMAINING = TimeUnit.SECONDS.toMillis(30);
         public static final int SIDEBAR_STARTS_REMAINING = 7;
         public static final int SIDEBAR_STARTS_TOTAL = 8;
+        public static final int SIDEBAR_PLAYERS_COMPLETED = 1023;
 
     }
 
