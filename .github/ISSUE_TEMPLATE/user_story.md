@@ -1,8 +1,8 @@
 ---
 name: 🧚 Create User Story
-about: Create a new ticket for a user story.
+about: Create a new ticket for a player story.
 title: "As a ___, I want to ____, so that I can ___."
-labels: ["user story"]
+labels: ["player story"]
 ---
 
 ## Acceptance Criteria
