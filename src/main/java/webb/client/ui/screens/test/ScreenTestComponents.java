@@ -2,6 +2,7 @@ package webb.client.ui.screens.test;
 
 import java.awt.Container;
 import java.awt.Dimension;
+import java.io.IOException;
 import javax.swing.SpringLayout;
 import webb.client.ui.components.WebbBackButton;
 import webb.client.ui.components.WebbButton;
@@ -15,6 +16,7 @@ import webb.client.ui.screens.ScreenType;
 import webb.client.ui.testing.DummyData.DummyCongratulationsData;
 import webb.client.ui.testing.DummyData.DummyLeaderboardData;
 import webb.client.ui.testing.DummyData.DummyStatisticsData;
+import webb.model.puzzle.PuzzleDTO;
 
 /**
  * A screen for testing popups.
@@ -99,6 +101,21 @@ public class ScreenTestComponents extends Screen {
         layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, btn6, 0, SpringLayout.HORIZONTAL_CENTER, contentPane);
         layout.putConstraint(SpringLayout.NORTH, btn6, 10, SpringLayout.SOUTH, btn5);
         this.add(btn6);
+
+
+        WebbButton btn7 = new WebbButton("LoadFile", (self, rightClicked) -> {
+            try {
+                PuzzleDTO puzzle = PuzzleDTO.fromJSON(null);
+                System.out.println(puzzle);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        btn7.setPreferredSize(BUTTON_DIMENSION);
+        btn7.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_32);
+        layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, btn7, 0, SpringLayout.HORIZONTAL_CENTER, contentPane);
+        layout.putConstraint(SpringLayout.NORTH, btn7, 10, SpringLayout.SOUTH, btn6);
+        this.add(btn7);
 
     }
 
