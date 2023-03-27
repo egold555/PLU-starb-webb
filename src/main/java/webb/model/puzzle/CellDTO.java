@@ -17,8 +17,14 @@ public class CellDTO {
         col = values[1];
     }
 
+    /**
+     * @return the column of the cell
+     */
     public int getCol() {return col;}
 
+    /**
+     * @return the row of the cell
+     */
     public int getRow() {return row;}
 
     @Override
