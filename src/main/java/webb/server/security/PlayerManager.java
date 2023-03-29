@@ -1,6 +1,6 @@
 package webb.server.security;
 
-import webb.model.Player;
+import webb.client.model.Player;
 import webb.server.repository.MockPlayerDatabase;
 
 public class PlayerManager {

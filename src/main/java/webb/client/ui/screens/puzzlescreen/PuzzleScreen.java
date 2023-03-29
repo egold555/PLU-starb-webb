@@ -1,13 +1,10 @@
 package webb.client.ui.screens.puzzlescreen;
 
 import java.awt.Container;
-import java.awt.Point;
-import java.util.Map.Entry;
 import javax.swing.SpringLayout;
 import webb.client.ui.screens.Screen;
-import webb.client.ui.screens.puzzlescreen.Cell.CellType;
 import webb.client.ui.testing.DummyData.DummyPlayPuzzleData;
-import webb.model.puzzle.PuzzleDTO;
+import webb.client.model.puzzle.PuzzleDTO;
 
 /**
  * The screen that displays the puzzle, that the user interacts with.

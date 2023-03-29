@@ -1,4 +1,4 @@
-package webb.model.puzzle;
+package webb.client.model.puzzle;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 

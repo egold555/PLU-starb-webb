@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.io.IOException;
-import java.util.Timer;
-import java.util.TimerTask;
 import javax.swing.SpringLayout;
 import webb.client.ui.components.WebbBackButton;
 import webb.client.ui.components.WebbButton;
@@ -19,7 +17,7 @@ import webb.client.ui.screens.ScreenType;
 import webb.client.ui.testing.DummyData.DummyCongratulationsData;
 import webb.client.ui.testing.DummyData.DummyLeaderboardData;
 import webb.client.ui.testing.DummyData.DummyStatisticsData;
-import webb.model.puzzle.PuzzleDTO;
+import webb.client.model.puzzle.PuzzleDTO;
 
 /**
  * A screen for testing popups.

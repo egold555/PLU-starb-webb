@@ -1,7 +1,7 @@
 package webb.server.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import webb.model.Player;
+import webb.client.model.Player;
 
 import java.io.File;
 import java.util.*;

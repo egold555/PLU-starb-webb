@@ -9,8 +9,8 @@ import java.util.List;
 import javax.swing.JComponent;
 import webb.client.ui.constants.WebbColors;
 import webb.client.ui.screens.puzzlescreen.Cell.CellType;
-import webb.model.puzzle.CellDTO;
-import webb.model.puzzle.PuzzleDTO;
+import webb.client.model.puzzle.CellDTO;
+import webb.client.model.puzzle.PuzzleDTO;
 
 public class PuzzleComponent extends JComponent {
 

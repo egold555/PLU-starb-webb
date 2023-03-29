@@ -1,12 +1,10 @@
 package starb.client;
 
 import java.awt.*;
-import java.util.Arrays;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import webb.client.ui.WebbWindow;
-import webb.model.Player;
+import webb.client.model.Player;
 import webb.server.security.PlayerManager;
 
 /**

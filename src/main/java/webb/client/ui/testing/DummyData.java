@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import webb.client.ui.popup.leaderboard.LeaderboardScore;
 import webb.client.ui.screens.puzzlescreen.Cell.CellType;
-import webb.model.puzzle.PuzzleDTO;
+import webb.client.model.puzzle.PuzzleDTO;
 
 public class DummyData {
 
