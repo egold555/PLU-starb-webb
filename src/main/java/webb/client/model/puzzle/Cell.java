@@ -1,36 +1,21 @@
 package webb.client.model.puzzle;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
+/**
+ * Represents a cell from the JSON file.
+ * https://cs.plu.edu/courses/protected/cs390/2023s/project/iteration2.html
+ */
 public class Cell {
+
     private final int row;
     private final int col;
-    private String type = "BLANK";
+    private String type = "EMPTY";
 
-    public Cell(int row, int col){
-        this.row = row;
-        this.col = col;
-    }
-
-    /**
-     * @return the type of the cell
-     */
-    public String getType() {return type;}
-
-
-    public void changeType(Boolean lClick){
-        if(lClick){
-            if(type == "BLANK") {
-                type = "STAR";
-            }
-            else if(type == "STAR"){
-                type = "MARKER";
-            }
-            else if(type == "MARKER"){
-                type = "BLANK";
-            }
-        }
-        else{
-            type = "BLANK";
-        }
+    @JsonCreator
+    public Cell( int[] values ) {
+        row = values[0];
+        col = values[1];
     }
 
     /**
@@ -42,6 +27,25 @@ public class Cell {
      * @return the row of the cell
      */
     public int getRow() {return row;}
+
+    public void changeType(Boolean lClick){
+        if(lClick){
+            if(type.equals("EMPTY")) {
+                type = "STAR";
+            }
+            else if(type.equals("STAR")){
+                type = "MARKER";
+            }
+            else if(type.equals("MARKER")){
+                type = "EMPTY";
+            }
+        }
+        else{
+            type = "EMPTY";
+        }
+    }
+
+    public void setMarker(){type = "MARKER";}
 
     @Override
     public String toString() {

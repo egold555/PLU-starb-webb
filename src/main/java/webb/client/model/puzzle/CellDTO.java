@@ -10,6 +10,7 @@ public class CellDTO {
 
     private final int row;
     private final int col;
+    private String type = "EMPTY";
 
     @JsonCreator
     public CellDTO( int[] values ) {
@@ -27,11 +28,48 @@ public class CellDTO {
      */
     public int getRow() {return row;}
 
+    /**
+     * @return the type of the cell
+     */
+    public String getType() {return type;}
+
+    public void setEmpty(){type = "EMPTY";}
+
+    public void setStar(){type = "STAR";}
+
+    public void setMarker(){type = "VMARKER";}
+
+    public void setInvalid(String direction){
+        if(direction.equals("R")){
+            type = "RINVALID";
+        }
+        if(direction.equals("C")){
+            type = "CINVALID";
+        }
+    }
+
     @Override
     public String toString() {
         return "CellDTO{" +
                 "row=" + row +
                 ", col=" + col +
                 '}';
+    }
+
+    public void changeType(Boolean lClick){
+        if(lClick){
+            if(type == "EMPTY") {
+                type = "STAR";
+            }
+            else if(type == "STAR"){
+                type = "MARKER";
+            }
+            else if(type == "MARKER"){
+                type = "EMPTY";
+            }
+        }
+        else{
+            type = "EMPTY";
+        }
     }
 }
