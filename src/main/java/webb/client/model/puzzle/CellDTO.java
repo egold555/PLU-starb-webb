@@ -58,13 +58,13 @@ public class CellDTO {
 
     public void changeType(Boolean lClick){
         if(lClick){
-            if(type == "EMPTY") {
+            if(type.equals("EMPTY")) {
                 type = "STAR";
             }
-            else if(type == "STAR"){
+            else if(type.equals("STAR")||type.equals("RINVALID")||type.equals("CINVALID")){
                 type = "MARKER";
             }
-            else if(type == "MARKER"){
+            else if(type.equals("MARKER")){
                 type = "EMPTY";
             }
         }

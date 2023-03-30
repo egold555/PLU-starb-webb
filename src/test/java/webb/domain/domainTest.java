@@ -22,12 +22,21 @@ public class domainTest {
 
         p.getCell(0,0).changeType(true);
         p.getCell(0, 4).changeType(true);
+        p.getCell(0, 5).changeType(true);
         p.getCell(0,7).changeType(true);
         p.getCell(5, 0).changeType(true);
+        p.getCell(0,4).changeType(true);
 
         p.checkBoard(true);
-
         p.printBoard();
+        System.out.println();
+        p.checkBoard(false);
+        p.printBoard();
+        System.out.println();
+        p.getCell(0,0).changeType(true);
+        p.checkBoard(false);
+        p.printBoard();
+
         System.out.print("Hello");
     }
 }

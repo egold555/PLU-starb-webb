@@ -126,7 +126,9 @@ public class Puzzle {
             currentType = current.getType();
             if(currentType.equals("STAR")||currentType.equals("RINVALID")||currentType.equals("CINVALID")){
                 colStars++;
-                markStar(current);
+                if(visible) {
+                    markStar(current);
+                }
             }
         }
 
