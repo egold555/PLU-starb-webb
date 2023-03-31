@@ -51,15 +51,6 @@ public class Puzzle {
      */
     public int getTotalStars() {return numStars * regions.size();}
 
-    /**
-     * Creates a Puzzle from a JSON file
-     * @param jsonFile the JSON file
-     * @return the Puzzle object
-     * @throws IOException if the file cannot be read
-     */
-    public static Puzzle fromJSON(File jsonFile) throws IOException {
-        return new ObjectMapper().readValue(jsonFile, Puzzle.class);
-    }
 
     public void loadBoard(){
         for(List<CellDTO> r : regions){
@@ -71,126 +62,164 @@ public class Puzzle {
 
     public CellDTO getCell(int row, int col){return board[row][col];}
 
-    public void checkBoard(Boolean visible){
-        for(int i=0; i<gridSize; i++) {
-            checkRow(visible, i);
+    /**
+     * Mirrors changeType from CellDTO while also clearing adjacently marked cells if c is cleared.
+     * @param c
+     * @param lClick
+     * @param visible
+     */
+    public void changeType(CellDTO c, boolean lClick, boolean visible){
+        c.changeType(lClick);
+        if(c.getType().equals("EMPTY")){
+            clearAdjacent(c);
         }
-        for(int i=0; i<gridSize; i++) {
-            checkCol(visible, i);
-        }
+        checkBoard(visible);
     }
 
-    private void checkRow(Boolean visible, int row){
+    /**
+     * Primary method for checking and setting if stars are in valid locations
+     * @param visible
+     */
+    public void checkBoard(boolean visible){
+        CellDTO current;
+        boolean rowOut;
+        boolean colOut;
+
+        for(int i=0; i<gridSize; i++){
+            for(int j=0; j<gridSize; j++){
+                current = getCell(i,j);
+                if(current.getType().equals("STAR")||current.getType().equals("INVALID")){
+                    rowOut = checkRow(visible, current);
+                    colOut = checkCol(visible, current);
+                    if(!rowOut || !colOut){
+                        current.setInvalid();
+                    }
+                    else{
+                        current.setStar();
+                    }
+                    markAdjacent(current);
+                }
+            }
+        }
+        checkRegions();
+    }
+
+
+    private boolean checkRow(boolean visible, CellDTO current){
         int rowStars = 0;
-        CellDTO current;
-        String currentType;
-
         for(int i=0; i<gridSize; i++){
-            current = getCell(row, i);
-            currentType = current.getType();
-            if(currentType.equals("STAR")||currentType.equals("RINVALID")||currentType.equals("CINVALID")){
+            if(getCell(current.getRow(), i).getType().equals("STAR")||getCell(current.getRow(), i).getType().equals("INVALID")){
                 rowStars++;
-                markStar(current);
             }
         }
-        for(int i=0; i<gridSize; i++){
-            current = getCell(row, i);
-            currentType = current.getType();
-
-            if(rowStars>=numStars) {
-                if (currentType.equals("EMPTY") && visible) {
-                    current.setMarker();
+        if(visible && rowStars>=numStars){
+            for(int i=0; i<gridSize; i++){
+                if(getCell(current.getRow(), i).getType().equals("EMPTY")||getCell(current.getRow(), i).getType().equals("AMARKER")){
+                    getCell(current.getRow(), i).setMarker();
                 }
             }
-            if(rowStars>numStars){
-                if (currentType.equals("STAR")) {
-                    current.setInvalid("R");
+        }
+        if(visible && rowStars<numStars){
+            for(int i=0; i<gridSize; i++){
+                if(getCell(current.getRow(), i).getType().equals("VMARKER")){
+                    getCell(current.getRow(), i).setEmpty();
                 }
             }
-            if(currentType.equals("VMARKER") && !visible){
-                current.setEmpty();
-            }
-            if(currentType.equals("RINVALID") && rowStars<=numStars){
-                current.setStar();
-            }
+        }
+        if (rowStars>numStars){
+            return false;
+        }
+        else{
+            return true;
         }
     }
 
-    private void checkCol(Boolean visible, int col){
+    private boolean checkCol(boolean visible, CellDTO current){
         int colStars = 0;
-        CellDTO current;
-        String currentType;
-
         for(int i=0; i<gridSize; i++){
-            current = getCell(i, col);
-            currentType = current.getType();
-            if(currentType.equals("STAR")||currentType.equals("RINVALID")||currentType.equals("CINVALID")){
+            if(getCell(i, current.getCol()).getType().equals("STAR")||getCell(i, current.getCol()).getType().equals("INVALID")){
                 colStars++;
-                if(visible) {
-                    markStar(current);
+            }
+        }
+        if(visible && colStars>=numStars){
+            for(int i=0; i<gridSize; i++){
+                if(getCell(i, current.getCol()).getType().equals("EMPTY")||getCell(i, current.getCol()).getType().equals("AMARKER")){
+                    getCell(i, current.getCol()).setMarker();
                 }
             }
         }
-
-        for(int i=0; i<gridSize; i++){
-            current = getCell(i, col);
-            currentType = current.getType();
-
-            if(colStars>=numStars) {
-                if (currentType.equals("EMPTY") && visible) {
-                    current.setMarker();
+        if(visible && colStars<numStars){
+            for(int i=0; i<gridSize; i++){
+                if(getCell(i, current.getCol()).getType().equals("VMARKER")){
+                    getCell(i, current.getCol()).setEmpty();
                 }
             }
-            if(colStars>numStars){
-                if(currentType.equals("STAR")){
-                    current.setInvalid("C");
+        }
+        if(colStars>numStars){
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+
+    private void checkRegions(){
+        for(List<CellDTO> region : regions){
+            int regionStars = 0;
+            for(CellDTO cell : region){
+                if(cell.getType().equals("STAR")||cell.getType().equals("INVALID")){
+                    regionStars++;
                 }
             }
-            if(currentType.equals("VMARKER") && !visible){
-                current.setEmpty();
-            }
-            if(currentType.equals("CINVALID") && colStars<=numStars){
-                current.setStar();
+            if(regionStars>numStars){
+                for(CellDTO cell : region){
+                    if(cell.getType().equals("STAR")){
+                        cell.setInvalid();
+                    }
+                }
             }
         }
     }
 
-    private void markStar(CellDTO current){
+    /**
+     * If checkBoard is visible, marks adjacent cells around a star cell as AMARKER, which can be
+     * cleared by clearAdjacent
+     * @param current
+     */
+    private void markAdjacent(CellDTO current){
         int currentRow = current.getRow();
         int currentCol = current.getCol();
         CellDTO temp;
 
-        if(currentRow>0){
-            temp = getCell(currentRow-1, currentCol);
-            if(temp.getType().equals("EMPTY")){temp.setMarker();}
-            if(currentCol>0){
-                temp = getCell(currentRow-1, currentCol-1);
-                if(temp.getType().equals("EMPTY")){temp.setMarker();}
-            }
-            if(currentCol<gridSize-1){
-                temp = getCell(currentRow-1, currentCol+1);
-                if(temp.getType().equals("EMPTY")){temp.setMarker();}
-            }
-        }
-        if(currentRow<gridSize-1){
-            temp = getCell(currentRow+1, currentCol);
-            if(temp.getType().equals("EMPTY")){temp.setMarker();}
-            if(currentCol>0){
-                temp = getCell(currentRow+1, currentCol-1);
-                if(temp.getType().equals("EMPTY")){temp.setMarker();}
-            }
-            if(currentCol<gridSize-1){
-                temp = getCell(currentRow+1, currentCol+1);
-                if(temp.getType().equals("EMPTY")){temp.setMarker();}
+        for (int i = currentRow - 1; i < currentRow + 2; i++) {
+            for (int j = currentCol - 1; j < currentCol + 2; j++) {
+                if (i >= 0 && i < gridSize && j >= 0 && j < gridSize && !(i==currentRow && j==currentCol)) {
+                    temp = getCell(i, j);
+                    if (temp.getType().equals("EMPTY")) {
+                        temp.setAMarker();
+                    }
+                    if(temp.getType().equals("STAR")||temp.getType().equals("INVALID")){
+                        current.setInvalid();
+                    }
+                }
             }
         }
-        if(currentCol>0){
-            temp = getCell(currentRow, currentCol-1);
-            if(temp.getType().equals("EMPTY")){temp.setMarker();}
-        }
-        if(currentCol<gridSize-1){
-            temp = getCell(currentRow, currentCol+1);
-            if(temp.getType().equals("EMPTY")){temp.setMarker();}
+    }
+
+    private void clearAdjacent(CellDTO current) {
+        int currentRow = current.getRow();
+        int currentCol = current.getCol();
+        CellDTO temp;
+
+        for (int i = currentRow - 1; i < currentRow + 2; i++) {
+            for (int j = currentCol - 1; j < currentCol + 2; j++) {
+                if (i >= 0 && i < gridSize && j >= 0 && j < gridSize) {
+                    temp = getCell(i, j);
+                    if (temp.getType().equals("AMARKER")) {
+                        temp.setEmpty();
+                    }
+                }
+            }
         }
     }
 

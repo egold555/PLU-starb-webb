@@ -39,14 +39,11 @@ public class CellDTO {
 
     public void setMarker(){type = "VMARKER";}
 
-    public void setInvalid(String direction){
-        if(direction.equals("R")){
-            type = "RINVALID";
-        }
-        if(direction.equals("C")){
-            type = "CINVALID";
-        }
+    public void setInvalid(){
+        type = "INVALID";
     }
+
+    public void setAMarker(){type = "AMARKER";}
 
     @Override
     public String toString() {
@@ -61,7 +58,7 @@ public class CellDTO {
             if(type.equals("EMPTY")) {
                 type = "STAR";
             }
-            else if(type.equals("STAR")||type.equals("RINVALID")||type.equals("CINVALID")){
+            else if(type.equals("STAR")||type.equals("INVALID")){
                 type = "MARKER";
             }
             else if(type.equals("MARKER")){
@@ -69,7 +66,9 @@ public class CellDTO {
             }
         }
         else{
-            type = "EMPTY";
+            if(type.equals("STAR")||type.equals("INVALID")||type.equals("MARKER")) {
+                type = "EMPTY";
+            }
         }
     }
 }
