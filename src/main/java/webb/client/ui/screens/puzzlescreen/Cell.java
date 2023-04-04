@@ -4,7 +4,6 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import webb.client.ui.constants.WebbColors;
 import webb.client.ui.constants.WebbImages;
 
 /**
@@ -176,7 +175,14 @@ public class Cell {
         EMPTY((BufferedImage) null), // Empty cell
         STAR(WebbImages.PLAY_PUZZLE_GRID_STAR), // White star the player placed
         STAR_RED(WebbImages.PLAY_PUZZLE_GRID_STAR_RED), // Invalid star the player placed
-        X(WebbImages.PLAY_PUZZLE_GRID_INVALID_CELL) // X mark that the player placed
+        PLAYER_MARKER(WebbImages.PLAY_PUZZLE_GRID_INVALID_CELL), // X mark that the player placed
+
+        // Brandon's internal markers.
+        // I don't entirely remember what he explained these do, but I am added them to translate
+        // The code to work with the gameboard
+        AMARKER(PLAYER_MARKER),
+        VMARKER(PLAYER_MARKER),
+        INVALID(STAR_RED)
         ;
 
         private final BufferedImage img;

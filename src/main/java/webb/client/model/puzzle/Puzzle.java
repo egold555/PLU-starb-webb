@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import webb.client.ui.screens.puzzlescreen.Cell.CellType;
 
 /**
  * Represents a puzzle from the JSON file.
@@ -70,7 +71,7 @@ public class Puzzle {
      */
     public void changeType(CellDTO c, boolean lClick, boolean visible){
         c.changeType(lClick);
-        if(c.getType().equals("EMPTY")){
+        if(c.getType() == CellType.EMPTY){
             clearAdjacent(c);
         }
         checkBoard(visible);
@@ -88,7 +89,7 @@ public class Puzzle {
         for(int i=0; i<gridSize; i++){
             for(int j=0; j<gridSize; j++){
                 current = getCell(i,j);
-                if(current.getType().equals("STAR")||current.getType().equals("INVALID")){
+                if(current.getType() == CellType.STAR || current.getType() == CellType.INVALID){
                     rowOut = checkRow(visible, current);
                     colOut = checkCol(visible, current);
                     if(!rowOut || !colOut){
@@ -108,72 +109,62 @@ public class Puzzle {
     private boolean checkRow(boolean visible, CellDTO current){
         int rowStars = 0;
         for(int i=0; i<gridSize; i++){
-            if(getCell(current.getRow(), i).getType().equals("STAR")||getCell(current.getRow(), i).getType().equals("INVALID")){
+            if(getCell(current.getRow(), i).getType() == CellType.STAR || getCell(current.getRow(), i).getType() == CellType.INVALID){
                 rowStars++;
             }
         }
         if(visible && rowStars>=numStars){
             for(int i=0; i<gridSize; i++){
-                if(getCell(current.getRow(), i).getType().equals("EMPTY")||getCell(current.getRow(), i).getType().equals("AMARKER")){
+                if(getCell(current.getRow(), i).getType() == CellType.INVALID || getCell(current.getRow(), i).getType() == CellType.AMARKER){
                     getCell(current.getRow(), i).setMarker();
                 }
             }
         }
         if(visible && rowStars<numStars){
             for(int i=0; i<gridSize; i++){
-                if(getCell(current.getRow(), i).getType().equals("VMARKER")){
+                if(getCell(current.getRow(), i).getType() == CellType.VMARKER){
                     getCell(current.getRow(), i).setEmpty();
                 }
             }
         }
-        if (rowStars>numStars){
-            return false;
-        }
-        else{
-            return true;
-        }
+        return rowStars <= numStars;
     }
 
     private boolean checkCol(boolean visible, CellDTO current){
         int colStars = 0;
         for(int i=0; i<gridSize; i++){
-            if(getCell(i, current.getCol()).getType().equals("STAR")||getCell(i, current.getCol()).getType().equals("INVALID")){
+            if(getCell(i, current.getCol()).getType() == CellType.STAR || getCell(i, current.getCol()).getType() == CellType.INVALID){
                 colStars++;
             }
         }
         if(visible && colStars>=numStars){
             for(int i=0; i<gridSize; i++){
-                if(getCell(i, current.getCol()).getType().equals("EMPTY")||getCell(i, current.getCol()).getType().equals("AMARKER")){
+                if(getCell(i, current.getCol()).getType() == CellType.EMPTY || getCell(i, current.getCol()).getType() == CellType.AMARKER){
                     getCell(i, current.getCol()).setMarker();
                 }
             }
         }
         if(visible && colStars<numStars){
             for(int i=0; i<gridSize; i++){
-                if(getCell(i, current.getCol()).getType().equals("VMARKER")){
+                if(getCell(i, current.getCol()).getType() == CellType.VMARKER){
                     getCell(i, current.getCol()).setEmpty();
                 }
             }
         }
-        if(colStars>numStars){
-            return false;
-        }
-        else{
-            return true;
-        }
+        return colStars <= numStars;
     }
 
     private void checkRegions(){
         for(List<CellDTO> region : regions){
             int regionStars = 0;
             for(CellDTO cell : region){
-                if(cell.getType().equals("STAR")||cell.getType().equals("INVALID")){
+                if(cell.getType() == CellType.STAR || cell.getType() == CellType.INVALID){
                     regionStars++;
                 }
             }
             if(regionStars>numStars){
                 for(CellDTO cell : region){
-                    if(cell.getType().equals("STAR")){
+                    if(cell.getType() == CellType.STAR){
                         cell.setInvalid();
                     }
                 }
@@ -195,10 +186,10 @@ public class Puzzle {
             for (int j = currentCol - 1; j < currentCol + 2; j++) {
                 if (i >= 0 && i < gridSize && j >= 0 && j < gridSize && !(i==currentRow && j==currentCol)) {
                     temp = getCell(i, j);
-                    if (temp.getType().equals("EMPTY")) {
+                    if (temp.getType() == CellType.EMPTY) {
                         temp.setAMarker();
                     }
-                    if(temp.getType().equals("STAR")||temp.getType().equals("INVALID")){
+                    if(temp.getType() == CellType.STAR || temp.getType() == CellType.INVALID){
                         current.setInvalid();
                     }
                 }
@@ -215,7 +206,7 @@ public class Puzzle {
             for (int j = currentCol - 1; j < currentCol + 2; j++) {
                 if (i >= 0 && i < gridSize && j >= 0 && j < gridSize) {
                     temp = getCell(i, j);
-                    if (temp.getType().equals("AMARKER")) {
+                    if (temp.getType() == CellType.AMARKER) {
                         temp.setEmpty();
                     }
                 }
