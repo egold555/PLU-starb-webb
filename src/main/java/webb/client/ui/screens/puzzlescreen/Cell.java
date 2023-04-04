@@ -3,6 +3,7 @@ package webb.client.ui.screens.puzzlescreen;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import webb.client.ui.constants.WebbColors;
 import webb.client.ui.constants.WebbImages;
 
@@ -124,18 +125,8 @@ public class Cell {
         final int imgW = (int) (sw - (imgOffset * 2));
         final int imgH = (int) (sh - (imgOffset * 2));
 
-        switch(this.type) {
-            case EMPTY:
-                break;
-            case STAR:
-                g2d.drawImage(WebbImages.PLAY_PUZZLE_GRID_STAR, imgX, imgY, imgW, imgH, null );
-                break;
-            case STAR_RED:
-                g2d.drawImage(WebbImages.PLAY_PUZZLE_GRID_STAR_RED, imgX, imgY, imgW, imgH, null );
-                break;
-            case X:
-                g2d.drawImage(WebbImages.PLAY_PUZZLE_GRID_INVALID_CELL, imgX, imgY, imgW, imgH, null );
-                break;
+        if(this.type.getImage() != null) {
+            g2d.drawImage(this.type.getImage(), imgX, imgY, imgW, imgH, null );
         }
 
         //Draw walls
@@ -182,11 +173,27 @@ public class Cell {
      * The type of the cell
      */
     public enum CellType {
-        EMPTY, // Empty cell
-        STAR, // White star the player placed
-        STAR_RED, // Invalid star the player placed
-        X // X mark that the player placed
+        EMPTY((BufferedImage) null), // Empty cell
+        STAR(WebbImages.PLAY_PUZZLE_GRID_STAR), // White star the player placed
+        STAR_RED(WebbImages.PLAY_PUZZLE_GRID_STAR_RED), // Invalid star the player placed
+        X(WebbImages.PLAY_PUZZLE_GRID_INVALID_CELL) // X mark that the player placed
         ;
+
+        private final BufferedImage img;
+
+        //Clone the cell type's image
+        CellType(CellType cellType) {
+            this.img = cellType.getImage();
+        }
+
+        //Create a new cell type
+        CellType(BufferedImage image) {
+            this.img = image;
+        }
+
+        public BufferedImage getImage() {
+            return img;
+        }
     }
 
 }
