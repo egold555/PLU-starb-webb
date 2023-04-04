@@ -61,6 +61,17 @@ public class Cell {
      * @param type Type of the cell
      */
     public void setType(CellType type) {this.type = type;}
+    public void setEmpty(){type = CellType.EMPTY;}
+
+    public void setStar(){type = CellType.STAR;}
+
+    public void setMarker(){type = CellType.VMARKER;}
+
+    public void setInvalid(){
+        type = CellType.INVALID;
+    }
+
+    public void setAMarker(){type = CellType.AMARKER;}
 
     /**
      * Checks to see if the mouse cords are inside the cell
@@ -78,6 +89,22 @@ public class Cell {
      */
     protected void onClick(boolean rightClick) {
         System.out.println("Clicked on cell: " + col + ", " + row + " rightClick: " + rightClick);
+        if(!rightClick){
+            if(type == CellType.EMPTY) {
+                type = CellType.STAR;
+            }
+            else if(type == CellType.STAR || type == CellType.INVALID){
+                type = CellType.PLAYER_MARKER;
+            }
+            else if(type == CellType.PLAYER_MARKER){
+                type = CellType.EMPTY;
+            }
+        }
+        else{
+            if(type == CellType.STAR || type == CellType.INVALID || type == CellType.PLAYER_MARKER) {
+                type = CellType.EMPTY;
+            }
+        }
     }
 
     /**

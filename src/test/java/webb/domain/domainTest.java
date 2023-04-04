@@ -1,7 +1,6 @@
 package webb.domain;
 
 import webb.client.model.puzzle.CellDTO;
-import webb.client.model.puzzle.Puzzle;
 import webb.client.model.puzzle.PuzzleDTO;
 
 import java.io.File;
