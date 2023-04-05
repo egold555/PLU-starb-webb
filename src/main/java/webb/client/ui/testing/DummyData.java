@@ -6,8 +6,8 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import webb.client.logic.puzzle.CellType;
 import webb.client.ui.popup.leaderboard.LeaderboardScore;
-import webb.client.ui.screens.puzzlescreen.Cell.CellType;
 import webb.client.model.puzzle.PuzzleDTO;
 
 public class DummyData {
