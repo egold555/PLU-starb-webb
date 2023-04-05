@@ -87,7 +87,7 @@ public class Cell {
      * Called when the cell is clicked
      * @param rightClick True if the right mouse button was clicked
      */
-    public void onClick(boolean rightClick) {
+    public void changeType(boolean rightClick) {
         System.out.println("Clicked on cell: " + col + ", " + row + " rightClick: " + rightClick);
         if(!rightClick){
             if(type == CellType.EMPTY) {

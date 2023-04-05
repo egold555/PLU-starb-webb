@@ -47,7 +47,7 @@ public class PuzzleComponent extends JComponent {
                     for(int col = 0; col < gridSize; col++ ) {
                         Cell cell = getCell(col, row);
                         if( cell.isInside(x, y) ) {
-                            cell.onClick(rightClick);
+                            onClick(cell, rightClick, true);
                         }
                     }
                 }
@@ -106,7 +106,7 @@ public class PuzzleComponent extends JComponent {
             cell.setSolutionStar();
 
             //TODO: Testing - Show the solution
-            cell.setType(CellType.STAR);
+            //cell.setType(CellType.STAR);
         }
 
         //Set cell walls
@@ -154,8 +154,8 @@ public class PuzzleComponent extends JComponent {
      * @param lClick
      * @param visible
      */
-    public void changeType(Cell c, CellType type, boolean visible){
-        c.setType(type);
+    public void onClick(Cell c, boolean rightClick, boolean visible){
+        c.changeType(rightClick);
         if(c.getType() == CellType.EMPTY){
             clearAdjacent(c);
         }
@@ -173,7 +173,7 @@ public class PuzzleComponent extends JComponent {
 
         for(int i=0; i < gridSize; i++){
             for(int j = 0; j < gridSize; j++){
-                current = getCell(i,j);
+                current = getCell(j,i);
                 if(current.getType() == CellType.STAR || current.getType() == CellType.INVALID){
                     rowOut = checkRow(visible, current);
                     colOut = checkCol(visible, current);
@@ -194,21 +194,21 @@ public class PuzzleComponent extends JComponent {
     private boolean checkRow(boolean visible, Cell current){
         int rowStars = 0;
         for(int i = 0; i < gridSize; i++){
-            if(getCell(current.getRow(), i).getType() == CellType.STAR || getCell(current.getRow(), i).getType() == CellType.INVALID){
+            if(getCell(i, current.getRow()).getType() == CellType.STAR || getCell(i, current.getRow()).getType() == CellType.INVALID){
                 rowStars++;
             }
         }
         if(visible && rowStars>=numStars){
             for(int i = 0; i < gridSize; i++){
-                if(getCell(current.getRow(), i).getType() == CellType.EMPTY || getCell(current.getRow(), i).getType() == CellType.AMARKER){
-                    getCell(current.getRow(), i).setMarker();
+                if(getCell(i, current.getRow()).getType() == CellType.EMPTY || getCell(i, current.getRow()).getType() == CellType.AMARKER){
+                    getCell(i, current.getRow()).setMarker();
                 }
             }
         }
         if(visible && rowStars<numStars){
             for(int i = 0; i < gridSize; i++){
-                if(getCell(current.getRow(), i).getType() == CellType.VMARKER){
-                    getCell(current.getRow(), i).setEmpty();
+                if(getCell(i, current.getRow()).getType() == CellType.VMARKER){
+                    getCell(i, current.getRow()).setEmpty();
                 }
             }
         }
@@ -218,21 +218,21 @@ public class PuzzleComponent extends JComponent {
     private boolean checkCol(boolean visible, Cell current){
         int colStars = 0;
         for(int i=0; i < gridSize; i++){
-            if(getCell(i, current.getCol()).getType() == CellType.STAR || getCell(i, current.getCol()).getType() == CellType.INVALID){
+            if(getCell(current.getCol(), i).getType() == CellType.STAR || getCell(current.getCol(), i).getType() == CellType.INVALID){
                 colStars++;
             }
         }
         if(visible && colStars>=numStars){
             for(int i=0; i < gridSize; i++){
-                if(getCell(i, current.getCol()).getType() == CellType.EMPTY || getCell(i, current.getCol()).getType() == CellType.AMARKER){
-                    getCell(i, current.getCol()).setMarker();
+                if(getCell(current.getCol(), i).getType() == CellType.EMPTY || getCell(current.getCol(), i).getType() == CellType.AMARKER){
+                    getCell(current.getCol(), i).setMarker();
                 }
             }
         }
         if(visible && colStars<numStars){
             for(int i=0; i < gridSize; i++){
-                if(getCell(i, current.getCol()).getType() == CellType.VMARKER){
-                    getCell(i, current.getCol()).setEmpty();
+                if(getCell(current.getCol(), i).getType() == CellType.VMARKER){
+                    getCell(current.getCol(), i).setEmpty();
                 }
             }
         }
@@ -270,7 +270,7 @@ public class PuzzleComponent extends JComponent {
         for (int i = currentRow - 1; i < currentRow + 2; i++) {
             for (int j = currentCol - 1; j < currentCol + 2; j++) {
                 if (i >= 0 && i < gridSize && j >= 0 && j < gridSize && !(i==currentRow && j==currentCol)) {
-                    temp = getCell(i, j);
+                    temp = getCell(j, i);
                     if (temp.getType() == CellType.EMPTY) {
                         temp.setAMarker();
                     }
@@ -290,7 +290,7 @@ public class PuzzleComponent extends JComponent {
         for (int i = currentRow - 1; i < currentRow + 2; i++) {
             for (int j = currentCol - 1; j < currentCol + 2; j++) {
                 if (i >= 0 && i < gridSize && j >= 0 && j < gridSize) {
-                    temp = getCell(i, j);
+                    temp = getCell(j, i);
                     if (temp.getType() == CellType.AMARKER) {
                         temp.setEmpty();
                     }
@@ -302,7 +302,7 @@ public class PuzzleComponent extends JComponent {
     public void printBoard(){
         for(int i = 0; i < gridSize; i++){
             for(int j = 0; j < gridSize; j++){
-                System.out.printf("%10s", getCell(i,j).getType());
+                System.out.printf("%15s", getCell(j,i).getType());
             }
             System.out.println();
         }
