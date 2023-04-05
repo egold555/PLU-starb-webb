@@ -3,6 +3,7 @@ package webb.client.ui.screens.puzzlescreen;
 import java.awt.Container;
 import javax.swing.SpringLayout;
 import webb.client.ui.screens.Screen;
+import webb.client.ui.screens.puzzlescreen.StopWatch.StopWatchCallback;
 import webb.client.ui.testing.DummyData.DummyPlayPuzzleData;
 import webb.client.model.puzzle.PuzzleDTO;
 
@@ -14,6 +15,7 @@ public class PuzzleScreen extends Screen {
 
     private PuzzleComponent puzzleComponent;
     private PuzzleSideScreen sidePanel;
+    private StopWatch stopWatch;
 
     @Override
     protected void populateComponents(Container contentPane, SpringLayout layout) {
@@ -67,6 +69,21 @@ public class PuzzleScreen extends Screen {
         sidePanel.setStarsRemaining(puzzle.getTotalStars(), puzzle.getTotalStars());
         sidePanel.setPuzzleNumber(0, puzzle.getNumStars());
         puzzleComponent.setPuzzle(puzzle);
+
+        if(stopWatch != null) {
+            stopWatch.stop();
+        }
+
+        //System.out.println("Start timer!");
+        stopWatch = new StopWatch(new StopWatchCallback() {
+            @Override
+            public void updateLabels(long currentTime) {
+                sidePanel.setTimeRemaining(currentTime);
+               // System.out.println("Time remaining: " + currentTime);
+            }
+        });
+
+        stopWatch.start();
     }
 
 }
