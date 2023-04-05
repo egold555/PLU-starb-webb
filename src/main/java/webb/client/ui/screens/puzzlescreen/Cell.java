@@ -3,7 +3,7 @@ package webb.client.ui.screens.puzzlescreen;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
-import webb.client.ui.constants.WebbColors;
+import java.awt.image.BufferedImage;
 import webb.client.ui.constants.WebbImages;
 
 /**
@@ -61,6 +61,17 @@ public class Cell {
      * @param type Type of the cell
      */
     public void setType(CellType type) {this.type = type;}
+    public void setEmpty(){type = CellType.EMPTY;}
+
+    public void setStar(){type = CellType.STAR;}
+
+    public void setMarker(){type = CellType.VMARKER;}
+
+    public void setInvalid(){
+        type = CellType.INVALID;
+    }
+
+    public void setAMarker(){type = CellType.AMARKER;}
 
     /**
      * Checks to see if the mouse cords are inside the cell
@@ -76,8 +87,24 @@ public class Cell {
      * Called when the cell is clicked
      * @param rightClick True if the right mouse button was clicked
      */
-    protected void onClick(boolean rightClick) {
+    public void changeType(boolean rightClick) {
         System.out.println("Clicked on cell: " + col + ", " + row + " rightClick: " + rightClick);
+        if(!rightClick){
+            if(type == CellType.EMPTY) {
+                type = CellType.STAR;
+            }
+            else if(type == CellType.STAR || type == CellType.INVALID){
+                type = CellType.PLAYER_MARKER;
+            }
+            else if(type == CellType.PLAYER_MARKER){
+                type = CellType.EMPTY;
+            }
+        }
+        else{
+            if(type == CellType.STAR || type == CellType.INVALID || type == CellType.PLAYER_MARKER) {
+                type = CellType.EMPTY;
+            }
+        }
     }
 
     /**
@@ -124,18 +151,8 @@ public class Cell {
         final int imgW = (int) (sw - (imgOffset * 2));
         final int imgH = (int) (sh - (imgOffset * 2));
 
-        switch(this.type) {
-            case EMPTY:
-                break;
-            case STAR:
-                g2d.drawImage(WebbImages.PLAY_PUZZLE_GRID_STAR, imgX, imgY, imgW, imgH, null );
-                break;
-            case STAR_RED:
-                g2d.drawImage(WebbImages.PLAY_PUZZLE_GRID_STAR_RED, imgX, imgY, imgW, imgH, null );
-                break;
-            case X:
-                g2d.drawImage(WebbImages.PLAY_PUZZLE_GRID_INVALID_CELL, imgX, imgY, imgW, imgH, null );
-                break;
+        if(this.type.getImage() != null) {
+            g2d.drawImage(this.type.getImage(), imgX, imgY, imgW, imgH, null );
         }
 
         //Draw walls
@@ -182,11 +199,34 @@ public class Cell {
      * The type of the cell
      */
     public enum CellType {
-        EMPTY, // Empty cell
-        STAR, // White star the player placed
-        STAR_RED, // Invalid star the player placed
-        X // X mark that the player placed
+        EMPTY((BufferedImage) null), // Empty cell
+        STAR(WebbImages.PLAY_PUZZLE_GRID_STAR), // White star the player placed
+        STAR_RED(WebbImages.PLAY_PUZZLE_GRID_STAR_RED), // Invalid star the player placed
+        PLAYER_MARKER(WebbImages.PLAY_PUZZLE_GRID_INVALID_CELL), // X mark that the player placed
+
+        // Brandon's internal markers.
+        // I don't entirely remember what he explained these do, but I am added them to translate
+        // The code to work with the gameboard
+        AMARKER(PLAYER_MARKER),
+        VMARKER(PLAYER_MARKER),
+        INVALID(STAR_RED)
         ;
+
+        private final BufferedImage img;
+
+        //Clone the cell type's image
+        CellType(CellType cellType) {
+            this.img = cellType.getImage();
+        }
+
+        //Create a new cell type
+        CellType(BufferedImage image) {
+            this.img = image;
+        }
+
+        public BufferedImage getImage() {
+            return img;
+        }
     }
 
 }

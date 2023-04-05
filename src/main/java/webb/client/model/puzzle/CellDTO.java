@@ -1,6 +1,7 @@
 package webb.client.model.puzzle;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import webb.client.ui.screens.puzzlescreen.Cell.CellType;
 
 /**
  * Represents a cell from the JSON file.
@@ -10,7 +11,6 @@ public class CellDTO {
 
     private final int row;
     private final int col;
-    private String type = "EMPTY";
 
     @JsonCreator
     public CellDTO( int[] values ) {
@@ -28,47 +28,11 @@ public class CellDTO {
      */
     public int getRow() {return row;}
 
-    /**
-     * @return the type of the cell
-     */
-    public String getType() {return type;}
-
-    public void setEmpty(){type = "EMPTY";}
-
-    public void setStar(){type = "STAR";}
-
-    public void setMarker(){type = "VMARKER";}
-
-    public void setInvalid(){
-        type = "INVALID";
-    }
-
-    public void setAMarker(){type = "AMARKER";}
-
     @Override
     public String toString() {
         return "CellDTO{" +
                 "row=" + row +
                 ", col=" + col +
                 '}';
-    }
-
-    public void changeType(Boolean lClick){
-        if(lClick){
-            if(type.equals("EMPTY")) {
-                type = "STAR";
-            }
-            else if(type.equals("STAR")||type.equals("INVALID")){
-                type = "MARKER";
-            }
-            else if(type.equals("MARKER")){
-                type = "EMPTY";
-            }
-        }
-        else{
-            if(type.equals("STAR")||type.equals("INVALID")||type.equals("MARKER")) {
-                type = "EMPTY";
-            }
-        }
     }
 }

@@ -5,20 +5,24 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Line2D;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JComponent;
+import webb.client.model.puzzle.CellDTO;
 import webb.client.ui.constants.WebbColors;
 import webb.client.ui.screens.puzzlescreen.Cell.CellType;
-import webb.client.model.puzzle.CellDTO;
 import webb.client.model.puzzle.PuzzleDTO;
 
 public class PuzzleComponent extends JComponent {
 
     private static final int MARGIN = 15;
     private int gridSize = 10;
+    private int numStars = 0;
 
     //COL, ROW
-    private Cell[][] cells;
+    private Cell[][] board;
+
+    private List<List<Cell>> regions;
 
     public PuzzleComponent() {
         //this.setBorder( new LineBorder( Color.BLUE, 2, true ));
@@ -43,7 +47,7 @@ public class PuzzleComponent extends JComponent {
                     for(int col = 0; col < gridSize; col++ ) {
                         Cell cell = getCell(col, row);
                         if( cell.isInside(x, y) ) {
-                            cell.onClick(rightClick);
+                            onClick(cell, rightClick, true);
                         }
                     }
                 }
@@ -57,11 +61,11 @@ public class PuzzleComponent extends JComponent {
      */
     private void setGridSize(int size) {
         gridSize = size;
-        cells = null;
-        cells = new Cell[gridSize][gridSize];
+        board = null;
+        board = new Cell[gridSize][gridSize];
         for(int row = 0; row < gridSize; row++ ) {
             for(int col = 0; col < gridSize; col++ ) {
-                cells[col][row] = new Cell( col, row );
+                board[col][row] = new Cell( col, row );
             }
         }
 
@@ -79,14 +83,21 @@ public class PuzzleComponent extends JComponent {
         //Set the puzzle size & reset the cells
         this.setGridSize(puzzle.getGridSize());
 
+        this.numStars = puzzle.getNumStars();
+
+        regions = new ArrayList<>();
+
         //Set the cell groups
         //Loop through every region, and set the group of every cell in that region to the region index
         for(int i = 0; i < puzzle.getRegions().size(); i++ ) {
             List<CellDTO> listOfCells = puzzle.getRegions().get(i);
+            List<Cell> tmp = new ArrayList<>();
             for(CellDTO cellDTO : listOfCells) {
                 Cell cell = getCell(cellDTO.getCol(), cellDTO.getRow());
                 cell.setGroup(i);
+                tmp.add(cell);
             }
+            regions.add(tmp);
         }
 
         //Set the solution boolean for every cell that is in the solution
@@ -95,7 +106,7 @@ public class PuzzleComponent extends JComponent {
             cell.setSolutionStar();
 
             //TODO: Testing - Show the solution
-            cell.setType(CellType.STAR);
+            //cell.setType(CellType.STAR);
         }
 
         //Set cell walls
@@ -135,6 +146,166 @@ public class PuzzleComponent extends JComponent {
 
         //repaint
         this.repaint();
+    }
+
+    /**
+     * Mirrors changeType from CellDTO while also clearing adjacently marked cells if c is cleared.
+     * @param c
+     * @param lClick
+     * @param visible
+     */
+    public void onClick(Cell c, boolean rightClick, boolean visible){
+        c.changeType(rightClick);
+        if(c.getType() == CellType.EMPTY){
+            clearAdjacent(c);
+        }
+        checkBoard(visible);
+    }
+
+    /**
+     * Primary method for checking and setting if stars are in valid locations
+     * @param visible
+     */
+    public void checkBoard(boolean visible){
+        Cell current;
+        boolean rowOut;
+        boolean colOut;
+
+        for(int i=0; i < gridSize; i++){
+            for(int j = 0; j < gridSize; j++){
+                current = getCell(j,i);
+                if(current.getType() == CellType.STAR || current.getType() == CellType.INVALID){
+                    rowOut = checkRow(visible, current);
+                    colOut = checkCol(visible, current);
+                    if(!rowOut || !colOut){
+                        current.setInvalid();
+                    }
+                    else{
+                        current.setStar();
+                    }
+                    markAdjacent(current);
+                }
+            }
+        }
+        checkRegions();
+    }
+
+
+    private boolean checkRow(boolean visible, Cell current){
+        int rowStars = 0;
+        for(int i = 0; i < gridSize; i++){
+            if(getCell(i, current.getRow()).getType() == CellType.STAR || getCell(i, current.getRow()).getType() == CellType.INVALID){
+                rowStars++;
+            }
+        }
+        if(visible && rowStars>=numStars){
+            for(int i = 0; i < gridSize; i++){
+                if(getCell(i, current.getRow()).getType() == CellType.EMPTY || getCell(i, current.getRow()).getType() == CellType.AMARKER){
+                    getCell(i, current.getRow()).setMarker();
+                }
+            }
+        }
+        if(visible && rowStars<numStars){
+            for(int i = 0; i < gridSize; i++){
+                if(getCell(i, current.getRow()).getType() == CellType.VMARKER){
+                    getCell(i, current.getRow()).setEmpty();
+                }
+            }
+        }
+        return rowStars <= numStars;
+    }
+
+    private boolean checkCol(boolean visible, Cell current){
+        int colStars = 0;
+        for(int i=0; i < gridSize; i++){
+            if(getCell(current.getCol(), i).getType() == CellType.STAR || getCell(current.getCol(), i).getType() == CellType.INVALID){
+                colStars++;
+            }
+        }
+        if(visible && colStars>=numStars){
+            for(int i=0; i < gridSize; i++){
+                if(getCell(current.getCol(), i).getType() == CellType.EMPTY || getCell(current.getCol(), i).getType() == CellType.AMARKER){
+                    getCell(current.getCol(), i).setMarker();
+                }
+            }
+        }
+        if(visible && colStars<numStars){
+            for(int i=0; i < gridSize; i++){
+                if(getCell(current.getCol(), i).getType() == CellType.VMARKER){
+                    getCell(current.getCol(), i).setEmpty();
+                }
+            }
+        }
+        return colStars <= numStars;
+    }
+
+    private void checkRegions(){
+        for(List<Cell> region : regions){
+            int regionStars = 0;
+            for(Cell cell : region){
+                if(cell.getType() == CellType.STAR || cell.getType() == CellType.INVALID){
+                    regionStars++;
+                }
+            }
+            if(regionStars > numStars){
+                for(Cell cell : region){
+                    if(cell.getType() == CellType.STAR){
+                        cell.setInvalid();
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * If checkBoard is visible, marks adjacent cells around a star cell as AMARKER, which can be
+     * cleared by clearAdjacent
+     * @param current
+     */
+    private void markAdjacent(Cell current){
+        int currentRow = current.getRow();
+        int currentCol = current.getCol();
+        Cell temp;
+
+        for (int i = currentRow - 1; i < currentRow + 2; i++) {
+            for (int j = currentCol - 1; j < currentCol + 2; j++) {
+                if (i >= 0 && i < gridSize && j >= 0 && j < gridSize && !(i==currentRow && j==currentCol)) {
+                    temp = getCell(j, i);
+                    if (temp.getType() == CellType.EMPTY) {
+                        temp.setAMarker();
+                    }
+                    if(temp.getType() == CellType.STAR || temp.getType() == CellType.INVALID){
+                        current.setInvalid();
+                    }
+                }
+            }
+        }
+    }
+
+    private void clearAdjacent(Cell current) {
+        int currentRow = current.getRow();
+        int currentCol = current.getCol();
+        Cell temp;
+
+        for (int i = currentRow - 1; i < currentRow + 2; i++) {
+            for (int j = currentCol - 1; j < currentCol + 2; j++) {
+                if (i >= 0 && i < gridSize && j >= 0 && j < gridSize) {
+                    temp = getCell(j, i);
+                    if (temp.getType() == CellType.AMARKER) {
+                        temp.setEmpty();
+                    }
+                }
+            }
+        }
+    }
+
+    public void printBoard(){
+        for(int i = 0; i < gridSize; i++){
+            for(int j = 0; j < gridSize; j++){
+                System.out.printf("%15s", getCell(j,i).getType());
+            }
+            System.out.println();
+        }
     }
 
     /**
@@ -219,7 +390,7 @@ public class PuzzleComponent extends JComponent {
         if(!isCellValid(col, row)) {
             throw new IllegalArgumentException("Invalid cell position!");
         }
-        return cells[col][row];
+        return board[col][row];
     }
 
     /**
