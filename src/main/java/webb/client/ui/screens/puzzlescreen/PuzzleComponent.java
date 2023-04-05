@@ -200,7 +200,7 @@ public class PuzzleComponent extends JComponent {
         }
         if(visible && rowStars>=numStars){
             for(int i = 0; i < gridSize; i++){
-                if(getCell(current.getRow(), i).getType() == CellType.INVALID || getCell(current.getRow(), i).getType() == CellType.AMARKER){
+                if(getCell(current.getRow(), i).getType() == CellType.EMPTY || getCell(current.getRow(), i).getType() == CellType.AMARKER){
                     getCell(current.getRow(), i).setMarker();
                 }
             }
