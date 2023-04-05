@@ -69,7 +69,7 @@ public class CellLogic {
     }
 
     private void changeType(boolean rightClick) {
-        System.out.println("Clicked on cell: " + col + ", " + row + " rightClick: " + rightClick);
+
         if(!rightClick){
             if(type == CellType.EMPTY) {
                 type = CellType.STAR;
@@ -86,6 +86,8 @@ public class CellLogic {
                 type = CellType.EMPTY;
             }
         }
+
+        System.out.println("Clicked on cell: " + col + ", " + row + " rightClick: " + rightClick + " type: " + type);
     }
 
     /**
