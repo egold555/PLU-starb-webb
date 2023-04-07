@@ -2,14 +2,20 @@ package webb.client.ui.screens.selectpuzzle;
 
 import java.awt.Container;
 import java.util.concurrent.ThreadLocalRandom;
-import javax.swing.*;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SpringLayout;
 import webb.client.ui.components.WebbBackButton;
 import webb.client.ui.components.WebbButton;
 import webb.client.ui.constants.WebbColors;
 import webb.client.ui.constants.WebbFonts;
 import webb.client.ui.constants.WebbImages;
+import webb.client.ui.popup.PopupStatistics;
+import webb.client.ui.popup.leaderboard.PopupLeaderboard;
 import webb.client.ui.screens.Screen;
-
+import webb.client.ui.screens.ScreenType;
+import webb.client.ui.testing.DummyData.DummyLeaderboardData;
+import webb.client.ui.testing.DummyData.DummyStatisticsData;
 
 /**
  * The screen that allows the user to select a puzzle to play.
@@ -55,44 +61,54 @@ public class SelectPuzzleScreen extends Screen {
 
 
 
-                WebbButton puzzleBack = new WebbButton(WebbImages.ARROW_BACK, 42, 42);
+                WebbButton puzzleBack = new WebbButton(WebbImages.PUZZLE_SELECTION_ARROW_BACK, 42, 42, (self, rightClicked) -> {
+                        System.out.println("Puzzle back button pressed");
+                });
                 bottomBarLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, puzzleBack, -200, SpringLayout.HORIZONTAL_CENTER, bottomBar);
                 bottomBarLayout.putConstraint(SpringLayout.VERTICAL_CENTER, puzzleBack, 0, SpringLayout.VERTICAL_CENTER, bottomBar);
 
-                puzzleBack.addActionListener(e -> {
-                        System.out.println("Puzzle back button pressed");
-                });
                 bottomBar.add(puzzleBack);
 
 
-                WebbButton puzzleForward = new WebbButton(WebbImages.ARROW_FORWARD, 42, 42);
+                WebbButton puzzleForward = new WebbButton(WebbImages.PUZZLE_SELECTION_ARROW_FORWARD, 42, 42, (self, rightClicked) -> {
+                        System.out.println("Puzzle forward button pressed");
+                });
                 bottomBarLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, puzzleForward, 200, SpringLayout.HORIZONTAL_CENTER, bottomBar);
                 bottomBarLayout.putConstraint(SpringLayout.VERTICAL_CENTER, puzzleForward, 0, SpringLayout.VERTICAL_CENTER, bottomBar);
 
-                puzzleForward.addActionListener(e -> {
-                        System.out.println("Puzzle forward button pressed");
-                });
                 bottomBar.add(puzzleForward);
 
 
-                WebbButton trophy = new WebbButton(WebbImages.BUTTON_TROPHY, 42, 42);
+                WebbButton trophy = new WebbButton(WebbImages.PUZZLE_SELECTION_BUTTON_TROPHY, 42, 42, (self, rightClicked) -> {
+                        System.out.println("Trophy button pressed");
+
+                        //TODO: Show actual leaderboard data
+                        showPopup(new PopupLeaderboard(
+                                DummyLeaderboardData.SCORES_300
+                        ));
+                });
                 bottomBarLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, trophy, -32, SpringLayout.HORIZONTAL_CENTER, bottomBar);
                 bottomBarLayout.putConstraint(SpringLayout.VERTICAL_CENTER, trophy, 0, SpringLayout.VERTICAL_CENTER, bottomBar);
 
-                trophy.addActionListener(e -> {
-                        System.out.println("Trophy button pressed");
-                });
                 bottomBar.add(trophy);
 
 
-                WebbButton stats = new WebbButton(WebbImages.BUTTON_STATS, 42, 42);
+                WebbButton stats = new WebbButton(WebbImages.PUZZLE_SELECTION_BUTTON_STATS, 42, 42, (self, rightClicked) -> {
+                        System.out.println("Stats button pressed");
+
+                        //TODO: Replace with actual stats
+                        showPopup(new PopupStatistics(
+                                DummyStatisticsData.CURRENT_TITLE,
+                                DummyStatisticsData.GAMES_COMPLETED,
+                                DummyStatisticsData.GAMES_MAX,
+                                DummyStatisticsData.SOLVE_TIME_MIN,
+                                DummyStatisticsData.SOLVE_TIME_MAX,
+                                DummyStatisticsData.SOLVE_TIME_AVERAGE
+                        ));
+                });
                 bottomBarLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, stats, 32, SpringLayout.HORIZONTAL_CENTER, bottomBar);
                 bottomBarLayout.putConstraint(SpringLayout.VERTICAL_CENTER, stats, 0, SpringLayout.VERTICAL_CENTER, bottomBar);
 
-                stats.addActionListener(e -> {
-                        System.out.println("Stats button pressed");
-                        TestModal test = new TestModal( (JFrame) SwingUtilities.getRootPane(this).getParent());
-                });
                 bottomBar.add(stats);
 
 
@@ -100,7 +116,7 @@ public class SelectPuzzleScreen extends Screen {
                 this.add(bottomBar);
 
 
-                this.add(new WebbBackButton(contentPane, layout, () -> {
+                this.add(new WebbBackButton(contentPane, layout, (self, rightClicked) -> {
                         System.out.println("Back button pressed");
                         switchScreenTo(ScreenType.MAIN_MENU);
                 }));

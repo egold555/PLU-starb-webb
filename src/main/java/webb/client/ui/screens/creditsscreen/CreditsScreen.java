@@ -3,13 +3,11 @@ package webb.client.ui.screens.creditsscreen;
 import java.awt.Container;
 import javax.swing.JLabel;
 import javax.swing.SpringLayout;
-import webb.client.ui.WebbWindow;
 import webb.client.ui.components.WebbBackButton;
-import webb.client.ui.components.WebbButton;
 import webb.client.ui.constants.WebbColors;
 import webb.client.ui.constants.WebbFonts;
-import webb.client.ui.constants.WebbImages;
 import webb.client.ui.screens.Screen;
+import webb.client.ui.screens.ScreenType;
 
 /**
  * The credits screen.
@@ -18,6 +16,8 @@ public class CreditsScreen extends Screen {
 
     @Override
     protected void populateComponents(Container contentPane, SpringLayout layout) {
+
+        //------ Title Text ------
         JLabel titleText = new JLabel("Credits");
         titleText.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_64);
         titleText.setForeground(WebbColors.TEXT_COLOR_BLACK);
@@ -39,6 +39,7 @@ public class CreditsScreen extends Screen {
         layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, madeBy2, 0, SpringLayout.HORIZONTAL_CENTER, contentPane);
         this.add(madeBy2);
 
+        //------ Author Credits ------
         AuthorCreditsLabel authorEric = new AuthorCreditsLabel("Eric", 50, contentPane, madeBy2, layout);
         this.add(authorEric);
 
@@ -51,7 +52,8 @@ public class CreditsScreen extends Screen {
         AuthorCreditsLabel authorSeth = new AuthorCreditsLabel("Seth", contentPane, authorBrandon, layout);
         this.add(authorSeth);
 
-        this.add(new WebbBackButton(contentPane, layout, () -> {
+        //------ Back Button ------
+        this.add(new WebbBackButton(contentPane, layout, (self, rightClicked) -> {
             System.out.println("Back button pressed");
             switchScreenTo(ScreenType.MAIN_MENU);
         }));

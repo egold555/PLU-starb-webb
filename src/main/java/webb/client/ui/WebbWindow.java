@@ -1,8 +1,12 @@
 package webb.client.ui;
 
-import javax.swing.JFrame;;
+import java.util.Timer;
+import java.util.TimerTask;
+import javax.swing.JFrame;
 import webb.client.ui.screens.Screen;
-import webb.client.ui.screens.Screen.ScreenType;
+import webb.client.ui.screens.ScreenType;
+
+;
 
 /**
  * The main window of the Webb client.
@@ -19,12 +23,14 @@ public class WebbWindow extends JFrame {
 
         this.switchScreen(ScreenType.MAIN_MENU);
 
+        //maximizes the window for testing
+        this.setExtendedState(this.getExtendedState() | JFrame.MAXIMIZED_BOTH);
         this.setSize(600, 600);
     }
 
     /**
-    Returns the instance of the WebbWindow.
-    If the instance is null, it creates a new instance and returns it.
+     Returns the instance of the WebbWindow.
+     If the instance is null, it creates a new instance and returns it.
      */
     public static WebbWindow getInstance() {
         if (instance == null) {
@@ -34,22 +40,28 @@ public class WebbWindow extends JFrame {
     }
 
     /**
-     Switches the display screen to the given screen.
-     @param screen The screen to switch to.
+     * Switches the display screen to the given screen.
+     * @param screen The screen instance to switch to.
      */
     public void switchScreen(ScreenType screen) {
-        switchScreen(screen.getScreen());
+        this.switchScreen(screen.getScreenInstance());
     }
 
     /**
      * Switches the display screen to the given screen.
      * @param screen The screen instance to switch to.
-     * @see WebbWindow#switchScreen(ScreenType)
+     * @see webb.client.ui.WebbWindow#switchScreen(webb.client.ui.screens.ScreenType)
      */
     private void switchScreen(Screen screen) {
         this.getContentPane().removeAll();
         this.getContentPane().add(screen);
         this.getContentPane().revalidate();
         this.getContentPane().repaint();
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                screen.onShow();
+            }
+        }, 1);
     }
 }

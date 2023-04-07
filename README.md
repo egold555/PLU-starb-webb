@@ -17,11 +17,7 @@ Steps to log in:
 <img src="doc/tutorial/authentication/1_authstep.png" width="400px">
 2) Click "edit configurations"
 <br><img src="doc/tutorial/authentication/2_authstep.png" width="400px">
-3) In the StarbClient run configuration settings, click modify options and select "Add VM options"
-<img src="doc/tutorial/authentication/3_authstep.png" width="500px">
-<img src="doc/tutorial/authentication/4_authstep.png" width="500px">
-4) In the VM options text field, add `-Dusername=test.` The argument username is required field followed by any username that is not currently in `src/main/resources/webb/data/userdata.json`
-<img src="doc/tutorial/authentication/5_authstep.png" width="500px">
+3) In the program arguments options text field, add `-username=test.` The argument username is required field followed by any username that is not currently in `src/main/resources/webb/data/userdata.json`
 
 Now, you will be able to start the program with no problems!
 

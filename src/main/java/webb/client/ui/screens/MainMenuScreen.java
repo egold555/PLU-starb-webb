@@ -7,8 +7,6 @@ import javax.swing.SpringLayout;
 import webb.client.ui.components.WebbButton;
 import webb.client.ui.constants.WebbColors;
 import webb.client.ui.constants.WebbFonts;
-import webb.client.ui.popup.ExampleWebbPopup;
-import webb.client.ui.popup.WebbPopup;
 
 /**
  * The main menu screen.
@@ -17,6 +15,8 @@ public class MainMenuScreen extends Screen {
 
     @Override
     protected void populateComponents(Container contentPane, SpringLayout layout) {
+
+        //------ Title text ------
         JLabel mainMenuText1 = new JLabel("Star Battle");
         mainMenuText1.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_72);
         mainMenuText1.setForeground(WebbColors.TEXT_COLOR_BLACK);
@@ -31,57 +31,52 @@ public class MainMenuScreen extends Screen {
         layout.putConstraint(SpringLayout.NORTH, mainMenuText2, 0, SpringLayout.SOUTH, mainMenuText1);
         this.add(mainMenuText2);
 
-        WebbButton playButton = new WebbButton("Play");
+        //------ Play button ------
+
+        WebbButton playButton = new WebbButton("Play", (self, rightClicked) -> {
+            System.out.println("Play button pressed");
+            this.switchScreenTo(ScreenType.SELECT_PUZZLE);
+        });
         playButton.setPreferredSize(new Dimension(142, 43));
         playButton.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_32);
         layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, playButton, 0, SpringLayout.HORIZONTAL_CENTER, contentPane);
         layout.putConstraint(SpringLayout.NORTH, playButton, 50, SpringLayout.SOUTH, mainMenuText2);
 
-        playButton.addActionListener((e) -> {
-            System.out.println("Play button pressed");
-            this.switchScreenTo(ScreenType.SELECT_PUZZLE);
-        });
-
         this.add(playButton);
 
-        WebbButton creditsButton = new WebbButton("Credits");
+        //------ Credits button ------
+        WebbButton creditsButton = new WebbButton("Credits", (self, rightClicked) -> {
+            System.out.println("Credits button pressed");
+            this.switchScreenTo(ScreenType.CREDITS);
+        });
         creditsButton.setPreferredSize(new Dimension(142, 43));
         creditsButton.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_32);
         layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, creditsButton, 0, SpringLayout.HORIZONTAL_CENTER, contentPane);
         layout.putConstraint(SpringLayout.NORTH, creditsButton, 10, SpringLayout.SOUTH, playButton);
 
-        creditsButton.addActionListener((e) -> {
-            System.out.println("Credits button pressed");
-            this.switchScreenTo(ScreenType.CREDITS);
-        });
-
         this.add(creditsButton);
 
-        WebbButton exitButton = new WebbButton("Exit");
+        //---------- Exit button ----------
+        WebbButton exitButton = new WebbButton("Exit", (self, rightClicked) -> {
+            System.out.println("Exit button pressed");
+            System.exit(0);
+        });
         exitButton.setPreferredSize(new Dimension(142, 43));
         exitButton.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_32);
         layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, exitButton, 0, SpringLayout.HORIZONTAL_CENTER, contentPane);
         layout.putConstraint(SpringLayout.NORTH, exitButton, 10, SpringLayout.SOUTH, creditsButton);
 
-        exitButton.addActionListener((e) -> {
-            System.out.println("Exit button pressed");
-        });
-
         this.add(exitButton);
 
-
-        WebbButton testButton = new WebbButton("Test");
+        //----------- Test button ----------------
+        WebbButton testButton = new WebbButton("Test", (self, rightClicked) -> {
+            System.out.println("Test button pressed");
+            this.switchScreenTo(ScreenType.TEST_COMPONENTS);
+        });
         testButton.setPreferredSize(new Dimension(142, 43));
         testButton.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_32);
         layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, testButton, 0, SpringLayout.HORIZONTAL_CENTER, contentPane);
         layout.putConstraint(SpringLayout.NORTH, testButton, 10, SpringLayout.SOUTH, exitButton);
-
-        testButton.addActionListener((e) -> {
-            System.out.println("Test button pressed");
-
-            WebbPopup test = new ExampleWebbPopup();
-            this.showPopup(test);
-        });
 
         this.add(testButton);
     }

@@ -11,9 +11,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 import javax.swing.SwingUtilities;
-import webb.client.ui.components.RoundedJPanel;
-import webb.client.ui.components.WebbBackButton;
 import webb.client.ui.components.WebbButton;
+import webb.client.ui.components.WebbRoundedJPanel;
 import webb.client.ui.constants.WebbColors;
 import webb.client.ui.constants.WebbFonts;
 import webb.client.ui.constants.WebbImages;
@@ -26,6 +25,7 @@ public abstract class WebbPopup extends JDialog {
 
     private JFrame parent;
     private final String title;
+    private boolean exitButton = true;
 
     /**
      * Creates a new popup with no title.
@@ -48,7 +48,7 @@ public abstract class WebbPopup extends JDialog {
      *
      * @param screen The screen to show the popup on top of.
      */
-    public void show(Screen screen) {
+    public final void show(Screen screen) {
         this.parent = (JFrame) SwingUtilities.getRootPane(screen).getParent();
 
         JPanel glassPane = new JPanel() {
@@ -81,21 +81,23 @@ public abstract class WebbPopup extends JDialog {
         SpringLayout layout = new SpringLayout();
 
         // Create the rounded panel illusion
-        RoundedJPanel roundedJPanel = new RoundedJPanel();
+        WebbRoundedJPanel roundedJPanel = new WebbRoundedJPanel();
         this.setContentPane(roundedJPanel);
         this.setUndecorated(true);
         this.setBackground(new Color(0, 0, 0, 0));
         this.setModal(true);
 
+        this.setSize(parent.getWidth() - 100, parent.getHeight() - 100);
+        this.setPreferredSize(new Dimension(this.getWidth(), this.getHeight()));
+
         populateComponents(roundedJPanel, layout);
 
-        WebbButton dialogCloseButton = new WebbButton(WebbImages.POPUP_CLOSE, 42, 42);
-        dialogCloseButton.addActionListener(e -> {
-            close();
-        });
-        layout.putConstraint(SpringLayout.NORTH, dialogCloseButton, 10, SpringLayout.NORTH, roundedJPanel);
-        layout.putConstraint(SpringLayout.EAST, dialogCloseButton, -10, SpringLayout.EAST, roundedJPanel);
-        this.add(dialogCloseButton);
+        if(exitButton) {
+            WebbButton dialogCloseButton = new WebbButton(WebbImages.POPUP_CLOSE, 42, 42, (self, rightClicked) -> close());
+            layout.putConstraint(SpringLayout.NORTH, dialogCloseButton, 10, SpringLayout.NORTH, roundedJPanel);
+            layout.putConstraint(SpringLayout.EAST, dialogCloseButton, -10, SpringLayout.EAST, roundedJPanel);
+            this.add(dialogCloseButton);
+        }
 
         if(title != null) {
             JLabel titleLabel = new JLabel(title);
@@ -108,8 +110,7 @@ public abstract class WebbPopup extends JDialog {
 
         this.setLayout(layout);
 
-        this.setSize(parent.getWidth() / 2, parent.getHeight() / 2);
-        this.setPreferredSize(new Dimension(this.getWidth(), this.getHeight()));
+
 
         // Call after setting the size
         this.setLocationRelativeTo(this.parent);
@@ -121,7 +122,7 @@ public abstract class WebbPopup extends JDialog {
     /**
      * Closes the popup.
      */
-    private void close() {
+    protected void close() {
         this.dispose();
         parent.getGlassPane().setVisible(false);
         parent.setEnabled(true);
@@ -136,4 +137,11 @@ public abstract class WebbPopup extends JDialog {
      * @param layout The layout of the popup.
      */
     protected abstract void populateComponents(JPanel contentPane, SpringLayout layout);
+
+    /**
+     * Sets whether the popup should have an exit button.
+     *
+     * @param exitButton Whether the popup should have an exit button.
+     */
+    public void setExitButton(boolean exitButton) {this.exitButton = exitButton;}
 }

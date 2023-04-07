@@ -5,24 +5,36 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import javax.swing.JPanel;
 
-public class RoundedJPanel extends JPanel {
+/**
+ * A JPanel that has rounded corners.
+ */
+public class WebbRoundedJPanel extends JPanel {
 
     private final int rWidth, rHeight;
 
-    public RoundedJPanel() {
+    /**
+     * Creates a new WebbRoundedJPanel with 15px rounded corners.
+     */
+    public WebbRoundedJPanel() {
         this(15, 15);
     }
 
-    public RoundedJPanel(int width, int height) {
-        this.rWidth = width;
-        this.rHeight = height;
+    /**
+     * Creates a new WebbRoundedJPanel.
+     *
+     * @param roundWidth The width of the rounded corners.
+     * @param roundHeight The height of the rounded corners.
+     */
+    public WebbRoundedJPanel(int roundWidth, int roundHeight) {
+        this.rWidth = roundWidth;
+        this.rHeight = roundHeight;
         this.setOpaque(false);
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        Dimension arcs = new Dimension(rWidth,rHeight); //Border corners arcs {width,height}, change this to whatever you want
+        Dimension arcs = new Dimension(rWidth, rHeight);
         int width = getWidth();
         int height = getHeight();
         Graphics2D graphics = (Graphics2D) g;
@@ -32,8 +44,9 @@ public class RoundedJPanel extends JPanel {
         //Draws the rounded panel with borders.
         graphics.setColor(getBackground());
         graphics.fillRoundRect(0, 0, width-1, height-1, arcs.width, arcs.height);//paint background
-        graphics.setColor(getForeground());
-        graphics.drawRoundRect(0, 0, width-1, height-1, arcs.width, arcs.height);//paint border
+
+        //graphics.setColor(getForeground());
+        //graphics.drawRoundRect(0, 0, width-1, height-1, arcs.width, arcs.height);//paint border
     }
 
 }
