@@ -83,7 +83,7 @@ public class PuzzleComponent extends JComponent {
      * @param rightClick
      * @param visible
      */
-    private void onClick(CellComponent c, boolean rightClick, boolean visible){
+    public void onClick(CellComponent c, boolean rightClick, boolean visible){
         logic.onClick(c, rightClick, visible);
     }
 

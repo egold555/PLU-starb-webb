@@ -74,7 +74,7 @@ public class PuzzleLogic {
             cell.setSolutionStar();
 
             //TODO: Testing - Show the solution
-            cell.setType(CellType.STAR);
+            //cell.setType(CellType.STAR);
         }
 
         //Set cell walls
