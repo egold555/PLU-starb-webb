@@ -267,7 +267,7 @@ public class PuzzleLogic {
     public void printBoard(){
         for(int i = 0; i < gridSize; i++){
             for(int j = 0; j < gridSize; j++){
-                System.out.printf("%15s", getCell(j,i).getType());
+                System.out.printf("%1s", getCell(j,i).getType().name().charAt(0));
             }
             System.out.println();
         }
