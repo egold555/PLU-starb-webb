@@ -6,10 +6,15 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
+import webb.client.model.puzzle.PuzzleDTO;
+import webb.client.ui.WebbWindow;
 import webb.client.ui.components.WebbButton;
 import webb.client.ui.components.WebbRoundedJPanel;
 import webb.client.ui.constants.WebbColors;
 import webb.client.ui.constants.WebbImages;
+import webb.client.ui.helpers.WebbWebUtilities;
+import webb.client.ui.screens.ScreenType;
+import webb.client.ui.screens.puzzlescreen.PuzzleScreen;
 
 /**
  * A button that represents a puzzle.
@@ -35,6 +40,22 @@ public class PuzzleButton extends JPanel {
 
         WebbButton button = new WebbButton(level.getName(), (self, rightClicked) -> {
             System.out.println("Puzzle button " + level.getName() + " clicked!");
+
+            WebbWebUtilities.getRequestAsync(
+                    "puzzles/" + level.getFile(),
+                    PuzzleDTO.class,
+                    (puzzle) -> {
+
+                        //TODO: 1-1-13 & 1-1-24 DONT LOAD??
+                        System.out.println("Puzzle " + level.getFile() + " loaded!");
+                        PuzzleScreen puzzleScreen = (PuzzleScreen) ScreenType.PLAY_PUZZLE.getScreenInstance();
+                        puzzleScreen.setPuzzle(puzzle);
+
+                        WebbWindow.getInstance().switchScreen(ScreenType.PLAY_PUZZLE);
+                        System.out.println("Switched to puzzle screen!");
+                    }
+            );
+
         });
         button.setDrawBackground(false);
 

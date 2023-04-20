@@ -3,6 +3,7 @@ package webb.client.ui.screens.puzzlescreen;
 import java.awt.Container;
 import javax.swing.SpringLayout;
 import webb.client.ui.screens.Screen;
+import webb.client.ui.screens.ScreenType;
 import webb.client.ui.screens.puzzlescreen.StopWatch.StopWatchCallback;
 import webb.client.ui.testing.DummyData.DummyPlayPuzzleData;
 import webb.client.model.puzzle.PuzzleDTO;
@@ -36,7 +37,7 @@ public class PuzzleScreen extends Screen {
         this.add(puzzleComponent);
 
         // Populate with dummy data for testing
-        populateWithDummyData();
+        //populateWithDummyData();
 
     }
 
@@ -88,5 +89,10 @@ public class PuzzleScreen extends Screen {
 
     protected PuzzleComponent getPuzzleComponent() {
         return puzzleComponent;
+    }
+
+    protected void exitPuzzle() {
+        stopWatch.stop();
+        this.switchScreenTo(ScreenType.SELECT_PUZZLE);
     }
 }
