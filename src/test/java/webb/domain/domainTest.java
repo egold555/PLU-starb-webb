@@ -5,10 +5,7 @@ import webb.client.model.puzzle.PuzzleDTO;
 
 import java.io.File;
 import java.io.IOException;
-import webb.client.ui.screens.puzzlescreen.Cell;
-import webb.client.ui.screens.puzzlescreen.Cell.CellType;
 import webb.client.ui.screens.puzzlescreen.PuzzleComponent;
-import webb.client.ui.screens.puzzlescreen.PuzzleScreen;
 
 public class domainTest {
     public static void main(String[] args) throws IOException {
@@ -21,12 +18,12 @@ public class domainTest {
         p.printBoard();
         System.out.println();
 
-        p.getCell(0,0).changeType(false);
-        p.getCell(4, 0).changeType(false);
-        p.getCell(5, 0).changeType(false);
-        p.getCell(7,0).changeType(false);
-        p.getCell(0, 5).changeType(false);
-        p.getCell(4,0).changeType(false);
+        p.getCell(0,0).onClick(false);
+        p.getCell(4, 0).onClick(false);
+        p.getCell(5, 0).onClick(false);
+        p.getCell(7,0).onClick(false);
+        p.getCell(0, 5).onClick(false);
+        p.getCell(4,0).onClick(false);
 
         p.printBoard();
         System.out.println();

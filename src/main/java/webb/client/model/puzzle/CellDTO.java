@@ -1,7 +1,6 @@
 package webb.client.model.puzzle;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import webb.client.ui.screens.puzzlescreen.Cell.CellType;
 
 /**
  * Represents a cell from the JSON file.

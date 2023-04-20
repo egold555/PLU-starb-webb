@@ -23,7 +23,7 @@ public class PuzzleSideScreen extends WebbRoundedJPanel {
     private final JLabel puzzleNumber;
     private final  JLabel completedByLabel;
 
-    public PuzzleSideScreen() {
+    public PuzzleSideScreen(PuzzleScreen puzzleScreen) {
         this.setBackground(WebbColors.c90);
         SpringLayout layout = new SpringLayout();
 
@@ -88,6 +88,11 @@ public class PuzzleSideScreen extends WebbRoundedJPanel {
 
         WebbButton highlightMovesButton = new WebbButton(WebbImages.PLAY_PUZZLE_HINT_BUTTON, 42, 42, (self, rightClicked) -> {
             System.out.println("Hint button clicked");
+            puzzleScreen.getPuzzleComponent().setHintVisible(true);
+        });
+        highlightMovesButton.setClickReleaseListener((self, rightClicked) -> {
+            System.out.println("Hint button released");
+            puzzleScreen.getPuzzleComponent().setHintVisible(false);
         });
         innerLayout.putConstraint(SpringLayout.NORTH, highlightMovesButton, 20, SpringLayout.SOUTH, timeLabel);
         innerLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, highlightMovesButton, 0, SpringLayout.HORIZONTAL_CENTER, innerPanel);
