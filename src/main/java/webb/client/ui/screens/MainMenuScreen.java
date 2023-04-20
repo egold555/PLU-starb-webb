@@ -90,7 +90,7 @@ public class MainMenuScreen extends Screen {
         SelectPuzzleScreen selectPuzzleScreen = (SelectPuzzleScreen) ScreenType.SELECT_PUZZLE.getScreenInstance();
 
         if(!selectPuzzleScreen.hasPopulatedLevelsYet()) {
-            WebbWebUtilities.getRequest(
+            WebbWebUtilities.getRequestAsync(
                     "levels.json",
                     Level[].class,
                     SelectPuzzleScreen.DEFAULT_LEVELS,

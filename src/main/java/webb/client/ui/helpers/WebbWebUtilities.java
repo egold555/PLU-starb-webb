@@ -31,7 +31,7 @@ public class WebbWebUtilities {
     /**
      * Makes a GET request to the specified URL and returns the response as a JSON object.
      * @param urlStr The URL to make the request to.
-     * @param futureReply The response as a JSON object.
+     * @return The response as a JSON object.
      * {
      *     "success": true, //false if there was any error
      *     "httpStatusCode": 200, //The HTTP status code we successfully made the request to the server
@@ -39,46 +39,62 @@ public class WebbWebUtilities {
      *     "data": {...} //The data returned by the server if everything went well. Else its null.
      * }
      */
-    public static void getRequest(String urlStr, FutureReply<ObjectNode> futureReply) {
+    public static ObjectNode getRequest(String urlStr) {
 
-        THREAD_POOL.submit(() -> {
-            ObjectMapper mapper = new ObjectMapper();
-            ObjectNode rootNode = mapper.createObjectNode();
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode rootNode = mapper.createObjectNode();
+
+        try {
+            URL url = new URL(BASE_URL + urlStr);
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+
+            BufferedReader inputReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            String inputLine;
+            StringBuilder content = new StringBuilder();
+            while ((inputLine = inputReader.readLine()) != null) {
+                content.append(inputLine);
+            }
+            inputReader.close();
+
+            final int httpStatusCode = con.getResponseCode();
 
             try {
-                URL url = new URL(BASE_URL + urlStr);
-                HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                con.setRequestMethod("GET");
-
-                BufferedReader inputReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
-                String inputLine;
-                StringBuilder content = new StringBuilder();
-                while ((inputLine = inputReader.readLine()) != null) {
-                    content.append(inputLine);
-                }
-                inputReader.close();
-
-                final int httpStatusCode = con.getResponseCode();
-
-                try {
-                    JsonNode jsonNode = mapper.readTree(content.toString());
-                    rootNode.put("success", true);
-                    rootNode.put("httpStatusCode", httpStatusCode);
-                    rootNode.set("data", jsonNode);
-                }
-                catch (Exception e) {
-                    rootNode.put("success", false);
-                    rootNode.put("httpStatusCode", httpStatusCode);
-                    rootNode.put("error", e.getMessage());
-                }
+                JsonNode jsonNode = mapper.readTree(content.toString());
+                rootNode.put("success", true);
+                rootNode.put("httpStatusCode", httpStatusCode);
+                rootNode.set("data", jsonNode);
             }
-            catch (IOException e) {
-                e.printStackTrace();
+            catch (Exception e) {
                 rootNode.put("success", false);
+                rootNode.put("httpStatusCode", httpStatusCode);
                 rootNode.put("error", e.getMessage());
             }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+            rootNode.put("success", false);
+            rootNode.put("error", e.getMessage());
+        }
 
-            futureReply.reply(rootNode);
+        return rootNode;
+    }
+
+    /**
+     * Makes a GET request to the specified URL and returns the response as a JSON object.
+     * @param urlStr The URL to make the request to.
+     * @param futureReply  The response as a JSON object.
+     * {
+     *     "success": true, //false if there was any error
+     *     "httpStatusCode": 200, //The HTTP status code we successfully made the request to the server
+     *     "error": "...", //Only present if success is false. Returns the error message from the catch statements
+     *     "data": {...} //The data returned by the server if everything went well. Else its null.
+     * }
+     */
+    public static void getRequestAsync(String urlStr, FutureReply<ObjectNode> futureReply) {
+        THREAD_POOL.submit(() -> {
+            ObjectNode node = getRequest(urlStr);
+            futureReply.reply(node);
         });
     }
 
@@ -89,8 +105,8 @@ public class WebbWebUtilities {
      * @param clazz The class of the object to return.
      * @param futureReply The response as a Java object of T, or null if there was an error.
      */
-    public static <T> void getRequest(String urlStr, Class<T> clazz, FutureReply<T> futureReply) {
-        getRequest(urlStr, clazz, null, futureReply);
+    public static <T> void getRequestAsync(String urlStr, Class<T> clazz, FutureReply<T> futureReply) {
+        getRequestAsync(urlStr, clazz, null, futureReply);
     }
 
     /**
@@ -100,8 +116,8 @@ public class WebbWebUtilities {
      * @param defaultValue The default value to return if we get an error.
      * @param futureReply The response as a Java object of T, or defaultValue if there was an error.
      */
-    public static <T> void getRequest(String urlStr, Class<T> clazz, T defaultValue, FutureReply<T> futureReply) {
-        getRequest(urlStr, (node) -> {
+    public static <T> void getRequestAsync(String urlStr, Class<T> clazz, T defaultValue, FutureReply<T> futureReply) {
+        getRequestAsync(urlStr, (node) -> {
             if (node.get("success").asBoolean()) {
                 try {
                     futureReply.reply(DEFAULT_JSON_CODEC.treeToValue(node.get("data"), clazz));
@@ -115,6 +131,40 @@ public class WebbWebUtilities {
                 futureReply.reply(defaultValue);
             }
         });
+    }
+
+    /**
+     * Makes a GET request to the specified URL and returns the response as a Java object.
+     * Returns null if there was an error.
+     * @param urlStr The URL to make the request to.
+     * @param clazz The class of the object to return.
+     * @return The response as a Java object of T, or null if there was an error.
+     */
+    public static <T> T getRequest(String urlStr, Class<T> clazz) {
+        return getRequest(urlStr, clazz, null);
+    }
+
+    /**
+     * Makes a GET request to the specified URL and returns the response as a Java object.
+     * @param urlStr The URL to make the request to.
+     * @param clazz The class of the object to return.
+     * @param defaultValue The default value to return if we get an error.
+     * @return The response as a Java object of T, or defaultValue if there was an error.
+     */
+    public static <T> T getRequest(String urlStr, Class<T> clazz, T defaultValue) {
+        ObjectNode node = getRequest(urlStr);
+        if (node.get("success").asBoolean()) {
+            try {
+                return DEFAULT_JSON_CODEC.treeToValue(node.get("data"), clazz);
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+                return defaultValue;
+            }
+        }
+        else {
+            return defaultValue;
+        }
     }
 
 }

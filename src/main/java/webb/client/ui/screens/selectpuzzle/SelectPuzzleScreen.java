@@ -128,14 +128,14 @@ public class SelectPuzzleScreen extends Screen {
 
         @Override
         public void onShow() {
-                WebbWebUtilities.getRequest(
+                WebbWebUtilities.getRequestAsync(
                         "leaderboard.json",
                         LeaderboardScore[].class,
                         DEFAULT_LEADERBOARD_SCORE,
                         reply -> {leaderboardScores = reply;}
                 );
 
-                WebbWebUtilities.getRequest(
+                WebbWebUtilities.getRequestAsync(
                         "user-statistics.json",
                         StatisticsData.class,
                         DEFAULT_STATISTICS_DATA,
