@@ -9,7 +9,7 @@ import webb.client.ui.components.WebbBackButton;
 import webb.client.ui.components.WebbButton;
 import webb.client.ui.constants.WebbFonts;
 import webb.client.ui.popup.ExampleWebbPopup;
-import webb.client.ui.popup.PopupStatistics;
+import webb.client.ui.popup.statistics.PopupStatistics;
 import webb.client.ui.popup.congratulations.PopupCongratulations;
 import webb.client.ui.popup.leaderboard.PopupLeaderboard;
 import webb.client.ui.screens.Screen;
@@ -169,12 +169,7 @@ public class ScreenTestComponents extends Screen {
     // Show the statistics popup with dummy data
     private void showPopupStatistics() {
         showPopup(new PopupStatistics(
-                DummyStatisticsData.CURRENT_TITLE,
-                DummyStatisticsData.GAMES_COMPLETED,
-                DummyStatisticsData.GAMES_MAX,
-                DummyStatisticsData.SOLVE_TIME_MIN,
-                DummyStatisticsData.SOLVE_TIME_MAX,
-                DummyStatisticsData.SOLVE_TIME_AVERAGE
+                DummyStatisticsData.DATA
         ));
     }
 

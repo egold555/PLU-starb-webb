@@ -1,8 +1,6 @@
 package webb.client.ui.screens.selectpuzzle;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import java.awt.Container;
-import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -12,14 +10,13 @@ import webb.client.ui.components.WebbButton;
 import webb.client.ui.constants.WebbColors;
 import webb.client.ui.constants.WebbFonts;
 import webb.client.ui.constants.WebbImages;
-import webb.client.ui.helpers.FutureReply;
 import webb.client.ui.helpers.WebbWebUtilities;
-import webb.client.ui.popup.PopupStatistics;
+import webb.client.ui.popup.statistics.PopupStatistics;
 import webb.client.ui.popup.leaderboard.LeaderboardScore;
 import webb.client.ui.popup.leaderboard.PopupLeaderboard;
+import webb.client.ui.popup.statistics.StatisticsData;
 import webb.client.ui.screens.Screen;
 import webb.client.ui.screens.ScreenType;
-import webb.client.ui.testing.DummyData.DummyLeaderboardData;
 import webb.client.ui.testing.DummyData.DummyStatisticsData;
 
 /**
@@ -29,6 +26,9 @@ public class SelectPuzzleScreen extends Screen {
 
         private static final LeaderboardScore[] DEFAULT_LEADERBOARD_SCORE = new LeaderboardScore[]{new LeaderboardScore("Error fetching leaderboard data.", 0, 0)};
         private LeaderboardScore[] leaderboardScores = DEFAULT_LEADERBOARD_SCORE;
+
+        private static final StatisticsData DEFAULT_STATISTICS_DATA = new StatisticsData("Error fetching statistics data.", 0, 0, 0, 0, 0);
+        private StatisticsData statisticsData = DEFAULT_STATISTICS_DATA;
 
         @Override
         protected void populateComponents(Container contentPane, SpringLayout layout) {
@@ -107,12 +107,7 @@ public class SelectPuzzleScreen extends Screen {
 
                         //TODO: Replace with actual stats
                         showPopup(new PopupStatistics(
-                                DummyStatisticsData.CURRENT_TITLE,
-                                DummyStatisticsData.GAMES_COMPLETED,
-                                DummyStatisticsData.GAMES_MAX,
-                                DummyStatisticsData.SOLVE_TIME_MIN,
-                                DummyStatisticsData.SOLVE_TIME_MAX,
-                                DummyStatisticsData.SOLVE_TIME_AVERAGE
+                                statisticsData
                         ));
                 });
                 bottomBarLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, stats, 32, SpringLayout.HORIZONTAL_CENTER, bottomBar);
@@ -138,6 +133,13 @@ public class SelectPuzzleScreen extends Screen {
                         LeaderboardScore[].class,
                         DEFAULT_LEADERBOARD_SCORE,
                         reply -> {leaderboardScores = reply;}
+                );
+
+                WebbWebUtilities.getRequest(
+                        "user-statistics.json",
+                        StatisticsData.class,
+                        DEFAULT_STATISTICS_DATA,
+                        reply -> {statisticsData = reply;}
                 );
         }
 
