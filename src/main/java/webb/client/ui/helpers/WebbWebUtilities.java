@@ -7,8 +7,11 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -166,5 +169,106 @@ public class WebbWebUtilities {
             return defaultValue;
         }
     }
+
+    /**
+     * Makes a POST request to the specified URL and returns the response as a JSON object.
+     * @param urlStr The URL to make the request to.
+     * @param data The data to send to the server.
+     * @return The response as a JSON object.
+     * {
+     *     "success": true, //false if there was any error
+     *     "httpStatusCode": 200, //The HTTP status code we successfully made the request to the server
+     *     "error": "...", //Only present if success is false. Returns the error message from the catch statements
+     *     "data": {...} //The data returned by the server if everything went well. Else its null.
+     * }
+     */
+    public static ObjectNode sendPostRequest(String urlStr, ObjectNode data) {
+
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode rootNode = mapper.createObjectNode();
+
+        try {
+
+            final String body = data.toString();
+
+            // Fox for some servers interpreting the request as a GET request if the URL doesn't end with a slash.
+            // This took me an hour to figure out. I hate this.
+            if(!urlStr.endsWith("/") && !urlStr.endsWith("?")) {
+                urlStr += "/";
+            }
+
+            URL url = new URL(BASE_URL + urlStr);
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setDoOutput(true);
+            con.setRequestMethod("POST");
+            con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+            con.setRequestProperty( "Content-Length", String.valueOf(body.length()));
+            con.setRequestProperty("Accept", "application/json");
+
+
+            OutputStream os = con.getOutputStream();
+            OutputStreamWriter osw = new OutputStreamWriter(os, StandardCharsets.UTF_8);
+            osw.write(body);
+            osw.flush();
+            osw.close();
+            os.flush();
+            os.close();
+            con.connect();
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8));
+
+            StringBuilder response = new StringBuilder();
+            String responseLine = null;
+            while ((responseLine = br.readLine()) != null) {
+                response.append(responseLine.trim());
+            }
+
+            final int httpStatusCode = con.getResponseCode();
+
+            if(response.toString().isEmpty() || httpStatusCode == 204) {
+                rootNode.put("success", true);
+                rootNode.put("httpStatusCode", httpStatusCode);
+                return rootNode;
+            }
+
+            try {
+                JsonNode jsonNode = mapper.readTree(response.toString());
+                rootNode.put("success", true);
+                rootNode.put("httpStatusCode", httpStatusCode);
+                rootNode.set("data", jsonNode);
+            }
+            catch (Exception e) {
+                rootNode.put("success", false);
+                rootNode.put("httpStatusCode", httpStatusCode);
+                rootNode.put("error", e.getMessage());
+            }
+        }
+        catch (IOException e) {
+            rootNode.put("success", false);
+            rootNode.put("error", e.getMessage());
+        }
+
+        return rootNode;
+    }
+
+    /**
+     * Makes a POST request to the specified URL and returns the response as a JSON object.
+     * @param urlStr The URL to make the request to.
+     * @param data The data to send to the server.
+     * @param futureReply  The response as a JSON object.
+     * {
+     *     "success": true, //false if there was any error
+     *     "httpStatusCode": 200, //The HTTP status code we successfully made the request to the server
+     *     "error": "...", //Only present if success is false. Returns the error message from the catch statements
+     *     "data": {...} //The data returned by the server if everything went well. Else its null.
+     * }
+     */
+    public static void sendPostRequestAsync(String urlStr, ObjectNode data, FutureReply<ObjectNode> futureReply) {
+        THREAD_POOL.submit(() -> {
+            ObjectNode node = sendPostRequest(urlStr, data);
+            futureReply.reply(node);
+        });
+    }
+
 
 }
