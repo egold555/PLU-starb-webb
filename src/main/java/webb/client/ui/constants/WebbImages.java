@@ -43,6 +43,7 @@ public class WebbImages {
     public static final BufferedImage PLAY_PUZZLE_GRID_STAR = loadImage("screen_play_puzzle/grid_star.png");
     public static final BufferedImage PLAY_PUZZLE_GRID_INVALID_CELL = loadImage("screen_play_puzzle/grid_invalid_cell.png");
     public static final BufferedImage PLAY_PUZZLE_GRID_STAR_RED = loadImage("screen_play_puzzle/grid_star_red.png");
+    public static final BufferedImage PLAY_PUZZLE_GRID_AVMARKER = loadImage("screen_play_puzzle/grid_avmarker.png");
 
     /**
      * Attempts to load an image from the resources folder.

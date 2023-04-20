@@ -64,7 +64,7 @@ public class CellComponent {
         final int imgW = (int) (sw - (imgOffset * 2));
         final int imgH = (int) (sh - (imgOffset * 2));
 
-        if(this.logic.getType().getImage() != null) {
+        if(this.logic.shouldDrawIcon() && this.logic.getType().getImage() != null) {
             g2d.drawImage(this.logic.getType().getImage(), imgX, imgY, imgW, imgH, null );
         }
 

@@ -25,6 +25,8 @@ public class CellLogic {
 
     private boolean isSolutionStar = false;
 
+    private boolean drawIcon = true;
+
     /**
      * Create a new cell
      * @param col Column of the cell
@@ -57,7 +59,12 @@ public class CellLogic {
      * Set the type of the cell
      * @param type Type of the cell
      */
-    public void setType(CellType type) {this.type = type;}
+    public void setType(CellType type) {
+        this.type = type;
+        if(type == CellType.AMARKER || type == CellType.VMARKER){
+            this.drawIcon = false;
+        }
+    }
 
     /**
      * Called when the cell is clicked
@@ -131,5 +138,19 @@ public class CellLogic {
      * Check if the cell is in the solution
      */
     public boolean isSolutionStar() {return isSolutionStar;}
+
+    /**
+     * Set if the cell should draw the icon
+     * @param drawIcon True if the cell should draw the icon
+     */
+    public void setDrawIcon(boolean drawIcon) {
+        this.drawIcon = drawIcon;
+    }
+
+    /**
+     * Check if the cell should draw the icon
+     * @return True if the cell should draw the icon
+     */
+    public boolean shouldDrawIcon() {return drawIcon;}
 
 }

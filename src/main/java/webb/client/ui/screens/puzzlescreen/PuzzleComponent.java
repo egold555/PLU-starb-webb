@@ -5,13 +5,10 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Line2D;
-import java.util.ArrayList;
-import java.util.List;
 import javax.swing.JComponent;
-import webb.client.logic.puzzle.CellLogic;
+import javax.swing.SwingUtilities;
 import webb.client.logic.puzzle.CellType;
 import webb.client.logic.puzzle.PuzzleLogic;
-import webb.client.model.puzzle.CellDTO;
 import webb.client.ui.constants.WebbColors;
 import webb.client.model.puzzle.PuzzleDTO;
 
@@ -45,7 +42,8 @@ public class PuzzleComponent extends JComponent {
                         CellComponent cell = getCell(col, row);
                         if( cell.isInside(x, y) ) {
                             onClick(cell, rightClick, true);
-                            repaint();
+                            repaintLater();
+
                             printBoard();
                         }
                     }
@@ -179,5 +177,31 @@ public class PuzzleComponent extends JComponent {
      */
     public CellComponent getCell(int col, int row) {
         return logic.getCell(col, row);
+    }
+
+    /**
+     * Shows all the AMARKERS and VMarkers on the board given a boolean
+     * @param b do we show the markers?
+     */
+    public void setHintVisible(boolean b) {
+        for(int row = 0; row < logic.getGridSize(); row++ ) {
+            for(int col = 0; col < logic.getGridSize(); col++ ) {
+                CellComponent cell = getCell(col, row);
+                if(cell.getType() == CellType.AMARKER || cell.getType() == CellType.VMARKER) {
+                    cell.getLogic().setDrawIcon(b);
+                }
+            }
+        }
+        repaintLater();
+    }
+
+    /*
+     * Repaints the component later.
+     * Bit of a hacky way to do it, but it works.
+     */
+    private void repaintLater() {
+        SwingUtilities.invokeLater(() -> {
+            repaint();
+        });
     }
 }

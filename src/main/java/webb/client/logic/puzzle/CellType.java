@@ -15,8 +15,8 @@ public enum CellType {
     // Brandon's internal markers.
     // I don't entirely remember what he explained these do, but I am added them to translate
     // The code to work with the gameboard
-    AMARKER(PLAYER_MARKER, "A"),
-    VMARKER(PLAYER_MARKER, "V"),
+    AMARKER(WebbImages.PLAY_PUZZLE_GRID_AVMARKER, "A"),
+    VMARKER(WebbImages.PLAY_PUZZLE_GRID_AVMARKER, "V"),
     INVALID(STAR_RED, "I")
     ;
 

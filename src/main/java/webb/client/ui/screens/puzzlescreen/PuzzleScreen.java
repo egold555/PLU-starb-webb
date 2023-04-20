@@ -21,7 +21,7 @@ public class PuzzleScreen extends Screen {
     protected void populateComponents(Container contentPane, SpringLayout layout) {
 
         //------------------ SIDEBAR ------------------
-        sidePanel = new PuzzleSideScreen();
+        sidePanel = new PuzzleSideScreen(this);
         layout.putConstraint(SpringLayout.EAST, sidePanel, -10, SpringLayout.EAST, contentPane);
         layout.putConstraint(SpringLayout.VERTICAL_CENTER, sidePanel, 0, SpringLayout.VERTICAL_CENTER, contentPane);
         layout.putConstraint(SpringLayout.HEIGHT, sidePanel, -10, SpringLayout.HEIGHT, contentPane);
@@ -86,4 +86,7 @@ public class PuzzleScreen extends Screen {
         stopWatch.start();
     }
 
+    protected PuzzleComponent getPuzzleComponent() {
+        return puzzleComponent;
+    }
 }
