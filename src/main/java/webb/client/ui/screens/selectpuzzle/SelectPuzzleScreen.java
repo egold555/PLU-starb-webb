@@ -12,6 +12,7 @@ import webb.client.ui.components.WebbButton;
 import webb.client.ui.constants.WebbColors;
 import webb.client.ui.constants.WebbFonts;
 import webb.client.ui.constants.WebbImages;
+import webb.client.ui.helpers.FutureReply;
 import webb.client.ui.helpers.WebbWebUtilities;
 import webb.client.ui.popup.PopupStatistics;
 import webb.client.ui.popup.leaderboard.LeaderboardScore;
@@ -132,10 +133,11 @@ public class SelectPuzzleScreen extends Screen {
 
         @Override
         public void onShow() {
-                leaderboardScores = WebbWebUtilities.getRequest(
+                WebbWebUtilities.getRequest(
                         "leaderboard.json",
                         LeaderboardScore[].class,
-                        DEFAULT_LEADERBOARD_SCORE
+                        DEFAULT_LEADERBOARD_SCORE,
+                        reply -> {leaderboardScores = reply;}
                 );
         }
 

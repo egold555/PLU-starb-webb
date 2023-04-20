@@ -9,7 +9,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import org.bson.json.JsonObject;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class WebbWebUtilities {
 
@@ -22,12 +23,15 @@ public class WebbWebUtilities {
     //Define the codec for the ObjectMapper to parse.
     //Make sure if there is no empty constructor for the class
     //you can use the @JsonCreator annotation for every variable in the constructor.
-    private static final ObjectCodec codec = new ObjectMapper().getFactory().getCodec();
+    private static final ObjectCodec DEFAULT_JSON_CODEC = new ObjectMapper().getFactory().getCodec();
+
+    //The threadpool to use for all the requests. Max 10 requests at a time.
+    private static final ExecutorService THREAD_POOL = Executors.newFixedThreadPool(10);
 
     /**
      * Makes a GET request to the specified URL and returns the response as a JSON object.
      * @param urlStr The URL to make the request to.
-     * @return The response as a JSON object.
+     * @param futureReply The response as a JSON object.
      * {
      *     "success": true, //false if there was any error
      *     "httpStatusCode": 200, //The HTTP status code we successfully made the request to the server
@@ -35,45 +39,47 @@ public class WebbWebUtilities {
      *     "data": {...} //The data returned by the server if everything went well. Else its null.
      * }
      */
-    public static ObjectNode getRequest(String urlStr) {
+    public static void getRequest(String urlStr, FutureReply<ObjectNode> futureReply) {
 
-        ObjectMapper mapper = new ObjectMapper();
-        ObjectNode rootNode = mapper.createObjectNode();
-
-        try {
-            URL url = new URL(BASE_URL + urlStr);
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("GET");
-
-            BufferedReader inputReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
-            String inputLine;
-            StringBuilder content = new StringBuilder();
-            while ((inputLine = inputReader.readLine()) != null) {
-                content.append(inputLine);
-            }
-            inputReader.close();
-
-            final int httpStatusCode = con.getResponseCode();
+        THREAD_POOL.submit(() -> {
+            ObjectMapper mapper = new ObjectMapper();
+            ObjectNode rootNode = mapper.createObjectNode();
 
             try {
-                JsonNode jsonNode = mapper.readTree(content.toString());
-                rootNode.put("success", true);
-                rootNode.put("httpStatusCode", httpStatusCode);
-                rootNode.set("data", jsonNode);
+                URL url = new URL(BASE_URL + urlStr);
+                HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                con.setRequestMethod("GET");
+
+                BufferedReader inputReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                String inputLine;
+                StringBuilder content = new StringBuilder();
+                while ((inputLine = inputReader.readLine()) != null) {
+                    content.append(inputLine);
+                }
+                inputReader.close();
+
+                final int httpStatusCode = con.getResponseCode();
+
+                try {
+                    JsonNode jsonNode = mapper.readTree(content.toString());
+                    rootNode.put("success", true);
+                    rootNode.put("httpStatusCode", httpStatusCode);
+                    rootNode.set("data", jsonNode);
+                }
+                catch (Exception e) {
+                    rootNode.put("success", false);
+                    rootNode.put("httpStatusCode", httpStatusCode);
+                    rootNode.put("error", e.getMessage());
+                }
             }
-            catch (Exception e) {
+            catch (IOException e) {
+                e.printStackTrace();
                 rootNode.put("success", false);
-                rootNode.put("httpStatusCode", httpStatusCode);
                 rootNode.put("error", e.getMessage());
             }
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-            rootNode.put("success", false);
-            rootNode.put("error", e.getMessage());
-        }
 
-        return rootNode;
+            futureReply.reply(rootNode);
+        });
     }
 
     /**
@@ -81,10 +87,10 @@ public class WebbWebUtilities {
      * Returns null if there was an error.
      * @param urlStr The URL to make the request to.
      * @param clazz The class of the object to return.
-     * @return The response as a Java object of T, or null if there was an error.
+     * @param futureReply The response as a Java object of T, or null if there was an error.
      */
-    public static <T> T getRequest(String urlStr, Class<T> clazz) {
-        return getRequest(urlStr, clazz, null);
+    public static <T> void getRequest(String urlStr, Class<T> clazz, FutureReply<T> futureReply) {
+        getRequest(urlStr, clazz, null, futureReply);
     }
 
     /**
@@ -92,21 +98,23 @@ public class WebbWebUtilities {
      * @param urlStr The URL to make the request to.
      * @param clazz The class of the object to return.
      * @param defaultValue The default value to return if we get an error.
-     * @return The response as a Java object of T, or defaultValue if there was an error.
+     * @param futureReply The response as a Java object of T, or defaultValue if there was an error.
      */
-    public static <T> T getRequest(String urlStr, Class<T> clazz, T defaultValue) {
-        ObjectNode node = getRequest(urlStr);
-
-        if (node.get("success").asBoolean()) {
-            try {
-                return node.get("data").traverse(codec).readValueAs(clazz);
+    public static <T> void getRequest(String urlStr, Class<T> clazz, T defaultValue, FutureReply<T> futureReply) {
+        getRequest(urlStr, (node) -> {
+            if (node.get("success").asBoolean()) {
+                try {
+                    futureReply.reply(DEFAULT_JSON_CODEC.treeToValue(node.get("data"), clazz));
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                    futureReply.reply(defaultValue);
+                }
             }
-            catch (IOException e) {
-                e.printStackTrace();
-                return defaultValue;
+            else {
+                futureReply.reply(defaultValue);
             }
-        }
-        return defaultValue;
+        });
     }
 
 }
