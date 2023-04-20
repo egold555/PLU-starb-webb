@@ -121,7 +121,7 @@ public class PuzzleLogic {
      */
     public void onClick(CellComponent c, boolean rightClick, boolean visible){
         c.onClick(rightClick);
-        if(c.getType() == CellType.EMPTY){
+        if(c.getType() == CellType.EMPTY || c.getType() == CellType.PLAYER_MARKER){
             clearAdjacent(c);
         }
         checkBoard(visible);
