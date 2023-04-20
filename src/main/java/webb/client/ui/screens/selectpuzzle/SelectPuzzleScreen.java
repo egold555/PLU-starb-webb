@@ -1,7 +1,6 @@
 package webb.client.ui.screens.selectpuzzle;
 
 import java.awt.Container;
-import java.util.concurrent.ThreadLocalRandom;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
@@ -11,13 +10,12 @@ import webb.client.ui.constants.WebbColors;
 import webb.client.ui.constants.WebbFonts;
 import webb.client.ui.constants.WebbImages;
 import webb.client.ui.helpers.WebbWebUtilities;
-import webb.client.ui.popup.statistics.PopupStatistics;
 import webb.client.ui.popup.leaderboard.LeaderboardScore;
 import webb.client.ui.popup.leaderboard.PopupLeaderboard;
+import webb.client.ui.popup.statistics.PopupStatistics;
 import webb.client.ui.popup.statistics.StatisticsData;
 import webb.client.ui.screens.Screen;
 import webb.client.ui.screens.ScreenType;
-import webb.client.ui.testing.DummyData.DummyStatisticsData;
 
 /**
  * The screen that allows the user to select a puzzle to play.
@@ -30,6 +28,11 @@ public class SelectPuzzleScreen extends Screen {
         private static final StatisticsData DEFAULT_STATISTICS_DATA = new StatisticsData("Error fetching statistics data.", 0, 0, 0, 0, 0);
         private StatisticsData statisticsData = DEFAULT_STATISTICS_DATA;
 
+        public static final Level[] DEFAULT_LEVELS = new Level[]{new Level("Error fetching", 0, false, null)};
+        private Level[] levels = DEFAULT_LEVELS;
+
+        private JPanel puzzlePanel;
+
         @Override
         protected void populateComponents(Container contentPane, SpringLayout layout) {
 
@@ -40,7 +43,7 @@ public class SelectPuzzleScreen extends Screen {
                 layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, titleText, 0, SpringLayout.HORIZONTAL_CENTER, contentPane);
                 this.add(titleText);
 
-                JPanel puzzlePanel = new JPanel();
+                puzzlePanel = new JPanel();
                 puzzlePanel.setOpaque(false);
                 //puzzlePanel.setBackground(WebbColors.B7);
                 //puzzlePanel.setBorder(BorderFactory.createLineBorder(Color.black, 1));
@@ -51,11 +54,8 @@ public class SelectPuzzleScreen extends Screen {
                 layout.putConstraint(SpringLayout.SOUTH, puzzlePanel, -70, SpringLayout.SOUTH, contentPane);
                 //puzzlePanel.setLayout(new GridLayout(10, 10));
 
-                for (int i = 0; i < 9; i++) {
-                        PuzzleButton button = new PuzzleButton(i + 1, ThreadLocalRandom.current().nextInt(1,4));
-                        button.setCompleted(ThreadLocalRandom.current().nextBoolean());
-                        puzzlePanel.add(button);
-                }
+                // Default error level
+                puzzlePanel.add(new PuzzleButton(DEFAULT_LEVELS[0]));
 
                 this.add(puzzlePanel);
 
@@ -93,7 +93,7 @@ public class SelectPuzzleScreen extends Screen {
 
                         //TODO: Show actual leaderboard data
                         showPopup(new PopupLeaderboard(
-                               leaderboardScores
+                                leaderboardScores
                         ));
                 });
                 bottomBarLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, trophy, -32, SpringLayout.HORIZONTAL_CENTER, bottomBar);
@@ -141,7 +141,24 @@ public class SelectPuzzleScreen extends Screen {
                         DEFAULT_STATISTICS_DATA,
                         reply -> {statisticsData = reply;}
                 );
+
+                repopulateLevels();
         }
 
+        public void setLevels(Level[] levels) {
+                this.levels = levels;
+        }
 
+        private void repopulateLevels() {
+                puzzlePanel.removeAll();
+                for (Level level : levels) {
+                        PuzzleButton button = new PuzzleButton(level);
+                        puzzlePanel.add(button);
+                }
+                puzzlePanel.revalidate();
+        }
+
+        public boolean hasPopulatedLevelsYet() {
+                return levels != DEFAULT_LEVELS;
+        }
 }

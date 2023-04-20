@@ -17,11 +17,10 @@ import webb.client.ui.constants.WebbImages;
  */
 public class PuzzleButton extends JPanel {
 
-    private boolean completed = false;
-    private int stars = 0;
+    private final Level level;
 
-    public PuzzleButton(int id, int stars) {
-        this.stars = stars;
+    public PuzzleButton(Level level) {
+        this.level = level;
         this.setOpaque(false);
 
         SpringLayout innerLayout = new SpringLayout();
@@ -34,8 +33,8 @@ public class PuzzleButton extends JPanel {
 
         panel.setBackground(WebbColors.B7);
 
-        WebbButton button = new WebbButton("" + id, (self, rightClicked) -> {
-            System.out.println("Puzzle button " + id + " clicked!");
+        WebbButton button = new WebbButton(level.getName(), (self, rightClicked) -> {
+            System.out.println("Puzzle button " + level.getName() + " clicked!");
         });
         button.setDrawBackground(false);
 
@@ -52,16 +51,15 @@ public class PuzzleButton extends JPanel {
     }
 
     /**
-     * Sets whether or not this puzzle is completed.
-     * @param completed True if completed, false otherwise.
+     * @return The level data that this button represents.
      */
-    public void setCompleted(boolean completed) {this.completed = completed;}
+    public Level getLevel() {return level;}
 
     @Override
     public void paint(Graphics g) {
         super.paint(g);
         Graphics2D g2 = (Graphics2D) g;
-        if(completed) {
+        if(level.isCompleted()) {
             g2.drawImage(WebbImages.PUZZLE_SELECTION_LEVEL_COMPLETE_EMBLEM, 120, 0, 50, 50, null);
         }
 
@@ -73,6 +71,8 @@ public class PuzzleButton extends JPanel {
         //VERY VERY bad way to do this, but right now my brain hurts
         //and java swing is murdering me.
         //TODO: Replace with a JPanel with a BorderLayout
+        final int stars = level.getStars();
+
         if(stars == 1) {
             g2.drawImage(WebbImages.PUZZLE_SELECTION_STAR, this.getWidth()/2 - 15, this.getHeight() - 40, 30, 30, null);
         }

@@ -7,6 +7,9 @@ import javax.swing.SpringLayout;
 import webb.client.ui.components.WebbButton;
 import webb.client.ui.constants.WebbColors;
 import webb.client.ui.constants.WebbFonts;
+import webb.client.ui.helpers.WebbWebUtilities;
+import webb.client.ui.screens.selectpuzzle.Level;
+import webb.client.ui.screens.selectpuzzle.SelectPuzzleScreen;
 
 /**
  * The main menu screen.
@@ -81,4 +84,21 @@ public class MainMenuScreen extends Screen {
         this.add(testButton);
     }
 
+    @Override
+    public void onShow() {
+
+        SelectPuzzleScreen selectPuzzleScreen = (SelectPuzzleScreen) ScreenType.SELECT_PUZZLE.getScreenInstance();
+
+        if(!selectPuzzleScreen.hasPopulatedLevelsYet()) {
+            WebbWebUtilities.getRequest(
+                    "levels.json",
+                    Level[].class,
+                    SelectPuzzleScreen.DEFAULT_LEVELS,
+                    selectPuzzleScreen::setLevels
+            );
+        }
+
+
+
+    }
 }
