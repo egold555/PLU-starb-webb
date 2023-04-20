@@ -136,6 +136,12 @@ public class WebbButton extends JButton {
     public void setTextColor(Color textColor) {this.textColor = textColor;}
 
     /**
+     * Sets the image of the button.
+     * @param image The image to display on the button.
+     */
+    public void setImage(BufferedImage image) {this.image = image;}
+
+    /**
      * Sets whether or not the button should draw a background.
      * @param drawBackground Whether or not to draw a background.
      */

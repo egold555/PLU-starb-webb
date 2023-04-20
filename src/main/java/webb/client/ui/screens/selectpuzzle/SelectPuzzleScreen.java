@@ -1,6 +1,10 @@
 package webb.client.ui.screens.selectpuzzle;
 
 import java.awt.Container;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
@@ -31,7 +35,16 @@ public class SelectPuzzleScreen extends Screen {
         public static final Level[] DEFAULT_LEVELS = new Level[]{new Level("Error fetching", 0, false, null)};
         private Level[] levels = DEFAULT_LEVELS;
 
+        private List<List<Level>> levelPages = new ArrayList<>();
+
+        private int currentPage = 0;
+
         private JPanel puzzlePanel;
+
+        private WebbButton puzzleForward;
+        private WebbButton puzzleBack;
+
+        private JLabel pageNumberLabel;
 
         @Override
         protected void populateComponents(Container contentPane, SpringLayout layout) {
@@ -52,7 +65,6 @@ public class SelectPuzzleScreen extends Screen {
                 layout.putConstraint(SpringLayout.EAST, puzzlePanel, -20, SpringLayout.EAST, contentPane);
                 layout.putConstraint(SpringLayout.WEST, puzzlePanel, 20, SpringLayout.WEST, contentPane);
                 layout.putConstraint(SpringLayout.SOUTH, puzzlePanel, -70, SpringLayout.SOUTH, contentPane);
-                //puzzlePanel.setLayout(new GridLayout(10, 10));
 
                 // Default error level
                 puzzlePanel.add(new PuzzleButton(DEFAULT_LEVELS[0]));
@@ -70,8 +82,12 @@ public class SelectPuzzleScreen extends Screen {
 
 
 
-                WebbButton puzzleBack = new WebbButton(WebbImages.PUZZLE_SELECTION_ARROW_BACK, 42, 42, (self, rightClicked) -> {
+                puzzleBack = new WebbButton(WebbImages.PUZZLE_SELECTION_ARROW_BACK, 42, 42, (self, rightClicked) -> {
                         System.out.println("Puzzle back button pressed");
+                        if(currentPage > 0) {
+                                currentPage--;
+                                showPuzzlePanelPage(currentPage);
+                        }
                 });
                 bottomBarLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, puzzleBack, -200, SpringLayout.HORIZONTAL_CENTER, bottomBar);
                 bottomBarLayout.putConstraint(SpringLayout.VERTICAL_CENTER, puzzleBack, 0, SpringLayout.VERTICAL_CENTER, bottomBar);
@@ -79,8 +95,12 @@ public class SelectPuzzleScreen extends Screen {
                 bottomBar.add(puzzleBack);
 
 
-                WebbButton puzzleForward = new WebbButton(WebbImages.PUZZLE_SELECTION_ARROW_FORWARD, 42, 42, (self, rightClicked) -> {
+                puzzleForward = new WebbButton(WebbImages.PUZZLE_SELECTION_ARROW_FORWARD, 42, 42, (self, rightClicked) -> {
                         System.out.println("Puzzle forward button pressed");
+                        if(currentPage < levelPages.size() - 1) {
+                                currentPage++;
+                                showPuzzlePanelPage(currentPage);
+                        }
                 });
                 bottomBarLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, puzzleForward, 200, SpringLayout.HORIZONTAL_CENTER, bottomBar);
                 bottomBarLayout.putConstraint(SpringLayout.VERTICAL_CENTER, puzzleForward, 0, SpringLayout.VERTICAL_CENTER, bottomBar);
@@ -96,11 +116,17 @@ public class SelectPuzzleScreen extends Screen {
                                 leaderboardScores
                         ));
                 });
-                bottomBarLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, trophy, -32, SpringLayout.HORIZONTAL_CENTER, bottomBar);
+                bottomBarLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, trophy, -92, SpringLayout.HORIZONTAL_CENTER, bottomBar);
                 bottomBarLayout.putConstraint(SpringLayout.VERTICAL_CENTER, trophy, 0, SpringLayout.VERTICAL_CENTER, bottomBar);
 
                 bottomBar.add(trophy);
 
+                pageNumberLabel = new JLabel("0");
+                pageNumberLabel.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_32);
+                pageNumberLabel.setForeground(WebbColors.c6C);
+                bottomBarLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, pageNumberLabel, 0, SpringLayout.HORIZONTAL_CENTER, bottomBar);
+                bottomBarLayout.putConstraint(SpringLayout.VERTICAL_CENTER, pageNumberLabel, 0, SpringLayout.VERTICAL_CENTER, bottomBar);
+                bottomBar.add(pageNumberLabel);
 
                 WebbButton stats = new WebbButton(WebbImages.PUZZLE_SELECTION_BUTTON_STATS, 42, 42, (self, rightClicked) -> {
                         System.out.println("Stats button pressed");
@@ -110,7 +136,7 @@ public class SelectPuzzleScreen extends Screen {
                                 statisticsData
                         ));
                 });
-                bottomBarLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, stats, 32, SpringLayout.HORIZONTAL_CENTER, bottomBar);
+                bottomBarLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, stats, 92, SpringLayout.HORIZONTAL_CENTER, bottomBar);
                 bottomBarLayout.putConstraint(SpringLayout.VERTICAL_CENTER, stats, 0, SpringLayout.VERTICAL_CENTER, bottomBar);
 
                 bottomBar.add(stats);
@@ -124,10 +150,47 @@ public class SelectPuzzleScreen extends Screen {
                         System.out.println("Back button pressed");
                         switchScreenTo(ScreenType.MAIN_MENU);
                 }));
+
+                //Calculate how many pages we need given the current size of the puzzle panel
+                puzzlePanel.addComponentListener(new ComponentAdapter() {
+                        @Override
+                        public void componentResized(ComponentEvent e) {
+                                super.componentResized(e);
+                                int newWidth = puzzlePanel.getSize().width;
+                                int newHeight = puzzlePanel.getSize().height;
+                                System.out.println("Puzzle panel width: " + newWidth + ", height: " + newHeight);
+
+                                final int horiz = (int) Math.floor(newWidth / 180);
+                                final int vert = (int) Math.floor(newHeight / 180);
+
+                                final int totalButtons = levels.length;
+                                final int perPage = horiz * vert;
+                                final int pages = (int) Math.ceil(totalButtons / (double) perPage);
+
+                                System.out.println("Horiz: " + horiz + ", vert: " + vert + ", total buttons: " + totalButtons + ", per page: " + perPage + ", pages: " + pages);
+
+                                levelPages.clear();
+                                for(int page = 0; page < pages; page++) {
+                                        List<Level> tmpPage = new ArrayList<>();
+                                        for(int i = 0; i < perPage; i++) {
+                                                int index = page * perPage + i;
+                                                if(index < totalButtons) {
+                                                        tmpPage.add(levels[index]);
+                                                }
+                                        }
+                                        levelPages.add(tmpPage);
+                                }
+
+                                showPuzzlePanelPage(0);
+
+                        }
+                });
+
         }
 
         @Override
         public void onShow() {
+
                 WebbWebUtilities.getRequestAsync(
                         "leaderboard.json",
                         LeaderboardScore[].class,
@@ -142,20 +205,47 @@ public class SelectPuzzleScreen extends Screen {
                         reply -> {statisticsData = reply;}
                 );
 
-                repopulateLevels();
+                showPuzzlePanelPage(0);
         }
 
         public void setLevels(Level[] levels) {
                 this.levels = levels;
         }
 
-        private void repopulateLevels() {
+        private void showPuzzlePanelPage(int page) {
+                if(page < 0 || page > levelPages.size() - 1) {
+                        System.out.println("Invalid page number: " + page);
+                        return;
+                }
+
+                this.pageNumberLabel.setText((page + 1) + "/" + levelPages.size());
+               // System.out.println("Repopulating levels for page " + page);
+               // System.out.println("total: " + levelPages.size());
+
                 puzzlePanel.removeAll();
+                List<Level> levels = levelPages.get(page);
                 for (Level level : levels) {
                         PuzzleButton button = new PuzzleButton(level);
                         puzzlePanel.add(button);
                 }
                 puzzlePanel.revalidate();
+
+                //disable the back button if we're on the first page
+                if(page > 0) {
+                        puzzleBack.setImage(WebbImages.PUZZLE_SELECTION_ARROW_BACK);
+                } else {
+                        puzzleBack.setImage(WebbImages.PUZZLE_SELECTION_ARROW_BACK_DISABLED);
+                }
+
+                //disable the forward button if we're on the last page
+                if(page < levelPages.size() - 1) {
+                        puzzleForward.setImage(WebbImages.PUZZLE_SELECTION_ARROW_FORWARD);
+                } else {
+                        puzzleForward.setImage(WebbImages.PUZZLE_SELECTION_ARROW_FORWARD_DISABLED);
+                }
+
+                puzzleBack.repaint();
+                puzzleForward.repaint();
         }
 
         public boolean hasPopulatedLevelsYet() {
