@@ -14,9 +14,13 @@ public class TestPostRequest {
         root.put("int", 1);
         root.put("boolean", true);
 
-//        WebbWebUtilities.sendPostRequestAsync("testing/echo-as-json", root, (response) -> {
-//            System.out.println(response.toPrettyString());
-//        });
+        WebbWebUtilities.sendPostRequestAsync(
+                "testing/echo-as-json",
+                root,
+                (response) -> {
+                    System.out.println(response.toPrettyString());
+                }
+        );
 
         ObjectNode resp = WebbWebUtilities.sendPostRequest("testing/echo-as-json", root);
         System.out.println(resp.toPrettyString());
