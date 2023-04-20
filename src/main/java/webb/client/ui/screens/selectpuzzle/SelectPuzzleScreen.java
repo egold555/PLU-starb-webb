@@ -1,6 +1,8 @@
 package webb.client.ui.screens.selectpuzzle;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import java.awt.Container;
+import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -10,7 +12,9 @@ import webb.client.ui.components.WebbButton;
 import webb.client.ui.constants.WebbColors;
 import webb.client.ui.constants.WebbFonts;
 import webb.client.ui.constants.WebbImages;
+import webb.client.ui.helpers.WebbWebUtilities;
 import webb.client.ui.popup.PopupStatistics;
+import webb.client.ui.popup.leaderboard.LeaderboardScore;
 import webb.client.ui.popup.leaderboard.PopupLeaderboard;
 import webb.client.ui.screens.Screen;
 import webb.client.ui.screens.ScreenType;
@@ -22,8 +26,12 @@ import webb.client.ui.testing.DummyData.DummyStatisticsData;
  */
 public class SelectPuzzleScreen extends Screen {
 
+        private static final LeaderboardScore[] DEFAULT_LEADERBOARD_SCORE = new LeaderboardScore[]{new LeaderboardScore("Error fetching leaderboard data.", 0, 0)};
+        private LeaderboardScore[] leaderboardScores = DEFAULT_LEADERBOARD_SCORE;
+
         @Override
         protected void populateComponents(Container contentPane, SpringLayout layout) {
+
                 JLabel titleText = new JLabel("Select Puzzle");
                 titleText.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_64);
                 titleText.setForeground(WebbColors.TEXT_COLOR_BLACK);
@@ -84,7 +92,7 @@ public class SelectPuzzleScreen extends Screen {
 
                         //TODO: Show actual leaderboard data
                         showPopup(new PopupLeaderboard(
-                                DummyLeaderboardData.SCORES_300
+                               leaderboardScores
                         ));
                 });
                 bottomBarLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, trophy, -32, SpringLayout.HORIZONTAL_CENTER, bottomBar);
@@ -120,6 +128,15 @@ public class SelectPuzzleScreen extends Screen {
                         System.out.println("Back button pressed");
                         switchScreenTo(ScreenType.MAIN_MENU);
                 }));
+        }
+
+        @Override
+        public void onShow() {
+                leaderboardScores = WebbWebUtilities.getRequest(
+                        "leaderboard.json",
+                        LeaderboardScore[].class,
+                        DEFAULT_LEADERBOARD_SCORE
+                );
         }
 
 

@@ -1,5 +1,7 @@
 package webb.client.ui.popup.leaderboard;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * Represents a score in the leaderboard.
  */
@@ -16,7 +18,7 @@ public class LeaderboardScore implements Comparable<LeaderboardScore> {
      * @param score The score of the player
      * @param time The completion time of the player (in milliseconds)
      */
-    public LeaderboardScore(String name, int score, long time) {
+    public LeaderboardScore(@JsonProperty("name") String name, @JsonProperty("score") int score, @JsonProperty("time") long time) {
         this.name = name;
         this.score = score;
         this.time = time;
