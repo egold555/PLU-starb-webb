@@ -32,7 +32,7 @@ public class SelectPuzzleScreen extends Screen {
         private static final StatisticsData DEFAULT_STATISTICS_DATA = new StatisticsData("Error fetching statistics data.", 0, 0, 0, 0, 0);
         private StatisticsData statisticsData = DEFAULT_STATISTICS_DATA;
 
-        public static final Level[] DEFAULT_LEVELS = new Level[]{new Level("Error fetching", 0, false, null)};
+        public static final Level[] DEFAULT_LEVELS = new Level[]{new Level("Error fetching", 0, false, null, 0)};
         private Level[] levels = DEFAULT_LEVELS;
 
         private List<List<Level>> levelPages = new ArrayList<>();

@@ -11,12 +11,14 @@ public class Level {
     private final int stars;
     private boolean completed;
     private final String file;
+    private final int howManyCompleted;
 
-    public Level(@JsonProperty("name") String name, @JsonProperty("stars") int stars, @JsonProperty("completed") boolean completed, @JsonProperty("file") String file) {
+    public Level(@JsonProperty("name") String name, @JsonProperty("stars") int stars, @JsonProperty("completed") boolean completed, @JsonProperty("file") String file, @JsonProperty("howManyCompleted") int howManyCompleted) {
         this.name = name;
         this.stars = stars;
         this.completed = completed;
         this.file = file;
+        this.howManyCompleted = howManyCompleted;
     }
 
     /**
@@ -44,5 +46,11 @@ public class Level {
      * @return the file name of the level on the server
      */
     public String getFile() {return file;}
+
+
+    /**
+     * @return How many people completed this level
+     */
+    public int getHowManyCompleted() {return howManyCompleted;}
 
 }

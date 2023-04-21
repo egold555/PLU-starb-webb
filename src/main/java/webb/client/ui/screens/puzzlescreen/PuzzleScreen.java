@@ -2,9 +2,11 @@ package webb.client.ui.screens.puzzlescreen;
 
 import java.awt.Container;
 import javax.swing.SpringLayout;
+import webb.client.ui.helpers.WebbWebUtilities;
 import webb.client.ui.screens.Screen;
 import webb.client.ui.screens.ScreenType;
 import webb.client.ui.screens.puzzlescreen.StopWatch.StopWatchCallback;
+import webb.client.ui.screens.selectpuzzle.Level;
 import webb.client.ui.testing.DummyData.DummyPlayPuzzleData;
 import webb.client.model.puzzle.PuzzleDTO;
 
@@ -57,8 +59,6 @@ public class PuzzleScreen extends Screen {
 //        for(Entry<Point, CellType> entry : DummyPlayPuzzleData.PUZZLE_GRID_STARS.entrySet()) {
 //            puzzleComponent.getCell(entry.getKey().x, entry.getKey().y).setType(entry.getValue());
 //        }
-
-        setPuzzle(DummyPlayPuzzleData.PUZZLE_1_1_1);
     }
 
     /**
@@ -66,7 +66,7 @@ public class PuzzleScreen extends Screen {
      * @param puzzle The puzzle to display.
      * TODO: Finish this method once we have real data!
      */
-    public void setPuzzle(PuzzleDTO puzzle) {
+    public void setPuzzle(Level level, PuzzleDTO puzzle) {
         sidePanel.setStarsRemaining(puzzle.getTotalStars(), puzzle.getTotalStars());
         sidePanel.setPuzzleNumber(0, puzzle.getNumStars());
         puzzleComponent.setPuzzle(puzzle);
@@ -80,9 +80,11 @@ public class PuzzleScreen extends Screen {
             @Override
             public void updateLabels(long currentTime) {
                 sidePanel.setTimeRemaining(currentTime);
-               // System.out.println("Time remaining: " + currentTime);
+                // System.out.println("Time remaining: " + currentTime);
             }
         });
+
+        sidePanel.setPlayersCompleted(level.getHowManyCompleted());
 
         stopWatch.start();
     }

@@ -49,7 +49,7 @@ public class PuzzleButton extends JPanel {
                         //TODO: 1-1-13 & 1-1-24 DONT LOAD??
                         System.out.println("Puzzle " + level.getFile() + " loaded!");
                         PuzzleScreen puzzleScreen = (PuzzleScreen) ScreenType.PLAY_PUZZLE.getScreenInstance();
-                        puzzleScreen.setPuzzle(puzzle);
+                        puzzleScreen.setPuzzle(level, puzzle);
 
                         WebbWindow.getInstance().switchScreen(ScreenType.PLAY_PUZZLE);
                         System.out.println("Switched to puzzle screen!");
