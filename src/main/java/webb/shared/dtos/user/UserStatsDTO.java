@@ -16,12 +16,17 @@ public class UserStatsDTO {
      * @param minSolveTime the minimum solve time of the user in ms
      * @param avgSolveTime the average solve time of the user in ms
      * @param puzzlesComplete the number of puzzles completed by the user
+     * @param puzzlesUntilNextTitle the number of puzzles until the user gets the next title
+     * @param currentTitle the current title of the user
+     *
      */
     public UserStatsDTO(
             @JsonProperty("maxSolveTime") long maxSolveTime,
             @JsonProperty("minSolveTime") long minSolveTime,
             @JsonProperty("avgSolveTime") long avgSolveTime,
-            @JsonProperty("puzzlesComplete") int puzzlesComplete) {
+            @JsonProperty("puzzlesComplete") int puzzlesComplete,
+            @JsonProperty("puzzlesUntilNextTitle") int puzzlesUntilNextTitle,
+            @JsonProperty("currentTitle") String currentTitle) {
         this.maxSolveTime = maxSolveTime;
         this.minSolveTime = minSolveTime;
         this.avgSolveTime = avgSolveTime;
