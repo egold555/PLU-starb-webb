@@ -5,11 +5,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class UserStatsDTO {
 
     // In milliseconds
-    private long maxSolveTime;
-    private long minSolveTime;
-    private long avgSolveTime;
+    private final long maxSolveTime;
+    private final long minSolveTime;
+    private final long avgSolveTime;
+    private final int puzzlesComplete;
 
-    private int puzzlesComplete;
+    private final int puzzlesUntilNextTitle;
+    private final String currentTitle;
 
     /** Creates a new UserStats object
      * @param maxSolveTime the maximum solve time of the user in ms
@@ -31,6 +33,8 @@ public class UserStatsDTO {
         this.minSolveTime = minSolveTime;
         this.avgSolveTime = avgSolveTime;
         this.puzzlesComplete = puzzlesComplete;
+        this.puzzlesUntilNextTitle = puzzlesUntilNextTitle;
+        this.currentTitle = currentTitle;
     }
 
     /**
@@ -52,6 +56,16 @@ public class UserStatsDTO {
      * @return the number of puzzles completed by the user
      */
     public int getPuzzlesComplete() {return puzzlesComplete;}
+
+    /**
+     * @return the number of puzzles until the user gets the next title
+     */
+    public int getPuzzlesUntilNextTitle() {return puzzlesUntilNextTitle;}
+
+    /**
+     * @return the current title of the user
+     */
+    public String getCurrentTitle() {return currentTitle;}
 
 
 }
