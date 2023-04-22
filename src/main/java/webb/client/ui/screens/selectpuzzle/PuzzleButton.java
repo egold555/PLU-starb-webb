@@ -6,7 +6,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
-import webb.client.model.puzzle.PuzzleDTO;
 import webb.client.ui.WebbWindow;
 import webb.client.ui.components.WebbButton;
 import webb.client.ui.components.WebbRoundedJPanel;
@@ -15,6 +14,7 @@ import webb.client.ui.constants.WebbImages;
 import webb.client.ui.helpers.WebbWebUtilities;
 import webb.client.ui.screens.ScreenType;
 import webb.client.ui.screens.puzzlescreen.PuzzleScreen;
+import webb.shared.dtos.old.PuzzleDTO_OLD;
 
 /**
  * A button that represents a puzzle.
@@ -43,7 +43,7 @@ public class PuzzleButton extends JPanel {
 
             WebbWebUtilities.getRequestAsync(
                     "puzzles/" + level.getFile(),
-                    PuzzleDTO.class,
+                    PuzzleDTO_OLD.class,
                     (puzzle) -> {
 
                         //TODO: 1-1-13 & 1-1-24 DONT LOAD??
