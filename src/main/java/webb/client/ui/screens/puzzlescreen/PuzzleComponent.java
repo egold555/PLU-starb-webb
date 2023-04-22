@@ -10,7 +10,7 @@ import javax.swing.SwingUtilities;
 import webb.client.logic.puzzle.CellType;
 import webb.client.logic.puzzle.PuzzleLogic;
 import webb.client.ui.constants.WebbColors;
-import webb.client.model.puzzle.PuzzleDTO;
+import webb.shared.dtos.old.PuzzleDTO_OLD;
 
 public class PuzzleComponent extends JComponent {
 
@@ -68,7 +68,7 @@ public class PuzzleComponent extends JComponent {
      * Set the puzzle to be displayed
      * @param puzzle Puzzle to be displayed
      */
-    public void setPuzzle(PuzzleDTO puzzle) {
+    public void setPuzzle(PuzzleDTO_OLD puzzle) {
 
         logic.setPuzzle(puzzle);
         //repaint

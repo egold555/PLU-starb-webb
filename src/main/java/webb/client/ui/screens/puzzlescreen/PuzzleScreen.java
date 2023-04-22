@@ -8,7 +8,7 @@ import webb.client.ui.screens.ScreenType;
 import webb.client.ui.screens.puzzlescreen.StopWatch.StopWatchCallback;
 import webb.client.ui.screens.selectpuzzle.Level;
 import webb.client.ui.testing.DummyData.DummyPlayPuzzleData;
-import webb.client.model.puzzle.PuzzleDTO;
+import webb.shared.dtos.old.PuzzleDTO_OLD;
 
 /**
  * The screen that displays the puzzle, that the user interacts with.
@@ -66,7 +66,7 @@ public class PuzzleScreen extends Screen {
      * @param puzzle The puzzle to display.
      * TODO: Finish this method once we have real data!
      */
-    public void setPuzzle(Level level, PuzzleDTO puzzle) {
+    public void setPuzzle(Level level, PuzzleDTO_OLD puzzle) {
         sidePanel.setStarsRemaining(puzzle.getTotalStars(), puzzle.getTotalStars());
         sidePanel.setPuzzleNumber(0, puzzle.getNumStars());
         puzzleComponent.setPuzzle(puzzle);

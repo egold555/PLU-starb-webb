@@ -1,15 +1,15 @@
 package webb.server.security;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import webb.client.model.Player;
 import webb.client.ui.helpers.WebbWebUtilities;
+import webb.shared.dtos.old.Player_OLD;
 import webb.server.repository.MockPlayerDatabase;
 
 public class PlayerManager {
 
-    private static Player currentPlayer;
+    private static Player_OLD currentPlayer;
 
-    public static boolean authenticate(Player player)  {
+    public static boolean authenticate(Player_OLD player)  {
 
         System.out.println("Authenticating...");
 
@@ -34,11 +34,11 @@ public class PlayerManager {
         return true;
     }
 
-    public static void setCurrentPlayer(Player currentPlayer) {
+    public static void setCurrentPlayer(Player_OLD currentPlayer) {
         PlayerManager.currentPlayer = currentPlayer;
     }
 
-    public static Player getCurrentPlayer() {
+    public static Player_OLD getCurrentPlayer() {
         return currentPlayer;
     }
 }

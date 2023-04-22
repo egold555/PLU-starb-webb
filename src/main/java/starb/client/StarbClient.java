@@ -4,7 +4,7 @@ import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 import webb.client.ui.WebbWindow;
-import webb.client.model.Player;
+import webb.shared.dtos.old.Player_OLD;
 import webb.server.security.PlayerManager;
 
 /**
@@ -25,7 +25,7 @@ public class StarbClient {
         if(inputtedUserName == null)
             throw new Exception("Please specify a username using VM options with keyword `username`");
 
-        Player player = new Player(inputtedUserName);
+        Player_OLD player = new Player_OLD(inputtedUserName);
 
         if(!PlayerManager.authenticate(player)) {
             throw new Exception("The username: '%s' already exists, please use another username.".formatted(player.username()));

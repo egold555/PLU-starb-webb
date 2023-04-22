@@ -1,4 +1,4 @@
-package webb.client.model.puzzle;
+package webb.shared.dtos.puzzle;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
@@ -12,7 +12,7 @@ public class CellDTO {
     private final int col;
 
     @JsonCreator
-    public CellDTO( int[] values ) {
+    public CellDTO(int[] values) {
         row = values[0];
         col = values[1];
     }

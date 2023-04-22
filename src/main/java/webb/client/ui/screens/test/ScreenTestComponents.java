@@ -17,7 +17,7 @@ import webb.client.ui.screens.ScreenType;
 import webb.client.ui.testing.DummyData.DummyCongratulationsData;
 import webb.client.ui.testing.DummyData.DummyLeaderboardData;
 import webb.client.ui.testing.DummyData.DummyStatisticsData;
-import webb.client.model.puzzle.PuzzleDTO;
+import webb.shared.dtos.old.PuzzleDTO_OLD;
 
 /**
  * A screen for testing popups.
@@ -106,7 +106,7 @@ public class ScreenTestComponents extends Screen {
 
         WebbButton btn7 = new WebbButton("LoadFile", (self, rightClicked) -> {
             try {
-                PuzzleDTO puzzle = PuzzleDTO.fromJSON(null);
+                PuzzleDTO_OLD puzzle = PuzzleDTO_OLD.fromJSON(null);
                 System.out.println(puzzle);
             } catch (IOException e) {
                 throw new RuntimeException(e);
