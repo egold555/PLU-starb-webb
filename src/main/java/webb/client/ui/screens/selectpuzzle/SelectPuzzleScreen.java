@@ -4,6 +4,7 @@ import java.awt.Container;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -14,20 +15,23 @@ import webb.client.ui.constants.WebbColors;
 import webb.client.ui.constants.WebbFonts;
 import webb.client.ui.constants.WebbImages;
 import webb.client.ui.helpers.WebbWebUtilities;
-import webb.client.ui.popup.leaderboard.LeaderboardScore;
 import webb.client.ui.popup.leaderboard.PopupLeaderboard;
 import webb.client.ui.popup.statistics.PopupStatistics;
 import webb.client.ui.popup.statistics.StatisticsData;
 import webb.client.ui.screens.Screen;
 import webb.client.ui.screens.ScreenType;
+import webb.shared.dtos.leaderboard.LeaderboardDTO;
+import webb.shared.dtos.leaderboard.LeaderboardEntryDTO;
 
 /**
  * The screen that allows the user to select a puzzle to play.
  */
 public class SelectPuzzleScreen extends Screen {
 
-        private static final LeaderboardScore[] DEFAULT_LEADERBOARD_SCORE = new LeaderboardScore[]{new LeaderboardScore("Error fetching leaderboard data.", 0, 0)};
-        private LeaderboardScore[] leaderboardScores = DEFAULT_LEADERBOARD_SCORE;
+        private static final LeaderboardDTO DEFAULT_LEADERBOARD_SCORE = new LeaderboardDTO(List.of(
+                new LeaderboardEntryDTO("Error fetching leaderboard data.", 0)
+        ));
+        private LeaderboardDTO leaderboardScores = DEFAULT_LEADERBOARD_SCORE;
 
         private static final StatisticsData DEFAULT_STATISTICS_DATA = new StatisticsData("Error fetching statistics data.", 0, 0, 0, 0, 0);
         private StatisticsData statisticsData = DEFAULT_STATISTICS_DATA;
@@ -192,8 +196,8 @@ public class SelectPuzzleScreen extends Screen {
         public void onShow() {
 
                 WebbWebUtilities.getRequestAsync(
-                        "leaderboard.json",
-                        LeaderboardScore[].class,
+                        "/leaderboards/users/",
+                        LeaderboardDTO.class,
                         DEFAULT_LEADERBOARD_SCORE,
                         reply -> {leaderboardScores = reply;}
                 );

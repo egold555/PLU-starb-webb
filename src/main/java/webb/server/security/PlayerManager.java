@@ -13,6 +13,13 @@ public class PlayerManager {
 
         System.out.println("Authenticating...");
 
+        // Right now there is no documented endpoint for logging in.
+        //TODO: Make this endpoint
+        if(true) {
+            System.out.println("Force Authenticated!");
+            return true;
+        }
+
         // Check if the player exists. Right now the server just checks the same userdata file as we had before
         // Just returns "exists" as a boolean if the user was in that file or not
         ObjectNode node = WebbWebUtilities.getRequest("does-user-exist?username=" + player.username());

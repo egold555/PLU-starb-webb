@@ -21,7 +21,7 @@ public class WebbWebUtilities {
     private WebbWebUtilities() {}
 
     //TODO: Change me
-    private static final String BASE_URL = "https://cs390.golde.org/json-api-mockup/";
+    private static final String BASE_URL = "https://cs390.golde.org/api-mockup/v1/";
 
     //Define the codec for the ObjectMapper to parse.
     //Make sure if there is no empty constructor for the class
