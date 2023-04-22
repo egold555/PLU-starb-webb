@@ -1,22 +1,23 @@
-package webb.client.model.puzzle;
+package webb.shared.dtos.old;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import webb.shared.dtos.puzzle.CellDTO;
 
 /**
  * Represents a puzzle from the JSON file.
  * Modified from: https://cs.plu.edu/courses/protected/cs390/2023s/project/iteration2.html
  */
-public class PuzzleDTO {
+public class PuzzleDTO_OLD {
 
     private List<List<CellDTO>> regions;
     private List<CellDTO> solution;
     private int gridSize;
     private int numStars;
 
-    private PuzzleDTO() {}
+    private PuzzleDTO_OLD() {}
 
     /**
      * @return the regions of the puzzle as a list of Cells
@@ -49,8 +50,8 @@ public class PuzzleDTO {
      * @return the PuzzleDTO object
      * @throws IOException if the file cannot be read
      */
-    public static PuzzleDTO fromJSON(File jsonFile) throws IOException {
-        return new ObjectMapper().readValue(jsonFile, PuzzleDTO.class);
+    public static PuzzleDTO_OLD fromJSON(File jsonFile) throws IOException {
+        return new ObjectMapper().readValue(jsonFile, PuzzleDTO_OLD.class);
     }
 
     @Override

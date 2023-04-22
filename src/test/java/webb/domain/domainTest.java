@@ -1,7 +1,6 @@
 package webb.domain;
 
-import webb.client.model.puzzle.CellDTO;
-import webb.client.model.puzzle.PuzzleDTO;
+import webb.shared.dtos.old.PuzzleDTO_OLD;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,7 +8,7 @@ import webb.client.ui.screens.puzzlescreen.PuzzleComponent;
 
 public class domainTest {
     public static void main(String[] args) throws IOException {
-        PuzzleDTO PUZZLE_1_1_1 = PuzzleDTO.fromJSON(new File("puzzles/puzzle-1-1-1.json"));
+        PuzzleDTO_OLD PUZZLE_1_1_1 = PuzzleDTO_OLD.fromJSON(new File("puzzles/puzzle-1-1-1.json"));
 
         //This is only for testing! Not a good idea!
         PuzzleComponent p = new PuzzleComponent();
