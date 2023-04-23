@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+
+import jakarta.validation.constraints.NotNull;
 import webb.shared.dtos.puzzle.CellDTO;
 import webb.shared.dtos.puzzle.created.CreatePuzzleLevelDTO;
 
@@ -14,6 +16,7 @@ import webb.shared.dtos.puzzle.created.CreatePuzzleLevelDTO;
  */
 public class UpdatePuzzleLevelDTO extends CreatePuzzleLevelDTO {
 
+    @NotNull
     private int solvedByNumPlayers;
 
     /**

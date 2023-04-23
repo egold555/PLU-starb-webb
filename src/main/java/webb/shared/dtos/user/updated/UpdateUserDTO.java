@@ -1,9 +1,11 @@
 package webb.shared.dtos.user.updated;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotNull;
 
 public class UpdateUserDTO {
 
+    @NotNull
     private final UpdatedUserStatsDTO stats;
 
     /**

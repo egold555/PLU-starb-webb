@@ -1,10 +1,14 @@
 package webb.shared.dtos.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotNull;
+import org.springframework.data.mongodb.core.mapping.Document;
 import webb.shared.dtos.user.created.CreatedUserDTO;
 
+@Document("user")
 public class UserDTO extends CreatedUserDTO{
 
+    @NotNull
     private final UserStatsDTO stats;
 
     /** Creates a new user

@@ -10,6 +10,7 @@ import webb.shared.dtos.puzzle.CellDTO;
  * Represents a puzzle from the JSON file.
  * Modified from: https://cs.plu.edu/courses/protected/cs390/2023s/project/iteration2.html
  */
+@Deprecated
 public class PuzzleDTO_OLD {
 
     private List<List<CellDTO>> regions;

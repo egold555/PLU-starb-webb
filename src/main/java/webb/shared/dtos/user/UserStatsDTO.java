@@ -1,20 +1,28 @@
 package webb.shared.dtos.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public class UserStatsDTO {
 
     // In milliseconds
+    @NotNull
     private final long maxSolveTime;
+    @NotNull
     private final long minSolveTime;
+    @NotNull
     private final long avgSolveTime;
+    @NotNull
     private final int puzzlesComplete;
 
+    @NotNull
     private final int puzzlesUntilNextTitle;
+    @NotBlank
     private final String currentTitle;
 
     /** Creates a new UserStats object
-     * @param maxSolveTime the maximum solve time of the user in ms
+     * @param maxSolveTime the maximum solve time of the usser in ms
      * @param minSolveTime the minimum solve time of the user in ms
      * @param avgSolveTime the average solve time of the user in ms
      * @param puzzlesComplete the number of puzzles completed by the user
