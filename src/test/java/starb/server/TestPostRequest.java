@@ -2,7 +2,7 @@ package starb.server;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import webb.client.ui.helpers.WebbWebUtilities;
+import webb.client.ui.helpers.http.WebbWebUtilities;
 
 public class TestPostRequest {
 

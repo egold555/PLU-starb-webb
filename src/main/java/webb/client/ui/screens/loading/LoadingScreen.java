@@ -10,7 +10,7 @@ import javax.swing.SpringLayout;
 import webb.client.ui.components.WebbProgressBar;
 import webb.client.ui.constants.WebbColors;
 import webb.client.ui.constants.WebbFonts;
-import webb.client.ui.helpers.WebbWebUtilities;
+import webb.client.ui.helpers.http.WebbWebUtilities;
 import webb.client.ui.screens.Screen;
 import webb.client.ui.screens.ScreenType;
 import webb.client.ui.screens.selectpuzzle.SelectPuzzleScreen;

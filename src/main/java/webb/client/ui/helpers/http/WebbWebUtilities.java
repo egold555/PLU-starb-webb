@@ -1,4 +1,4 @@
-package webb.client.ui.helpers;
+package webb.client.ui.helpers.http;
 
 import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.JsonNode;

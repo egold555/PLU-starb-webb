@@ -11,11 +11,9 @@ import webb.client.ui.components.WebbButton;
 import webb.client.ui.components.WebbRoundedJPanel;
 import webb.client.ui.constants.WebbColors;
 import webb.client.ui.constants.WebbImages;
-import webb.client.ui.helpers.WebbWebUtilities;
 import webb.client.ui.screens.ScreenType;
 import webb.client.ui.screens.puzzlescreen.PuzzleScreen;
 import webb.shared.dtos.puzzle.PuzzleLevelDTO;
-import webb.shared.dtos.puzzle.updated.UpdatePuzzleLevelDTO;
 
 /**
  * A button that represents a puzzle.

@@ -1,9 +1,8 @@
 package webb.server.security;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import webb.client.ui.helpers.WebbWebUtilities;
+import webb.client.ui.helpers.http.WebbWebUtilities;
 import webb.shared.dtos.old.Player_OLD;
-import webb.server.repository.MockPlayerDatabase;
 
 public class PlayerManager {
 

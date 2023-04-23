@@ -7,9 +7,6 @@ import javax.swing.SpringLayout;
 import webb.client.ui.components.WebbButton;
 import webb.client.ui.constants.WebbColors;
 import webb.client.ui.constants.WebbFonts;
-import webb.client.ui.helpers.WebbWebUtilities;
-import webb.client.ui.screens.selectpuzzle.SelectPuzzleScreen;
-import webb.shared.dtos.puzzle.PuzzleLevelDTO;
 
 /**
  * The main menu screen.

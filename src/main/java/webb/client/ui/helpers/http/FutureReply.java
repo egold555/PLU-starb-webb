@@ -1,4 +1,4 @@
-package webb.client.ui.helpers;
+package webb.client.ui.helpers.http;
 
 /**
  * A callback interface for when a future reply is received.
