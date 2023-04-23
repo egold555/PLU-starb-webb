@@ -170,8 +170,7 @@ paths:
           in: path
           description: ID of the puzzle to retrieve
           required: true
-          schema:
-            type: integer
+          type: integer
       responses:
         200:
           description: A puzzle object
@@ -191,8 +190,7 @@ paths:
           in: path
           description: ID of the puzzle to update
           required: true
-          schema:
-            type: integer
+          type: integer
         - name: puzzle
           in: body
           required: true
@@ -218,8 +216,7 @@ paths:
           in: path
           description: ID of the puzzle to delete
           required: true
-          schema:
-            type: integer
+          type: integer
       responses:
         204:
           description: PuzzleLevel object deleted
@@ -240,8 +237,7 @@ paths:
           in: path
           description: User's name
           required: true
-          schema:
-            type: string
+          type: string
       responses:
         200:
           description: UserPuzzle object
@@ -262,14 +258,12 @@ paths:
           in: path
           description: ID of the level puzzle
           required: true
-          schema:
-            type: integer
+          type: integer
         - name: username
           in: path
           description: User's name
           required: true
-          schema:
-            type: string
+          type: string
       responses:
         200:
           description: UserPuzzle object
@@ -288,14 +282,13 @@ paths:
           in: path
           description: ID of the level puzzle
           required: true
-          schema:
-            type: integer
+          type: integer
+
         - name: username
           in: path
           description: User's name
           required: true
-          schema:
-            type: string
+          type: string
         - name: UserPuzzle
           in: body
           description: UserPuzzle data, things associated with the user
