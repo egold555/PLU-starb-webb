@@ -1,10 +1,14 @@
 package webb.client.ui.screens.selectpuzzle;
 
 import java.awt.Container;
+import java.awt.FlowLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
@@ -20,6 +24,7 @@ import webb.client.ui.screens.Screen;
 import webb.client.ui.screens.ScreenType;
 import webb.shared.dtos.leaderboard.LeaderboardDTO;
 import webb.shared.dtos.leaderboard.LeaderboardEntryDTO;
+import webb.shared.dtos.puzzle.PuzzleLevelDTO;
 import webb.shared.dtos.user.UserDTO;
 import webb.shared.dtos.user.UserStatsDTO;
 
@@ -36,10 +41,10 @@ public class SelectPuzzleScreen extends Screen {
         private static final UserStatsDTO DEFAULT_STATISTICS_DATA = new UserStatsDTO(0, 0, 0, 0, 0, "Error fetching statistics data.");
         private UserStatsDTO statisticsData = DEFAULT_STATISTICS_DATA;
 
-        public static final Level[] DEFAULT_LEVELS = new Level[]{new Level("Error fetching", 0, false, null, 0)};
-        private Level[] levels = DEFAULT_LEVELS;
+        public static final PuzzleLevelDTO[] DEFAULT_LEVELS = new PuzzleLevelDTO[]{new PuzzleLevelDTO(-1, null, null, 0, 0, 0)};
+        private PuzzleLevelDTO[] levels = DEFAULT_LEVELS;
 
-        private List<List<Level>> levelPages = new ArrayList<>();
+        private List<List<PuzzleLevelDTO>> levelPages = new ArrayList<>();
 
         private int currentPage = 0;
 
@@ -49,6 +54,8 @@ public class SelectPuzzleScreen extends Screen {
         private WebbButton puzzleBack;
 
         private JLabel pageNumberLabel;
+
+        private int[] completedLevels = new int[0];
 
         @Override
         protected void populateComponents(Container contentPane, SpringLayout layout) {
@@ -60,7 +67,7 @@ public class SelectPuzzleScreen extends Screen {
                 layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, titleText, 0, SpringLayout.HORIZONTAL_CENTER, contentPane);
                 this.add(titleText);
 
-                puzzlePanel = new JPanel();
+                puzzlePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
                 puzzlePanel.setOpaque(false);
                 //puzzlePanel.setBackground(WebbColors.B7);
                 //puzzlePanel.setBorder(BorderFactory.createLineBorder(Color.black, 1));
@@ -80,8 +87,8 @@ public class SelectPuzzleScreen extends Screen {
                 SpringLayout bottomBarLayout = new SpringLayout();
                 bottomBar.setBackground(WebbColors.D9);
                 layout.putConstraint(SpringLayout.NORTH, bottomBar, 20, SpringLayout.SOUTH, puzzlePanel);
-                layout.putConstraint(SpringLayout.EAST, bottomBar, -20, SpringLayout.EAST, contentPane);
-                layout.putConstraint(SpringLayout.WEST, bottomBar, 20, SpringLayout.WEST, contentPane);
+                layout.putConstraint(SpringLayout.EAST, bottomBar, 0, SpringLayout.EAST, contentPane);
+                layout.putConstraint(SpringLayout.WEST, bottomBar, 0, SpringLayout.WEST, contentPane);
                 layout.putConstraint(SpringLayout.SOUTH, bottomBar, 0, SpringLayout.SOUTH, contentPane);
 
 
@@ -175,7 +182,7 @@ public class SelectPuzzleScreen extends Screen {
 
                                 levelPages.clear();
                                 for(int page = 0; page < pages; page++) {
-                                        List<Level> tmpPage = new ArrayList<>();
+                                        List<PuzzleLevelDTO> tmpPage = new ArrayList<>();
                                         for(int i = 0; i < perPage; i++) {
                                                 int index = page * perPage + i;
                                                 if(index < totalButtons) {
@@ -185,6 +192,7 @@ public class SelectPuzzleScreen extends Screen {
                                         levelPages.add(tmpPage);
                                 }
 
+                                currentPage = 0;
                                 showPuzzlePanelPage(0);
 
                         }
@@ -212,8 +220,13 @@ public class SelectPuzzleScreen extends Screen {
                 showPuzzlePanelPage(0);
         }
 
-        public void setLevels(Level[] levels) {
+        public void setLevels(PuzzleLevelDTO[] levels) {
+                System.out.println("Setting levels: " + levels.length);
                 this.levels = levels;
+        }
+
+        public void setCompletedLevels(int[] completedLevels) {
+                this.completedLevels = completedLevels;
         }
 
         private void showPuzzlePanelPage(int page) {
@@ -227,12 +240,17 @@ public class SelectPuzzleScreen extends Screen {
                // System.out.println("total: " + levelPages.size());
 
                 puzzlePanel.removeAll();
-                List<Level> levels = levelPages.get(page);
-                for (Level level : levels) {
+                List<PuzzleLevelDTO> levels = levelPages.get(page);
+
+                for (PuzzleLevelDTO level : levels) {
                         PuzzleButton button = new PuzzleButton(level);
+                        if(Arrays.stream(completedLevels).anyMatch(x -> x == level.getId())) {
+                                button.setCompleted(true);
+                        }
                         puzzlePanel.add(button);
                 }
                 puzzlePanel.revalidate();
+                puzzlePanel.repaint();
 
                 //disable the back button if we're on the first page
                 if(page > 0) {

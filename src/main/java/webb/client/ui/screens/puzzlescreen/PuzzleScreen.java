@@ -2,13 +2,12 @@ package webb.client.ui.screens.puzzlescreen;
 
 import java.awt.Container;
 import javax.swing.SpringLayout;
-import webb.client.ui.helpers.WebbWebUtilities;
 import webb.client.ui.screens.Screen;
 import webb.client.ui.screens.ScreenType;
 import webb.client.ui.screens.puzzlescreen.StopWatch.StopWatchCallback;
-import webb.client.ui.screens.selectpuzzle.Level;
 import webb.client.ui.testing.DummyData.DummyPlayPuzzleData;
-import webb.shared.dtos.old.PuzzleDTO_OLD;
+import webb.shared.dtos.puzzle.PuzzleLevelDTO;
+import webb.shared.dtos.puzzle.updated.UpdatePuzzleLevelDTO;
 
 /**
  * The screen that displays the puzzle, that the user interacts with.
@@ -66,7 +65,7 @@ public class PuzzleScreen extends Screen {
      * @param puzzle The puzzle to display.
      * TODO: Finish this method once we have real data!
      */
-    public void setPuzzle(Level level, PuzzleDTO_OLD puzzle) {
+    public void setPuzzle(UpdatePuzzleLevelDTO puzzle) {
         sidePanel.setStarsRemaining(puzzle.getTotalStars(), puzzle.getTotalStars());
         sidePanel.setPuzzleNumber(0, puzzle.getNumStars());
         puzzleComponent.setPuzzle(puzzle);
@@ -84,7 +83,7 @@ public class PuzzleScreen extends Screen {
             }
         });
 
-        sidePanel.setPlayersCompleted(level.getHowManyCompleted());
+        sidePanel.setPlayersCompleted(puzzle.getSolvedByNumPlayers());
 
         stopWatch.start();
     }

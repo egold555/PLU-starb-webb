@@ -1,9 +1,6 @@
 package webb.shared.dtos.puzzle.updated;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
 import webb.shared.dtos.puzzle.CellDTO;
 import webb.shared.dtos.puzzle.created.CreatePuzzleLevelDTO;
@@ -43,16 +40,6 @@ public class UpdatePuzzleLevelDTO extends CreatePuzzleLevelDTO {
      * @param solvedByNumPlayers the number of players who have solved the puzzle
      */
     public void setSolvedByNumPlayers(int solvedByNumPlayers) {this.solvedByNumPlayers = solvedByNumPlayers;}
-
-    /**
-     * Creates a PuzzleDTO from a JSON file
-     * @param jsonFile the JSON file
-     * @return the PuzzleDTO object
-     * @throws java.io.IOException if the file cannot be read
-     */
-    public static UpdatePuzzleLevelDTO fromJSON(File jsonFile) throws IOException {
-        return new ObjectMapper().readValue(jsonFile, UpdatePuzzleLevelDTO.class);
-    }
 
     @Override
     public String toString() {

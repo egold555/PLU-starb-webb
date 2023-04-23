@@ -2,9 +2,9 @@ package webb.client.logic.puzzle;
 
 import java.util.ArrayList;
 import java.util.List;
-import webb.shared.dtos.puzzle.CellDTO;
-import webb.shared.dtos.old.PuzzleDTO_OLD;
 import webb.client.ui.screens.puzzlescreen.CellComponent;
+import webb.shared.dtos.puzzle.CellDTO;
+import webb.shared.dtos.puzzle.created.CreatePuzzleLevelDTO;
 
 public class PuzzleLogic {
 
@@ -39,7 +39,7 @@ public class PuzzleLogic {
      * Set the puzzle to be displayed
      * @param puzzle Puzzle to be displayed
      */
-    public void setPuzzle(PuzzleDTO_OLD puzzle) {
+    public void setPuzzle(CreatePuzzleLevelDTO puzzle) {
 
         //Set the puzzle size & reset the cells
         this.setGridSize(puzzle.getGridSize());

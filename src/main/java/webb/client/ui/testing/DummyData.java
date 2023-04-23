@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 import webb.client.logic.puzzle.CellType;
 import webb.shared.dtos.leaderboard.LeaderboardDTO;
 import webb.shared.dtos.leaderboard.LeaderboardEntryDTO;
-import webb.shared.dtos.old.PuzzleDTO_OLD;
+import webb.shared.dtos.puzzle.updated.UpdatePuzzleLevelDTO;
 import webb.shared.dtos.user.UserStatsDTO;
 
 public class DummyData {
@@ -18,18 +18,17 @@ public class DummyData {
 
     public static final class DummyPlayPuzzleData {
 
-
-
-        static {
-            try {
-                PUZZLE_1_1_1 = PuzzleDTO_OLD.fromJSON(new File("puzzles/puzzle-1-1-1.json"));
-            } catch (IOException e) {
-                System.err.println("Failed to load puzzle 1-1-1");
-                e.printStackTrace();
-            }
-        }
-
-        public static PuzzleDTO_OLD PUZZLE_1_1_1;
+        //TODO: Everything is loaded server side, soon we can delete this class
+//        static {
+//            try {
+//                PUZZLE_1_1_1 = PuzzleDTO_OLD.fromJSON(new File("puzzles/puzzle-1-1-1.json"));
+//            } catch (IOException e) {
+//                System.err.println("Failed to load puzzle 1-1-1");
+//                e.printStackTrace();
+//            }
+//        }
+//
+//        public static UpdatePuzzleLevelDTO PUZZLE_1_1_1;
 
         public static final Map<Point, CellType> PUZZLE_GRID_STARS = Map.of(
 

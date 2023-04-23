@@ -14,7 +14,8 @@ import webb.client.ui.constants.WebbImages;
 import webb.client.ui.helpers.WebbWebUtilities;
 import webb.client.ui.screens.ScreenType;
 import webb.client.ui.screens.puzzlescreen.PuzzleScreen;
-import webb.shared.dtos.old.PuzzleDTO_OLD;
+import webb.shared.dtos.puzzle.PuzzleLevelDTO;
+import webb.shared.dtos.puzzle.updated.UpdatePuzzleLevelDTO;
 
 /**
  * A button that represents a puzzle.
@@ -22,9 +23,10 @@ import webb.shared.dtos.old.PuzzleDTO_OLD;
  */
 public class PuzzleButton extends JPanel {
 
-    private final Level level;
+    private final PuzzleLevelDTO level;
+    private boolean completed = false;
 
-    public PuzzleButton(Level level) {
+    public PuzzleButton(PuzzleLevelDTO level) {
         this.level = level;
         this.setOpaque(false);
 
@@ -38,23 +40,14 @@ public class PuzzleButton extends JPanel {
 
         panel.setBackground(WebbColors.B7);
 
-        WebbButton button = new WebbButton(level.getName(), (self, rightClicked) -> {
-            System.out.println("Puzzle button " + level.getName() + " clicked!");
+        WebbButton button = new WebbButton(String.valueOf(level.getId()), (self, rightClicked) -> {
+            System.out.println("Puzzle button " + level.getId() + " clicked!");
 
-            WebbWebUtilities.getRequestAsync(
-                    "puzzles/" + level.getFile(),
-                    PuzzleDTO_OLD.class,
-                    (puzzle) -> {
+            PuzzleScreen puzzleScreen = (PuzzleScreen) ScreenType.PLAY_PUZZLE.getScreenInstance();
+            puzzleScreen.setPuzzle(level);
 
-                        //TODO: 1-1-13 & 1-1-24 DONT LOAD??
-                        System.out.println("Puzzle " + level.getFile() + " loaded!");
-                        PuzzleScreen puzzleScreen = (PuzzleScreen) ScreenType.PLAY_PUZZLE.getScreenInstance();
-                        puzzleScreen.setPuzzle(level, puzzle);
-
-                        WebbWindow.getInstance().switchScreen(ScreenType.PLAY_PUZZLE);
-                        System.out.println("Switched to puzzle screen!");
-                    }
-            );
+            WebbWindow.getInstance().switchScreen(ScreenType.PLAY_PUZZLE);
+            System.out.println("Switched to puzzle screen!");
 
         });
         button.setDrawBackground(false);
@@ -74,13 +67,17 @@ public class PuzzleButton extends JPanel {
     /**
      * @return The level data that this button represents.
      */
-    public Level getLevel() {return level;}
+    public PuzzleLevelDTO getPuzzleLevelDTO() {return level;}
+
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
+    }
 
     @Override
     public void paint(Graphics g) {
         super.paint(g);
         Graphics2D g2 = (Graphics2D) g;
-        if(level.isCompleted()) {
+        if(completed) {
             g2.drawImage(WebbImages.PUZZLE_SELECTION_LEVEL_COMPLETE_EMBLEM, 120, 0, 50, 50, null);
         }
 
@@ -92,7 +89,7 @@ public class PuzzleButton extends JPanel {
         //VERY VERY bad way to do this, but right now my brain hurts
         //and java swing is murdering me.
         //TODO: Replace with a JPanel with a BorderLayout
-        final int stars = level.getStars();
+        final int stars = level.getNumStars();
 
         if(stars == 1) {
             g2.drawImage(WebbImages.PUZZLE_SELECTION_STAR, this.getWidth()/2 - 15, this.getHeight() - 40, 30, 30, null);

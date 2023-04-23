@@ -8,8 +8,8 @@ import webb.client.ui.components.WebbButton;
 import webb.client.ui.constants.WebbColors;
 import webb.client.ui.constants.WebbFonts;
 import webb.client.ui.helpers.WebbWebUtilities;
-import webb.client.ui.screens.selectpuzzle.Level;
 import webb.client.ui.screens.selectpuzzle.SelectPuzzleScreen;
+import webb.shared.dtos.puzzle.PuzzleLevelDTO;
 
 /**
  * The main menu screen.
@@ -91,11 +91,14 @@ public class MainMenuScreen extends Screen {
 
         if(!selectPuzzleScreen.hasPopulatedLevelsYet()) {
             WebbWebUtilities.getRequestAsync(
-                    "levels.json",
-                    Level[].class,
+                    "/puzzles",
+                    PuzzleLevelDTO[].class,
                     SelectPuzzleScreen.DEFAULT_LEVELS,
                     selectPuzzleScreen::setLevels
             );
+
+            //TODO: Set completed levels from a completed levels endpoint
+            selectPuzzleScreen.setCompletedLevels(new int[] {1, 6, 8, 10});
         }
 
 
