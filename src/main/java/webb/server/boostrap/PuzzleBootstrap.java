@@ -60,9 +60,8 @@ public class PuzzleBootstrap implements ApplicationListener<ApplicationReadyEven
                                                                         imported_puzzle.getNumStars(),
                                                                         imported_puzzle.getSolvedByNumPlayers());
                     repo.save(saveable_puzzle);
-                } catch (IOException e) {
-                    logger.error("Unable to load file: " + puzzleFile.getPath());
-                    throw new RuntimeException(e);
+                } catch (Exception e) {
+                    logger.error("Unable to load file: " + puzzleFile.getPath(), e);
                 }
             }
         }
