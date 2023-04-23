@@ -7,6 +7,7 @@ import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
@@ -23,6 +24,7 @@ import webb.client.ui.screens.ScreenType;
 import webb.shared.dtos.leaderboard.LeaderboardDTO;
 import webb.shared.dtos.leaderboard.LeaderboardEntryDTO;
 import webb.shared.dtos.puzzle.PuzzleLevelDTO;
+import webb.shared.dtos.puzzle.user.UserPuzzleDTO;
 import webb.shared.dtos.user.UserDTO;
 import webb.shared.dtos.user.UserStatsDTO;
 
@@ -42,6 +44,8 @@ public class SelectPuzzleScreen extends Screen {
         public static final PuzzleLevelDTO[] DEFAULT_LEVELS = new PuzzleLevelDTO[]{new PuzzleLevelDTO(-1, null, null, 0, 0, 0)};
         private PuzzleLevelDTO[] levels = DEFAULT_LEVELS;
 
+        public static final UserPuzzleDTO[] DEFAULT_USER_LEVEL_PROGRESS = new UserPuzzleDTO[0];
+
         private List<List<PuzzleLevelDTO>> levelPages = new ArrayList<>();
 
         private int currentPage = 0;
@@ -53,7 +57,7 @@ public class SelectPuzzleScreen extends Screen {
 
         private JLabel pageNumberLabel;
 
-        private int[] completedLevels = new int[0];
+        private Set<Integer> completedLevels = Set.of();
 
         @Override
         protected void populateComponents(Container contentPane, SpringLayout layout) {
@@ -223,7 +227,7 @@ public class SelectPuzzleScreen extends Screen {
                 this.levels = levels;
         }
 
-        public void setCompletedLevels(int[] completedLevels) {
+        public void setCompletedLevels(Set<Integer> completedLevels) {
                 this.completedLevels = completedLevels;
         }
 
@@ -242,7 +246,7 @@ public class SelectPuzzleScreen extends Screen {
 
                 for (PuzzleLevelDTO level : levels) {
                         PuzzleButton button = new PuzzleButton(level);
-                        if(Arrays.stream(completedLevels).anyMatch(x -> x == level.getId())) {
+                        if(completedLevels.contains(level.getId())) {
                                 button.setCompleted(true);
                         }
                         puzzlePanel.add(button);
