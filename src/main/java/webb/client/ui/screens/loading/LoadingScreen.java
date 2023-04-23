@@ -51,7 +51,7 @@ public class LoadingScreen extends Screen {
 
         if(!selectPuzzleScreen.hasPopulatedLevelsYet()) {
             WebbWebUtilities.getRequestAsync(
-                    "/puzzles",
+                    "/puzzles/levels",
                     PuzzleLevelDTO[].class,
                     SelectPuzzleScreen.DEFAULT_LEVELS,
                     selectPuzzleScreen::setLevels,

@@ -75,24 +75,13 @@ public class WebbWebUtilities {
                 }
             }
 
-//            String inputLine;
-//            StringBuilder content = new StringBuilder();
-//            int bytesRead = 0;
-//            while ((inputLine = inputReader.readLine()) != null) {
-//                content.append(inputLine);
-//                if (progressCallback != null) {
-//                    bytesRead += inputLine.getBytes(StandardCharsets.UTF_8).length;
-//                    float percentComplete = (float) bytesRead / totalBytes;
-//                    progressCallback.onProgressUpdate(percentComplete);
-//                }
-//            }
-
             inputReader.close();
 
             final int httpStatusCode = con.getResponseCode();
 
+            // sometimes we don't math correctly even though we read the entire file
             if (progressCallback != null) {
-               // progressCallback.onProgressUpdate(1.0f);
+                progressCallback.onProgressUpdate(1.0f);
             }
 
             try {
