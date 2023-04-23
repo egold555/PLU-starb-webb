@@ -10,13 +10,14 @@ import webb.client.ui.constants.WebbColors;
 import webb.client.ui.constants.WebbFonts;
 import webb.client.ui.helpers.WebbTextUtilities;
 import webb.client.ui.popup.WebbPopup;
+import webb.shared.dtos.user.UserStatsDTO;
 
 /**
  * Popup that displays the statistics of the player.
  */
 public class PopupStatistics extends WebbPopup {
 
-    private final StatisticsData statisticsData;
+    private final UserStatsDTO statisticsData;
 
     /**
      * Creates a new popup with the given title.
@@ -24,7 +25,7 @@ public class PopupStatistics extends WebbPopup {
      * @param statisticsData StatisticsData object containing the statistics of the player
      *
      */
-    public PopupStatistics(@JsonProperty StatisticsData statisticsData) {
+    public PopupStatistics(UserStatsDTO statisticsData) {
         super("My Statistics");
         this.statisticsData = statisticsData;
     }
@@ -71,7 +72,7 @@ public class PopupStatistics extends WebbPopup {
         panelLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, labelGamesCompleted, 0, SpringLayout.HORIZONTAL_CENTER, panel);
         panel.add(labelGamesCompleted);
 
-        JLabel gamesCompleted = new JLabel(this.statisticsData.getGamesCompleted() + "/" + this.statisticsData.getGamesMax());
+        JLabel gamesCompleted = new JLabel(this.statisticsData.getPuzzlesComplete() + "/" + this.statisticsData.getPuzzlesUntilNextTitle());
         gamesCompleted.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_32);
         gamesCompleted.setForeground(WebbColors.TEXT_COLOR_BLACK);
         panelLayout.putConstraint(SpringLayout.NORTH, gamesCompleted, 10, SpringLayout.SOUTH, labelGamesCompleted);
@@ -94,7 +95,7 @@ public class PopupStatistics extends WebbPopup {
         panelLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, labelSolveTimeMin, -200, SpringLayout.HORIZONTAL_CENTER, panel);
         panel.add(labelSolveTimeMin);
 
-        JLabel solveTimeMin = new JLabel(WebbTextUtilities.formatMinSec(this.statisticsData.getSolveTimeMin()));
+        JLabel solveTimeMin = new JLabel(WebbTextUtilities.formatMinSec(this.statisticsData.getMinSolveTime()));
         solveTimeMin.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_32);
         solveTimeMin.setForeground(WebbColors.TEXT_COLOR_BLACK);
         panelLayout.putConstraint(SpringLayout.NORTH, solveTimeMin, 10, SpringLayout.SOUTH, labelSolveTimeMin);
@@ -110,7 +111,7 @@ public class PopupStatistics extends WebbPopup {
         panelLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, labelSolveTimeAverage, 0, SpringLayout.HORIZONTAL_CENTER, panel);
         panel.add(labelSolveTimeAverage);
 
-        JLabel solveTimeAvgerage = new JLabel(WebbTextUtilities.formatMinSec(this.statisticsData.getSolveTimeAverage()));
+        JLabel solveTimeAvgerage = new JLabel(WebbTextUtilities.formatMinSec(this.statisticsData.getAvgSolveTime()));
         solveTimeAvgerage.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_32);
         solveTimeAvgerage.setForeground(WebbColors.TEXT_COLOR_BLACK);
         panelLayout.putConstraint(SpringLayout.NORTH, solveTimeAvgerage, 10, SpringLayout.SOUTH, labelSolveTimeAverage);
@@ -125,7 +126,7 @@ public class PopupStatistics extends WebbPopup {
         panelLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, labelSolveTimeMax, 200, SpringLayout.HORIZONTAL_CENTER, panel);
         panel.add(labelSolveTimeMax);
 
-        JLabel solveTimeMax = new JLabel(WebbTextUtilities.formatMinSec(this.statisticsData.getSolveTimeMax()));
+        JLabel solveTimeMax = new JLabel(WebbTextUtilities.formatMinSec(this.statisticsData.getMaxSolveTime()));
         solveTimeMax.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_32);
         solveTimeMax.setForeground(WebbColors.TEXT_COLOR_BLACK);
         panelLayout.putConstraint(SpringLayout.NORTH, solveTimeMax, 10, SpringLayout.SOUTH, labelSolveTimeMax);

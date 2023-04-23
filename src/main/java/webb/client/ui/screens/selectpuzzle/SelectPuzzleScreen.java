@@ -4,7 +4,6 @@ import java.awt.Container;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -17,11 +16,12 @@ import webb.client.ui.constants.WebbImages;
 import webb.client.ui.helpers.WebbWebUtilities;
 import webb.client.ui.popup.leaderboard.PopupLeaderboard;
 import webb.client.ui.popup.statistics.PopupStatistics;
-import webb.client.ui.popup.statistics.StatisticsData;
 import webb.client.ui.screens.Screen;
 import webb.client.ui.screens.ScreenType;
 import webb.shared.dtos.leaderboard.LeaderboardDTO;
 import webb.shared.dtos.leaderboard.LeaderboardEntryDTO;
+import webb.shared.dtos.user.UserDTO;
+import webb.shared.dtos.user.UserStatsDTO;
 
 /**
  * The screen that allows the user to select a puzzle to play.
@@ -33,8 +33,8 @@ public class SelectPuzzleScreen extends Screen {
         ));
         private LeaderboardDTO leaderboardScores = DEFAULT_LEADERBOARD_SCORE;
 
-        private static final StatisticsData DEFAULT_STATISTICS_DATA = new StatisticsData("Error fetching statistics data.", 0, 0, 0, 0, 0);
-        private StatisticsData statisticsData = DEFAULT_STATISTICS_DATA;
+        private static final UserStatsDTO DEFAULT_STATISTICS_DATA = new UserStatsDTO(0, 0, 0, 0, 0, "Error fetching statistics data.");
+        private UserStatsDTO statisticsData = DEFAULT_STATISTICS_DATA;
 
         public static final Level[] DEFAULT_LEVELS = new Level[]{new Level("Error fetching", 0, false, null, 0)};
         private Level[] levels = DEFAULT_LEVELS;
@@ -203,10 +203,10 @@ public class SelectPuzzleScreen extends Screen {
                 );
 
                 WebbWebUtilities.getRequestAsync(
-                        "user-statistics.json",
-                        StatisticsData.class,
-                        DEFAULT_STATISTICS_DATA,
-                        reply -> {statisticsData = reply;}
+                        "users/USERNAME", //TODO: Replace with actual username
+                        UserDTO.class,
+                        new UserDTO(null, DEFAULT_STATISTICS_DATA),
+                        reply -> { statisticsData = reply.getStats();}
                 );
 
                 showPuzzlePanelPage(0);

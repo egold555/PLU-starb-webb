@@ -7,10 +7,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import webb.client.logic.puzzle.CellType;
-import webb.client.ui.popup.statistics.StatisticsData;
 import webb.shared.dtos.leaderboard.LeaderboardDTO;
 import webb.shared.dtos.leaderboard.LeaderboardEntryDTO;
 import webb.shared.dtos.old.PuzzleDTO_OLD;
+import webb.shared.dtos.user.UserStatsDTO;
 
 public class DummyData {
 
@@ -58,13 +58,13 @@ public class DummyData {
 
     public static final class DummyStatisticsData {
 
-        public static final StatisticsData DATA = new StatisticsData(
-                "Cadet",
-                200,
-                500,
+        public static final UserStatsDTO DATA = new UserStatsDTO(
                 TimeUnit.SECONDS.toMillis(30),
                 TimeUnit.MINUTES.toMillis(5) + TimeUnit.SECONDS.toMillis(10),
-                TimeUnit.MINUTES.toMillis(1) + TimeUnit.SECONDS.toMillis(33)
+                TimeUnit.MINUTES.toMillis(1) + TimeUnit.SECONDS.toMillis(33),
+                5,
+                8,
+                "Cadet"
         );
     }
 
