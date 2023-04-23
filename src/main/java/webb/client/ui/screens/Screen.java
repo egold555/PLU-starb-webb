@@ -20,10 +20,10 @@ public abstract class Screen extends JPanel {
     public Screen() {
         Container contentPane = this;
         SpringLayout layout = new SpringLayout();
-
+        this.setBackground(WebbColors.D9);
         populateComponents(this, layout);
 
-        this.setBackground(WebbColors.D9);
+
         this.setLayout(layout);
     }
 

@@ -24,4 +24,14 @@ public class WebbColors {
     public static final Color TEXT_COLOR_WHITE = Color.WHITE;
     public static final Color TEXT_COLOR_BLACK = c22;
 
+    public static final Color TRANSPARENT = new Color(0, 0, 0, 0);
+
+
+    public static Color getColorBetween(Color one, Color two, double ratio) {
+        int red = (int)Math.abs((ratio * one.getRed()) + ((1 - ratio) * two.getRed()));
+        int green = (int)Math.abs((ratio * one.getGreen()) + ((1 - ratio) * two.getGreen()));
+        int blue = (int)Math.abs((ratio * one.getBlue()) + ((1 - ratio) * two.getBlue()));
+        return new Color(red, green, blue);
+    }
+
 }

@@ -42,7 +42,12 @@ public class WebbWebUtilities {
      *     "data": {...} //The data returned by the server if everything went well. Else its null.
      * }
      */
+
     public static ObjectNode getRequest(String urlStr) {
+        return getRequest(urlStr, (HTTPProgressCallback) null);
+    }
+
+    public static ObjectNode getRequest(String urlStr, HTTPProgressCallback progressCallback) {
 
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode rootNode = mapper.createObjectNode();
@@ -51,26 +56,56 @@ public class WebbWebUtilities {
             URL url = new URL(BASE_URL + urlStr);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
+            int totalBytes = con.getContentLength();
 
             BufferedReader inputReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
-            String inputLine;
+
+            //read 1024 bytes at a time
+            char[] buffer = new char[1024];
+            int bytesRead = 0;
+            int bytesReadTotal = 0;
             StringBuilder content = new StringBuilder();
-            while ((inputLine = inputReader.readLine()) != null) {
-                content.append(inputLine);
+
+            while((bytesRead = inputReader.read(buffer)) != -1) {
+                content.append(buffer, 0, bytesRead);
+                bytesReadTotal += bytesRead;
+                if (progressCallback != null) {
+                    float percentComplete = (float) bytesReadTotal / totalBytes;
+                    progressCallback.onProgressUpdate(percentComplete);
+                }
             }
+
+//            String inputLine;
+//            StringBuilder content = new StringBuilder();
+//            int bytesRead = 0;
+//            while ((inputLine = inputReader.readLine()) != null) {
+//                content.append(inputLine);
+//                if (progressCallback != null) {
+//                    bytesRead += inputLine.getBytes(StandardCharsets.UTF_8).length;
+//                    float percentComplete = (float) bytesRead / totalBytes;
+//                    progressCallback.onProgressUpdate(percentComplete);
+//                }
+//            }
+
             inputReader.close();
 
             final int httpStatusCode = con.getResponseCode();
+
+            if (progressCallback != null) {
+               // progressCallback.onProgressUpdate(1.0f);
+            }
 
             try {
                 JsonNode jsonNode = mapper.readTree(content.toString());
                 rootNode.put("success", true);
                 rootNode.put("httpStatusCode", httpStatusCode);
+                rootNode.put("dataSizeBytes", bytesRead);
                 rootNode.set("data", jsonNode);
             }
             catch (Exception e) {
                 rootNode.put("success", false);
                 rootNode.put("httpStatusCode", httpStatusCode);
+                rootNode.put("dataSizeBytes", bytesRead);
                 rootNode.put("error", e.getMessage());
             }
         }
@@ -95,8 +130,11 @@ public class WebbWebUtilities {
      * }
      */
     public static void getRequestAsync(String urlStr, FutureReply<ObjectNode> futureReply) {
+        getRequestAsync(urlStr, futureReply, (HTTPProgressCallback) null);
+    }
+    public static void getRequestAsync(String urlStr, FutureReply<ObjectNode> futureReply, HTTPProgressCallback progressCallback) {
         THREAD_POOL.submit(() -> {
-            ObjectNode node = getRequest(urlStr);
+            ObjectNode node = getRequest(urlStr, progressCallback);
             futureReply.reply(node);
         });
     }
@@ -109,7 +147,10 @@ public class WebbWebUtilities {
      * @param futureReply The response as a Java object of T, or null if there was an error.
      */
     public static <T> void getRequestAsync(String urlStr, Class<T> clazz, FutureReply<T> futureReply) {
-        getRequestAsync(urlStr, clazz, null, futureReply);
+        getRequestAsync(urlStr, clazz, null, futureReply, null);
+    }
+    public static <T> void getRequestAsync(String urlStr, Class<T> clazz, FutureReply<T> futureReply, HTTPProgressCallback progressCallback) {
+        getRequestAsync(urlStr, clazz, null, futureReply, progressCallback);
     }
 
     /**
@@ -120,6 +161,9 @@ public class WebbWebUtilities {
      * @param futureReply The response as a Java object of T, or defaultValue if there was an error.
      */
     public static <T> void getRequestAsync(String urlStr, Class<T> clazz, T defaultValue, FutureReply<T> futureReply) {
+        getRequestAsync(urlStr, clazz, defaultValue, futureReply, (HTTPProgressCallback) null);
+    }
+    public static <T> void getRequestAsync(String urlStr, Class<T> clazz, T defaultValue, FutureReply<T> futureReply, HTTPProgressCallback progressCallback) {
         getRequestAsync(urlStr, (node) -> {
             if (node.get("success").asBoolean()) {
                 try {
@@ -133,7 +177,7 @@ public class WebbWebUtilities {
             else {
                 futureReply.reply(defaultValue);
             }
-        });
+        }, progressCallback);
     }
 
     /**
@@ -144,7 +188,10 @@ public class WebbWebUtilities {
      * @return The response as a Java object of T, or null if there was an error.
      */
     public static <T> T getRequest(String urlStr, Class<T> clazz) {
-        return getRequest(urlStr, clazz, null);
+        return getRequest(urlStr, clazz, (HTTPProgressCallback) null);
+    }
+    public static <T> T getRequest(String urlStr, Class<T> clazz, HTTPProgressCallback progressCallback) {
+        return getRequest(urlStr, clazz, null, progressCallback);
     }
 
     /**
@@ -155,7 +202,10 @@ public class WebbWebUtilities {
      * @return The response as a Java object of T, or defaultValue if there was an error.
      */
     public static <T> T getRequest(String urlStr, Class<T> clazz, T defaultValue) {
-        ObjectNode node = getRequest(urlStr);
+        return getRequest(urlStr, clazz, defaultValue, null);
+    }
+    public static <T> T getRequest(String urlStr, Class<T> clazz, T defaultValue, HTTPProgressCallback progressCallback) {
+        ObjectNode node = getRequest(urlStr, progressCallback);
         if (node.get("success").asBoolean()) {
             try {
                 return DEFAULT_JSON_CODEC.treeToValue(node.get("data"), clazz);

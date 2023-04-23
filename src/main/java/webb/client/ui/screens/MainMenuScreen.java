@@ -87,21 +87,5 @@ public class MainMenuScreen extends Screen {
     @Override
     public void onShow() {
 
-        SelectPuzzleScreen selectPuzzleScreen = (SelectPuzzleScreen) ScreenType.SELECT_PUZZLE.getScreenInstance();
-
-        if(!selectPuzzleScreen.hasPopulatedLevelsYet()) {
-            WebbWebUtilities.getRequestAsync(
-                    "/puzzles",
-                    PuzzleLevelDTO[].class,
-                    SelectPuzzleScreen.DEFAULT_LEVELS,
-                    selectPuzzleScreen::setLevels
-            );
-
-            //TODO: Set completed levels from a completed levels endpoint
-            selectPuzzleScreen.setCompletedLevels(new int[] {1, 6, 8, 10});
-        }
-
-
-
     }
 }
