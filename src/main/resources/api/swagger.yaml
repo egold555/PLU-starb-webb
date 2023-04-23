@@ -1,0 +1,477 @@
+openapi: 3.0.1
+info:
+  title: Star Battle Odyssey API
+  description: API for managing users and puzzles
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080/api/v1
+paths:
+  /users/{username}:
+    get:
+      tags:
+        - users
+      summary: Get an existing user
+      description: Used to get a particular user
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: User object returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        404:
+          description: User not found
+          content: {}
+    delete:
+      tags:
+        - users
+      summary: Delete an existing user
+      description: Used to delete a particular user
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: User deleted
+          content: {}
+        401:
+          description: Permission denied. Note for the authentication header, it should
+            either be the username of requested user or "admin."
+          content: {}
+        404:
+          description: User not found
+          content: {}
+      security:
+        - WebbAuth: []
+    patch:
+      tags:
+        - users
+      summary: Update an existing user
+      description: Used to update the user
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/UpdateUser'
+        required: true
+      responses:
+        204:
+          description: User object updated
+          content: {}
+        401:
+          description: Permission denied. Note for the authentication header, it should
+            either be the username of requested user or "admin."
+          content: {}
+        404:
+          description: User not found
+          content: {}
+      security:
+        - WebbAuth: []
+      x-codegen-request-body-name: user
+  /users:
+    post:
+      tags:
+        - users
+      summary: Create a new user
+      description: Used to create a new user
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/CreateUser'
+        required: true
+      responses:
+        201:
+          description: User object created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        409:
+          description: User already exists
+          content: {}
+      x-codegen-request-body-name: user
+  /leaderboards/users:
+    get:
+      tags:
+        - leaderboards
+      summary: Get the leaderboard of users
+      description: Used to get a list of users sorted by completed puzzles. Tie breakers
+        are decided by average solve time.
+      responses:
+        200:
+          description: List of users sorted by completed puzzles
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserLeaderBoard'
+  /puzzles/levels:
+    get:
+      tags:
+        - puzzles
+      summary: Get all puzzle levels
+      description: Returns a list of all puzzles
+      responses:
+        200:
+          description: A list of puzzles
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PuzzleLevel'
+    post:
+      tags:
+        - puzzles
+      summary: Create a new puzzle level
+      description: Returns the created puzzle
+      requestBody:
+        description: Puzzle level data
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/CreatePuzzleLevel'
+        required: true
+      responses:
+        x-codegen-request-body-name: puzzle
+  /puzzles/levels/{id}:
+    get:
+      tags:
+        - puzzles
+      summary: Get a particular puzzle level
+      description: Returns a puzzle solution and aggregate statistics for the specified
+        puzzle ID.
+      parameters:
+        - name: id
+          in: path
+          description: ID of the puzzle to retrieve
+          required: true
+          schema: {}
+      responses:
+        200:
+          description: A puzzle object
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PuzzleLevel'
+        404:
+          description: Puzzle not found
+          content: {}
+    put:
+      tags:
+        - puzzles
+      summary: Used to update a puzzle level
+      description: This is helpful in updating the solvedByNumPlayers or fixing errors
+      parameters:
+        - name: id
+          in: path
+          description: ID of the puzzle to update
+          required: true
+          schema: {}
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/UpdatePuzzleLevel'
+        required: true
+      responses:
+        204:
+          description: PuzzleLevel object updated
+          content: {}
+        401:
+          description: Permission denied. Note for the authentication header, it should
+            only be "admin."
+          content: {}
+        404:
+          description: PuzzleLevel not found
+          content: {}
+      security:
+        - WebbAuth: []
+      x-codegen-request-body-name: puzzle
+    delete:
+      tags:
+        - puzzles
+      summary: Used to delete a puzzle level
+      parameters:
+        - name: id
+          in: path
+          description: ID of the puzzle to delete
+          required: true
+          schema: {}
+      responses:
+        204:
+          description: PuzzleLevel object deleted
+          content: {}
+        401:
+          description: Permission denied. Note for the authentication header, it should
+            only be "admin."
+          content: {}
+        404:
+          description: PuzzleLevel not found
+          content: {}
+      security:
+        - WebbAuth: []
+  /puzzles/users/{username}:
+    get:
+      tags:
+        - puzzles
+      summary: Used to retrieve all puzzle data from a particular user
+      parameters:
+        - name: username
+          in: path
+          description: User's name
+          required: true
+          schema: {}
+      responses:
+        200:
+          description: UserPuzzle object
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserPuzzle'
+        404:
+          description: Not found because the user doesn't exist.
+          content: {}
+  /puzzles/{id}/{username}:
+    get:
+      tags:
+        - puzzles
+      summary: Used to retrieve level data for a particular user
+      description: This only contains data that is produced by the user. Level data
+        is held as an id, a request would need to be made if the client doesn't have
+        that information.
+      parameters:
+        - name: id
+          in: path
+          description: ID of the level puzzle
+          required: true
+          schema: {}
+        - name: username
+          in: path
+          description: User's name
+          required: true
+          schema: {}
+      responses:
+        200:
+          description: UserPuzzle object
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UserPuzzle'
+        404:
+          description: Not found. Either can be do to a puzzle id or username not
+            valid.
+          content: {}
+    put:
+      tags:
+        - puzzles
+      summary: Used to update level data for a particular user
+      parameters:
+        - name: id
+          in: path
+          description: ID of the level puzzle
+          required: true
+          schema: {}
+        - name: username
+          in: path
+          description: User's name
+          required: true
+          schema: {}
+      requestBody:
+        description: UserPuzzle data, things associated with the user
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/UpdateUserPuzzle'
+        required: false
+      responses:
+        204:
+          description: User puzzle level object updated
+          content: {}
+        401:
+          description: Permission denied. Note for the authentication header, it should
+            either be the username of requested user or "admin."
+          content: {}
+        404:
+          description: Not found
+          content: {}
+      security:
+        - WebbAuth: []
+      x-codegen-request-body-name: UserPuzzle
+components:
+  schemas:
+    UserLeaderBoard:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              username:
+                type: string
+              completedPuzzles:
+                type: integer
+    User:
+      type: object
+      properties:
+        username:
+          type: string
+        stats:
+          type: object
+          properties:
+            maxSolveTime:
+              type: number
+            minSolveTime:
+              type: number
+            avgSolveTime:
+              type: number
+            puzzlesComplete:
+              type: integer
+            puzzlesUntilNextTitle:
+              type: integer
+            currentTitle:
+              type: string
+    CreateUser:
+      type: object
+      properties:
+        username:
+          type: string
+    UpdateUser:
+      type: object
+      properties:
+        stats:
+          type: object
+          properties:
+            puzzlesComplete:
+              type: integer
+    PuzzleLevel:
+      type: object
+      properties:
+        id:
+          type: integer
+        gridSize:
+          type: integer
+        numStars:
+          type: integer
+        regions:
+          type: array
+          items:
+            type: array
+            items:
+              type: array
+              items:
+                type: integer
+        solution:
+          type: array
+          items:
+            type: array
+            items:
+              type: integer
+        solvedByNumPlayers:
+          type: number
+    CreatePuzzleLevel:
+      type: object
+      properties:
+        gridSize:
+          type: integer
+        numStars:
+          type: integer
+        regions:
+          type: array
+          items:
+            type: array
+            items:
+              type: array
+              items:
+                type: integer
+        solution:
+          type: array
+          items:
+            type: array
+            items:
+              type: integer
+    UpdatePuzzleLevel:
+      type: object
+      properties:
+        gridSize:
+          type: integer
+        numStars:
+          type: integer
+        regions:
+          type: array
+          items:
+            type: array
+            items:
+              type: array
+              items:
+                type: integer
+        solution:
+          type: array
+          items:
+            type: array
+            items:
+              type: integer
+        solvedByNumPlayers:
+          type: number
+    UserPuzzle:
+      type: object
+      properties:
+        id:
+          type: integer
+        completed:
+          type: boolean
+        solveTime:
+          type: number
+        placedMarkers:
+          type: array
+          items:
+            type: array
+            items:
+              type: integer
+        placedStars:
+          type: array
+          items:
+            type: array
+            items:
+              type: integer
+        starsRemaining:
+          type: integer
+    UpdateUserPuzzle:
+      type: object
+      properties:
+        completed:
+          type: boolean
+        solveTime:
+          type: number
+        placedMarkers:
+          type: array
+          items:
+            type: array
+            items:
+              type: integer
+        placedStars:
+          type: array
+          items:
+            type: array
+            items:
+              type: integer
+        starsRemaining:
+          type: integer
