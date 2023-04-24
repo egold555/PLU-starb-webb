@@ -24,7 +24,7 @@ public class UserAdminBootstrap implements ApplicationListener<ApplicationReadyE
 
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
-        if(userRepo.count() == 0) return;
+        if(userRepo.count() != 0) return;
 
         if(ADMIN_USERNAME.isEmpty())
             throw new IllegalStateException("ADMIN_USERNAME required to launch the server. Please add this as env variable.");
