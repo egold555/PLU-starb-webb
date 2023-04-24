@@ -6,6 +6,7 @@ import javax.swing.SpringLayout;
 import webb.client.ui.WebbWindow;
 import webb.client.ui.constants.WebbColors;
 import webb.client.ui.popup.WebbPopup;
+import webb.client.ui.popup.errorhandler.PopupErrorHandler;
 
 /**
  * A JPanel wrapper with some extra functionality.
@@ -25,6 +26,13 @@ public abstract class Screen extends JPanel {
 
 
         this.setLayout(layout);
+
+        // Set the default uncaught exception handler to show a popup with the error.
+        // We also print the error to the console.
+        Thread.setDefaultUncaughtExceptionHandler((t, e) -> {
+            e.printStackTrace();
+            showPopup(new PopupErrorHandler(e));
+        });
     }
 
     /**

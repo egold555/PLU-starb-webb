@@ -148,6 +148,17 @@ public class ScreenTestComponents extends Screen {
         layout.putConstraint(SpringLayout.NORTH, btn8, 10, SpringLayout.SOUTH, btn7);
         this.add(btn8);
 
+
+        WebbButton btn9 = new WebbButton("Error Handling Test", (self, rightClicked) -> {
+            throw new RuntimeException("This is a test of the error handling system");
+        });
+
+        btn9.setPreferredSize(BUTTON_DIMENSION);
+        btn9.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_32);
+        layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, btn9, 0, SpringLayout.HORIZONTAL_CENTER, contentPane);
+        layout.putConstraint(SpringLayout.NORTH, btn9, 10, SpringLayout.SOUTH, btn8);
+        this.add(btn9);
+
     }
 
     //Show the popup on window load for easy testing
