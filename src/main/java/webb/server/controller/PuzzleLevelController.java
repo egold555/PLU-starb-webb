@@ -1,15 +1,28 @@
 package webb.server.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import webb.server.repository.PuzzleRepository;
+import webb.shared.dtos.puzzle.PuzzleLevelDTO;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("puzzles")
 public class PuzzleLevelController {
+
+    private final PuzzleRepository puzzleRepository;
+
+    @Autowired
+    public PuzzleLevelController(PuzzleRepository puzzleRepository) {
+        this.puzzleRepository = puzzleRepository;
+    }
+
     @GetMapping()
-    public ResponseEntity<Void> getPuzzleLevels() {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+    public List<PuzzleLevelDTO> getPuzzleLevels() {
+        return puzzleRepository.findAll();
     }
 
     @PostMapping()
