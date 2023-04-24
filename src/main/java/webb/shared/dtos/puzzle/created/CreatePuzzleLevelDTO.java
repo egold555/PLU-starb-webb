@@ -1,7 +1,10 @@
 package webb.shared.dtos.puzzle.created;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
+
+import jakarta.validation.constraints.NotNull;
 import webb.shared.dtos.puzzle.CellDTO;
 
 /**
@@ -10,9 +13,13 @@ import webb.shared.dtos.puzzle.CellDTO;
  */
 public class CreatePuzzleLevelDTO {
 
+    @NotNull
     private final List<List<CellDTO>> regions;
+    @NotNull
     private final List<CellDTO> solution;
+    @NotNull
     private final int gridSize;
+    @NotNull
     private final int numStars;
 
     /**
@@ -55,6 +62,7 @@ public class CreatePuzzleLevelDTO {
     /**
      * @return the total number of stars in the puzzle
      */
+    @JsonIgnore
     public int getTotalStars() {return numStars * regions.size();}
 
     @Override

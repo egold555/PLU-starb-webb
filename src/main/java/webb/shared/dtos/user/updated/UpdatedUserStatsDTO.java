@@ -1,7 +1,10 @@
 package webb.shared.dtos.user.updated;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class UpdatedUserStatsDTO {
 
+    @NotBlank(message = "puzzlesComplete is required.")
     private final int puzzlesComplete;
 
     /**

@@ -1,10 +1,14 @@
 package webb.shared.dtos.leaderboard;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public class LeaderboardEntryDTO implements Comparable<LeaderboardEntryDTO> {
 
+    @NotBlank
     private final String username;
+    @NotNull
     private final int completedPuzzles;
 
     /**

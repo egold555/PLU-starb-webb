@@ -1,18 +1,28 @@
 package webb.shared.dtos.puzzle;
 
+import com.fasterxml.jackson.annotation.JacksonAnnotation;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+
+import jakarta.validation.constraints.NotNull;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 import webb.shared.dtos.puzzle.updated.UpdatePuzzleLevelDTO;
 
 /**
  * Represents a puzzle from the JSON file.
  * Modified from: https://cs.plu.edu/courses/protected/cs390/2023s/project/iteration2.html
  */
+@Document("puzzle")
+@JsonInclude(JsonInclude.Include.NON_ABSENT) // for populating database from a folder
 public class PuzzleLevelDTO extends UpdatePuzzleLevelDTO {
 
+    @Id
+    @NotNull
     private final int id;
 
     /**

@@ -2,6 +2,8 @@ package webb.shared.dtos.puzzle.updated;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
+
+import jakarta.validation.constraints.NotNull;
 import webb.shared.dtos.puzzle.CellDTO;
 import webb.shared.dtos.puzzle.created.CreatePuzzleLevelDTO;
 
@@ -11,6 +13,7 @@ import webb.shared.dtos.puzzle.created.CreatePuzzleLevelDTO;
  */
 public class UpdatePuzzleLevelDTO extends CreatePuzzleLevelDTO {
 
+    @NotNull
     private int solvedByNumPlayers;
 
     /**

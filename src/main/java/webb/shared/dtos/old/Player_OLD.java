@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Objects;
 
+@Deprecated
 public record Player_OLD(String username) {
     @JsonCreator
     public Player_OLD(@JsonProperty("username") String username) {

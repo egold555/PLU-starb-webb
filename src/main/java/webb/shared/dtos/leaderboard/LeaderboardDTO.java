@@ -1,10 +1,13 @@
 package webb.shared.dtos.leaderboard;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotNull;
+
 import java.util.List;
 
 public class LeaderboardDTO {
 
+    @NotNull
     private final List<LeaderboardEntryDTO> data;
 
     /**
