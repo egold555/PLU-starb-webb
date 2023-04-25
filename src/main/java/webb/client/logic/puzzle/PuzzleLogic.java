@@ -1,16 +1,9 @@
 package webb.client.logic.puzzle;
 
-import java.awt.BasicStroke;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.event.MouseEvent;
-import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JComponent;
-import webb.client.model.puzzle.CellDTO;
-import webb.client.model.puzzle.PuzzleDTO;
-import webb.client.ui.constants.WebbColors;
+import webb.shared.dtos.puzzle.CellDTO;
+import webb.shared.dtos.old.PuzzleDTO_OLD;
 import webb.client.ui.screens.puzzlescreen.CellComponent;
 
 public class PuzzleLogic {
@@ -46,7 +39,7 @@ public class PuzzleLogic {
      * Set the puzzle to be displayed
      * @param puzzle Puzzle to be displayed
      */
-    public void setPuzzle(PuzzleDTO puzzle) {
+    public void setPuzzle(PuzzleDTO_OLD puzzle) {
 
         //Set the puzzle size & reset the cells
         this.setGridSize(puzzle.getGridSize());
