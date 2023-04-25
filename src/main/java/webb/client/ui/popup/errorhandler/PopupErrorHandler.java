@@ -48,13 +48,31 @@ public class PopupErrorHandler extends WebbPopup {
             "Thanks %name%. You broke it.",
             "If you see this, %name% broke it.",
             "If you see this, something went very wrong.",
+            "If you see this, something went very wrong. %name% probably broke it.",
+            "afhdsfahldufhpewf WHY WHY WHY did this happen!!?",
+            "Lesson learned: Don't let %name% code.",
+            "Lesson learned: Don't write code at 3am.",
+            "I should have gone to bed instead of coding.",
+            "I should have paid more attention in class.",
+            "I blame %name%.",
+            "Have you tried turning it off and on again?",
+            "Have you tried putting it in rice?",
+            "Oh well. We tried.",
+            "Lets hope this doesn't happen again.",
+            "Shhh. Just pretend this never happened.",
+            "Shhh. Just pretend that you didn't see this.",
+            "Hey, make sure to tell %name% that they broke it.",
+            "Please let %name% know this is broken.",
+            "Lets git-blame this, and see who messed up this time!",
     };
 
     private static final String[] MEMBER_NAMES = {
             "Eric",
             "Chris",
             "Brandon",
-            "Seth"
+            "Seth",
+            "ChatGPT",
+            "Copilot",
     };
 
     /**
@@ -86,7 +104,7 @@ public class PopupErrorHandler extends WebbPopup {
                 WebbColors.c6C.darker().darker()
         );
 
-        scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
         layout.putConstraint(SpringLayout.NORTH, scroll, 70, SpringLayout.NORTH, contentPane);
