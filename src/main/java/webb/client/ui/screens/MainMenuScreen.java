@@ -4,7 +4,9 @@ import java.awt.Container;
 import java.awt.Dimension;
 import javax.swing.JLabel;
 import javax.swing.SpringLayout;
+import webb.client.ui.WebbWindow;
 import webb.client.ui.components.WebbButton;
+import webb.client.ui.constants.WebbAudio;
 import webb.client.ui.constants.WebbColors;
 import webb.client.ui.constants.WebbFonts;
 
@@ -83,6 +85,6 @@ public class MainMenuScreen extends Screen {
 
     @Override
     public void onShow() {
-
+        WebbWindow.getInstance().getBGMusicPlayer().playBG(WebbAudio.BG_MAIN_MENU);
     }
 }

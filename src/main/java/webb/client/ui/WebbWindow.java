@@ -3,6 +3,8 @@ package webb.client.ui;
 import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.JFrame;
+import webb.client.ui.audio.BGMusicPlayer;
+import webb.client.ui.audio.SFXPlayer;
 import webb.client.ui.screens.Screen;
 import webb.client.ui.screens.ScreenType;
 
@@ -17,6 +19,10 @@ public class WebbWindow extends JFrame {
     /*
     Constructor is private because this is a singleton class.
      */
+
+    private SFXPlayer sfxPlayer = new SFXPlayer();
+    private BGMusicPlayer bgMusicPlayer = new BGMusicPlayer();
+
     private WebbWindow() {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("Star Battle Odyssey");
@@ -26,6 +32,8 @@ public class WebbWindow extends JFrame {
         //maximizes the window for testing
         this.setExtendedState(this.getExtendedState() | JFrame.MAXIMIZED_BOTH);
         this.setSize(600, 600);
+
+        sfxPlayer.start();
     }
 
     /**
@@ -63,5 +71,13 @@ public class WebbWindow extends JFrame {
                 screen.onShow();
             }
         }, 1);
+    }
+
+    public SFXPlayer getSFXPlayer() {
+        return sfxPlayer;
+    }
+
+    public BGMusicPlayer getBGMusicPlayer() {
+        return bgMusicPlayer;
     }
 }

@@ -13,6 +13,8 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import javax.swing.JButton;
 import javax.swing.border.EmptyBorder;
+import webb.client.ui.WebbWindow;
+import webb.client.ui.constants.WebbAudio;
 import webb.client.ui.constants.WebbColors;
 import webb.client.ui.constants.WebbFonts;
 
@@ -93,6 +95,7 @@ public class WebbButton extends JButton {
                         self.getModel().setPressed(true);
                     }
 
+                    WebbWindow.getInstance().getSFXPlayer().queue(WebbAudio.SFX_CLICK);
                     clickListener.onClick(self, isRightClick);
 
                 }

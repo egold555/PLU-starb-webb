@@ -2,11 +2,12 @@ package webb.client.ui.screens.puzzlescreen;
 
 import java.awt.Container;
 import javax.swing.SpringLayout;
+import webb.client.ui.WebbWindow;
+import webb.client.ui.constants.WebbAudio;
 import webb.client.ui.screens.Screen;
 import webb.client.ui.screens.ScreenType;
 import webb.client.ui.screens.puzzlescreen.StopWatch.StopWatchCallback;
 import webb.client.ui.testing.DummyData.DummyPlayPuzzleData;
-import webb.shared.dtos.puzzle.PuzzleLevelDTO;
 import webb.shared.dtos.puzzle.updated.UpdatePuzzleLevelDTO;
 
 /**
@@ -95,5 +96,10 @@ public class PuzzleScreen extends Screen {
     protected void exitPuzzle() {
         stopWatch.stop();
         this.switchScreenTo(ScreenType.SELECT_PUZZLE);
+    }
+
+    @Override
+    public void onShow() {
+        WebbWindow.getInstance().getBGMusicPlayer().playBG(WebbAudio.BG_IN_GAME);
     }
 }
