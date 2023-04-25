@@ -72,7 +72,7 @@ public class PopupErrorHandler extends WebbPopup {
             "Brandon",
             "Seth",
             "ChatGPT",
-            "Copilot",
+            "GitHub Copilot",
     };
 
     /**
