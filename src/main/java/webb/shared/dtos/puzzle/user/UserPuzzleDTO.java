@@ -8,11 +8,13 @@ import webb.shared.dtos.puzzle.user.update.UpdateUserPuzzleDTO;
 public class UserPuzzleDTO extends UpdateUserPuzzleDTO {
 
     private final int id;
+    private final String user;
 
     /**
      * Creates a new UpdateUserPuzzleDTO object
      *
      * @param id             the id of the puzzle
+     * @param user           the username of the associated user
      * @param completed      whether the puzzle has been completed
      * @param solveTime      the time it took to solve the puzzle in ms
      * @param placedMarkers  the list of markers placed on the puzzle
@@ -20,6 +22,7 @@ public class UserPuzzleDTO extends UpdateUserPuzzleDTO {
      * @param starsRemaining the number of stars remaining on the puzzle
      */
     public UserPuzzleDTO(@JsonProperty("id") int id,
+                         @JsonProperty("username") String user,
                          @JsonProperty("completed") boolean completed,
                          @JsonProperty("solveTime") long solveTime,
                          @JsonProperty("placedMarkers") List<CellDTO> placedMarkers,
@@ -27,6 +30,7 @@ public class UserPuzzleDTO extends UpdateUserPuzzleDTO {
                          @JsonProperty("starsRemaining") int starsRemaining) {
         super(completed, solveTime, placedMarkers, placedStars, starsRemaining);
         this.id = id;
+        this.user = user;
     }
 
     /**
