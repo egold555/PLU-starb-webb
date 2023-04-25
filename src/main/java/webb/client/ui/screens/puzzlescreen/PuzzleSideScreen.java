@@ -140,6 +140,7 @@ public class PuzzleSideScreen extends WebbRoundedJPanel {
         //Kind of a dumb hack, but drawing spaces nudges the text over
         WebbButton exitButton = new WebbButton("    E x i t", WebbImages.PLAY_PUZZLE_EXIT_BUTTON, 93, 24, (self, rightClicked) -> {
             System.out.println("Exit button pressed");
+            puzzleScreen.exitPuzzle();
         });
         exitButton.setDrawBackground(false);
         exitButton.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_24);

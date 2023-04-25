@@ -6,10 +6,14 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
+import webb.client.ui.WebbWindow;
 import webb.client.ui.components.WebbButton;
 import webb.client.ui.components.WebbRoundedJPanel;
 import webb.client.ui.constants.WebbColors;
 import webb.client.ui.constants.WebbImages;
+import webb.client.ui.screens.ScreenType;
+import webb.client.ui.screens.puzzlescreen.PuzzleScreen;
+import webb.shared.dtos.puzzle.PuzzleLevelDTO;
 
 /**
  * A button that represents a puzzle.
@@ -17,11 +21,11 @@ import webb.client.ui.constants.WebbImages;
  */
 public class PuzzleButton extends JPanel {
 
+    private final PuzzleLevelDTO level;
     private boolean completed = false;
-    private int stars = 0;
 
-    public PuzzleButton(int id, int stars) {
-        this.stars = stars;
+    public PuzzleButton(PuzzleLevelDTO level) {
+        this.level = level;
         this.setOpaque(false);
 
         SpringLayout innerLayout = new SpringLayout();
@@ -34,8 +38,15 @@ public class PuzzleButton extends JPanel {
 
         panel.setBackground(WebbColors.B7);
 
-        WebbButton button = new WebbButton("" + id, (self, rightClicked) -> {
-            System.out.println("Puzzle button " + id + " clicked!");
+        WebbButton button = new WebbButton(String.valueOf(level.getId()), (self, rightClicked) -> {
+            System.out.println("Puzzle button " + level.getId() + " clicked!");
+
+            PuzzleScreen puzzleScreen = (PuzzleScreen) ScreenType.PLAY_PUZZLE.getScreenInstance();
+            puzzleScreen.setPuzzle(level);
+
+            WebbWindow.getInstance().switchScreen(ScreenType.PLAY_PUZZLE);
+            System.out.println("Switched to puzzle screen!");
+
         });
         button.setDrawBackground(false);
 
@@ -52,10 +63,13 @@ public class PuzzleButton extends JPanel {
     }
 
     /**
-     * Sets whether or not this puzzle is completed.
-     * @param completed True if completed, false otherwise.
+     * @return The level data that this button represents.
      */
-    public void setCompleted(boolean completed) {this.completed = completed;}
+    public PuzzleLevelDTO getPuzzleLevelDTO() {return level;}
+
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
+    }
 
     @Override
     public void paint(Graphics g) {
@@ -73,6 +87,8 @@ public class PuzzleButton extends JPanel {
         //VERY VERY bad way to do this, but right now my brain hurts
         //and java swing is murdering me.
         //TODO: Replace with a JPanel with a BorderLayout
+        final int stars = level.getNumStars();
+
         if(stars == 1) {
             g2.drawImage(WebbImages.PUZZLE_SELECTION_STAR, this.getWidth()/2 - 15, this.getHeight() - 40, 30, 30, null);
         }

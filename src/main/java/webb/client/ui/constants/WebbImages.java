@@ -20,7 +20,9 @@ public class WebbImages {
 
     //Puzzle selection screen
     public static final BufferedImage PUZZLE_SELECTION_ARROW_FORWARD = loadImage("screen_puzzle_selection/arrow_forward.png");
+    public static final BufferedImage PUZZLE_SELECTION_ARROW_FORWARD_DISABLED = loadImage("screen_puzzle_selection/arrow_forward_disabled.png");
     public static final BufferedImage PUZZLE_SELECTION_ARROW_BACK = loadImage("screen_puzzle_selection/arrow_back.png");
+    public static final BufferedImage PUZZLE_SELECTION_ARROW_BACK_DISABLED = loadImage("screen_puzzle_selection/arrow_back_disabled.png");
     public static final BufferedImage PUZZLE_SELECTION_BUTTON_TROPHY = loadImage("screen_puzzle_selection/button_trophy.png");
     public static final BufferedImage PUZZLE_SELECTION_BUTTON_STATS = loadImage("screen_puzzle_selection/button_stats.png");
     public static final BufferedImage PUZZLE_SELECTION_LEVEL_COMPLETE_EMBLEM = loadImage("screen_puzzle_selection/level_complete_emblem.png");

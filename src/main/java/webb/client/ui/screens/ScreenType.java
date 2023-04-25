@@ -1,6 +1,7 @@
 package webb.client.ui.screens;
 
 import webb.client.ui.screens.creditsscreen.CreditsScreen;
+import webb.client.ui.screens.loading.LoadingScreen;
 import webb.client.ui.screens.puzzlescreen.PuzzleScreen;
 import webb.client.ui.screens.selectpuzzle.SelectPuzzleScreen;
 import webb.client.ui.screens.test.ScreenTestComponents;
@@ -15,6 +16,7 @@ public enum ScreenType {
     CREDITS(new CreditsScreen()),
     SELECT_PUZZLE(new SelectPuzzleScreen()),
     PLAY_PUZZLE(new PuzzleScreen()),
+    LOADING(new LoadingScreen()),
     TEST_COMPONENTS(new ScreenTestComponents()),
 
     ;

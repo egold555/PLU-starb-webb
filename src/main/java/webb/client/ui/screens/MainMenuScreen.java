@@ -81,4 +81,8 @@ public class MainMenuScreen extends Screen {
         this.add(testButton);
     }
 
+    @Override
+    public void onShow() {
+
+    }
 }

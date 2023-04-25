@@ -9,7 +9,7 @@ import webb.client.ui.components.WebbBackButton;
 import webb.client.ui.components.WebbButton;
 import webb.client.ui.constants.WebbFonts;
 import webb.client.ui.popup.ExampleWebbPopup;
-import webb.client.ui.popup.PopupStatistics;
+import webb.client.ui.popup.statistics.PopupStatistics;
 import webb.client.ui.popup.congratulations.PopupCongratulations;
 import webb.client.ui.popup.leaderboard.PopupLeaderboard;
 import webb.client.ui.screens.Screen;
@@ -17,7 +17,8 @@ import webb.client.ui.screens.ScreenType;
 import webb.client.ui.testing.DummyData.DummyCongratulationsData;
 import webb.client.ui.testing.DummyData.DummyLeaderboardData;
 import webb.client.ui.testing.DummyData.DummyStatisticsData;
-import webb.shared.dtos.old.PuzzleDTO_OLD;
+import webb.shared.dtos.puzzle.created.CreatePuzzleLevelDTO;
+import webb.shared.dtos.puzzle.updated.UpdatePuzzleLevelDTO;
 
 /**
  * A screen for testing popups.
@@ -104,13 +105,14 @@ public class ScreenTestComponents extends Screen {
         this.add(btn6);
 
 
-        WebbButton btn7 = new WebbButton("LoadFile", (self, rightClicked) -> {
-            try {
-                PuzzleDTO_OLD puzzle = PuzzleDTO_OLD.fromJSON(null);
-                System.out.println(puzzle);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+        WebbButton btn7 = new WebbButton("BROKE: LoadFile", (self, rightClicked) -> {
+            //TODO: Do we fix this? Not sure if we need it anymore becuse this will all go away.
+//            try {
+//                UpdatePuzzleLevelDTO puzzle = UpdatePuzzleLevelDTO.fromJSON(null);
+//                System.out.println(puzzle);
+//            } catch (IOException e) {
+//                throw new RuntimeException(e);
+//            }
         });
 
         btn7.setPreferredSize(BUTTON_DIMENSION);
@@ -169,12 +171,7 @@ public class ScreenTestComponents extends Screen {
     // Show the statistics popup with dummy data
     private void showPopupStatistics() {
         showPopup(new PopupStatistics(
-                DummyStatisticsData.CURRENT_TITLE,
-                DummyStatisticsData.GAMES_COMPLETED,
-                DummyStatisticsData.GAMES_MAX,
-                DummyStatisticsData.SOLVE_TIME_MIN,
-                DummyStatisticsData.SOLVE_TIME_MAX,
-                DummyStatisticsData.SOLVE_TIME_AVERAGE
+                DummyStatisticsData.DATA
         ));
     }
 

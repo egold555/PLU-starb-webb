@@ -1,33 +1,32 @@
 package webb.client.ui.popup.leaderboard;
 
-import java.awt.Dimension;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.SpringLayout;
 import webb.client.ui.components.WebbCustomScrollpane;
 import webb.client.ui.constants.WebbColors;
 import webb.client.ui.popup.WebbPopup;
+import webb.shared.dtos.leaderboard.LeaderboardDTO;
 
 /**
  * A popup that displays the leaderboard.
  */
 public class PopupLeaderboard extends WebbPopup {
 
-    private final LeaderboardScore[] scores;
+    private final LeaderboardDTO scores;
 
     /**
      * Creates a new PopupLeaderboard.
      *
      * @param scores The scores to display.
      */
-    public PopupLeaderboard(LeaderboardScore[] scores) {
+    public PopupLeaderboard(LeaderboardDTO scores) {
         super("Leaderboard");
         this.scores = scores;
     }
 
     @Override
     protected void populateComponents(JPanel contentPane, SpringLayout layout) {
-        WebbLeaderboardTable table = new WebbLeaderboardTable(scores);
+        WebbLeaderboardTable table = new WebbLeaderboardTable(scores.getData());
 
         WebbCustomScrollpane scrollPane = new WebbCustomScrollpane(
                 table,

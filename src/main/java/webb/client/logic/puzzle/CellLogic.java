@@ -61,9 +61,7 @@ public class CellLogic {
      */
     public void setType(CellType type) {
         this.type = type;
-        if(type == CellType.AMARKER || type == CellType.VMARKER){
-            this.drawIcon = false;
-        }
+        this.drawIcon = type != CellType.AMARKER && type != CellType.VMARKER;
     }
 
     /**
