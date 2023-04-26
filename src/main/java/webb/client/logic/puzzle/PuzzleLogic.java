@@ -2,13 +2,25 @@ package webb.client.logic.puzzle;
 
 import java.util.ArrayList;
 import java.util.List;
+import lombok.Getter;
+import lombok.ToString;
 import webb.client.ui.screens.puzzlescreen.CellComponent;
 import webb.shared.dtos.puzzle.CellDTO;
 import webb.shared.dtos.puzzle.created.CreatePuzzleLevelDTO;
 
+@ToString
 public class PuzzleLogic {
 
+    /**
+     * @ return The size of the grid
+     */
+    @Getter
     private int gridSize = 10;
+
+    /**
+     * @return The number of stars in the puzzle
+     */
+    @Getter
     private int numStars = 0;
 
     //COL, ROW
@@ -288,13 +300,5 @@ public class PuzzleLogic {
      */
     private boolean isCellValid(int col, int row) {
         return col >= 0 && col < gridSize && row >= 0 && row < gridSize;
-    }
-
-    public int getGridSize() {
-        return gridSize;
-    }
-
-    public int getNumStars() {
-        return numStars;
     }
 }

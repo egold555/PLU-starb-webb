@@ -94,6 +94,6 @@ public class MainMenuScreen extends Screen {
 
     @Override
     public void onShow() {
-        WebbWindow.getInstance().getBGMusicPlayer().playBG(WebbAudio.BG_MAIN_MENU);
+        WebbWindow.getInstance().getBgMusicPlayer().playBG(WebbAudio.BG_MAIN_MENU);
     }
 }

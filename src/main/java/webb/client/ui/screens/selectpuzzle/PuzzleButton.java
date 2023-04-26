@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
+import lombok.Setter;
 import webb.client.ui.WebbWindow;
 import webb.client.ui.components.WebbButton;
 import webb.client.ui.components.WebbRoundedJPanel;
@@ -23,6 +24,10 @@ import webb.shared.dtos.puzzle.PuzzleLevelDTO;
 public class PuzzleButton extends JPanel {
 
     private final PuzzleLevelDTO level;
+
+
+
+    @Setter
     private boolean completed = false;
 
     public PuzzleButton(PuzzleLevelDTO level) {
@@ -63,15 +68,6 @@ public class PuzzleButton extends JPanel {
 
 
         this.setLayout(innerLayout);
-    }
-
-    /**
-     * @return The level data that this button represents.
-     */
-    public PuzzleLevelDTO getPuzzleLevelDTO() {return level;}
-
-    public void setCompleted(boolean completed) {
-        this.completed = completed;
     }
 
     @Override

@@ -23,11 +23,6 @@ public class SFXPlayer extends Thread {
             if(queue.peek() != null) {
                 SoundPlayer sp = new SoundPlayer(queue.poll());
                 sp.start();
-//                try {
-//                    sp.join();
-//                } catch (InterruptedException e) {
-//                    throw new RuntimeException(e);
-//                }
             }
         }
     }

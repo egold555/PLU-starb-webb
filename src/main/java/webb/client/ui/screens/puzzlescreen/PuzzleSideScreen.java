@@ -21,7 +21,7 @@ public class PuzzleSideScreen extends WebbRoundedJPanel {
     private final JLabel starsRemainingNumber;
     private final JLabel timeLabel;
     private final JLabel puzzleNumber;
-    private final  JLabel completedByLabel;
+    private final JLabel completedByLabel;
 
     public PuzzleSideScreen(PuzzleScreen puzzleScreen) {
         this.setBackground(WebbColors.c90);

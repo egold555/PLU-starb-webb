@@ -4,6 +4,7 @@ import java.awt.Toolkit;
 import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.JFrame;
+import lombok.Getter;
 import webb.client.ui.audio.BGMusicPlayer;
 import webb.client.ui.audio.SFXPlayer;
 import webb.client.ui.screens.Screen;
@@ -22,8 +23,11 @@ public class WebbWindow extends JFrame {
     Constructor is private because this is a singleton class.
      */
 
-    private SFXPlayer sfxPlayer = new SFXPlayer();
-    private BGMusicPlayer bgMusicPlayer = new BGMusicPlayer();
+    @Getter
+    private final SFXPlayer sfxPlayer = new SFXPlayer();
+
+    @Getter
+    private final BGMusicPlayer bgMusicPlayer = new BGMusicPlayer();
 
     private WebbWindow() {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -76,13 +80,5 @@ public class WebbWindow extends JFrame {
                 screen.onShow();
             }
         }, 1);
-    }
-
-    public SFXPlayer getSFXPlayer() {
-        return sfxPlayer;
-    }
-
-    public BGMusicPlayer getBGMusicPlayer() {
-        return bgMusicPlayer;
     }
 }

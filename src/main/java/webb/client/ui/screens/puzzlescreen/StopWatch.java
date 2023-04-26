@@ -11,7 +11,7 @@ public class StopWatch {
     private long startTime;
     private long currentTime;
     private boolean running;
-    private StopWatchCallback callback;
+    private final StopWatchCallback callback;
 
     public StopWatch(StopWatchCallback callback) {
         this.callback = callback;

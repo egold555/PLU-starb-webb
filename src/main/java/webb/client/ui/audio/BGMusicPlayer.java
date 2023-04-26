@@ -1,8 +1,15 @@
 package webb.client.ui.audio;
 
+import lombok.Getter;
+
 public class BGMusicPlayer {
 
     private SoundPlayer sp;
+
+    /**
+     * @return The name of the current song playing
+     */
+    @Getter
     private String currentSong;
 
     public void playBG(String name) {
@@ -26,9 +33,5 @@ public class BGMusicPlayer {
             sp.setLoop();
         }
 
-    }
-
-    public String getCurrentSong() {
-        return currentSong;
     }
 }

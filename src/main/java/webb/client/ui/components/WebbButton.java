@@ -15,6 +15,8 @@ import java.awt.image.BufferedImage;
 import javax.swing.JButton;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import lombok.Getter;
+import lombok.Setter;
 import webb.client.ui.WebbWindow;
 import webb.client.ui.constants.WebbAudio;
 import webb.client.ui.constants.WebbColors;
@@ -24,14 +26,53 @@ public class WebbButton extends JButton {
 
     private static final int DEFAULT_BORDER_SIZE = 10;
 
+
+    /**
+     * Sets the size of the border around the button.
+     * @param borderSize The size of the border.
+     */
+    @Getter
     private int borderSize = DEFAULT_BORDER_SIZE;
+
+
+    /**
+     * The text color of the button.
+     * @param textColor The color of the text to set it to
+     */
+    @Setter
     private Color textColor = WebbColors.TEXT_COLOR_BLACK;
+
     private String text = null;
+
+    /**
+     * Sets the image of the button.
+     * @param image The image to display on the button.
+     */
+    @Setter
     private BufferedImage image = null;
+
     private Font font = WebbFonts.BALSAMIQ_SANS_REGULAR_20;
+
+
     private boolean drawBackground = true;
+
+
+    /**
+     * Sets the background color of the button.
+     * @param backgroundColor The color of the background.
+     */
+    @Setter
     private Color backgroundColor = WebbColors.B7;
+
+
     private boolean hovering = false;
+
+
+    /**
+     * Sets whether or not the button should draw an outline.
+     * @param drawButtonOutline Whether or not to draw an outline.
+     */
+    @Setter
     private boolean drawButtonOutline = true;
 
     /**
@@ -46,11 +87,11 @@ public class WebbButton extends JButton {
 
     /**
      * Creates a new WebbButton with the given text and image.
-     * @param text
-     * @param imageIn
-     * @param width
-     * @param height
-     * @param clickListener
+     * @param text The text to display on the button.
+     * @param imageIn The image to display on the button.
+     * @param width The width of the image / button.
+     * @param height The height of the image / button.
+     * @param clickListener The action to perform when the button is clicked.
      */
     public WebbButton(String text, BufferedImage imageIn, int width, int height, ClickListener clickListener) {
         this(imageIn, width, height, clickListener);
@@ -90,7 +131,7 @@ public class WebbButton extends JButton {
 
                 @Override
                 public void mouseEntered(MouseEvent e) {
-                    WebbWindow.getInstance().getSFXPlayer().queue(WebbAudio.SFX_BTN_HOVER);
+                    WebbWindow.getInstance().getSfxPlayer().queue(WebbAudio.SFX_BTN_HOVER);
                     hovering = true;
                 }
 
@@ -113,7 +154,7 @@ public class WebbButton extends JButton {
                         self.getModel().setPressed(true);
                     }
 
-                    WebbWindow.getInstance().getSFXPlayer().queue(WebbAudio.SFX_CLICK);
+                    WebbWindow.getInstance().getSfxPlayer().queue(WebbAudio.SFX_CLICK);
                     clickListener.onClick(self, isRightClick);
 
                 }
@@ -145,24 +186,6 @@ public class WebbButton extends JButton {
     }
 
     /**
-     * Sets the size of the border around the button.
-     * @param borderSize The size of the border.
-     */
-    public void setBorderSize(int borderSize) {this.borderSize = borderSize;}
-
-    /**
-     * Sets the color of the text on the button.
-     * @param textColor The color of the text.
-     */
-    public void setTextColor(Color textColor) {this.textColor = textColor;}
-
-    /**
-     * Sets the image of the button.
-     * @param image The image to display on the button.
-     */
-    public void setImage(BufferedImage image) {this.image = image;}
-
-    /**
      * Sets whether or not the button should draw a background.
      * @param drawBackground Whether or not to draw a background.
      */
@@ -170,20 +193,6 @@ public class WebbButton extends JButton {
         this.drawBackground = drawBackground;
         this.setOpaque(drawBackground);
     }
-
-    /**
-     * Sets whether or not the button should draw an outline.
-     * @param drawButtonOutline Whether or not to draw an outline.
-     */
-    public void setDrawButtonOutline(boolean drawButtonOutline) {
-        this.drawButtonOutline = drawButtonOutline;
-    }
-
-    /**
-     * Sets the background color of the button.
-     * @param backgroundColor The color of the background.
-     */
-    public void setBackgroundColor(Color backgroundColor) {this.backgroundColor = backgroundColor;}
 
     /**
      * Sets the font of the text on the button.

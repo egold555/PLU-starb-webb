@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 import javax.swing.SwingUtilities;
+import lombok.Setter;
 import webb.client.ui.components.WebbButton;
 import webb.client.ui.components.WebbRoundedJPanel;
 import webb.client.ui.constants.WebbColors;
@@ -25,6 +26,13 @@ public abstract class WebbPopup extends JDialog {
 
     private JFrame parent;
     private final String title;
+
+    /**
+     * Sets whether the popup should have an exit button.
+     *
+     * @param exitButton Whether the popup should have an exit button.
+     */
+    @Setter
     private boolean exitButton = true;
 
     /**
@@ -137,11 +145,4 @@ public abstract class WebbPopup extends JDialog {
      * @param layout The layout of the popup.
      */
     protected abstract void populateComponents(JPanel contentPane, SpringLayout layout);
-
-    /**
-     * Sets whether the popup should have an exit button.
-     *
-     * @param exitButton Whether the popup should have an exit button.
-     */
-    public void setExitButton(boolean exitButton) {this.exitButton = exitButton;}
 }

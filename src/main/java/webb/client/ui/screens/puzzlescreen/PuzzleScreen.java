@@ -2,6 +2,7 @@ package webb.client.ui.screens.puzzlescreen;
 
 import java.awt.Container;
 import javax.swing.SpringLayout;
+import lombok.Getter;
 import webb.client.ui.WebbWindow;
 import webb.client.ui.constants.WebbAudio;
 import webb.client.ui.screens.Screen;
@@ -17,6 +18,10 @@ import webb.shared.dtos.puzzle.updated.UpdatePuzzleLevelDTO;
  */
 public class PuzzleScreen extends Screen {
 
+    /**
+     * @return The puzzle component that displays the puzzle.
+     */
+    @Getter
     private PuzzleComponent puzzleComponent;
     private PuzzleSideScreen sidePanel;
     private StopWatch stopWatch;
@@ -90,10 +95,6 @@ public class PuzzleScreen extends Screen {
         stopWatch.start();
     }
 
-    protected PuzzleComponent getPuzzleComponent() {
-        return puzzleComponent;
-    }
-
     protected void exitPuzzle() {
         stopWatch.stop();
         this.switchScreenTo(ScreenType.SELECT_PUZZLE);
@@ -101,6 +102,6 @@ public class PuzzleScreen extends Screen {
 
     @Override
     public void onShow() {
-        WebbWindow.getInstance().getBGMusicPlayer().playBG(WebbAudio.BG_IN_GAME);
+        WebbWindow.getInstance().getBgMusicPlayer().playBG(WebbAudio.BG_IN_GAME);
     }
 }

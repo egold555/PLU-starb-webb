@@ -11,6 +11,7 @@ import java.util.Set;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
+import lombok.Setter;
 import webb.client.ui.WebbWindow;
 import webb.client.ui.components.WebbBackButton;
 import webb.client.ui.components.WebbButton;
@@ -44,6 +45,11 @@ public class SelectPuzzleScreen extends Screen {
         private UserStatsDTO statisticsData = DEFAULT_STATISTICS_DATA;
 
         public static final PuzzleLevelDTO[] DEFAULT_LEVELS = new PuzzleLevelDTO[]{new PuzzleLevelDTO(-1, null, null, 0, 0, 0)};
+
+        /**
+         * @param levels The levels that the user can select from.
+         */
+        @Setter
         private PuzzleLevelDTO[] levels = DEFAULT_LEVELS;
 
         public static final UserPuzzleDTO[] DEFAULT_USER_LEVEL_PROGRESS = new UserPuzzleDTO[0];
@@ -59,6 +65,10 @@ public class SelectPuzzleScreen extends Screen {
 
         private JLabel pageNumberLabel;
 
+        /**
+         * @param completedLevels The levels that the user has completed.
+         */
+        @Setter
         private Set<Integer> completedLevels = Set.of();
 
         @Override
@@ -207,7 +217,7 @@ public class SelectPuzzleScreen extends Screen {
         @Override
         public void onShow() {
 
-                WebbWindow.getInstance().getBGMusicPlayer().playBG(WebbAudio.BG_MAIN_MENU);
+                WebbWindow.getInstance().getBgMusicPlayer().playBG(WebbAudio.BG_MAIN_MENU);
 
                 WebbWebUtilities.getRequestAsync(
                         "/leaderboards/users/",
@@ -224,15 +234,6 @@ public class SelectPuzzleScreen extends Screen {
                 );
 
                 showPuzzlePanelPage(0);
-        }
-
-        public void setLevels(PuzzleLevelDTO[] levels) {
-                System.out.println("Setting levels: " + levels.length);
-                this.levels = levels;
-        }
-
-        public void setCompletedLevels(Set<Integer> completedLevels) {
-                this.completedLevels = completedLevels;
         }
 
         private void showPuzzlePanelPage(int page) {

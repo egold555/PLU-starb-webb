@@ -4,6 +4,8 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
+import lombok.Getter;
+import lombok.ToString;
 import webb.client.logic.puzzle.CellLogic;
 import webb.client.logic.puzzle.CellType;
 import webb.client.ui.constants.WebbColors;
@@ -13,9 +15,17 @@ import webb.client.ui.constants.WebbColors;
  * Allows us to not deal with coordinates and just use row and col.
  * This class handles the drawing of the cell logic class.
  */
+@ToString
 public class CellComponent {
 
+    /**
+     * Get the logic data for the cell
+     * @return the logic data class
+     */
+    @Getter
     private final CellLogic logic;
+
+
     private double sx, sy, sw, sh;
 
     /**
@@ -43,15 +53,6 @@ public class CellComponent {
      */
     public void onClick(boolean rightClick) {
         this.logic.onClick(rightClick);
-    }
-
-
-    /**
-     * Get the logic data for the cell
-     * @return the logic data class
-     */
-    public CellLogic getLogic() {
-        return logic;
     }
 
     /**

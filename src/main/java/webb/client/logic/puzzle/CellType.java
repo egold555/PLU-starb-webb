@@ -1,11 +1,14 @@
 package webb.client.logic.puzzle;
 
 import java.awt.image.BufferedImage;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import webb.client.ui.constants.WebbImages;
 
 /**
  * The type of the cell
  */
+@AllArgsConstructor
 public enum CellType {
     EMPTY((BufferedImage) null, "E"), // Empty cell
     STAR(WebbImages.PLAY_PUZZLE_GRID_STAR, "S"), // White star the player placed
@@ -20,27 +23,16 @@ public enum CellType {
     INVALID(STAR_RED, "I")
     ;
 
-    private final BufferedImage img;
+    @Getter
+    private final BufferedImage image;
+
+    @Getter
     private final String letter;
 
     //Clone the cell type's image
     CellType(CellType cellType, String letter) {
-        this.img = cellType.getImage();
+        this.image = cellType.getImage();
         this.letter = letter;
-    }
-
-    //Create a new cell type
-    CellType(BufferedImage image, String letter) {
-        this.img = image;
-        this.letter = letter;
-    }
-
-    public BufferedImage getImage() {
-        return img;
-    }
-
-    public String getLetter() {
-        return letter;
     }
 }
 

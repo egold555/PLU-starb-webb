@@ -22,14 +22,17 @@ import webb.shared.dtos.puzzle.user.UserPuzzleDTO;
 public class LoadingScreen extends Screen {
 
     private WebbProgressBar progressBar;
-    private JLabel loadingText;
+
+    private int progressPuzzleLevels = 0;
+    private int progressUserCompletion = 0;
+    private boolean startedTransition = false;
 
     @Override
     protected void populateComponents(Container contentPane, SpringLayout layout) {
 
         this.setBackground(WebbColors.TEXT_COLOR_BLACK);
 
-        loadingText = new JLabel("Loading...");
+        JLabel loadingText = new JLabel("Loading...");
         loadingText.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_72);
         loadingText.setForeground(WebbColors.TEXT_COLOR_WHITE);
         layout.putConstraint(SpringLayout.NORTH, loadingText, 50, SpringLayout.NORTH, contentPane);
@@ -47,8 +50,6 @@ public class LoadingScreen extends Screen {
 
     }
 
-    int progressPuzzleLevels = 0;
-    int progressUserCompletion = 0;
     @Override
     public void onShow() {
 
@@ -96,8 +97,8 @@ public class LoadingScreen extends Screen {
 
     }
 
-    boolean startedTransition = false;
-    void updateProgressBar() {
+
+    private void updateProgressBar() {
 
         int progressInt = (int) ((progressPuzzleLevels + progressUserCompletion) / 2.0);
         if(progressInt > 100) {

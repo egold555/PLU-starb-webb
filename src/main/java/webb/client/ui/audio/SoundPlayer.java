@@ -14,6 +14,7 @@ import javax.sound.sampled.LineEvent;
 import javax.sound.sampled.LineEvent.Type;
 import javax.sound.sampled.LineListener;
 import javax.sound.sampled.LineUnavailableException;
+import lombok.Getter;
 import webb.client.ui.constants.WebbAudio;
 
 public class SoundPlayer extends Thread {
@@ -22,6 +23,11 @@ public class SoundPlayer extends Thread {
     private final ThreadHanger hanger = new ThreadHanger();
     private Clip clip;
     private float masterVolume = 1f;
+
+    /**
+     * @return Whether or not the sound is currently playing
+     */
+    @Getter
     private boolean playing;
     private boolean loop = false;
 
@@ -132,10 +138,6 @@ public class SoundPlayer extends Thread {
             return -1;
         }
         return clip.getMicrosecondPosition();
-    }
-
-    public boolean isPlaying() {
-        return playing;
     }
 
     public void fadeVolumeOverXSeconds(float to, int period, Runnable callback) {
