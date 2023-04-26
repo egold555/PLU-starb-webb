@@ -1,6 +1,9 @@
 package webb.client.ui.constants;
 
 import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.InputStream;
 import javax.imageio.ImageIO;
@@ -48,6 +51,9 @@ public class WebbImages {
     public static final BufferedImage PLAY_PUZZLE_GRID_AVMARKER = loadImage("screen_play_puzzle/grid_avmarker.png");
 
     public static final BufferedImage MAIN_MENU_PLANET = loadImage("screen_main_menu/planet.png");
+    public static final BufferedImage MAIN_MENU_UFO = loadImage("screen_main_menu/ufo.png");
+    public static final BufferedImage MAIN_MENU_ROCKET = loadImage("screen_main_menu/rocket.png");
+    public static final BufferedImage MAIN_MENU_STAR = loadImage("screen_main_menu/star.png");
 
     /**
      * Attempts to load an image from the resources folder.
@@ -99,6 +105,52 @@ public class WebbImages {
         }
 
         return image;
+    }
+
+    public static BufferedImage scale(BufferedImage oldBufferedImage, double scale) {
+        final int width = oldBufferedImage.getWidth();
+        final int height = oldBufferedImage.getHeight();
+
+        final int scaledWidth = (int) (width * scale);
+        final int scaledHeight = (int) (height * scale);
+
+        BufferedImage newBufferedImage = new BufferedImage(scaledWidth, scaledHeight, BufferedImage.TYPE_INT_ARGB);
+
+        AffineTransform transform = AffineTransform.getScaleInstance(scale, scale);
+        AffineTransformOp transformOP = new AffineTransformOp(transform, AffineTransformOp.TYPE_BILINEAR);
+
+        transformOP.filter(oldBufferedImage, newBufferedImage);
+
+        return newBufferedImage;
+    }
+
+    public static BufferedImage rotate(BufferedImage img, double angle) {
+
+        final double rads = Math.toRadians(angle);
+        final double sin = Math.abs(Math.sin(rads)), cos = Math.abs(Math.cos(rads));
+        final int w = img.getWidth();
+        final int h = img.getHeight();
+        final int newWidth = (int) Math.floor(w * cos + h * sin);
+        final int newHeight = (int) Math.floor(h * cos + w * sin);
+
+        BufferedImage rotated = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = rotated.createGraphics();
+        AffineTransform at = new AffineTransform();
+
+        final double tx = (newWidth - w) / 2d;
+        final double ty = (newHeight - h) / 2d;
+
+        at.translate(tx, ty);
+
+        final int x = w / 2;
+        final int y = h / 2;
+
+        at.rotate(rads, x, y);
+        g2d.setTransform(at);
+        g2d.drawImage(img, 0, 0, null);
+        g2d.dispose();
+
+        return rotated;
     }
 
 }

@@ -3,6 +3,7 @@ package webb.client.ui.screens.mainmenu;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 import javax.swing.JComponent;
@@ -16,148 +17,183 @@ public class BackgroundSpacePanel extends JComponent {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        Set<ImageAndDirection> tmp = new HashSet<>(images);
+        Set<ImageAndDirection> tmp = new HashSet<>();
         for(ImageAndDirection image : images) {
             image.draw(g);
 
-            if(image.isOffScreen()) {
+            if(image.isOffScreen() && !image.isStillSpawning()) {
                 tmp.add(image);
+            }
+
+            if(image.isStillSpawning() && image.isOffScreen()) {
+                image.setStillSpawning(false);
             }
         }
 
         images.removeAll(tmp);
 
         if(ThreadLocalRandom.current().nextInt(0, 100) == 1) {
-            images.add(new ImageAndDirection(WebbImages.MAIN_MENU_PLANET, 0, 0, true, true, 1, this));
+
+//            Point startingPoint = new Point(0,0);
+//            Point direction = new Point(1,1);
+//            int speed = 1;
+            int width = getWidth();
+            int height = getHeight();
+
+
+            BufferedImage img = switch (ThreadLocalRandom.current().nextInt(0, 4)) {
+                case 0 -> WebbImages.MAIN_MENU_PLANET;
+                case 1 -> WebbImages.MAIN_MENU_UFO;
+                case 2 -> WebbImages.MAIN_MENU_STAR;
+                case 3 -> WebbImages.MAIN_MENU_ROCKET;
+                default -> throw new AssertionError();
+            };
+
+            PositionDirectionSpeedScale pds = PositionDirectionSpeedScale.random(img.getWidth(), img.getHeight(), width, height);
+
+            boolean dontRotate = img == WebbImages.MAIN_MENU_UFO;
+
+            img = WebbImages.scale(img, pds.getImgScale());
+
+            if(!dontRotate) {
+                img = WebbImages.rotate(img, pds.getImgRotation());
+            }
+
+            images.add(new ImageAndDirection(img, pds.getPosition(), pds.getDirection(), pds.getSpeed(), width, height));
         }
-
-        //Draw all the space things
-
-//        g.drawImage(WebbImages.MAIN_MENU_PLANET, imgX, imgY, this);
-//
-//        //bounce the image when it hits the edge of the screen
-//        if (imgX > this.getWidth() - WebbImages.MAIN_MENU_PLANET.getWidth()) {
-//            imgX = this.getWidth() - WebbImages.MAIN_MENU_PLANET.getWidth();
-//        }
-//        else if (imgX < 0) {
-//            imgX = 0;
-//        }
-//
-//        if (imgY > this.getHeight() - WebbImages.MAIN_MENU_PLANET.getHeight()) {
-//            imgY = this.getHeight() - WebbImages.MAIN_MENU_PLANET.getHeight();
-//        } else if (imgY < 0) {
-//            imgY = 0;
-//        }
-//
-//        if(goingRight) {
-//            imgX++;
-//        }
-//        else {
-//            imgX--;
-//        }
-//
-//        if(goingDown) {
-//            imgY++;
-//        }
-//        else {
-//            imgY--;
-//        }
-//
-//        if(imgX > this.getWidth() - WebbImages.MAIN_MENU_PLANET.getWidth()) {
-//            goingRight = false;
-//        }
-//        else if(imgX < 0) {
-//            goingRight = true;
-//        }
-//
-//        if(imgY > this.getHeight() - WebbImages.MAIN_MENU_PLANET.getHeight()) {
-//            goingDown = false;
-//        }
-//        else if(imgY < 0) {
-//            goingDown = true;
-//        }
-
 
         repaint();
 
     }
 
-    static class ImageAndDirection {
-        private int x;
-        private int y;
-        private final boolean goingRight;
-        private final boolean goingDown;
-        private final BufferedImage bi;
-        private final int speed;
+    static class PositionDirectionSpeedScale {
 
-        private final int top = 0;
-        private final int left = 0;
-        private final int right;
-        private final int bottom;
+        static final Random RNG = new Random();
 
-        private final int width;
-        private final int height;
+        private final Point position;
+        private final Point direction;
+        private final double speed;
+        private final double imgScale;
+        private final double imgRotation;
 
-        public ImageAndDirection(BufferedImage bi, int x, int y, boolean goingRight, boolean goingDown, int speed, JComponent parent) {
-            this.bi = bi;
+        public PositionDirectionSpeedScale(Point position, Point direction, double speed, double imgScale, double imgRotation) {
+            this.position = position;
+            this.direction = direction;
+            this.speed = speed;
+            this.imgScale = imgScale;
+            this.imgRotation = imgRotation;
+        }
+
+        public static PositionDirectionSpeedScale random(int imgWidth, int imgHeight, int screenWidth, int screenHeight) {
+
+            // random position in a corner
+            double x = RNG.nextBoolean() ? -imgWidth : screenWidth + imgWidth;
+            double y = RNG.nextBoolean() ? -imgHeight : screenHeight + imgHeight;
+
+            // random direction
+            double dx = RNG.nextDouble();
+            double dy = RNG.nextDouble();
+
+            //Is it negative?
+            dx = dx * (RNG.nextBoolean() ? 1 : -1);
+            dy = dy * (RNG.nextBoolean() ? 1 : -1);
+
+            // random speed
+            double speed = RNG.nextDouble() * 3;
+            speed += 0.5;
+
+            // random scale
+            double imgScale = RNG.nextDouble() * 0.5 + 0.5;
+
+            // random rotation
+            double imgRotation = Math.toDegrees(Math.atan2(dy, dx));
+
+            return new PositionDirectionSpeedScale(new Point(x, y), new Point(dx, dy), speed, imgScale, imgRotation);
+
+        }
+
+        public double getImgScale() {
+            return imgScale;
+        }
+
+        public Point getDirection() {
+            return direction;
+        }
+
+        public Point getPosition() {
+            return position;
+        }
+
+        public double getSpeed() {
+            return speed;
+        }
+
+        public double getImgRotation() {
+            return imgRotation;
+        }
+    }
+
+    static class Point {
+        public double x;
+        public double y;
+
+        public Point(double x, double y) {
             this.x = x;
             this.y = y;
-            this.goingRight = goingRight;
-            this.goingDown = goingDown;
+        }
+
+        public int getXAsInt() {
+            return (int) x;
+        }
+
+        public int getYAsInt() {
+            return (int) y;
+        }
+    }
+
+    static class ImageAndDirection {
+
+        private final BufferedImage bi;
+        private final Point position;
+        private final Point direction;
+        private final double speed;
+        private final int screenWidth;
+        private final int screenHeight;
+
+        private boolean isStillSpawning = true;
+
+        public ImageAndDirection(BufferedImage bi, Point startingPoint, Point direction, double speed, int screenWidth, int screenHeight) {
+            this.bi = bi;
+            this.position = startingPoint;
+            this.direction = direction;
             this.speed = speed;
-
-            this.right = parent.getWidth();
-            this.bottom = parent.getHeight();
-
-            this.width = bi.getWidth();
-            this.height = bi.getHeight();
+            this.screenWidth = screenWidth;
+            this.screenHeight = screenHeight;
         }
 
         private void update() {
-            if(goingRight) {
-                x += speed;
-            }
-            else {
-                x -= speed;
-            }
-
-            if(goingDown) {
-                y += speed;
-            }
-            else {
-                y -= speed;
-            }
+            position.x += direction.x * speed;
+            position.y += direction.y * speed;
         }
 
         public void draw(Graphics g) {
             update();
-            g.drawImage(bi, x, y, null);
+            g.drawImage(bi, position.getXAsInt(), position.getYAsInt(), null);
         }
 
         public boolean isOffScreen() {
 
-            System.out.println("x: " + x + " y: " + y + " width: " + width + " height: " + height + " left: " + left + " right: " + right + " top: " + top + " bottom: " + bottom);
-
-            if(x - width < left) {
-                return true;
-            }
-            else if(x + width > right) {
-                return true;
-            }
-
-            if(y - height < top) {
-                return true;
-            }
-            else if(y + height > bottom) {
-                return true;
-            }
-
-            return false;
-
-
-
+            //Not sure if this is correct
+            return position.x < -bi.getWidth() || position.x > screenWidth || position.y < -bi.getHeight() || position.y > screenHeight;
         }
 
+        public void setStillSpawning(boolean stillSpawning) {
+            isStillSpawning = stillSpawning;
+        }
+
+        public boolean isStillSpawning() {
+            return isStillSpawning;
+        }
     }
 
 }

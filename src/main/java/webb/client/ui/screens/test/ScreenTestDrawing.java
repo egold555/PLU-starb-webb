@@ -7,13 +7,14 @@ import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 import webb.client.ui.components.WebbButton;
 import webb.client.ui.screens.Screen;
+import webb.client.ui.screens.mainmenu.BackgroundSpacePanel;
 
 public class ScreenTestDrawing extends Screen {
 
     @Override
     protected void populateComponents(Container contentPane, SpringLayout layout) {
 
-        TestUFO ufo = new TestUFO();
+        BackgroundSpacePanel ufo = new BackgroundSpacePanel();
         layout.putConstraint(SpringLayout.NORTH, ufo, 0, SpringLayout.NORTH, contentPane);
         layout.putConstraint(SpringLayout.SOUTH, ufo, 0, SpringLayout.SOUTH, contentPane);
         layout.putConstraint(SpringLayout.EAST, ufo, 0, SpringLayout.EAST, contentPane);
@@ -33,15 +34,4 @@ public class ScreenTestDrawing extends Screen {
 
     }
 
-
-    class TestUFO extends JComponent {
-
-        @Override
-        protected void paintComponent(Graphics g) {
-            super.paintComponent(g);
-
-            g.drawLine(0, 0, this.getWidth(), this.getHeight());
-
-        }
-    }
 }
