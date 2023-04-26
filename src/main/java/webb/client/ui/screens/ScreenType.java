@@ -2,6 +2,7 @@ package webb.client.ui.screens;
 
 import webb.client.ui.screens.creditsscreen.CreditsScreen;
 import webb.client.ui.screens.loading.LoadingScreen;
+import webb.client.ui.screens.mainmenu.MainMenuScreen;
 import webb.client.ui.screens.puzzlescreen.PuzzleScreen;
 import webb.client.ui.screens.selectpuzzle.SelectPuzzleScreen;
 import webb.client.ui.screens.test.ScreenTestComponents;

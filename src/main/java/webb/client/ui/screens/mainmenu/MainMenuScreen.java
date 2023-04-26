@@ -1,4 +1,4 @@
-package webb.client.ui.screens;
+package webb.client.ui.screens.mainmenu;
 
 import java.awt.Container;
 import java.awt.Dimension;
@@ -9,6 +9,8 @@ import webb.client.ui.components.WebbButton;
 import webb.client.ui.constants.WebbAudio;
 import webb.client.ui.constants.WebbColors;
 import webb.client.ui.constants.WebbFonts;
+import webb.client.ui.screens.Screen;
+import webb.client.ui.screens.ScreenType;
 
 /**
  * The main menu screen.
@@ -81,6 +83,13 @@ public class MainMenuScreen extends Screen {
         layout.putConstraint(SpringLayout.NORTH, testButton, 10, SpringLayout.SOUTH, exitButton);
 
         this.add(testButton);
+
+        BackgroundSpacePanel backgroundSpacePanel = new BackgroundSpacePanel();
+        layout.putConstraint(SpringLayout.NORTH, backgroundSpacePanel, 0, SpringLayout.NORTH, contentPane);
+        layout.putConstraint(SpringLayout.SOUTH, backgroundSpacePanel, 0, SpringLayout.SOUTH, contentPane);
+        layout.putConstraint(SpringLayout.EAST, backgroundSpacePanel, 0, SpringLayout.EAST, contentPane);
+        layout.putConstraint(SpringLayout.WEST, backgroundSpacePanel, 0, SpringLayout.WEST, contentPane);
+        //this.add(backgroundSpacePanel);
     }
 
     @Override

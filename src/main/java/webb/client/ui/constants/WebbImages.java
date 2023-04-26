@@ -47,6 +47,8 @@ public class WebbImages {
     public static final BufferedImage PLAY_PUZZLE_GRID_STAR_RED = loadImage("screen_play_puzzle/grid_star_red.png");
     public static final BufferedImage PLAY_PUZZLE_GRID_AVMARKER = loadImage("screen_play_puzzle/grid_avmarker.png");
 
+    public static final BufferedImage MAIN_MENU_PLANET = loadImage("screen_main_menu/planet.png");
+
     /**
      * Attempts to load an image from the resources folder.
      * If the image is not found, a pink and black checkerboard image is returned.
