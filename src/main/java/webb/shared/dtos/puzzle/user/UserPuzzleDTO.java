@@ -15,24 +15,24 @@ import webb.shared.dtos.puzzle.user.update.UpdateUserPuzzleDTO;
 public class UserPuzzleDTO extends UpdateUserPuzzleDTO {
 
     @PositiveOrZero(message = "The id cannot be negative.")
-    private  int levelId;
+    private int levelId;
 
     @NotBlank(message = "The username must not be blank.")
-    private  String user;
+    private String user;
 
     @Id
-    private  String id;
+    private String id;
 
     /**
      * Creates a new UpdateUserPuzzleDTO object
      *
+     * @param levelId        the id of the puzzle
      * @param user           the username of the associated user
      * @param completed      whether the puzzle has been completed
      * @param solveTime      the time it took to solve the puzzle in ms
      * @param placedMarkers  the list of markers placed on the puzzle
      * @param placedStars    the list of stars placed on the puzzle
      * @param starsRemaining the number of stars remaining on the puzzle
-     * @param levelId             the id of the puzzle
      */
     public UserPuzzleDTO(@JsonProperty("levelId") int levelId,
                          @JsonProperty("username") String user,
@@ -64,7 +64,9 @@ public class UserPuzzleDTO extends UpdateUserPuzzleDTO {
     public UserPuzzleDTO() {
     }
 
-
+    /**
+     * @return the username of the user
+     */
     @JsonInclude
     public String getUsername() { return this.user; };
 
@@ -73,20 +75,35 @@ public class UserPuzzleDTO extends UpdateUserPuzzleDTO {
      */
     public int getLevelId() {return levelId;}
 
+    /**
+     * @return the id of the puzzle
+     */
     public String getId() {
         return id;
     }
 
+    /**
+     * @return the id of the puzzle
+     */
     private String generateId() { return String.format("%d-%s", this.levelId, this.user); }
 
+    /**
+     * @param levelId the id of the puzzle
+     */
     public void setLevelId(int levelId) {
         this.levelId = levelId;
     }
 
+    /**
+     * @param user the username of the user
+     */
     public void setUserName(String user) {
         this.user = user;
     }
 
+    /**
+     * @param id the id of the userpuzzle
+     */
     public void setId(String id) {
         this.id = id;
     }
