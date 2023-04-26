@@ -1,9 +1,10 @@
-package webb.server.boostrap;
+package webb.server.bootstrap;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
@@ -11,17 +12,17 @@ import webb.server.repository.PuzzleRepository;
 import webb.shared.dtos.puzzle.PuzzleLevelDTO;
 
 import java.io.File;
-import java.io.IOException;
 
 @Component
 public class PuzzleBootstrap implements ApplicationListener<ApplicationReadyEvent> {
     private final PuzzleRepository repo;
     private final Logger logger = LoggerFactory.getLogger(PuzzleBootstrap.class);
-    private final String PUZZLES_FP = "./puzzles";
+    private final String PUZZLES_FP;
 
     @Autowired
-    public PuzzleBootstrap(PuzzleRepository repo) {
+    public PuzzleBootstrap(PuzzleRepository repo, @Value("${starbo.puzzles.path}") String puzzlesPath) {
         this.repo = repo;
+        this.PUZZLES_FP = puzzlesPath;
     }
 
     @Override

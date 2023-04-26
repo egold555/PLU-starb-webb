@@ -1,7 +1,5 @@
-package webb.server.boostrap;
+package webb.server.bootstrap;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
@@ -13,9 +11,8 @@ import webb.shared.dtos.user.UserDTO;
 public class UserAdminBootstrap implements ApplicationListener<ApplicationReadyEvent> {
     private final UserRepository userRepo;
 
-    @Value("${ADMIN_USERNAME:}")
+    @Value("${starbo.admin.username}")
     private String ADMIN_USERNAME;
-    private final Logger logger = LoggerFactory.getLogger(PuzzleBootstrap.class);
     private final String PUZZLES_FP = "./puzzles";
 
     public UserAdminBootstrap(UserRepository repo) {
@@ -23,13 +20,11 @@ public class UserAdminBootstrap implements ApplicationListener<ApplicationReadyE
     }
 
     @Override
-    public void onApplicationEvent(ApplicationReadyEvent event) {
-        if(userRepo.count() != 0) return;
+    public void onApplicationEvent(ApplicationReadyEvent e) {
+        if(userRepo.count() != 0)
+            if(userRepo.existsById(ADMIN_USERNAME)) return;
 
-        if(ADMIN_USERNAME.isEmpty())
-            throw new IllegalStateException("ADMIN_USERNAME required to launch the server. Please add this as env variable.");
-
-        UserDTO admin = new UserDTO(ADMIN_USERNAME, null);
+        UserDTO admin = new UserDTO(ADMIN_USERNAME);
         userRepo.save(admin);
     }
 }

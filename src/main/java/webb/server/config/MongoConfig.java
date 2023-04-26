@@ -14,7 +14,7 @@ import java.util.Arrays;
 @EnableMongoAuditing
 @EnableMongoRepositories(basePackages = "webb")
 public class MongoConfig {
-
+    // This is needed to convert CellDTOs to and from BSON.
     @Bean
     public MongoCustomConversions customConversions() {
         return new MongoCustomConversions(Arrays.asList(new CellDTOWritingConverter(), new CellDTOReadingConverter()));

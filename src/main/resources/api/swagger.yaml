@@ -3,8 +3,8 @@ info:
   title: Star Battle Odyssey API
   description: API for managing users and puzzles
   version: 1.0.5
-host: localhost:1390
-basePath:
+host: localhost:1391
+basePath: /
 schemes:
   - http
 
@@ -29,7 +29,7 @@ paths:
             $ref: '#/definitions/User'
         404:
           description: User not found
-    patch:
+    put:
       description: Used to update the user
       summary: Update an existing user
       security:
@@ -47,7 +47,7 @@ paths:
           in: body
           required: true
           schema:
-            $ref: '#/definitions/UpdateUser'
+            $ref: '#/definitions/User'
       responses:
         204:
           description: User object updated
@@ -152,21 +152,21 @@ paths:
           schema:
             type: object
             properties:
-              id:
+              levelId:
                 type: string
         401:
           description: Not authorized.
         403:
           description: Permission denied. Note for the authentication header, it should be "admin".
 
-  /puzzles/levels/{id}:
+  /puzzles/levels/{levelId}:
     get:
       tags:
         - puzzles (levels)
       summary: Get a particular puzzle level
       description: Returns a puzzle solution and aggregate statistics for the specified puzzle ID.
       parameters:
-        - name: id
+        - name: levelId
           in: path
           description: ID of the puzzle to retrieve
           required: true
@@ -186,7 +186,7 @@ paths:
         - WebbAuth: []
       description: This is helpful in updating the solvedByNumPlayers or fixing errors
       parameters:
-        - name: id
+        - name: levelId
           in: path
           description: ID of the puzzle to update
           required: true
@@ -212,7 +212,7 @@ paths:
         - puzzles (levels)
       summary: Used to delete a puzzle level
       parameters:
-        - name: id
+        - name: levelId
           in: path
           description: ID of the puzzle to delete
           required: true
@@ -226,7 +226,30 @@ paths:
           description: Permission denied. Note for the authentication header, it should be "admin".
         404:
           description: PuzzleLevel not found
-
+  /puzzles/users:
+    post:
+      tags:
+        - puzzles (users)
+      summary: Used to create a new user puzzle
+      security:
+        - WebbAuth: []
+      parameters:
+        - name: user/level
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/CreateUserPuzzle'
+      responses:
+        201:
+          description: Puzzle level created successfully
+          schema:
+            $ref: '#/definitions/UserPuzzle'
+        401:
+          description: Not authorized
+        403:
+          description: Permission denied
+        409:
+          description: Puzzle level with the same ID already exists
   /puzzles/users/{username}:
     get:
       tags:
@@ -247,14 +270,14 @@ paths:
               $ref: '#/definitions/UserPuzzle'
         404:
           description: Not found because the user doesn't exist.
-  /puzzles/{id}/{username}:
+  /puzzles/users/{username}/{levelId}:
     get:
       tags:
         - puzzles (users)
       summary: Used to retrieve level data for a particular user
       description: This only contains data that is produced by the user. Level data is held as an id, a request would need to be made if the client doesn't have that information.
       parameters:
-        - name: id
+        - name: levelId
           in: path
           description: ID of the level puzzle
           required: true
@@ -278,12 +301,11 @@ paths:
       security:
         - WebbAuth: []
       parameters:
-        - name: id
+        - name: levelId
           in: path
           description: ID of the level puzzle
           required: true
           type: integer
-
         - name: username
           in: path
           description: User's name
@@ -303,7 +325,32 @@ paths:
           description: Permission denied. Note for the authentication header, it should either be the username of requested user or "admin."
         404:
           description: Not found
-
+    delete:
+      tags:
+        - puzzles (users)
+      summary: Delete a puzzle level
+      security:
+        - WebbAuth: []
+      parameters:
+        - name: levelId
+          in: path
+          description: ID of the puzzle level to delete
+          required: true
+          type: integer
+        - name: username
+          in: path
+          description: The user's name
+          required: true
+          type: string
+      responses:
+        204:
+          description: Puzzle level object deleted
+        401:
+          description: Not authorized.
+        403:
+          description: Permission denied. Note for the authentication header, it should be "admin."
+        404:
+          description: Not found
 definitions:
   UserLeaderBoard:
     type: object
@@ -325,12 +372,14 @@ definitions:
       stats:
         type: object
         properties:
-          maxSolveTime:
-            type: number
           minSolveTime:
             type: number
           avgSolveTime:
             type: number
+          maxSolveTime:
+            type: number
+          sumSolveTime:
+            type: integer
           puzzlesComplete:
             type: integer
           puzzlesUntilNextTitle:
@@ -342,18 +391,10 @@ definitions:
     properties:
       username:
         type: string
-  UpdateUser:
-    type: object
-    properties:
-      stats:
-        type: object
-        properties:
-          puzzlesComplete:
-            type: integer
   PuzzleLevel:
     type: object
     properties:
-      id:
+      levelId:
         type: integer
       gridSize:
         type: integer
@@ -419,11 +460,22 @@ definitions:
             type: integer
       solvedByNumPlayers:
         type: number
+  CreateUserPuzzle:
+    type: object
+    properties:
+      levelId:
+        type: integer
+      username:
+        type: string
   UserPuzzle:
     type: object
     properties:
       id:
+        type: string
+      levelId:
         type: integer
+      username:
+        type: string
       completed:
         type: boolean
       solveTime:

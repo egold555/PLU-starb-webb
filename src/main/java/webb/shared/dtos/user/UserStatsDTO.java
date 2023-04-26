@@ -25,7 +25,6 @@ public class UserStatsDTO {
      * @param maxSolveTime the maximum solve time of the usser in ms
      * @param minSolveTime the minimum solve time of the user in ms
      * @param avgSolveTime the average solve time of the user in ms
-     * @param puzzlesComplete the number of puzzles completed by the user
      * @param puzzlesUntilNextTitle the number of puzzles until the user gets the next title
      * @param currentTitle the current title of the user
      *
@@ -84,27 +83,49 @@ public class UserStatsDTO {
      */
     public String getCurrentTitle() {return currentTitle;}
 
+    /**
+     * @param maxSolveTime the maximum solve time of the user in ms
+     */
     public void setMaxSolveTime(long maxSolveTime) {
         this.maxSolveTime = maxSolveTime;
     }
 
+    /**
+     * @param minSolveTime the minimum solve time of the user in ms
+     */
     public void setMinSolveTime(long minSolveTime) {
         this.minSolveTime = minSolveTime;
     }
 
+    /**
+     * @param avgSolveTime the average solve time of the user in ms
+     */
     public void setAvgSolveTime(long avgSolveTime) {
         this.avgSolveTime = avgSolveTime;
     }
 
+    /**
+     * @param puzzlesComplete the number of puzzles completed by the user
+     */
     public void setPuzzlesComplete(int puzzlesComplete) {
         this.puzzlesComplete = puzzlesComplete;
     }
 
+    /**
+     * @param puzzlesUntilNextTitle the number of puzzles until the user gets the next title
+     */
     public void setPuzzlesUntilNextTitle(int puzzlesUntilNextTitle) {
         this.puzzlesUntilNextTitle = puzzlesUntilNextTitle;
     }
 
+    /**
+     * @param currentTitle the current title of the user
+     */
     public void setCurrentTitle(String currentTitle) {
         this.currentTitle = currentTitle;
+    }
+
+    public float getTimeInSeconds(long time) {
+        return (float) time / 1000;
     }
 }
