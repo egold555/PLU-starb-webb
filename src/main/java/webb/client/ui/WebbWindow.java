@@ -1,5 +1,6 @@
 package webb.client.ui;
 
+import java.awt.Toolkit;
 import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.JFrame;
@@ -32,6 +33,8 @@ public class WebbWindow extends JFrame {
         //maximizes the window for testing
         this.setExtendedState(this.getExtendedState() | JFrame.MAXIMIZED_BOTH);
         this.setSize(600, 600);
+
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/webb/images/icon5.png")));
 
         sfxPlayer.start();
     }
