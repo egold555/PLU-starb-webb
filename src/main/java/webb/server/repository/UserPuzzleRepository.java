@@ -38,4 +38,12 @@ public interface UserPuzzleRepository extends MongoRepository<UserPuzzleDTO, Str
             }
     )
     AggregationResults<UserStatsDTO> getMaxSolveTimeByUser(String username);
+
+    @Aggregation(
+            pipeline = {
+                    "{$match: {user: ?0, completed: true}}",
+                    "{$group: {_id: '$user', puzzlesComplete: {$sum: 1}}}"
+            }
+    )
+    AggregationResults<UserStatsDTO> getPuzzlesCompletedByUser(String username);
 }

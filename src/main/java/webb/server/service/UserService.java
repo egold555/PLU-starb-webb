@@ -10,6 +10,8 @@ import webb.shared.dtos.leaderboard.LeaderboardDTO;
 import webb.shared.dtos.leaderboard.LeaderboardEntryDTO;
 import webb.shared.dtos.user.UserDTO;
 import webb.shared.dtos.user.UserDTOComparator;
+import webb.shared.dtos.user.UserStatsDTO;
+import webb.shared.models.title.TITLES;
 
 import java.security.Principal;
 import java.util.List;
@@ -74,6 +76,11 @@ public class UserService {
         userRepo.save(newUser);
     }
 
+    public void hasPermissionElseThrow(Principal userPrincipal, String username) {
+        if(isAdmin(userPrincipal.getName())) return;
+        if(!userPrincipal.getName().equals(username)) throw new ForbiddenActionException("You are not authorized to perform this action.");
+    }
+
     /**
      * Helper method for fetching a User entity by username.
      * @param username Username of the User entity to fetch.
@@ -118,5 +125,28 @@ public class UserService {
                 .map(user -> new LeaderboardEntryDTO(user.getUsername(), user.getStats().getPuzzlesComplete()))
                 .toList();
         return new LeaderboardDTO(entries);
+    }
+
+    public void updateUserStats(String username, UserStatsDTO newUserStats) {
+        UserDTO userFound = fetchUser(username);
+        userFound.setStats(newUserStats);
+        saveUser(userFound);
+    }
+
+    public void determineTitles(String username) {
+        UserDTO user = fetchUser(username);
+        List<TITLES> titles = List.of(TITLES.values());
+
+        System.out.println("Puzzles completed: " + user.getStats().getPuzzlesComplete());
+        int titleIndex = user.getStats().getPuzzlesComplete() / 4;
+        if (titleIndex >= titles.size()) {
+            titleIndex = titles.size() - 1;
+        }
+
+        TITLES currentTitle = titles.get(titleIndex);
+        user.getStats().setCurrentTitle(currentTitle.toString());
+        user.getStats().setPuzzlesUntilNextTitle((titleIndex + 1) * 4 - user.getStats().getPuzzlesComplete());
+
+        saveUser(user);
     }
 }

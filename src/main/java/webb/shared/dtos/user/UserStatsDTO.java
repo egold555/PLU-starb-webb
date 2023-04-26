@@ -17,9 +17,6 @@ public class UserStatsDTO {
     private int puzzlesComplete;
 
     @NotNull
-    private long sumSolveTime;
-
-    @NotNull
     private int puzzlesUntilNextTitle;
     @NotBlank
     private String currentTitle;
@@ -28,7 +25,6 @@ public class UserStatsDTO {
      * @param maxSolveTime the maximum solve time of the usser in ms
      * @param minSolveTime the minimum solve time of the user in ms
      * @param avgSolveTime the average solve time of the user in ms
-     * @param puzzlesComplete the number of puzzles completed by the user
      * @param puzzlesUntilNextTitle the number of puzzles until the user gets the next title
      * @param currentTitle the current title of the user
      *
@@ -36,14 +32,12 @@ public class UserStatsDTO {
     public UserStatsDTO(
             @JsonProperty("maxSolveTime") long maxSolveTime,
             @JsonProperty("minSolveTime") long minSolveTime,
-            @JsonProperty("sumSolveTime") long sumSolveTime,
             @JsonProperty("avgSolveTime") long avgSolveTime,
             @JsonProperty("puzzlesComplete") int puzzlesComplete,
             @JsonProperty("puzzlesUntilNextTitle") int puzzlesUntilNextTitle,
             @JsonProperty("currentTitle") String currentTitle) {
         this.maxSolveTime = maxSolveTime;
         this.minSolveTime = minSolveTime;
-        this.sumSolveTime = sumSolveTime;
         this.avgSolveTime = avgSolveTime;
         this.puzzlesComplete = puzzlesComplete;
         this.puzzlesUntilNextTitle = puzzlesUntilNextTitle;
@@ -54,7 +48,6 @@ public class UserStatsDTO {
         this.maxSolveTime = 0;
         this.minSolveTime = 0;
         this.avgSolveTime = 0;
-        this.sumSolveTime = 0;
         this.puzzlesComplete = 0;
         this.puzzlesUntilNextTitle = 0;
         this.currentTitle = "";
@@ -132,24 +125,6 @@ public class UserStatsDTO {
         this.currentTitle = currentTitle;
     }
 
-    /**
-     * @param sumSolveTime the sum of all solve times of the user in ms
-     */
-    public void setSumSolveTime(int sumSolveTime) {
-        this.sumSolveTime = sumSolveTime;
-    }
-
-    /**
-     * @return the sum of all solve times of the user in ms
-     */
-    public long getSumSolveTime() {
-        return sumSolveTime;
-    }
-
-    /**
-     * @param time the time in ms
-     * @return the time in seconds
-     */
     public float getTimeInSeconds(long time) {
         return (float) time / 1000;
     }
