@@ -8,7 +8,8 @@ public class WebbAudio {
 
     public static final String BG_MAIN_MENU = "main_menu";
     public static final String BG_IN_GAME = "in_game";
-    public static final String SFX_CLICK = "ui_button2";
+    public static final String SFX_CLICK = "ui_button_click";
+    public static final String SFX_BTN_HOVER = "ui_button_hover";
 
     static {
         try {
@@ -20,25 +21,11 @@ public class WebbAudio {
 
     private static void preloadAudio() throws IOException {
 
-        for(String name : new String[] {BG_MAIN_MENU, BG_IN_GAME, SFX_CLICK}) {
+        for(String name : new String[] {BG_MAIN_MENU, BG_IN_GAME, SFX_CLICK, SFX_BTN_HOVER}) {
             String path = "/webb/audio/" + name + ".wav";
             InputStream is = WebbAudio.class.getResourceAsStream(path);
             is.close();
         }
     }
-
-//    public static final InputStream BG_MAIN_MENU = getAudioFileWithName("main_menu");
-//    public static final InputStream BG_IN_GAME = getAudioFileWithName("in_game");
-//    public static final InputStream SFX_CLICK = getAudioFileWithName("ui_button");
-//
-//    private static InputStream getAudioFileWithName(String name) {
-//        String path = "/webb/audio/" + name + ".wav";
-//        InputStream is = WebbAudio.class.getResourceAsStream(path);
-//        if(is == null) {
-//            System.err.println("Could not find audio file: " + path);
-//            return null;
-//        }
-//        return is;
-//    }
 
 }

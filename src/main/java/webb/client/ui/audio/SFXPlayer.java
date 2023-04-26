@@ -6,7 +6,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 public class SFXPlayer extends Thread {
 
     private ArrayBlockingQueue<String> queue = new ArrayBlockingQueue<String>(10);
-    private SoundPlayer sp;
+    //private SoundPlayer sp;
 
     public SFXPlayer() {
         super("Audio Player - SFX");
@@ -19,14 +19,15 @@ public class SFXPlayer extends Thread {
     @Override
     public void run() {
         while(true) {
+
             if(queue.peek() != null) {
-                sp = new SoundPlayer(queue.poll());
+                SoundPlayer sp = new SoundPlayer(queue.poll());
                 sp.start();
-                try {
-                    sp.join();
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
+//                try {
+//                    sp.join();
+//                } catch (InterruptedException e) {
+//                    throw new RuntimeException(e);
+//                }
             }
         }
     }
