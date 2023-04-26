@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import webb.server.advice.exception.EntryAlreadyExistsException;
 import webb.server.repository.UserPuzzleRepository;
 import webb.server.repository.UserRepository;
-import webb.shared.dtos.puzzle.user.created.CreateOrDeleteUserPuzzleLevelDTO;
+import webb.shared.dtos.puzzle.user.created.CreateUserPuzzleDTO;
 import webb.shared.dtos.puzzle.user.UserPuzzleDTO;
 import webb.shared.dtos.puzzle.user.update.UpdateUserPuzzleDTO;
 import webb.shared.dtos.user.UserDTO;
@@ -22,7 +22,7 @@ import java.util.Optional;
 @Validated
 @RestController
 @RequestMapping("puzzles/users")
-
+@CrossOrigin("*")
 public class UserPuzzleController {
 
     private final UserPuzzleRepository userPuzzleRepo;
@@ -74,7 +74,7 @@ public class UserPuzzleController {
         UserStatsDTO userFoundStats = userFound.getStats();
         userFoundStats.setMaxSolveTime(maxSolveTime.getMappedResults().get(0).getMaxSolveTime());
         userFoundStats.setMinSolveTime(minSolveTime.getMappedResults().get(0).getMinSolveTime());
-        userFoundStats.setAvgSolveTime(minSolveTime.getMappedResults().get(0).getAvgSolveTime());
+        userFoundStats.setAvgSolveTime(avgSolveTime.getMappedResults().get(0).getAvgSolveTime());
 
         if(userPuzzleDTO.isCompleted()){
             userFoundStats.setPuzzlesComplete(userFoundStats.getPuzzlesComplete() + 1);
@@ -89,7 +89,7 @@ public class UserPuzzleController {
     }
 
     @PostMapping()
-    public ResponseEntity<UserPuzzleDTO> createUserPuzzleLevel(@RequestBody CreateOrDeleteUserPuzzleLevelDTO createdUserPuzzle) {
+    public ResponseEntity<UserPuzzleDTO> createUserPuzzleLevel(@RequestBody CreateUserPuzzleDTO createdUserPuzzle) {
         UserPuzzleDTO userPuzzleDTO = new UserPuzzleDTO(createdUserPuzzle.getLevelId(), createdUserPuzzle.getUsername());
 
         if(userPuzzleRepo.existsById(userPuzzleDTO.getId())) throw new EntryAlreadyExistsException(String.format("The user puzzle level `%s` already exists.", userPuzzleDTO.getUsername()));
@@ -99,7 +99,7 @@ public class UserPuzzleController {
     }
 
     @DeleteMapping("/{id}/{username}")
-    public ResponseEntity<Void> deleteUserPuzzleLevel(@RequestBody CreateOrDeleteUserPuzzleLevelDTO deletedUserPuzzle) {
+    public ResponseEntity<Void> deleteUserPuzzleLevel(@RequestBody CreateUserPuzzleDTO deletedUserPuzzle) {
         UserPuzzleDTO userPuzzleDTO = fetchUserPuzzle(deletedUserPuzzle.getUserPuzzleId());
         userPuzzleRepo.deleteById(userPuzzleDTO.getId());
         return new ResponseEntity<>(HttpStatus.OK);
@@ -127,13 +127,13 @@ public class UserPuzzleController {
      */
     private UserPuzzleDTO fetchUserPuzzle(int id, String username) {
         // this class has a method that gets the id from a id and username, better to reuse that
-        CreateOrDeleteUserPuzzleLevelDTO form = new CreateOrDeleteUserPuzzleLevelDTO(username, id);
+        CreateUserPuzzleDTO form = new CreateUserPuzzleDTO(username, id);
         Optional<UserPuzzleDTO> userPuzzleFound = userPuzzleRepo.findById(form.getUserPuzzleId());
         return userPuzzleFound.orElseThrow(() -> new NoSuchElementException((String.format("UserPuzzle '%s' not found.", form.getUserPuzzleId()))));
     }
 
     private boolean userPuzzleExists(int id, String username) {
-        CreateOrDeleteUserPuzzleLevelDTO form = new CreateOrDeleteUserPuzzleLevelDTO(username, id);
+        CreateUserPuzzleDTO form = new CreateUserPuzzleDTO(username, id);
         return userPuzzleRepo.existsById(form.getUserPuzzleId());
     }
 
