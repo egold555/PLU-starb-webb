@@ -8,7 +8,7 @@ public class UserStatsDTO {
 
     // In milliseconds
     @NotNull
-    private  long maxSolveTime;
+    private long maxSolveTime;
     @NotNull
     private long minSolveTime;
     @NotNull

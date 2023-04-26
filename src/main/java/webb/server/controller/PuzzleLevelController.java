@@ -3,6 +3,7 @@ package webb.server.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import webb.server.repository.PuzzleRepository;
 import webb.shared.dtos.puzzle.PuzzleLevelDTO;
@@ -14,7 +15,8 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("puzzles")
+@RequestMapping("puzzles/levels")
+@Validated
 public class PuzzleLevelController {
 
     private final PuzzleRepository puzzleRepository;

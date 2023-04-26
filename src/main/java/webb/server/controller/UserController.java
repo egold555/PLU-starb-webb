@@ -6,13 +6,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import webb.server.advice.exception.EntryAlreadyExistsException;
+import webb.server.repository.UserPuzzleRepository;
 import webb.server.repository.UserRepository;
 import webb.shared.dtos.user.UserDTO;
 import webb.shared.dtos.user.UserStatsDTO;
 import webb.shared.dtos.user.created.CreatedUserDTO;
 import webb.shared.dtos.user.updated.UpdatedUserStatsDTO;
 
-import java.nio.file.attribute.UserPrincipal;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -27,7 +27,8 @@ public class UserController {
 
     /**
      * Constructor for UserController class.
-     * @param userRepo Repository object for managing User entities.
+     *
+     * @param userRepo       Repository object for managing User entities.
      */
     @Autowired
     public UserController(UserRepository userRepo) {
@@ -42,7 +43,7 @@ public class UserController {
      * Possible response codes: either 200, 404
      */
     @GetMapping("{username}")
-    public ResponseEntity<UserDTO> getPlayer(@PathVariable String username) {
+    public ResponseEntity<UserDTO> getUser(@PathVariable String username) {
         UserDTO foundUser = fetchUser(username);
         return new ResponseEntity<>(foundUser, HttpStatus.OK);
     }
@@ -55,7 +56,7 @@ public class UserController {
      * Possible response codes: either 201, 400, 409
      */
     @PostMapping("")
-    public ResponseEntity<UserDTO> createPlayer(@RequestBody CreatedUserDTO newUser) {
+    public ResponseEntity<UserDTO> createUser(@RequestBody CreatedUserDTO newUser) {
         boolean userFound = userRepo.existsById(newUser.getUsername());
         if(userFound) throw new EntryAlreadyExistsException(String.format("Username `%s` already exists. Please choose something else.", newUser.getUsername()));
 
@@ -75,7 +76,7 @@ public class UserController {
      * TODO: Add checks to see if user is authenticated and authorized
      */
     @PatchMapping("{username}")
-    public ResponseEntity<Void> updatePlayer(@PathVariable String username, @RequestBody UpdatedUserStatsDTO updates) {
+    public ResponseEntity<Void> updateUser(@PathVariable String username, @RequestBody UpdatedUserStatsDTO updates) {
         UserDTO foundUser = fetchUser(username);
 
         UserStatsDTO foundUserStats = foundUser.getStats();
@@ -94,7 +95,7 @@ public class UserController {
      * TODO: Add checks to see if user is authenticated and authorized
      */
     @DeleteMapping("{username}")
-    public ResponseEntity<Void> deletePlayer(@PathVariable String username) {
+    public ResponseEntity<Void> deleteUser(@PathVariable String username) {
         UserDTO foundUser = fetchUser(username);
         userRepo.deleteById(foundUser.getUsername());
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
