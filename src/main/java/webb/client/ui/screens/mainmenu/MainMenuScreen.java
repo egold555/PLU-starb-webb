@@ -89,7 +89,7 @@ public class MainMenuScreen extends Screen {
         layout.putConstraint(SpringLayout.SOUTH, backgroundSpacePanel, 0, SpringLayout.SOUTH, contentPane);
         layout.putConstraint(SpringLayout.EAST, backgroundSpacePanel, 0, SpringLayout.EAST, contentPane);
         layout.putConstraint(SpringLayout.WEST, backgroundSpacePanel, 0, SpringLayout.WEST, contentPane);
-        //this.add(backgroundSpacePanel);
+        this.add(backgroundSpacePanel);
     }
 
     @Override

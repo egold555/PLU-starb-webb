@@ -13,35 +13,34 @@ public class BackgroundSpacePanel extends JComponent {
 
     private Set<ImageAndDirection> images = new HashSet<>();
 
+    static final Random RNG = new Random();
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        Set<ImageAndDirection> tmp = new HashSet<>();
+        Set<ImageAndDirection> toBeRemoved = new HashSet<>();
         for(ImageAndDirection image : images) {
             image.draw(g);
 
             if(image.isOffScreen() && !image.isStillSpawning()) {
-                tmp.add(image);
+                toBeRemoved.add(image);
             }
 
-            if(image.isStillSpawning() && image.isOffScreen()) {
+            if(image.isStillSpawning() && !image.isOffScreen()) {
                 image.setStillSpawning(false);
             }
         }
 
-        images.removeAll(tmp);
+        images.removeAll(toBeRemoved);
 
-        if(ThreadLocalRandom.current().nextInt(0, 100) == 1) {
+        if(RNG.nextInt(0, 200) == 0) {
 
-//            Point startingPoint = new Point(0,0);
-//            Point direction = new Point(1,1);
-//            int speed = 1;
             int width = getWidth();
             int height = getHeight();
 
 
-            BufferedImage img = switch (ThreadLocalRandom.current().nextInt(0, 4)) {
+            BufferedImage img = switch (RNG.nextInt(0, 4)) {
                 case 0 -> WebbImages.MAIN_MENU_PLANET;
                 case 1 -> WebbImages.MAIN_MENU_UFO;
                 case 2 -> WebbImages.MAIN_MENU_STAR;
@@ -62,13 +61,22 @@ public class BackgroundSpacePanel extends JComponent {
             images.add(new ImageAndDirection(img, pds.getPosition(), pds.getDirection(), pds.getSpeed(), width, height));
         }
 
+        g.drawString("Images: " + images.size(), 10, 10);
+
+        int tmpy = 20;
+        for(ImageAndDirection image : images) {
+            g.drawString("  - " + image, 10, tmpy);
+
+            tmpy+=20;
+        }
+
         repaint();
 
     }
 
     static class PositionDirectionSpeedScale {
 
-        static final Random RNG = new Random();
+
 
         private final Point position;
         private final Point direction;
@@ -86,17 +94,20 @@ public class BackgroundSpacePanel extends JComponent {
 
         public static PositionDirectionSpeedScale random(int imgWidth, int imgHeight, int screenWidth, int screenHeight) {
 
+            boolean dirX = RNG.nextBoolean();
+            boolean dirY = RNG.nextBoolean();
+
             // random position in a corner
-            double x = RNG.nextBoolean() ? -imgWidth : screenWidth + imgWidth;
-            double y = RNG.nextBoolean() ? -imgHeight : screenHeight + imgHeight;
+            double x = dirX ? -imgWidth : screenWidth + imgWidth;
+            double y = dirY ? -imgHeight : screenHeight + imgHeight;
 
             // random direction
             double dx = RNG.nextDouble();
             double dy = RNG.nextDouble();
 
             //Is it negative?
-            dx = dx * (RNG.nextBoolean() ? 1 : -1);
-            dy = dy * (RNG.nextBoolean() ? 1 : -1);
+            dx = dx * (dirX ? 1 : -1);
+            dy = dy * (dirY ? 1 : -1);
 
             // random speed
             double speed = RNG.nextDouble() * 3;
@@ -149,6 +160,14 @@ public class BackgroundSpacePanel extends JComponent {
         public int getYAsInt() {
             return (int) y;
         }
+
+        @Override
+        public String toString() {
+            return "Point{" +
+                    "x=" + x +
+                    ", y=" + y +
+                    '}';
+        }
     }
 
     static class ImageAndDirection {
@@ -193,6 +212,16 @@ public class BackgroundSpacePanel extends JComponent {
 
         public boolean isStillSpawning() {
             return isStillSpawning;
+        }
+
+        @Override
+        public String toString() {
+            return "ImageAndDirection{" +
+                    ", position=" + position +
+                    ", direction=" + direction +
+                    ", speed=" + speed +
+                    ", isStillSpawning=" + isStillSpawning +
+                    '}';
         }
     }
 
