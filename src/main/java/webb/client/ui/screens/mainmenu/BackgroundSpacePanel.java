@@ -61,15 +61,6 @@ public class BackgroundSpacePanel extends JComponent {
             images.add(new ImageAndDirection(img, pds.getPosition(), pds.getDirection(), pds.getSpeed(), width, height));
         }
 
-        g.drawString("Images: " + images.size(), 10, 10);
-
-        int tmpy = 20;
-        for(ImageAndDirection image : images) {
-            g.drawString("  - " + image, 10, tmpy);
-
-            tmpy+=20;
-        }
-
         repaint();
 
     }
