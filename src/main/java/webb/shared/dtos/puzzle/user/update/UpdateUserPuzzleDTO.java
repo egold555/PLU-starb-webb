@@ -2,16 +2,45 @@ package webb.shared.dtos.puzzle.user.update;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
+import lombok.Getter;
+import lombok.ToString;
 import webb.shared.dtos.puzzle.CellDTO;
 
+@ToString
 public class UpdateUserPuzzleDTO {
 
+    /**
+     * @return whether the puzzle has been completed
+     */
+    @Getter
     private final boolean completed;
+
+
+    /**
+     * @return the time it took to solve the puzzle in ms
+     */
+    @Getter
     private final long solveTime; //in milliseconds
 
+
+    /**
+     * @return the list of markers placed on the puzzle
+     */
+    @Getter
     private final List<CellDTO> placedMarkers;
+
+
+    /**
+     * @return the list of stars placed on the puzzle
+     */
+    @Getter
     private final List<CellDTO> placedStars;
 
+
+    /**
+     * @return the number of stars remaining on the puzzle
+     */
+    @Getter
     private final int starsRemaining;
 
     /** Creates a new UpdateUserPuzzleDTO object
@@ -32,31 +61,5 @@ public class UpdateUserPuzzleDTO {
         this.placedStars = placedStars;
         this.starsRemaining = starsRemaining;
     }
-
-    /**
-     * @return whether the puzzle has been completed
-     */
-    public boolean isCompleted() {return completed;}
-
-    /**
-     * @return the time it took to solve the puzzle in ms
-     */
-    public long getSolveTime() {return solveTime;}
-
-    /**
-     * @return the list of markers placed on the puzzle
-     */
-    public List<CellDTO> getPlacedMarkers() {return placedMarkers;}
-
-    /**
-     * @return the list of stars placed on the puzzle
-     */
-    public List<CellDTO> getPlacedStars() {return placedStars;}
-
-    /**
-     * @return the number of stars remaining on the puzzle
-     */
-    public int getStarsRemaining() {return starsRemaining;}
-
 
 }

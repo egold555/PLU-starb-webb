@@ -2,13 +2,18 @@ package webb.shared.dtos.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
 import org.springframework.data.mongodb.core.mapping.Document;
 import webb.shared.dtos.user.created.CreatedUserDTO;
 
 @Document("user")
 public class UserDTO extends CreatedUserDTO{
 
+    /**
+     * @return the statistics of the user
+     */
     @NotNull
+    @Getter
     private final UserStatsDTO stats;
 
     /** Creates a new user
@@ -19,9 +24,4 @@ public class UserDTO extends CreatedUserDTO{
         super(username);
         this.stats = stats;
     }
-
-    /**
-     * @return the statistics of the user
-     */
-    public UserStatsDTO getStats() {return stats;}
 }

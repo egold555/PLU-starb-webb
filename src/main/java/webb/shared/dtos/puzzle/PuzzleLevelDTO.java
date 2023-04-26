@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.util.List;
 
 import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import webb.shared.dtos.puzzle.updated.UpdatePuzzleLevelDTO;
@@ -19,10 +21,15 @@ import webb.shared.dtos.puzzle.updated.UpdatePuzzleLevelDTO;
  */
 @Document("puzzle")
 @JsonInclude(JsonInclude.Include.NON_ABSENT) // for populating database from a folder
+@ToString
 public class PuzzleLevelDTO extends UpdatePuzzleLevelDTO {
 
+    /**
+     * @return the id of the puzzle
+     */
     @Id
     @NotNull
+    @Getter
     private final int id;
 
     /**
@@ -45,11 +52,6 @@ public class PuzzleLevelDTO extends UpdatePuzzleLevelDTO {
     }
 
     /**
-     * @return the id of the puzzle
-     */
-    public int getId() {return id;}
-
-    /**
      * Creates a PuzzleDTO from a JSON file
      * @param jsonFile the JSON file
      * @return the PuzzleDTO object
@@ -59,10 +61,4 @@ public class PuzzleLevelDTO extends UpdatePuzzleLevelDTO {
         return new ObjectMapper().readValue(jsonFile, PuzzleLevelDTO.class);
     }
 
-    @Override
-    public String toString() {
-        return "PuzzleLevelDTO{" +
-                "id=" + id +
-                "} " + super.toString();
-    }
 }

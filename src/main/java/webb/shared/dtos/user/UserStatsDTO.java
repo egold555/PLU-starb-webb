@@ -3,22 +3,57 @@ package webb.shared.dtos.user;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.ToString;
 
+@ToString
 public class UserStatsDTO {
 
-    // In milliseconds
+    /**
+     * @return the maximum solve time of the user in ms
+     */
     @NotNull
+    @Getter
     private final long maxSolveTime;
+
+
+    /**
+     * @return the minimum solve time of the user in ms
+     */
     @NotNull
+    @Getter
     private final long minSolveTime;
+
+
+    /**
+     * @return the average solve time of the user in ms
+     */
     @NotNull
+    @Getter
     private final long avgSolveTime;
+
+
+    /**
+     * @return the number of puzzles completed by the user
+     */
     @NotNull
+    @Getter
     private final int puzzlesComplete;
 
+
+    /**
+     * @return the number of puzzles until the user gets the next title
+     */
     @NotNull
+    @Getter
     private final int puzzlesUntilNextTitle;
+
+
+    /**
+     * @return the current title of the user
+     */
     @NotBlank
+    @Getter
     private final String currentTitle;
 
     /** Creates a new UserStats object
@@ -44,36 +79,5 @@ public class UserStatsDTO {
         this.puzzlesUntilNextTitle = puzzlesUntilNextTitle;
         this.currentTitle = currentTitle;
     }
-
-    /**
-     * @return the maximum solve time of the user in ms
-     */
-    public long getMaxSolveTime() {return maxSolveTime;}
-
-    /**
-     * @return the minimum solve time of the user in ms
-     */
-    public long getMinSolveTime() {return minSolveTime;}
-
-    /**
-     * @return the average solve time of the user in ms
-     */
-    public long getAvgSolveTime() {return avgSolveTime;}
-
-    /**
-     * @return the number of puzzles completed by the user
-     */
-    public int getPuzzlesComplete() {return puzzlesComplete;}
-
-    /**
-     * @return the number of puzzles until the user gets the next title
-     */
-    public int getPuzzlesUntilNextTitle() {return puzzlesUntilNextTitle;}
-
-    /**
-     * @return the current title of the user
-     */
-    public String getCurrentTitle() {return currentTitle;}
-
 
 }

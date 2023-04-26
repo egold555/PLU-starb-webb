@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
 import webb.shared.dtos.helpers.CellDTODeserializer;
 import webb.shared.dtos.helpers.CellDTOSerializer;
 
@@ -13,34 +16,28 @@ import webb.shared.dtos.helpers.CellDTOSerializer;
  */
 @JsonDeserialize(using = CellDTODeserializer.class)
 @JsonSerialize(using = CellDTOSerializer.class)
+@ToString
+@EqualsAndHashCode
 public class CellDTO {
 
+    /**
+     * @return the row of the cell
+     */
     @NotNull
+    @Getter
     private final int row;
+
+
+    /**
+     * @return the column of the cell
+     */
     @NotNull
+    @Getter
     private final int col;
 
     @JsonCreator
     public CellDTO(int[] values) {
         row = values[0];
         col = values[1];
-    }
-
-    /**
-     * @return the column of the cell
-     */
-    public int getCol() {return col;}
-
-    /**
-     * @return the row of the cell
-     */
-    public int getRow() {return row;}
-
-    @Override
-    public String toString() {
-        return "CellDTO{" +
-                "row=" + row +
-                ", col=" + col +
-                '}';
     }
 }

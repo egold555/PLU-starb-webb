@@ -5,21 +5,43 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.ToString;
 import webb.shared.dtos.puzzle.CellDTO;
 
 /**
  * Represents a puzzle from the JSON file.
  * Modified from: https://cs.plu.edu/courses/protected/cs390/2023s/project/iteration2.html
  */
+@ToString
 public class CreatePuzzleLevelDTO {
 
+    /**
+     * @return the regions of the puzzle as a list of Cells
+     */
     @NotNull
+    @Getter
     private final List<List<CellDTO>> regions;
+
+    /**
+     * @return the solution to the puzzle as a list of Cells
+     */
     @NotNull
+    @Getter
     private final List<CellDTO> solution;
+
+    /**
+     * @return the size of the grid
+     */
     @NotNull
+    @Getter
     private final int gridSize;
+
+    /**
+     * @return the number of stars per region
+     */
     @NotNull
+    @Getter
     private final int numStars;
 
     /**
@@ -40,38 +62,9 @@ public class CreatePuzzleLevelDTO {
     }
 
     /**
-     * @return the regions of the puzzle as a list of Cells
-     */
-    public List<List<CellDTO>> getRegions() {return regions;}
-
-    /**
-     * @return the solution to the puzzle as a list of Cells
-     */
-    public List<CellDTO> getSolution() {return solution;}
-
-    /**
-     * @return the size of the grid
-     */
-    public int getGridSize() {return gridSize;}
-
-    /**
-     * @return the number of stars per region
-     */
-    public int getNumStars() {return numStars;}
-
-    /**
      * @return the total number of stars in the puzzle
      */
     @JsonIgnore
     public int getTotalStars() {return numStars * regions.size();}
 
-    @Override
-    public String toString() {
-        return "PuzzleDTO{" +
-                "regions=" + regions +
-                ", solution=" + solution +
-                ", gridSize=" + gridSize +
-                ", numStars=" + numStars +
-                '}';
-    }
 }

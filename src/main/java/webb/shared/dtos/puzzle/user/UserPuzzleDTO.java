@@ -2,11 +2,18 @@ package webb.shared.dtos.puzzle.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
+import lombok.Getter;
+import lombok.ToString;
 import webb.shared.dtos.puzzle.CellDTO;
 import webb.shared.dtos.puzzle.user.update.UpdateUserPuzzleDTO;
 
+@ToString
 public class UserPuzzleDTO extends UpdateUserPuzzleDTO {
 
+    /**
+     * @return the id of the puzzle
+     */
+    @Getter
     private final int id;
 
     /**
@@ -29,8 +36,4 @@ public class UserPuzzleDTO extends UpdateUserPuzzleDTO {
         this.id = id;
     }
 
-    /**
-     * @return the id of the puzzle
-     */
-    public int getId() {return id;}
 }

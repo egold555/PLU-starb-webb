@@ -3,12 +3,26 @@ package webb.shared.dtos.leaderboard;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
 
+@ToString
 public class LeaderboardEntryDTO implements Comparable<LeaderboardEntryDTO> {
 
+    /**
+     * @return the username of the user
+     */
     @NotBlank
+    @Getter
     private final String username;
+
+
+    /**
+     * @return the amount of puzzles they have finished
+     */
     @NotNull
+    @Getter
     private final int completedPuzzles;
 
     /**
@@ -22,16 +36,6 @@ public class LeaderboardEntryDTO implements Comparable<LeaderboardEntryDTO> {
         this.username = username;
         this.completedPuzzles = completedPuzzles;
     }
-
-    /**
-     * @return the username of the user
-     */
-    public String getUsername() {return username;}
-
-    /**
-     * @return the amount of puzzles they have finished
-     */
-    public int getCompletedPuzzles() {return completedPuzzles;}
 
     /**
      * Sorts by completed puzzles highest to lowest
