@@ -8,18 +8,18 @@ public class UserStatsDTO {
 
     // In milliseconds
     @NotNull
-    private final long maxSolveTime;
+    private long maxSolveTime;
     @NotNull
-    private final long minSolveTime;
+    private long minSolveTime;
     @NotNull
-    private final long avgSolveTime;
+    private long avgSolveTime;
     @NotNull
-    private final int puzzlesComplete;
+    private int puzzlesComplete;
 
     @NotNull
-    private final int puzzlesUntilNextTitle;
+    private int puzzlesUntilNextTitle;
     @NotBlank
-    private final String currentTitle;
+    private String currentTitle;
 
     /** Creates a new UserStats object
      * @param maxSolveTime the maximum solve time of the usser in ms
@@ -43,6 +43,15 @@ public class UserStatsDTO {
         this.puzzlesComplete = puzzlesComplete;
         this.puzzlesUntilNextTitle = puzzlesUntilNextTitle;
         this.currentTitle = currentTitle;
+    }
+
+    public UserStatsDTO() {
+        this.maxSolveTime = 0;
+        this.minSolveTime = 0;
+        this.avgSolveTime = 0;
+        this.puzzlesComplete = 0;
+        this.puzzlesUntilNextTitle = 0;
+        this.currentTitle = "";
     }
 
     /**
@@ -75,5 +84,27 @@ public class UserStatsDTO {
      */
     public String getCurrentTitle() {return currentTitle;}
 
+    public void setMaxSolveTime(long maxSolveTime) {
+        this.maxSolveTime = maxSolveTime;
+    }
 
+    public void setMinSolveTime(long minSolveTime) {
+        this.minSolveTime = minSolveTime;
+    }
+
+    public void setAvgSolveTime(long avgSolveTime) {
+        this.avgSolveTime = avgSolveTime;
+    }
+
+    public void setPuzzlesComplete(int puzzlesComplete) {
+        this.puzzlesComplete = puzzlesComplete;
+    }
+
+    public void setPuzzlesUntilNextTitle(int puzzlesUntilNextTitle) {
+        this.puzzlesUntilNextTitle = puzzlesUntilNextTitle;
+    }
+
+    public void setCurrentTitle(String currentTitle) {
+        this.currentTitle = currentTitle;
+    }
 }
