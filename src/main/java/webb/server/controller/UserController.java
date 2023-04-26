@@ -5,34 +5,31 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import webb.server.advice.exception.EntryAlreadyExistsException;
-import webb.server.repository.UserPuzzleRepository;
-import webb.server.repository.UserRepository;
+import webb.server.service.UserService;
 import webb.shared.dtos.user.UserDTO;
 import webb.shared.dtos.user.UserStatsDTO;
 import webb.shared.dtos.user.created.CreatedUserDTO;
 import webb.shared.dtos.user.updated.UpdatedUserStatsDTO;
 
-import java.util.NoSuchElementException;
-import java.util.Optional;
-
+import java.security.Principal;
 @Validated
 @RestController
 @RequestMapping("users")
+@CrossOrigin("*")
 public class UserController {
     /**
-     * Repository object for managing User entities.
+     * Service object for managing User entities.
      */
-    private final UserRepository userRepo;
+    private final UserService userService;
 
     /**
      * Constructor for UserController class.
      *
-     * @param userRepo       Repository object for managing User entities.
+     * @param userService
      */
     @Autowired
-    public UserController(UserRepository userRepo) {
-        this.userRepo = userRepo;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
     /**
@@ -44,7 +41,7 @@ public class UserController {
      */
     @GetMapping("{username}")
     public ResponseEntity<UserDTO> getUser(@PathVariable String username) {
-        UserDTO foundUser = fetchUser(username);
+        UserDTO foundUser = userService.fetchUser(username);
         return new ResponseEntity<>(foundUser, HttpStatus.OK);
     }
 
@@ -57,12 +54,8 @@ public class UserController {
      */
     @PostMapping("")
     public ResponseEntity<UserDTO> createUser(@RequestBody CreatedUserDTO newUser) {
-        boolean userFound = userRepo.existsById(newUser.getUsername());
-        if(userFound) throw new EntryAlreadyExistsException(String.format("Username `%s` already exists. Please choose something else.", newUser.getUsername()));
-
         UserDTO user = new UserDTO(newUser.getUsername());
-        userRepo.save(user);
-
+        userService.createAccount(user);
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
@@ -73,16 +66,15 @@ public class UserController {
      * @return ResponseEntity indicating the success of the update operation.
      *
      * Possible response codes: either 204, 400, 401, 403
-     * TODO: Add checks to see if user is authenticated and authorized
      */
     @PatchMapping("{username}")
     public ResponseEntity<Void> updateUser(@PathVariable String username, @RequestBody UpdatedUserStatsDTO updates) {
-        UserDTO foundUser = fetchUser(username);
+        UserDTO foundUser = userService.fetchUser(username);
 
         UserStatsDTO foundUserStats = foundUser.getStats();
         foundUserStats.setPuzzlesComplete(updates.getPuzzlesComplete());
 
-        userRepo.save(foundUser);
+        userService.saveUser(foundUser);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
@@ -92,23 +84,10 @@ public class UserController {
      * @return ResponseEntity indicating the success of the update operation.
      *
      * Possible response codes: either 204, 400, 401, 403
-     * TODO: Add checks to see if user is authenticated and authorized
      */
     @DeleteMapping("{username}")
-    public ResponseEntity<Void> deleteUser(@PathVariable String username) {
-        UserDTO foundUser = fetchUser(username);
-        userRepo.deleteById(foundUser.getUsername());
+    public ResponseEntity<Void> deleteUser(Principal userPrincipal, @PathVariable String username) {
+        userService.deleteUser(userPrincipal, username);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
-    /**
-     * Helper method for fetching a User entity by username.
-     * @param username Username of the User entity to fetch.
-     * @return UserDTO object representing the fetched User entity.
-     * @throws NoSuchElementException if the User entity could not be found.
-     */
-    private UserDTO fetchUser(String username) {
-        Optional<UserDTO> userFound = userRepo.findById(username);
-        return userFound.orElseThrow(() -> new NoSuchElementException((String.format("User '%s' not found.", username))));
     }
 }
