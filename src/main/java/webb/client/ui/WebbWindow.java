@@ -34,7 +34,7 @@ public class WebbWindow extends JFrame {
         this.setExtendedState(this.getExtendedState() | JFrame.MAXIMIZED_BOTH);
         this.setSize(600, 600);
 
-        this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/webb/images/icon5.png")));
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/webb/images/icon/icon5.png")));
 
         sfxPlayer.start();
     }
