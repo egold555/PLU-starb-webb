@@ -19,6 +19,7 @@ import java.util.Optional;
 @Validated
 @RestController
 @RequestMapping("users")
+@CrossOrigin("*")
 public class UserController {
     /**
      * Repository object for managing User entities.

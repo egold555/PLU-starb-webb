@@ -3,8 +3,8 @@ info:
   title: Star Battle Odyssey API
   description: API for managing users and puzzles
   version: 1.0.5
-host: localhost:8080
-basePath: /api/v1
+host: localhost:1390
+basePath:
 schemes:
   - http
 

@@ -17,6 +17,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("puzzles/levels")
 @Validated
+@CrossOrigin("*")
 public class PuzzleLevelController {
 
     private final PuzzleRepository puzzleRepository;
