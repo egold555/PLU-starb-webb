@@ -44,7 +44,6 @@ public class PuzzleLevelController {
      * @param newPuzzle DTO object representing the new Puzzle entity to be created
      * @return ResponseEntity containing the id of the created PuzzleDTO object.
      *
-     * TODO: Add checks to see if user is authenticated and authorized
      */
     @PostMapping()
     public ResponseEntity<Integer> createPuzzleLevel(@RequestBody CreatePuzzleLevelDTO newPuzzle) {
@@ -72,7 +71,6 @@ public class PuzzleLevelController {
      * @param updates DTO Object containing the updated Puzzle fields.
      * @return ResponseEntity indicating the success of the update operation.
      *
-     * TODO: Add checks to see if user is authenticated and authorized
      */
     @PutMapping ("{id}")
     public ResponseEntity<Void> updatePuzzleLevel(@PathVariable Integer id, @RequestBody UpdatePuzzleLevelDTO updates) {
