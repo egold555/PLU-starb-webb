@@ -3,13 +3,21 @@ info:
   title: Star Battle Odyssey API
   description: API for managing users and puzzles
   version: 1.0.5
-host: localhost:1391
+  contact:
+    name: Starbo API Support
+    url: 'https://www.starbo.com/support'
+    email: support@starbo.com
+host: 'localhost:1391'
 basePath: /
 schemes:
   - http
-
+tags:
+  - name: users
+  - name: puzzles (users)
+  - name: puzzles (levels)
+  - name: leaderboards
 paths:
-  /users/{username}:
+  '/users/{username}':
     parameters:
       - name: username
         in: path
@@ -17,20 +25,24 @@ paths:
         type: string
     get:
       description: Used to get a particular user
+      operationId: getUserByName
       summary: Get an existing user
+      security:
+        - WebbAuth: []
       tags:
         - users
       produces:
         - application/json
       responses:
-        200:
+        '200':
           description: User object returned
           schema:
             $ref: '#/definitions/User'
-        404:
+        '404':
           description: User not found
     put:
       description: Used to update the user
+      operationId: updateUser
       summary: Update an existing user
       security:
         - WebbAuth: []
@@ -49,17 +61,19 @@ paths:
           schema:
             $ref: '#/definitions/User'
       responses:
-        204:
+        '204':
           description: User object updated
-        401:
+        '401':
           description: Not authorized.
-        403:
-          description: Permission denied. Note for the authentication header, it should either be the username of requested user or "admin."
-        404:
+        '403':
+          description: >-
+            Permission denied. Note for the authentication header, it should
+            either be the username of requested user or "admin."
+        '404':
           description: User not found
-
     delete:
       description: Used to delete a particular user
+      operationId: deleteUser
       summary: Delete an existing user
       security:
         - WebbAuth: []
@@ -73,17 +87,20 @@ paths:
           required: true
           type: string
       responses:
-        204:
+        '204':
           description: User deleted
-        401:
+        '401':
           description: Not authorized.
-        403:
-          description: Permission denied. Note for the authentication header, it should either be the username of requested user or "admin."
-        404:
+        '403':
+          description: >-
+            Permission denied. Note for the authentication header, it should
+            either be the username of requested user or "admin."
+        '404':
           description: User not found
   /users:
     post:
       summary: Create a new user
+      operationId: createUserByName
       description: Used to create a new user
       tags:
         - users
@@ -96,26 +113,31 @@ paths:
           schema:
             $ref: '#/definitions/CreateUser'
       responses:
-        201:
+        '201':
           description: User object created
           schema:
             $ref: '#/definitions/User'
-        401:
+        '401':
           description: Not authorized.
-        403:
-          description: Permission denied. Note for the authentication header, it should be "admin".
-        409:
+        '403':
+          description: >-
+            Permission denied. Note for the authentication header, it should be
+            "admin".
+        '409':
           description: User already exists
   /leaderboards/users:
     get:
       summary: Get the leaderboard of users
+      operationId: getUserLeadboard
       tags:
         - leaderboards
-      description: Used to get a list of users sorted by completed puzzles. Tie breakers are decided by average solve time.
+      description: >-
+        Used to get a list of users sorted by completed puzzles. Tie breakers
+        are decided by average solve time.
       produces:
         - application/json
       responses:
-        200:
+        '200':
           description: List of users sorted by completed puzzles
           schema:
             $ref: '#/definitions/UserLeaderBoard'
@@ -124,9 +146,12 @@ paths:
       tags:
         - puzzles (levels)
       summary: Get all puzzle levels
+      security:
+        - WebbAuth: []
+      operationId: getAllPuzzleLevels
       description: Returns a list of all puzzles
       responses:
-        200:
+        '200':
           description: A list of puzzles
           schema:
             type: array
@@ -136,6 +161,7 @@ paths:
       tags:
         - puzzles (levels)
       summary: Create a new puzzle level
+      operationId: createPuzzleLevel
       security:
         - WebbAuth: []
       description: Returns the created puzzle
@@ -147,24 +173,30 @@ paths:
           schema:
             $ref: '#/definitions/CreatePuzzleLevel'
       responses:
-        201:
+        '201':
           description: Puzzle level created
           schema:
             type: object
             properties:
               levelId:
                 type: string
-        401:
+        '401':
           description: Not authorized.
-        403:
-          description: Permission denied. Note for the authentication header, it should be "admin".
-
-  /puzzles/levels/{levelId}:
+        '403':
+          description: >-
+            Permission denied. Note for the authentication header, it should be
+            "admin".
+  '/puzzles/levels/{levelId}':
     get:
       tags:
         - puzzles (levels)
       summary: Get a particular puzzle level
-      description: Returns a puzzle solution and aggregate statistics for the specified puzzle ID.
+      security:
+        - WebbAuth: []
+      operationId: getPuzzleLevelById
+      description: >-
+        Returns a puzzle solution and aggregate statistics for the specified
+        puzzle ID.
       parameters:
         - name: levelId
           in: path
@@ -172,16 +204,17 @@ paths:
           required: true
           type: integer
       responses:
-        200:
+        '200':
           description: A puzzle object
           schema:
             $ref: '#/definitions/PuzzleLevel'
-        404:
+        '404':
           description: Puzzle not found
     put:
       tags:
         - puzzles (levels)
       summary: Used to update a puzzle level
+      operationId: updatePuzzleLevelById
       security:
         - WebbAuth: []
       description: This is helpful in updating the solvedByNumPlayers or fixing errors
@@ -197,13 +230,15 @@ paths:
           schema:
             $ref: '#/definitions/UpdatePuzzleLevel'
       responses:
-        204:
+        '204':
           description: PuzzleLevel object updated
-        401:
+        '401':
           description: Not authorized.
-        403:
-          description: Permission denied. Note for the authentication header, it should be "admin".
-        404:
+        '403':
+          description: >-
+            Permission denied. Note for the authentication header, it should be
+            "admin".
+        '404':
           description: PuzzleLevel not found
     delete:
       security:
@@ -211,6 +246,8 @@ paths:
       tags:
         - puzzles (levels)
       summary: Used to delete a puzzle level
+      operationId: deletePuzzleLevelById
+      description: Delete's a puzzle by a level id
       parameters:
         - name: levelId
           in: path
@@ -218,19 +255,25 @@ paths:
           required: true
           type: integer
       responses:
-        204:
+        '204':
           description: PuzzleLevel object deleted
-        401:
+        '401':
           description: Not authorized.
-        403:
-          description: Permission denied. Note for the authentication header, it should be "admin".
-        404:
+        '403':
+          description: >-
+            Permission denied. Note for the authentication header, it should be
+            "admin".
+        '404':
           description: PuzzleLevel not found
   /puzzles/users:
     post:
       tags:
         - puzzles (users)
       summary: Used to create a new user puzzle
+      operationId: createUserPuzzle
+      description: >-
+        Given a valid level id and username, it will create a entry to store
+        user stats specific to that puzzle
       security:
         - WebbAuth: []
       parameters:
@@ -240,21 +283,25 @@ paths:
           schema:
             $ref: '#/definitions/CreateUserPuzzle'
       responses:
-        201:
+        '201':
           description: Puzzle level created successfully
           schema:
             $ref: '#/definitions/UserPuzzle'
-        401:
+        '401':
           description: Not authorized
-        403:
+        '403':
           description: Permission denied
-        409:
+        '409':
           description: Puzzle level with the same ID already exists
-  /puzzles/users/{username}:
+  '/puzzles/users/{username}':
     get:
       tags:
         - puzzles (users)
       summary: Used to retrieve all puzzle data from a particular user
+      operationId: getUserPuzzlesByUsername
+      security:
+        - WebbAuth: []
+      description: Retrieves all puzzle data from said username
       parameters:
         - name: username
           in: path
@@ -262,20 +309,26 @@ paths:
           required: true
           type: string
       responses:
-        200:
+        '200':
           description: UserPuzzle object
           schema:
             type: array
             items:
               $ref: '#/definitions/UserPuzzle'
-        404:
+        '404':
           description: Not found because the user doesn't exist.
-  /puzzles/users/{username}/{levelId}:
+  '/puzzles/users/{username}/{levelId}':
     get:
       tags:
         - puzzles (users)
       summary: Used to retrieve level data for a particular user
-      description: This only contains data that is produced by the user. Level data is held as an id, a request would need to be made if the client doesn't have that information.
+      operationId: getUserPuzzleByLevelIdAndUsername
+      security:
+        - WebbAuth: []
+      description: >-
+        This only contains data that is produced by the user. Level data is held
+        as an id, a request would need to be made if the client doesn't have
+        that information.
       parameters:
         - name: levelId
           in: path
@@ -288,16 +341,18 @@ paths:
           required: true
           type: string
       responses:
-        200:
+        '200':
           description: UserPuzzle object
           schema:
             $ref: '#/definitions/UserPuzzle'
-        404:
+        '404':
           description: Not found. Either can be do to a puzzle id or username not valid.
     put:
       tags:
         - puzzles (users)
       summary: Used to update level data for a particular user
+      operationId: updateUserPuzzleByLevelIdAndUsername
+      description: Only the admin or the user who owns that data can change their data
       security:
         - WebbAuth: []
       parameters:
@@ -313,22 +368,26 @@ paths:
           type: string
         - name: UserPuzzle
           in: body
-          description: UserPuzzle data, things associated with the user
+          description: 'UserPuzzle data, things associated with the user'
           schema:
             $ref: '#/definitions/UpdateUserPuzzle'
       responses:
-        204:
+        '204':
           description: User puzzle level object updated
-        401:
+        '401':
           description: Not authorized.
-        403:
-          description: Permission denied. Note for the authentication header, it should either be the username of requested user or "admin."
-        404:
+        '403':
+          description: >-
+            Permission denied. Note for the authentication header, it should
+            either be the username of requested user or "admin."
+        '404':
           description: Not found
     delete:
       tags:
         - puzzles (users)
       summary: Delete a puzzle level
+      operationId: deleteUserPuzzleById
+      description: Only the admin or the user can delete this information
       security:
         - WebbAuth: []
       parameters:
@@ -343,13 +402,15 @@ paths:
           required: true
           type: string
       responses:
-        204:
+        '204':
           description: Puzzle level object deleted
-        401:
+        '401':
           description: Not authorized.
-        403:
-          description: Permission denied. Note for the authentication header, it should be "admin."
-        404:
+        '403':
+          description: >-
+            Permission denied. Note for the authentication header, it should be
+            "admin."
+        '404':
           description: Not found
 definitions:
   UserLeaderBoard:
