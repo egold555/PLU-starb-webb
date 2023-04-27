@@ -67,7 +67,7 @@ public class UserController {
      *
      * Possible response codes: either 204, 400, 401, 403
      */
-    @PatchMapping("{username}")
+    @PutMapping("{username}")
     public ResponseEntity<Void> updateUser(@PathVariable String username, @RequestBody UpdatedUserStatsDTO updates) {
         UserDTO foundUser = userService.fetchUser(username);
 
