@@ -1,13 +1,10 @@
 package webb.client.ui.screens.test;
 
 import java.awt.Container;
-import java.awt.Graphics;
-import javax.swing.JComponent;
-import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 import webb.client.ui.components.WebbButton;
 import webb.client.ui.screens.Screen;
-import webb.client.ui.screens.mainmenu.BackgroundSpacePanel;
+import webb.client.ui.screens.mainmenu.background.BackgroundSpacePanel;
 
 public class ScreenTestDrawing extends Screen {
 

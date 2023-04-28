@@ -11,6 +11,7 @@ import webb.client.ui.constants.WebbColors;
 import webb.client.ui.constants.WebbFonts;
 import webb.client.ui.screens.Screen;
 import webb.client.ui.screens.ScreenType;
+import webb.client.ui.screens.mainmenu.background.BackgroundSpacePanel;
 
 /**
  * The main menu screen.
