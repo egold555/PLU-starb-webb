@@ -5,43 +5,17 @@ import java.util.List;
 import lombok.Getter;
 import lombok.ToString;
 import webb.shared.dtos.puzzle.CellDTO;
+import webb.shared.dtos.puzzle.updated.UpdatePuzzleLevelDTO;
 
 @ToString
 public class UpdateUserPuzzleDTO {
+    private boolean completed;
+    private long solveTime; //in milliseconds
 
-    /**
-     * @return whether the puzzle has been completed
-     */
-    @Getter
-    private final boolean completed;
+    private List<CellDTO> placedMarkers;
+    private  List<CellDTO> placedStars;
 
-
-    /**
-     * @return the time it took to solve the puzzle in ms
-     */
-    @Getter
-    private final long solveTime; //in milliseconds
-
-
-    /**
-     * @return the list of markers placed on the puzzle
-     */
-    @Getter
-    private final List<CellDTO> placedMarkers;
-
-
-    /**
-     * @return the list of stars placed on the puzzle
-     */
-    @Getter
-    private final List<CellDTO> placedStars;
-
-
-    /**
-     * @return the number of stars remaining on the puzzle
-     */
-    @Getter
-    private final int starsRemaining;
+    private int starsRemaining;
 
     /** Creates a new UpdateUserPuzzleDTO object
      * @param completed whether the puzzle has been completed
@@ -62,4 +36,51 @@ public class UpdateUserPuzzleDTO {
         this.starsRemaining = starsRemaining;
     }
 
+    public UpdateUserPuzzleDTO() {
+    }
+
+    /**
+     * @return whether the puzzle has been completed
+     */
+    public boolean isCompleted() {return completed;}
+
+    /**
+     * @return the time it took to solve the puzzle in ms
+     */
+    public long getSolveTime() {return solveTime;}
+
+    /**
+     * @return the list of markers placed on the puzzle
+     */
+    public List<CellDTO> getPlacedMarkers() {return placedMarkers;}
+
+    /**
+     * @return the list of stars placed on the puzzle
+     */
+    public List<CellDTO> getPlacedStars() {return placedStars;}
+
+    /**
+     * @return the number of stars remaining on the puzzle
+     */
+    public int getStarsRemaining() {return starsRemaining;}
+
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
+    }
+
+    public void setSolveTime(long solveTime) {
+        this.solveTime = solveTime;
+    }
+
+    public void setPlacedMarkers(List<CellDTO> placedMarkers) {
+        this.placedMarkers = placedMarkers;
+    }
+
+    public void setPlacedStars(List<CellDTO> placedStars) {
+        this.placedStars = placedStars;
+    }
+
+    public void setStarsRemaining(int starsRemaining) {
+        this.starsRemaining = starsRemaining;
+    }
 }

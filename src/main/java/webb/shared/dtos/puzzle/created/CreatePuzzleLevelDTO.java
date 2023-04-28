@@ -20,29 +20,13 @@ public class CreatePuzzleLevelDTO {
      * @return the regions of the puzzle as a list of Cells
      */
     @NotNull
-    @Getter
-    private final List<List<CellDTO>> regions;
-
-    /**
-     * @return the solution to the puzzle as a list of Cells
-     */
+    private List<List<CellDTO>> regions;
     @NotNull
-    @Getter
-    private final List<CellDTO> solution;
-
-    /**
-     * @return the size of the grid
-     */
+    private List<CellDTO> solution;
     @NotNull
-    @Getter
-    private final int gridSize;
-
-    /**
-     * @return the number of stars per region
-     */
+    private int gridSize;
     @NotNull
-    @Getter
-    private final int numStars;
+    private int numStars;
 
     /**
      * Constructor for CreatePuzzleLevelDTO
@@ -60,6 +44,46 @@ public class CreatePuzzleLevelDTO {
         this.gridSize = gridSize;
         this.numStars = numStars;
     }
+
+    /**
+     * @return the regions of the puzzle as a list of Cells
+     */
+    public List<List<CellDTO>> getRegions() {return regions;}
+
+    /**
+     * @param regions the regions of the puzzle as a list of Cells
+     */
+    public void setRegions(List<List<CellDTO>> regions) {this.regions = regions;}
+
+    /**
+     * @return the solution to the puzzle as a list of Cells
+     */
+    public List<CellDTO> getSolution() {return solution;}
+
+    /**
+     * @param solution the solution to the puzzle as a list of Cells
+     */
+    public void setSolution(List<CellDTO> solution) {this.solution = solution;}
+
+    /**
+     * @return the size of the grid
+     */
+    public int getGridSize() {return gridSize;}
+
+    /**
+     * @param gridSize the size of the grid
+     */
+    public void setGridSize(int gridSize) {this.gridSize = gridSize;}
+
+    /**
+     * @return the number of stars per region
+     */
+    public int getNumStars() {return numStars;}
+
+    /**
+     * @param numStars the number of stars per region
+     */
+    public void setNumStars(int numStars) {this.numStars = numStars;}
 
     /**
      * @return the total number of stars in the puzzle

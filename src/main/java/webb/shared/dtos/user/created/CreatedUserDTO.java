@@ -7,13 +7,9 @@ import org.springframework.data.annotation.Id;
 
 public class CreatedUserDTO {
 
-    /**
-     * @return the username of the user
-     */
-    @NotBlank(message = "Username is required.")
+    @NotBlank(message = "Username is required and must not be blank")
     @Id
-    @Getter
-    private final String username;
+    private String username;
 
     /**
      * Creates a new user
@@ -23,4 +19,16 @@ public class CreatedUserDTO {
         this.username = username;
     }
 
+    /**
+     * @return the username of the user
+     */
+    public String getUsername() {return username;}
+
+    /**
+     * This is necessary for spring boot to initialize class using setters
+     * @param username
+     */
+    public void setUsername(String username) {
+        this.username = username;
+    }
 }

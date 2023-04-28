@@ -6,6 +6,7 @@ import webb.shared.dtos.old.Player_OLD;
 import java.io.File;
 import java.util.*;
 
+@Deprecated
 public class MockPlayerDatabase {
     private final Map<String, Player_OLD> players = new HashMap<>();
     private final String FP = "src/main/resources/webb/data/userdata.json";
@@ -16,7 +17,7 @@ public class MockPlayerDatabase {
         File file = new File(FP);
 
         try {
-            List<Player_OLD> playerList = Arrays.asList(mapper.readValue(file, Player_OLD[].class));
+            Player_OLD[] playerList = mapper.readValue(file, Player_OLD[].class);
 
             for(Player_OLD player : playerList) {
                 players.put(player.username(), player);

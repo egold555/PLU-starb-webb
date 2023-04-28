@@ -27,17 +27,11 @@ To start the Java client: `./gradlew run`
 
 Code located in: `src/main/java/starb/client`
 
-### HTML/CSS/Javascript client.  
-
-Start server (see below) then open browser and go to:
-
-http://localhost:1390/client/index.html
-
-HTML/JS/CSS files located under: `static/client`
-
 ## Server
 
 To start server:  `./gradlew bootRun`
+
+[Starbo API Specification](https://editor.swagger.io/?url=https://gist.githubusercontent.com/chrishollandaise/db70c557e5dcafb2f3ba685a1fcad2a9/raw/789980519e66f6c27676d58e1ca680c2b9aaf946/gistfile1.txt)
 
 ## Tests
 
