@@ -2,11 +2,18 @@ package webb.client.ui.screens.mainmenu.background;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import webb.client.ui.constants.WebbImages;
 
 /**
  * A class that represents an image and its direction
  */
+
+@AllArgsConstructor
+@ToString
 public class ImageAndDirection {
 
     private final BufferedImage bi;
@@ -16,6 +23,13 @@ public class ImageAndDirection {
     private final int screenWidth;
     private final int screenHeight;
 
+    /**
+     * Set the image to still be spawning. This is so the image doesn't instaly get removed when it spawns off the screen
+     * @param stillSpawning true if this image is still spawning
+     * @return true if this image is still spawning
+     */
+    @Setter
+    @Getter
     private boolean isStillSpawning = true;
 
     /**
@@ -82,28 +96,4 @@ public class ImageAndDirection {
         return position.x < -bi.getWidth() || position.x > screenWidth || position.y < -bi.getHeight() || position.y > screenHeight;
     }
 
-    /**
-     * Set the image to still be spawning. This is so the image doesn't instaly get removed when it spawns off the screen
-     * @param stillSpawning true if this image is still spawning
-     */
-    public void setStillSpawning(boolean stillSpawning) {
-        isStillSpawning = stillSpawning;
-    }
-
-    /**
-     * @return true if this image is still spawning
-     */
-    public boolean isStillSpawning() {
-        return isStillSpawning;
-    }
-
-    @Override
-    public String toString() {
-        return "ImageAndDirection{" +
-                ", position=" + position +
-                ", direction=" + direction +
-                ", speed=" + speed +
-                ", isStillSpawning=" + isStillSpawning +
-                '}';
-    }
 }

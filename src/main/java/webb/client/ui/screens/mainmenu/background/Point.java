@@ -1,23 +1,28 @@
 package webb.client.ui.screens.mainmenu.background;
 
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+
 /**
  * Represents a point in 2D space, using doubles.
  */
+@ToString
+@AllArgsConstructor
+@EqualsAndHashCode
 public class Point {
 
     // These should be private, but they are public for the sake of simplicity.
-    public double x;
-    public double y;
 
     /**
-     * Creates a new point with the given x and y coordinates.
-     * @param x
-     * @param y
+     * The x coordinate of this point.
      */
-    public Point(double x, double y) {
-        this.x = x;
-        this.y = y;
-    }
+    public double x;
+
+    /**
+     * The y coordinate of this point.
+     */
+    public double y;
 
     /**
      * Returns the x coordinate as an int.
@@ -35,11 +40,4 @@ public class Point {
         return (int) y;
     }
 
-    @Override
-    public String toString() {
-        return "Point{" +
-                "x=" + x +
-                ", y=" + y +
-                '}';
-    }
 }

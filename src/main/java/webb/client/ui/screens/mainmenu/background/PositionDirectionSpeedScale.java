@@ -1,35 +1,43 @@
 package webb.client.ui.screens.mainmenu.background;
 
 import java.util.Random;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 /**
  * A class that holds a position, direction, speed and scale for an image.
  */
+
+@Getter
+@AllArgsConstructor
 public class PositionDirectionSpeedScale {
 
     private static final Random RNG = new Random();
 
+    /**
+     * @return the initial position of the image
+     */
     private final Point position;
-    private final Point direction;
-    private final double speed;
-    private final double imgScale;
-    private final double imgRotation;
 
     /**
-     * Constructor
-     * @param position the initial position of the image
-     * @param direction the direction the image is moving in
-     * @param speed the speed the image is moving at
-     * @param imgScale the scale of the image
-     * @param imgRotation the rotation of the image in degrees
+     * @return the direction of the image
      */
-    private PositionDirectionSpeedScale(Point position, Point direction, double speed, double imgScale, double imgRotation) {
-        this.position = position;
-        this.direction = direction;
-        this.speed = speed;
-        this.imgScale = imgScale;
-        this.imgRotation = imgRotation;
-    }
+    private final Point direction;
+
+    /**
+     * @return the speed of the image
+     */
+    private final double speed;
+
+    /**
+     * @return the scale of the image
+     */
+    private final double imgScale;
+
+    /**
+     * @return the rotation of the image in degrees
+     */
+    private final double imgRotation;
 
     /**
      * Creates a random PositionDirectionSpeedScale object
@@ -70,43 +78,4 @@ public class PositionDirectionSpeedScale {
 
     }
 
-    /**
-     * Returns the scale of the image
-     * @return the scale of the image
-     */
-    public double getImgScale() {
-        return imgScale;
-    }
-
-    /**
-     * Returns the direction of the image
-     * @return the direction of the image
-     */
-    public Point getDirection() {
-        return direction;
-    }
-
-    /**
-     * Returns the initial position of the image
-     * @return the initial position of the image
-     */
-    public Point getPosition() {
-        return position;
-    }
-
-    /**
-     * Returns the speed of the image
-     * @return the speed of the image
-     */
-    public double getSpeed() {
-        return speed;
-    }
-
-    /**
-     * Returns the rotation of the image in degrees
-     * @return the rotation of the image in degrees
-     */
-    public double getImgRotation() {
-        return imgRotation;
-    }
 }
