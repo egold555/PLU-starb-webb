@@ -45,4 +45,16 @@ public class LeaderboardEntryDTO implements Comparable<LeaderboardEntryDTO> {
 
         return this.username.compareTo(o.username);
     }
+    @Override
+    public boolean equals(Object o){
+        if(o == this){
+            return true;
+        }
+        if(!(o instanceof LeaderboardEntryDTO)){
+            return false;
+        }
+        LeaderboardEntryDTO other = (LeaderboardEntryDTO) o;
+
+        return((this.username.equals(other.username)) && (this.completedPuzzles == other.completedPuzzles));
+    }
 }

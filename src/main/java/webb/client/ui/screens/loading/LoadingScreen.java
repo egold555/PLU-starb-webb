@@ -79,7 +79,7 @@ public class LoadingScreen extends Screen {
                         Set<Integer> completedLevels = new HashSet<>();
                         for(UserPuzzleDTO puzzleLevel : puzzleLevels) {
                             if(puzzleLevel.isCompleted()) {
-                                completedLevels.add(puzzleLevel.getId());
+                                completedLevels.add(puzzleLevel.getLevelId());
                             }
                         }
 

@@ -8,24 +8,23 @@ public class UserStatsDTO {
 
     // In milliseconds
     @NotNull
-    private final long maxSolveTime;
+    private long maxSolveTime;
     @NotNull
-    private final long minSolveTime;
+    private long minSolveTime;
     @NotNull
-    private final long avgSolveTime;
+    private long avgSolveTime;
     @NotNull
-    private final int puzzlesComplete;
+    private int puzzlesComplete;
 
     @NotNull
-    private final int puzzlesUntilNextTitle;
+    private int puzzlesUntilNextTitle;
     @NotBlank
-    private final String currentTitle;
+    private String currentTitle;
 
     /** Creates a new UserStats object
      * @param maxSolveTime the maximum solve time of the usser in ms
      * @param minSolveTime the minimum solve time of the user in ms
      * @param avgSolveTime the average solve time of the user in ms
-     * @param puzzlesComplete the number of puzzles completed by the user
      * @param puzzlesUntilNextTitle the number of puzzles until the user gets the next title
      * @param currentTitle the current title of the user
      *
@@ -43,6 +42,15 @@ public class UserStatsDTO {
         this.puzzlesComplete = puzzlesComplete;
         this.puzzlesUntilNextTitle = puzzlesUntilNextTitle;
         this.currentTitle = currentTitle;
+    }
+
+    public UserStatsDTO() {
+        this.maxSolveTime = 0;
+        this.minSolveTime = 0;
+        this.avgSolveTime = 0;
+        this.puzzlesComplete = 0;
+        this.puzzlesUntilNextTitle = 0;
+        this.currentTitle = "";
     }
 
     /**
@@ -75,5 +83,49 @@ public class UserStatsDTO {
      */
     public String getCurrentTitle() {return currentTitle;}
 
+    /**
+     * @param maxSolveTime the maximum solve time of the user in ms
+     */
+    public void setMaxSolveTime(long maxSolveTime) {
+        this.maxSolveTime = maxSolveTime;
+    }
 
+    /**
+     * @param minSolveTime the minimum solve time of the user in ms
+     */
+    public void setMinSolveTime(long minSolveTime) {
+        this.minSolveTime = minSolveTime;
+    }
+
+    /**
+     * @param avgSolveTime the average solve time of the user in ms
+     */
+    public void setAvgSolveTime(long avgSolveTime) {
+        this.avgSolveTime = avgSolveTime;
+    }
+
+    /**
+     * @param puzzlesComplete the number of puzzles completed by the user
+     */
+    public void setPuzzlesComplete(int puzzlesComplete) {
+        this.puzzlesComplete = puzzlesComplete;
+    }
+
+    /**
+     * @param puzzlesUntilNextTitle the number of puzzles until the user gets the next title
+     */
+    public void setPuzzlesUntilNextTitle(int puzzlesUntilNextTitle) {
+        this.puzzlesUntilNextTitle = puzzlesUntilNextTitle;
+    }
+
+    /**
+     * @param currentTitle the current title of the user
+     */
+    public void setCurrentTitle(String currentTitle) {
+        this.currentTitle = currentTitle;
+    }
+
+    public float getTimeInSeconds(long time) {
+        return (float) time / 1000;
+    }
 }

@@ -14,13 +14,13 @@ import webb.shared.dtos.puzzle.CellDTO;
 public class CreatePuzzleLevelDTO {
 
     @NotNull
-    private final List<List<CellDTO>> regions;
+    private List<List<CellDTO>> regions;
     @NotNull
-    private final List<CellDTO> solution;
+    private List<CellDTO> solution;
     @NotNull
-    private final int gridSize;
+    private int gridSize;
     @NotNull
-    private final int numStars;
+    private int numStars;
 
     /**
      * Constructor for CreatePuzzleLevelDTO
@@ -45,9 +45,19 @@ public class CreatePuzzleLevelDTO {
     public List<List<CellDTO>> getRegions() {return regions;}
 
     /**
+     * @param regions the regions of the puzzle as a list of Cells
+     */
+    public void setRegions(List<List<CellDTO>> regions) {this.regions = regions;}
+
+    /**
      * @return the solution to the puzzle as a list of Cells
      */
     public List<CellDTO> getSolution() {return solution;}
+
+    /**
+     * @param solution the solution to the puzzle as a list of Cells
+     */
+    public void setSolution(List<CellDTO> solution) {this.solution = solution;}
 
     /**
      * @return the size of the grid
@@ -55,9 +65,19 @@ public class CreatePuzzleLevelDTO {
     public int getGridSize() {return gridSize;}
 
     /**
+     * @param gridSize the size of the grid
+     */
+    public void setGridSize(int gridSize) {this.gridSize = gridSize;}
+
+    /**
      * @return the number of stars per region
      */
     public int getNumStars() {return numStars;}
+
+    /**
+     * @param numStars the number of stars per region
+     */
+    public void setNumStars(int numStars) {this.numStars = numStars;}
 
     /**
      * @return the total number of stars in the puzzle
