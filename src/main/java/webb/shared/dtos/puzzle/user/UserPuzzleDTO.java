@@ -6,20 +6,40 @@ import java.util.List;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PositiveOrZero;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import webb.shared.dtos.puzzle.CellDTO;
 import webb.shared.dtos.puzzle.user.update.UpdateUserPuzzleDTO;
 
 @Document("user-puzzle")
+@ToString
+@Getter
+@Setter
+@NoArgsConstructor
 public class UserPuzzleDTO extends UpdateUserPuzzleDTO {
 
+    /**
+     * @param levelId the id of the puzzle
+     * @return the id of the puzzle
+     */
     @PositiveOrZero(message = "The id cannot be negative.")
     private int levelId;
 
+    /**
+     * @param user the username of the user
+     * @return the username of the user
+     */
     @NotBlank(message = "The username must not be blank.")
-    private String user;
+    private String username;
 
+    /**
+     * @param id the id of the userpuzzle
+     * @return the id of the puzzle
+     */
     @Id
     private String id;
 
@@ -43,7 +63,7 @@ public class UserPuzzleDTO extends UpdateUserPuzzleDTO {
                          @JsonProperty("starsRemaining") int starsRemaining) {
         super(completed, solveTime, placedMarkers, placedStars, starsRemaining);
         this.levelId = levelId;
-        this.user = user;
+        this.username = user;
         this.id = generateId();
     }
 
@@ -57,54 +77,14 @@ public class UserPuzzleDTO extends UpdateUserPuzzleDTO {
         // TODO: These must actually be populated with the correct values later on when they start playing the level
         super(false, 0, null, null, -1);
         this.levelId = id;
-        this.user = username;
+        this.username = username;
         this.id = generateId();
     }
 
-    public UserPuzzleDTO() {
-    }
-
-    /**
-     * @return the username of the user
-     */
-    @JsonInclude
-    public String getUsername() { return this.user; };
-
     /**
      * @return the id of the puzzle
      */
-    public int getLevelId() {return levelId;}
+    private String generateId() { return String.format("%d-%s", this.levelId, this.username); }
 
-    /**
-     * @return the id of the puzzle
-     */
-    public String getId() {
-        return id;
-    }
 
-    /**
-     * @return the id of the puzzle
-     */
-    private String generateId() { return String.format("%d-%s", this.levelId, this.user); }
-
-    /**
-     * @param levelId the id of the puzzle
-     */
-    public void setLevelId(int levelId) {
-        this.levelId = levelId;
-    }
-
-    /**
-     * @param user the username of the user
-     */
-    public void setUserName(String user) {
-        this.user = user;
-    }
-
-    /**
-     * @param id the id of the userpuzzle
-     */
-    public void setId(String id) {
-        this.id = id;
-    }
 }

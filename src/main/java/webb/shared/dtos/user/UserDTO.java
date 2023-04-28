@@ -3,16 +3,21 @@ package webb.shared.dtos.user;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.springframework.data.mongodb.core.mapping.Document;
 import webb.shared.dtos.user.created.CreatedUserDTO;
 
 @Document("user")
+@ToString
 public class UserDTO extends CreatedUserDTO{
 
     /**
      * @return the statistics of the user
      */
     @NotNull
+    @Getter
+    @Setter
     private UserStatsDTO stats;
 
     /** Creates a new user
@@ -32,14 +37,5 @@ public class UserDTO extends CreatedUserDTO{
     public UserDTO() {
         super("");
         this.stats = new UserStatsDTO();
-    }
-
-    /**
-     * @return the statistics of the user
-     */
-    public UserStatsDTO getStats() {return stats;}
-
-    public void setStats(UserStatsDTO stats) {
-        this.stats = stats;
     }
 }

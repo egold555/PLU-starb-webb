@@ -4,29 +4,58 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 @ToString
+@Getter
+@Setter
 public class UserStatsDTO {
 
     /**
+     * @param maxSolveTime the maximum solve time of the user in ms
      * @return the maximum solve time of the user in ms
      */
     @NotNull
     private long maxSolveTime;
+
+
+    /**
+     * @param minSolveTime the minimum solve time of the user in ms
+     * @return the minimum solve time of the user in ms
+     */
     @NotNull
     private long minSolveTime;
+
+
+    /**
+     * @param avgSolveTime the average solve time of the user in ms
+     * @return the average solve time of the user in ms
+     */
     @NotNull
     private long avgSolveTime;
+
+
+    /**
+     * @param puzzlesComplete the number of puzzles completed by the user
+     * @return the number of puzzles completed by the user
+     */
     @NotNull
     private int puzzlesComplete;
 
 
     /**
+     * @param puzzlesUntilNextTitle the number of puzzles until the user gets the next title
      * @return the number of puzzles until the user gets the next title
      */
     @NotNull
     private int puzzlesUntilNextTitle;
+
+
+    /**
+     * @param currentTitle the current title of the user
+     * @return the current title of the user
+     */
     @NotBlank
     private String currentTitle;
 
@@ -60,78 +89,6 @@ public class UserStatsDTO {
         this.puzzlesComplete = 0;
         this.puzzlesUntilNextTitle = 0;
         this.currentTitle = "";
-    }
-
-    /**
-     * @return the maximum solve time of the user in ms
-     */
-    public long getMaxSolveTime() {return maxSolveTime;}
-
-    /**
-     * @return the minimum solve time of the user in ms
-     */
-    public long getMinSolveTime() {return minSolveTime;}
-
-    /**
-     * @return the average solve time of the user in ms
-     */
-    public long getAvgSolveTime() {return avgSolveTime;}
-
-    /**
-     * @return the number of puzzles completed by the user
-     */
-    public int getPuzzlesComplete() {return puzzlesComplete;}
-
-    /**
-     * @return the number of puzzles until the user gets the next title
-     */
-    public int getPuzzlesUntilNextTitle() {return puzzlesUntilNextTitle;}
-
-    /**
-     * @return the current title of the user
-     */
-    public String getCurrentTitle() {return currentTitle;}
-
-    /**
-     * @param maxSolveTime the maximum solve time of the user in ms
-     */
-    public void setMaxSolveTime(long maxSolveTime) {
-        this.maxSolveTime = maxSolveTime;
-    }
-
-    /**
-     * @param minSolveTime the minimum solve time of the user in ms
-     */
-    public void setMinSolveTime(long minSolveTime) {
-        this.minSolveTime = minSolveTime;
-    }
-
-    /**
-     * @param avgSolveTime the average solve time of the user in ms
-     */
-    public void setAvgSolveTime(long avgSolveTime) {
-        this.avgSolveTime = avgSolveTime;
-    }
-
-    /**
-     * @param puzzlesComplete the number of puzzles completed by the user
-     */
-    public void setPuzzlesComplete(int puzzlesComplete) {
-        this.puzzlesComplete = puzzlesComplete;
-    }
-
-    /**
-     * @param puzzlesUntilNextTitle the number of puzzles until the user gets the next title
-     */
-    public void setPuzzlesUntilNextTitle(int puzzlesUntilNextTitle) {
-        this.puzzlesUntilNextTitle = puzzlesUntilNextTitle;
-    }
-
-    /**
-     * @param currentTitle the current title of the user
-     */
-    public void setCurrentTitle(String currentTitle) {
-        this.currentTitle = currentTitle;
     }
 
     public float getTimeInSeconds(long time) {

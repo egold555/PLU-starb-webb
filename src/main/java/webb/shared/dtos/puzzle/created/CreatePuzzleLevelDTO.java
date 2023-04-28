@@ -6,6 +6,7 @@ import java.util.List;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 import webb.shared.dtos.puzzle.CellDTO;
 
@@ -14,17 +15,37 @@ import webb.shared.dtos.puzzle.CellDTO;
  * Modified from: https://cs.plu.edu/courses/protected/cs390/2023s/project/iteration2.html
  */
 @ToString
+@Getter
+@Setter
 public class CreatePuzzleLevelDTO {
 
     /**
+     * @param regions the regions of the puzzle as a list of Cells
      * @return the regions of the puzzle as a list of Cells
      */
     @NotNull
     private List<List<CellDTO>> regions;
+
+
+    /**
+     * @param solution the solution to the puzzle as a list of Cells
+     * @return the solution to the puzzle as a list of Cells
+     */
     @NotNull
     private List<CellDTO> solution;
+
+    /**
+     * @param gridSize the size of the grid
+     * @return the size of the grid
+     */
     @NotNull
     private int gridSize;
+
+
+    /**
+     * @param numStars the number of stars per region
+     * @return the number of stars per region
+     */
     @NotNull
     private int numStars;
 
@@ -44,46 +65,6 @@ public class CreatePuzzleLevelDTO {
         this.gridSize = gridSize;
         this.numStars = numStars;
     }
-
-    /**
-     * @return the regions of the puzzle as a list of Cells
-     */
-    public List<List<CellDTO>> getRegions() {return regions;}
-
-    /**
-     * @param regions the regions of the puzzle as a list of Cells
-     */
-    public void setRegions(List<List<CellDTO>> regions) {this.regions = regions;}
-
-    /**
-     * @return the solution to the puzzle as a list of Cells
-     */
-    public List<CellDTO> getSolution() {return solution;}
-
-    /**
-     * @param solution the solution to the puzzle as a list of Cells
-     */
-    public void setSolution(List<CellDTO> solution) {this.solution = solution;}
-
-    /**
-     * @return the size of the grid
-     */
-    public int getGridSize() {return gridSize;}
-
-    /**
-     * @param gridSize the size of the grid
-     */
-    public void setGridSize(int gridSize) {this.gridSize = gridSize;}
-
-    /**
-     * @return the number of stars per region
-     */
-    public int getNumStars() {return numStars;}
-
-    /**
-     * @param numStars the number of stars per region
-     */
-    public void setNumStars(int numStars) {this.numStars = numStars;}
 
     /**
      * @return the total number of stars in the puzzle

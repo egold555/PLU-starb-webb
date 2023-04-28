@@ -3,11 +3,26 @@ package webb.shared.dtos.puzzle.user.created;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PositiveOrZero;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
+@Setter
+@Getter
+@ToString
 public class CreateUserPuzzleDTO {
+
+    /**
+     * @param username the username of the associated user
+     * @return the username of the associated user
+     */
     @NotBlank(message = "The username must not be blank.")
     private String username;
 
+    /**
+     * @param levelId the id of the puzzle level
+     * @return the id of the puzzle level
+     */
     @PositiveOrZero(message = "The id cannot be negative.")
     private int levelId;
 
@@ -23,46 +38,11 @@ public class CreateUserPuzzleDTO {
     }
 
     /**
-     * @return the username of the associated user
-     */
-    public String getUsername() {
-        return username;
-    }
-
-    /**
-     * @param username the username of the associated user
-     */
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    /**
-     *
-     * @return the id of the puzzle level
-     */
-    public int getLevelId() {
-        return this.levelId;
-    }
-
-    /**
      * @return the id of the userPuzzle
      */
     public String getUserPuzzleId() {
         return String.format("%d-%s", this.levelId, this.username);
     }
 
-    /**
-     * @param levelId the id of the puzzle level
-     */
-    public void setLevelId(int levelId) {
-        this.levelId = levelId;
-    }
 
-    @Override
-    public String toString() {
-        return "CreateUserPuzzleLevelDTO{" +
-                "username='" + username + '\'' +
-                ", levelId=" + levelId +
-                '}';
-    }
 }
