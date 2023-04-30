@@ -113,6 +113,9 @@ public class WebbButton extends JButton {
                         self.getModel().setPressed(true);
                     }
 
+                    // when window changes, we need to update the border so we don't hover if we switch back
+                    hovering = false;
+
                     WebbWindow.getInstance().getSFXPlayer().queue(WebbAudio.SFX_CLICK);
                     clickListener.onClick(self, isRightClick);
 
