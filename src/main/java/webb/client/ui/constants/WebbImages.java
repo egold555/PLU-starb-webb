@@ -51,9 +51,31 @@ public class WebbImages {
     public static final BufferedImage PLAY_PUZZLE_GRID_AVMARKER = loadImage("screen_play_puzzle/grid_avmarker.png");
 
     public static final BufferedImage MAIN_MENU_PLANET = loadImage("screen_main_menu/planet.png");
+    public static final BufferedImage MAIN_MENU_PLANET2 = loadImage("screen_main_menu/planet2.png");
     public static final BufferedImage MAIN_MENU_UFO = loadImage("screen_main_menu/ufo.png");
+    public static final BufferedImage MAIN_MENU_UFO2 = loadImage("screen_main_menu/ufo2.png");
     public static final BufferedImage MAIN_MENU_ROCKET = loadImage("screen_main_menu/rocket.png");
+    public static final BufferedImage MAIN_MENU_ROCKET2 = loadImage("screen_main_menu/rocket2.png");
+    public static final BufferedImage MAIN_MENU_ROCKET3 = loadImage("screen_main_menu/rocket3.png");
     public static final BufferedImage MAIN_MENU_STAR = loadImage("screen_main_menu/star.png");
+    public static final BufferedImage MAIN_MENU_EARTH = loadImage("screen_main_menu/earth.png");
+    public static final BufferedImage MAIN_MENU_MOON = loadImage("screen_main_menu/moon.png");
+    public static final BufferedImage MAIN_MENU_SATELLITE = loadImage("screen_main_menu/satellite.png");
+
+    public static final BufferedImage[] MAIN_MENU_IMAGES = {
+        MAIN_MENU_PLANET,
+        MAIN_MENU_PLANET2,
+        MAIN_MENU_UFO,
+        MAIN_MENU_UFO2,
+        MAIN_MENU_ROCKET,
+        MAIN_MENU_ROCKET2,
+        MAIN_MENU_ROCKET3,
+        MAIN_MENU_STAR,
+        MAIN_MENU_EARTH,
+        MAIN_MENU_MOON,
+        MAIN_MENU_SATELLITE
+    };
+
 
     /**
      * Attempts to load an image from the resources folder.
