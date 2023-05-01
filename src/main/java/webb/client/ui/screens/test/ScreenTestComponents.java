@@ -7,6 +7,9 @@ import java.io.IOException;
 import javax.swing.SpringLayout;
 import webb.client.ui.components.WebbBackButton;
 import webb.client.ui.components.WebbButton;
+import webb.client.ui.components.WebbCheckbox;
+import webb.client.ui.components.WebbInputBox;
+import webb.client.ui.constants.WebbColors;
 import webb.client.ui.constants.WebbFonts;
 import webb.client.ui.popup.ExampleWebbPopup;
 import webb.client.ui.popup.statistics.PopupStatistics;
@@ -180,6 +183,26 @@ public class ScreenTestComponents extends Screen {
         layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, btn11, 0, SpringLayout.HORIZONTAL_CENTER, contentPane);
         layout.putConstraint(SpringLayout.NORTH, btn11, 10, SpringLayout.SOUTH, btn10);
         this.add(btn11);
+
+
+        WebbInputBox btn12 = new WebbInputBox(this, 10);
+        btn12.setText("Input box");
+        btn12.setBackground(WebbColors.B7);
+
+        btn12.setPreferredSize(BUTTON_DIMENSION);
+        btn12.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_32);
+        layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, btn12, 0, SpringLayout.HORIZONTAL_CENTER, contentPane);
+        layout.putConstraint(SpringLayout.NORTH, btn12, 10, SpringLayout.SOUTH, btn11);
+        this.add(btn12);
+
+
+        WebbCheckbox btn13 = new WebbCheckbox(true);
+
+        //btn13.setPreferredSize(BUTTON_DIMENSION);
+        btn13.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_32);
+        layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, btn13, 0, SpringLayout.HORIZONTAL_CENTER, contentPane);
+        layout.putConstraint(SpringLayout.NORTH, btn13, 10, SpringLayout.SOUTH, btn12);
+        this.add(btn13);
 
     }
 
