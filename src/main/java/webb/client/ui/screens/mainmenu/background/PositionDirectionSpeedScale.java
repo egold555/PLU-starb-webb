@@ -4,6 +4,8 @@ import java.util.Random;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import webb.client.ui.helpers.Point;
+
 /**
  * A class that holds a position, direction, speed and scale for an image.
  */

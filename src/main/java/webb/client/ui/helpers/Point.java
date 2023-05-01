@@ -1,4 +1,4 @@
-package webb.client.ui.screens.mainmenu.background;
+package webb.client.ui.helpers;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;

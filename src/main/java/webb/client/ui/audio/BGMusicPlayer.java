@@ -2,6 +2,8 @@ package webb.client.ui.audio;
 
 import lombok.Getter;
 
+import webb.client.ui.WebbWindow;
+
 public class BGMusicPlayer {
 
     private SoundPlayer sp;
@@ -13,6 +15,10 @@ public class BGMusicPlayer {
     private String currentSong;
 
     public void playBG(String name) {
+
+        if(!WebbWindow.getInstance().getGameOptions().isBgMusicEnabled()) {
+            return;
+        }
 
         if(currentSong != null && currentSong.equals(name)) {
             return;

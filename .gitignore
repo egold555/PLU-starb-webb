@@ -28,3 +28,4 @@ a.out
 *.exe
 *.dll
 *~
+gamesettings.json

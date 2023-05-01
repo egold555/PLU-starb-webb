@@ -2,6 +2,7 @@ package webb.client.ui.audio;
 
 import java.io.InputStream;
 import java.util.concurrent.ArrayBlockingQueue;
+import webb.client.ui.WebbWindow;
 
 public class SFXPlayer extends Thread {
 
@@ -13,6 +14,9 @@ public class SFXPlayer extends Thread {
     }
 
     public void queue(String name) {
+        if(!WebbWindow.getInstance().getGameOptions().isSfxEnabled()) {
+            return;
+        }
         queue.add(name);
     }
 

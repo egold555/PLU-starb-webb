@@ -62,6 +62,10 @@ public class WebbImages {
     public static final BufferedImage MAIN_MENU_MOON = loadImage("screen_main_menu/moon.png");
     public static final BufferedImage MAIN_MENU_SATELLITE = loadImage("screen_main_menu/satellite.png");
 
+    public static final BufferedImage CHECKBOX_CHECKED = loadImage("checkbox/check.png");
+    public static final BufferedImage CHECKBOX_UNCHECKED = loadImage("checkbox/x.png");
+    public static final BufferedImage CHECKBOX_EMPTY = null; // Null image's don't get drawn
+
     public static final BufferedImage[] MAIN_MENU_IMAGES = {
         MAIN_MENU_PLANET,
         MAIN_MENU_PLANET2,

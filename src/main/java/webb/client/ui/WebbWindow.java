@@ -1,6 +1,7 @@
 package webb.client.ui;
 
 import java.awt.Toolkit;
+import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.JFrame;
@@ -9,7 +10,7 @@ import webb.client.ui.audio.BGMusicPlayer;
 import webb.client.ui.audio.SFXPlayer;
 import webb.client.ui.screens.Screen;
 import webb.client.ui.screens.ScreenType;
-import webb.client.ui.screens.test.ScreenTestDrawing;
+import webb.client.ui.screens.options.GameOptions;
 
 ;
 
@@ -26,6 +27,10 @@ public class WebbWindow extends JFrame {
     @Getter
     private final SFXPlayer sfxPlayer = new SFXPlayer();
 
+
+    @Getter
+    private GameOptions gameOptions;
+
     @Getter
     private final BGMusicPlayer bgMusicPlayer = new BGMusicPlayer();
 
@@ -33,8 +38,14 @@ public class WebbWindow extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("Star Battle Odyssey");
 
+        try {
+            this.gameOptions = GameOptions.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
         this.switchScreen(ScreenType.LOADING);
-        //this.switchScreen(new ScreenTestDrawing());
+        //this.switchScreen(ScreenType.OPTIONS);
 
         //maximizes the window for testing
         this.setExtendedState(this.getExtendedState() | JFrame.MAXIMIZED_BOTH);
