@@ -16,10 +16,10 @@ public class Confetti {
 
     private static final ColorPair[] COLORS = new ColorPair[]{
             new ColorPair(0xFF0000, 0x8B0000), //red
-            new ColorPair(0xFFA500, 0xff8c00), //orange --
+            new ColorPair(0xFFA500, 0x9c6602), //orange
             new ColorPair(0xFFFF00, 0x8B8B00), //yellow
             new ColorPair(0x00FF00, 0x006400), //green
-            new ColorPair(0x40E0D0, 0x00CED1), //cyan --
+            new ColorPair(0x40E0D0, 0x1d6961), //cyan
             new ColorPair(0x0000FF, 0x00008B), //blue
             new ColorPair(0x800080, 0x4B0082), //purple
             new ColorPair(0xFFC0CB, 0xE75480), //pink
