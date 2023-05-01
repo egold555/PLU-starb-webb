@@ -26,8 +26,14 @@ public class ScreenTestConfetti extends Screen {
 
         layout.putConstraint(SpringLayout.NORTH, testButton, 10, SpringLayout.NORTH, contentPane);
         layout.putConstraint(SpringLayout.WEST, testButton, 10, SpringLayout.WEST, contentPane);
-        this.add(testButton);
+
+        // draw the confetti over the button
         this.add(confettiBackground);
+
+        this.add(testButton);
+
+        //add it in the background so it doesn't cover the button
+        //this.add(confettiBackground);
 
     }
 
