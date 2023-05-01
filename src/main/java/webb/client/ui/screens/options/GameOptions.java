@@ -4,6 +4,8 @@ package webb.client.ui.screens.options;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.IOException;
+import lombok.Getter;
+import lombok.Setter;
 
 public class GameOptions {
 
@@ -11,14 +13,13 @@ public class GameOptions {
 
     private static final File SETTINGS_FILE = new File("gamesettings.json");
 
+    @Getter
+    @Setter
     private boolean bgMusicEnabled = true;
+
+    @Getter
+    @Setter
     private boolean sfxEnabled = true;
-
-    public boolean isBgMusicEnabled() {return bgMusicEnabled;}
-    public void setBgMusicEnabled(boolean bgMusicEnabled) {this.bgMusicEnabled = bgMusicEnabled;}
-
-    public boolean isSfxEnabled() {return sfxEnabled;}
-    public void setSfxEnabled(boolean sfxEnabled) {this.sfxEnabled = sfxEnabled;}
 
     public void save() throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();

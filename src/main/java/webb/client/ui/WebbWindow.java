@@ -27,9 +27,8 @@ public class WebbWindow extends JFrame {
     @Getter
     private final SFXPlayer sfxPlayer = new SFXPlayer();
 
-
     @Getter
-    private GameOptions gameOptions;
+    private final GameOptions gameOptions;
 
     @Getter
     private final BGMusicPlayer bgMusicPlayer = new BGMusicPlayer();
