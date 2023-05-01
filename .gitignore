@@ -28,3 +28,6 @@ a.out
 *.exe
 *.dll
 *~
+
+# Webb Ignores
+gamesettings.json
