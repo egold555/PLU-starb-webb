@@ -49,7 +49,19 @@ public class MainMenuScreen extends Screen {
 
         this.add(playButton);
 
-        //------ Credits button ------
+        //------ Options button ------
+        WebbButton optionsButton = new WebbButton("Options", (self, rightClicked) -> {
+            System.out.println("Options button pressed");
+            this.switchScreenTo(ScreenType.OPTIONS);
+        });
+        optionsButton.setPreferredSize(new Dimension(142, 43));
+        optionsButton.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_32);
+        layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, optionsButton, 0, SpringLayout.HORIZONTAL_CENTER, contentPane);
+        layout.putConstraint(SpringLayout.NORTH, optionsButton, 10, SpringLayout.SOUTH, playButton);
+
+        this.add(optionsButton);
+
+        //---------- Credits button ----------
         WebbButton creditsButton = new WebbButton("Credits", (self, rightClicked) -> {
             System.out.println("Credits button pressed");
             this.switchScreenTo(ScreenType.CREDITS);
@@ -57,23 +69,24 @@ public class MainMenuScreen extends Screen {
         creditsButton.setPreferredSize(new Dimension(142, 43));
         creditsButton.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_32);
         layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, creditsButton, 0, SpringLayout.HORIZONTAL_CENTER, contentPane);
-        layout.putConstraint(SpringLayout.NORTH, creditsButton, 10, SpringLayout.SOUTH, playButton);
+        layout.putConstraint(SpringLayout.NORTH, creditsButton, 10, SpringLayout.SOUTH, optionsButton);
 
         this.add(creditsButton);
 
-        //---------- Exit button ----------
-        WebbButton exitButton = new WebbButton("Exit", (self, rightClicked) -> {
-            System.out.println("Exit button pressed");
+        //----------- Quit button ----------------
+        WebbButton quitButton = new WebbButton("Quit", (self, rightClicked) -> {
+            System.out.println("Quit button pressed");
             System.exit(0);
         });
-        exitButton.setPreferredSize(new Dimension(142, 43));
-        exitButton.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_32);
-        layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, exitButton, 0, SpringLayout.HORIZONTAL_CENTER, contentPane);
-        layout.putConstraint(SpringLayout.NORTH, exitButton, 10, SpringLayout.SOUTH, creditsButton);
+        quitButton.setPreferredSize(new Dimension(142, 43));
+        quitButton.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_32);
+        layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, quitButton, 0, SpringLayout.HORIZONTAL_CENTER, contentPane);
+        layout.putConstraint(SpringLayout.NORTH, quitButton, 10, SpringLayout.SOUTH, creditsButton);
 
-        this.add(exitButton);
+        this.add(quitButton);
 
         //----------- Test button ----------------
+
         WebbButton testButton = new WebbButton("Test", (self, rightClicked) -> {
             System.out.println("Test button pressed");
             this.switchScreenTo(ScreenType.TEST_COMPONENTS);
@@ -81,7 +94,7 @@ public class MainMenuScreen extends Screen {
         testButton.setPreferredSize(new Dimension(142, 43));
         testButton.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_32);
         layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, testButton, 0, SpringLayout.HORIZONTAL_CENTER, contentPane);
-        layout.putConstraint(SpringLayout.NORTH, testButton, 10, SpringLayout.SOUTH, exitButton);
+        layout.putConstraint(SpringLayout.NORTH, testButton, 10, SpringLayout.SOUTH, quitButton);
 
         this.add(testButton);
 
