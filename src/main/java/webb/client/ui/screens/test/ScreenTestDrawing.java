@@ -4,7 +4,6 @@ import java.awt.Container;
 import javax.swing.SpringLayout;
 import webb.client.ui.components.WebbButton;
 import webb.client.ui.screens.Screen;
-import webb.client.ui.screens.mainmenu.background.BackgroundSpacePanel;
 import webb.client.ui.screens.test.confetti.BackgroundConfetti;
 
 public class ScreenTestDrawing extends Screen {
@@ -22,7 +21,7 @@ public class ScreenTestDrawing extends Screen {
 
 
         WebbButton testButton = new WebbButton("Add Confetti", (self, rightClicked) -> {
-            confettiBackground.test();
+            confettiBackground.addSomeConfetti(100);
         });
 
         layout.putConstraint(SpringLayout.NORTH, testButton, 10, SpringLayout.NORTH, contentPane);

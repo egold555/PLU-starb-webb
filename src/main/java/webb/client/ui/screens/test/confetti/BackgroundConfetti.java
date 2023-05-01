@@ -11,9 +11,16 @@ public class BackgroundConfetti extends JComponent {
 
     private final Set<Confetti> confetti = new HashSet<>();
 
-    public void test() {
-        for(int i = 0; i < 300; i++) {
-            confetti.add(Confetti.createRandom(getWidth(), getHeight()));
+    /**
+     * Add some confetti to the background
+     * @param amount the amount of confetti pieces to add
+     */
+    public void addSomeConfetti(int amount) {
+        final int screenWidth = getWidth();
+        final int screenHeight = getHeight();
+
+        for(int i = 0; i < amount; i++) {
+            confetti.add(Confetti.createRandom(screenWidth, screenHeight));
         }
     }
 
@@ -21,7 +28,7 @@ public class BackgroundConfetti extends JComponent {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-
+        // Update and draw the confetti
         Graphics2D g2d = (Graphics2D) g;
         updateAndDrawConfetti(g2d);
 
@@ -31,33 +38,43 @@ public class BackgroundConfetti extends JComponent {
 
     }
 
-    long lastTime = System.currentTimeMillis();
+    // The last time the confetti was updated
+    private long lastTime = System.currentTimeMillis();
 
+    /**
+     * Updates and draws the confetti.
+     * @param g2d the graphics object to draw with.
+     */
     private void updateAndDrawConfetti(Graphics2D g2d) {
 
-        final int width = getWidth();
-        final int height = getHeight();
+        final int screenWidth = getWidth();
+        final int screenHeight = getHeight();
 
         Set<Confetti> toBeRemoved = new HashSet<>();
 
+        // Update the confetti every 1/60th of a second
         if(System.currentTimeMillis() - lastTime > 1/60f * 1000) {
 
             for(Confetti c : confetti) {
-                c.update(width, height);
+                c.update(screenWidth, screenHeight);
             }
 
+            // Update the last time the confetti was updated
             lastTime = System.currentTimeMillis();
         }
 
+        // Draw the confetti every frame
         for(Confetti c : confetti) {
 
             c.draw(g2d);
 
+            // Check if the confetti is out of frame
             if(c.isOutOfFrame()) {
                 toBeRemoved.add(c);
             }
         }
 
+        // Remove the confetti that is out of frame
         confetti.removeAll(toBeRemoved);
 
     }
