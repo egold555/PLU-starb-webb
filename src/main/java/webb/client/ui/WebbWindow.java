@@ -29,8 +29,8 @@ public class WebbWindow extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("Star Battle Odyssey");
 
-        this.switchScreen(ScreenType.LOADING);
-        //this.switchScreen(new ScreenTestDrawing());
+        //this.switchScreen(ScreenType.LOADING);
+        this.switchScreen(new ScreenTestDrawing());
 
         //maximizes the window for testing
         this.setExtendedState(this.getExtendedState() | JFrame.MAXIMIZED_BOTH);

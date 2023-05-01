@@ -3,6 +3,7 @@ package webb.client.ui.screens.mainmenu.background;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import webb.client.ui.constants.WebbImages;
+import webb.client.ui.helpers.Point;
 
 /**
  * A class that represents an image and its direction

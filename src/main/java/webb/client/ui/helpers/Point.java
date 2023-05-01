@@ -1,4 +1,4 @@
-package webb.client.ui.screens.mainmenu.background;
+package webb.client.ui.helpers;
 
 /**
  * Represents a point in 2D space, using doubles.
