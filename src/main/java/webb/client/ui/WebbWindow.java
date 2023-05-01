@@ -1,6 +1,7 @@
 package webb.client.ui;
 
 import java.awt.Toolkit;
+import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.JFrame;
@@ -8,6 +9,7 @@ import webb.client.ui.audio.BGMusicPlayer;
 import webb.client.ui.audio.SFXPlayer;
 import webb.client.ui.screens.Screen;
 import webb.client.ui.screens.ScreenType;
+import webb.client.ui.screens.options.GameOptions;
 
 ;
 
@@ -24,9 +26,17 @@ public class WebbWindow extends JFrame {
     private SFXPlayer sfxPlayer = new SFXPlayer();
     private BGMusicPlayer bgMusicPlayer = new BGMusicPlayer();
 
+    private GameOptions gameOptions;
+
     private WebbWindow() {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("Star Battle Odyssey");
+
+        try {
+            this.gameOptions = GameOptions.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         this.switchScreen(ScreenType.LOADING);
         //this.switchScreen(ScreenType.OPTIONS);
@@ -77,11 +87,25 @@ public class WebbWindow extends JFrame {
         }, 1);
     }
 
+    /**
+     * Returns the SFXPlayer instance.
+     * @return The SFXPlayer instance.
+     */
     public SFXPlayer getSFXPlayer() {
         return sfxPlayer;
     }
 
+    /**
+     * Returns the BGMusicPlayer instance.
+     * @return The BGMusicPlayer instance.
+     */
     public BGMusicPlayer getBGMusicPlayer() {
         return bgMusicPlayer;
     }
+
+    /**
+     * Returns the GameOptions instance.
+     * @return The GameOptions instance.
+     */
+    public GameOptions getGameOptions() {return gameOptions;}
 }

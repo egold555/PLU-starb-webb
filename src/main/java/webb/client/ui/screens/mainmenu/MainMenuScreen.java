@@ -98,6 +98,7 @@ public class MainMenuScreen extends Screen {
 
         this.add(testButton);
 
+        //----------- Background space panel ----------------
         BackgroundSpacePanel backgroundSpacePanel = new BackgroundSpacePanel();
         layout.putConstraint(SpringLayout.NORTH, backgroundSpacePanel, 0, SpringLayout.NORTH, contentPane);
         layout.putConstraint(SpringLayout.SOUTH, backgroundSpacePanel, 0, SpringLayout.SOUTH, contentPane);
