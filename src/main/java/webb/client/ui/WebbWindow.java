@@ -8,7 +8,6 @@ import webb.client.ui.audio.BGMusicPlayer;
 import webb.client.ui.audio.SFXPlayer;
 import webb.client.ui.screens.Screen;
 import webb.client.ui.screens.ScreenType;
-import webb.client.ui.screens.test.ScreenTestDrawing;
 
 ;
 
@@ -29,8 +28,8 @@ public class WebbWindow extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("Star Battle Odyssey");
 
-        //this.switchScreen(ScreenType.LOADING);
-        this.switchScreen(new ScreenTestDrawing());
+        this.switchScreen(ScreenType.LOADING);
+        //this.switchScreen(ScreenType.TEST_CONFETTI);
 
         //maximizes the window for testing
         this.setExtendedState(this.getExtendedState() | JFrame.MAXIMIZED_BOTH);

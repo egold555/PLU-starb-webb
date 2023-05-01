@@ -6,7 +6,7 @@ import webb.client.ui.components.WebbButton;
 import webb.client.ui.screens.Screen;
 import webb.client.ui.screens.test.confetti.BackgroundConfetti;
 
-public class ScreenTestDrawing extends Screen {
+public class ScreenTestConfetti extends Screen {
 
     @Override
     protected void populateComponents(Container contentPane, SpringLayout layout) {
