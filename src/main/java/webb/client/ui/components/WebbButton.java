@@ -153,6 +153,8 @@ public class WebbButton extends JButton {
                     if (isRightClick) {
                         self.getModel().setPressed(true);
                     }
+                    
+                    hovering = false;
 
                     WebbWindow.getInstance().getSfxPlayer().queue(WebbAudio.SFX_CLICK);
                     clickListener.onClick(self, isRightClick);

@@ -67,13 +67,8 @@ public class BackgroundSpacePanel extends JComponent {
      * @return a random image from the main menu images
      */
     private BufferedImage getARandomImage() {
-        return switch (RNG.nextInt(0, 4)) {
-            case 0 -> WebbImages.MAIN_MENU_PLANET;
-            case 1 -> WebbImages.MAIN_MENU_UFO;
-            case 2 -> WebbImages.MAIN_MENU_STAR;
-            case 3 -> WebbImages.MAIN_MENU_ROCKET;
-            default -> throw new AssertionError();
-        };
+        final int imgIndex = RNG.nextInt(0, WebbImages.MAIN_MENU_IMAGES.length);
+        return WebbImages.MAIN_MENU_IMAGES[imgIndex];
     }
 
 }

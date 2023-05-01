@@ -61,7 +61,10 @@ public class ImageAndDirection {
      * @return the scaled and rotated image
      */
     private static BufferedImage scaleAndRotate(BufferedImage img, double scale, double rotation) {
-        boolean dontRotate = img == WebbImages.MAIN_MENU_UFO;
+        boolean dontRotate =
+                img == WebbImages.MAIN_MENU_UFO ||
+                img == WebbImages.MAIN_MENU_UFO2
+                ;
 
         img = WebbImages.scale(img, scale);
 
