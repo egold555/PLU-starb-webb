@@ -21,11 +21,11 @@ dependencies {
 }
 
 tasks.named('run') {
-	mainClassName = 'starb.client.StarbClient'
+	mainClassName = 'webb.client.Main'
 }
 
 springBoot {
-	mainClassName = "starb.server.StarbServer"
+	mainClassName = "webb.server.WebbServer"
 }
 
 tasks.named('test') {
