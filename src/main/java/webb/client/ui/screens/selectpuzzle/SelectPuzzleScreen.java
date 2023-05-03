@@ -209,13 +209,12 @@ public class SelectPuzzleScreen extends Screen {
         @Override
         public void onShow() {
 
+                WebbWindow.getInstance().getBGMusicPlayer().playBG(WebbAudio.BG_MAIN_MENU);
+
                 HTTPRequestOptions<LeaderboardDTO> requestOptions_leaderboardUsers = new HTTPRequestOptions<>();
                 requestOptions_leaderboardUsers.setDefaultValue(DEFAULT_LEADERBOARD_SCORE);
 
                 WebbWebUtilities.makeRequestAsync(
-                WebbWindow.getInstance().getBGMusicPlayer().playBG(WebbAudio.BG_MAIN_MENU);
-
-                WebbWebUtilities.getRequestAsync(
                         "/leaderboards/users/",
                         LeaderboardDTO.class,
                         requestOptions_leaderboardUsers,
