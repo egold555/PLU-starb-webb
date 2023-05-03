@@ -74,6 +74,7 @@ public class WebbWebUtilities {
                 return DEFAULT_JSON_CODEC.treeToValue(node.get("data"), clazz);
             }
             catch (Exception e) {
+                //TODO: Handle this better with a popup or something.
                 e.printStackTrace();
                 return options.getDefaultValue();
             }
@@ -159,6 +160,7 @@ public class WebbWebUtilities {
                 rootNode.set("data", jsonNode);
             }
             catch (Exception e) {
+                //TODO: Handle this better with a popup or something.
                 rootNode.put("success", false);
                 rootNode.put("httpStatusCode", httpStatusCode);
                 rootNode.put("dataSizeBytes", bytesRead);
@@ -166,6 +168,7 @@ public class WebbWebUtilities {
             }
         }
         catch (IOException e) {
+            //TODO: Handle this better with a popup or something.
             e.printStackTrace();
             rootNode.put("success", false);
             rootNode.put("error", e.getMessage());
@@ -173,183 +176,5 @@ public class WebbWebUtilities {
 
         return rootNode;
     }
-
-    /**
-     * Makes a GET request to the specified URL and returns the response as a JSON object.
-     * @param urlStr The URL to make the request to.
-     * @return The response as a JSON object.
-     * {
-     *     "success": true, //false if there was any error
-     *     "httpStatusCode": 200, //The HTTP status code we successfully made the request to the server
-     *     "error": "...", //Only present if success is false. Returns the error message from the catch statements
-     *     "data": {...} //The data returned by the server if everything went well. Else its null.
-     * }
-     */
-
-    @Deprecated
-    public static ObjectNode getRequest(String urlStr) {
-        return makeRequest(urlStr, new HTTPRequestOptions<>());
-    }
-
-    @Deprecated
-    public static ObjectNode getRequest(String urlStr, HTTPProgressCallback progressCallback) {
-        HTTPRequestOptions<ObjectNode> options = new HTTPRequestOptions<>();
-        options.setProgressCallback(progressCallback);
-        return makeRequest(urlStr, options);
-    }
-
-    /**
-     * Makes a GET request to the specified URL and returns the response as a JSON object.
-     * @param urlStr The URL to make the request to.
-     * @param futureReply  The response as a JSON object.
-     * {
-     *     "success": true, //false if there was any error
-     *     "httpStatusCode": 200, //The HTTP status code we successfully made the request to the server
-     *     "error": "...", //Only present if success is false. Returns the error message from the catch statements
-     *     "data": {...} //The data returned by the server if everything went well. Else its null.
-     * }
-     */
-    @Deprecated
-    public static void getRequestAsync(String urlStr, FutureReply<ObjectNode> futureReply) {
-        makeRequestAsync(urlStr, new HTTPRequestOptions<>(), futureReply);
-    }
-
-    @Deprecated
-    public static void getRequestAsync(String urlStr, FutureReply<ObjectNode> futureReply, HTTPProgressCallback progressCallback) {
-        HTTPRequestOptions<ObjectNode> options = new HTTPRequestOptions<>();
-        options.setProgressCallback(progressCallback);
-        makeRequestAsync(urlStr, options, futureReply);
-    }
-
-    /**
-     * Makes a GET request to the specified URL and returns the response as a Java object.
-     * Returns null if there was an error.
-     * @param urlStr The URL to make the request to.
-     * @param clazz The class of the object to return.
-     * @param futureReply The response as a Java object of T, or null if there was an error.
-     */
-
-    @Deprecated
-    public static <T> void getRequestAsync(String urlStr, Class<T> clazz, FutureReply<T> futureReply) {
-        makeRequestAsync(urlStr, clazz, new HTTPRequestOptions<>(), futureReply);
-    }
-
-    @Deprecated
-    public static <T> void getRequestAsync(String urlStr, Class<T> clazz, FutureReply<T> futureReply, HTTPProgressCallback progressCallback) {
-        HTTPRequestOptions<T> options = new HTTPRequestOptions<>();
-        options.setProgressCallback(progressCallback);
-        makeRequestAsync(urlStr, clazz, options, futureReply);
-    }
-
-    /**
-     * Makes a GET request to the specified URL and returns the response as a Java object.
-     * @param urlStr The URL to make the request to.
-     * @param clazz The class of the object to return.
-     * @param defaultValue The default value to return if we get an error.
-     * @param futureReply The response as a Java object of T, or defaultValue if there was an error.
-     */
-
-    @Deprecated
-    public static <T> void getRequestAsync(String urlStr, Class<T> clazz, T defaultValue, FutureReply<T> futureReply) {
-        HTTPRequestOptions<T> options = new HTTPRequestOptions<>();
-        options.setDefaultValue(defaultValue);
-        makeRequestAsync(urlStr, clazz, options, futureReply);
-    }
-
-    @Deprecated
-    public static <T> void getRequestAsync(String urlStr, Class<T> clazz, T defaultValue, FutureReply<T> futureReply, HTTPProgressCallback progressCallback) {
-        HTTPRequestOptions<T> options = new HTTPRequestOptions<>();
-        options.setDefaultValue(defaultValue);
-        options.setProgressCallback(progressCallback);
-        makeRequestAsync(urlStr, clazz, options, futureReply);
-    }
-
-    /**
-     * Makes a GET request to the specified URL and returns the response as a Java object.
-     * Returns null if there was an error.
-     * @param urlStr The URL to make the request to.
-     * @param clazz The class of the object to return.
-     * @return The response as a Java object of T, or null if there was an error.
-     */
-
-    @Deprecated
-    public static <T> T getRequest(String urlStr, Class<T> clazz) {
-        return makeRequest(urlStr, clazz, new HTTPRequestOptions<>());
-    }
-
-    @Deprecated
-    public static <T> T getRequest(String urlStr, Class<T> clazz, HTTPProgressCallback progressCallback) {
-        HTTPRequestOptions<T> options = new HTTPRequestOptions<>();
-        options.setProgressCallback(progressCallback);
-        return makeRequest(urlStr, clazz, options);
-    }
-
-    /**
-     * Makes a GET request to the specified URL and returns the response as a Java object.
-     * @param urlStr The URL to make the request to.
-     * @param clazz The class of the object to return.
-     * @param defaultValue The default value to return if we get an error.
-     * @return The response as a Java object of T, or defaultValue if there was an error.
-     */
-
-    @Deprecated
-    public static <T> T getRequest(String urlStr, Class<T> clazz, T defaultValue) {
-        HTTPRequestOptions<T> options = new HTTPRequestOptions<>();
-        options.setDefaultValue(defaultValue);
-        return makeRequest(urlStr, clazz, options);
-    }
-
-    @Deprecated
-    public static <T> T getRequest(String urlStr, Class<T> clazz, T defaultValue, HTTPProgressCallback progressCallback) {
-        HTTPRequestOptions<T> options = new HTTPRequestOptions<>();
-        options.setDefaultValue(defaultValue);
-        options.setProgressCallback(progressCallback);
-        return makeRequest(urlStr, clazz, options);
-    }
-
-    /**
-     * Makes a POST request to the specified URL and returns the response as a JSON object.
-     * @param urlStr The URL to make the request to.
-     * @param data The data to send to the server.
-     * @return The response as a JSON object.
-     * {
-     *     "success": true, //false if there was any error
-     *     "httpStatusCode": 200, //The HTTP status code we successfully made the request to the server
-     *     "error": "...", //Only present if success is false. Returns the error message from the catch statements
-     *     "data": {...} //The data returned by the server if everything went well. Else its null.
-     * }
-     */
-
-    @Deprecated
-    public static ObjectNode sendPostRequest(String urlStr, ObjectNode data) {
-
-        HTTPRequestOptions<ObjectNode> options = new HTTPRequestOptions<>();
-        options.setRequestType(RequestType.POST);
-        options.setPostData(data);
-        return makeRequest(urlStr, ObjectNode.class, options);
-
-    }
-
-    /**
-     * Makes a POST request to the specified URL and returns the response as a JSON object.
-     * @param urlStr The URL to make the request to.
-     * @param data The data to send to the server.
-     * @param futureReply  The response as a JSON object.
-     * {
-     *     "success": true, //false if there was any error
-     *     "httpStatusCode": 200, //The HTTP status code we successfully made the request to the server
-     *     "error": "...", //Only present if success is false. Returns the error message from the catch statements
-     *     "data": {...} //The data returned by the server if everything went well. Else its null.
-     * }
-     */
-
-    @Deprecated
-    public static void sendPostRequestAsync(String urlStr, ObjectNode data, FutureReply<ObjectNode> futureReply) {
-        HTTPRequestOptions<ObjectNode> options = new HTTPRequestOptions<>();
-        options.setRequestType(RequestType.POST);
-        options.setPostData(data);
-        makeRequestAsync(urlStr, options, futureReply);
-    }
-
 
 }

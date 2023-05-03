@@ -1,6 +1,7 @@
 package webb.server.security;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import webb.client.ui.helpers.http.HTTPRequestOptions;
 import webb.client.ui.helpers.http.WebbWebUtilities;
 import webb.shared.dtos.old.Player_OLD;
 
@@ -21,7 +22,11 @@ public class PlayerManager {
 
         // Check if the player exists. Right now the server just checks the same userdata file as we had before
         // Just returns "exists" as a boolean if the user was in that file or not
-        ObjectNode node = WebbWebUtilities.getRequest("does-user-exist?username=" + player.username());
+
+        ObjectNode node = WebbWebUtilities.makeRequest(
+                "does-user-exist?username=" + player.username(),
+                new HTTPRequestOptions<ObjectNode>()
+        );
 
         //If we failed to connect to the server, we can't authenticate
         if(!node.get("success").asBoolean()) {
