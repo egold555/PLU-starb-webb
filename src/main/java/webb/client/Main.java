@@ -1,4 +1,4 @@
-package starb.client;
+package webb.client;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -14,7 +14,7 @@ import webb.server.security.PlayerManager;
  * Program arguments: -username=yourusername
  * Gradle run: --args="-username=yourusername"
  */
-public class StarbClient {
+public class Main {
 
     public static void main( String[] args ) throws Exception {
 
