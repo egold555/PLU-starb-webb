@@ -10,6 +10,7 @@ import webb.client.ui.WebbWindow;
 import webb.client.ui.components.WebbButton;
 import webb.client.ui.components.WebbRoundedJPanel;
 import webb.client.ui.constants.WebbColors;
+import webb.client.ui.constants.WebbFonts;
 import webb.client.ui.constants.WebbImages;
 import webb.client.ui.screens.ScreenType;
 import webb.client.ui.screens.puzzlescreen.PuzzleScreen;
@@ -49,6 +50,8 @@ public class PuzzleButton extends JPanel {
 
         });
         button.setDrawBackground(false);
+        button.setTextColor(WebbColors.TEXT_COLOR_WHITE);
+        button.setFont(WebbFonts.BALSAMIQ_SANS_REGULAR_64);
 
         innerLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, panel, 0, SpringLayout.HORIZONTAL_CENTER, this);
         innerLayout.putConstraint(SpringLayout.VERTICAL_CENTER, panel, 0, SpringLayout.VERTICAL_CENTER, this);

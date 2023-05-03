@@ -3,8 +3,10 @@ package webb.client.ui.screens.puzzlescreen;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Stroke;
 import webb.client.logic.puzzle.CellLogic;
 import webb.client.logic.puzzle.CellType;
+import webb.client.ui.constants.WebbColors;
 
 /**
  * This class represents a single cell in the puzzle grid.
@@ -69,8 +71,8 @@ public class CellComponent {
         }
 
         //Draw walls
-        g2d.setColor(Color.RED );
-        g2d.setStroke( new BasicStroke( 5 ));
+        g2d.setColor(WebbColors.D9);
+        g2d.setStroke( new BasicStroke( 15, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND ));
 
         //North
         if(this.logic.getWalls()[CellLogic.WALL_NORTH]) {

@@ -1,5 +1,6 @@
 package webb.client.ui.components;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -13,6 +14,9 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import javax.swing.JButton;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+import webb.client.ui.WebbWindow;
+import webb.client.ui.constants.WebbAudio;
 import webb.client.ui.constants.WebbColors;
 import webb.client.ui.constants.WebbFonts;
 
@@ -27,6 +31,8 @@ public class WebbButton extends JButton {
     private Font font = WebbFonts.BALSAMIQ_SANS_REGULAR_20;
     private boolean drawBackground = true;
     private Color backgroundColor = WebbColors.B7;
+    private boolean hovering = false;
+    private boolean drawButtonOutline = true;
 
     /**
      * Creates a new WebbButton with the given text.
@@ -62,6 +68,7 @@ public class WebbButton extends JButton {
     public WebbButton(BufferedImage imageIn, int width, int height, ClickListener clickListener) {
         this(clickListener);
         this.image = imageIn;
+        this.drawButtonOutline = false;
         this.setDrawBackground(false);
         this.setPreferredSize(new Dimension(width, height));
     }
@@ -80,6 +87,19 @@ public class WebbButton extends JButton {
             WebbButton self = this;
 
             this.addMouseListener(new MouseAdapter() {
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    WebbWindow.getInstance().getSFXPlayer().queue(WebbAudio.SFX_BTN_HOVER);
+                    hovering = true;
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    setBorder(new EmptyBorder(8, 8, 8, 8));
+                    hovering = false;
+                }
+
                 @Override
                 public void mousePressed(MouseEvent e) {
 
@@ -93,6 +113,10 @@ public class WebbButton extends JButton {
                         self.getModel().setPressed(true);
                     }
 
+                    // when window changes, we need to update the border so we don't hover if we switch back
+                    hovering = false;
+
+                    WebbWindow.getInstance().getSFXPlayer().queue(WebbAudio.SFX_CLICK);
                     clickListener.onClick(self, isRightClick);
 
                 }
@@ -151,6 +175,14 @@ public class WebbButton extends JButton {
     }
 
     /**
+     * Sets whether or not the button should draw an outline.
+     * @param drawButtonOutline Whether or not to draw an outline.
+     */
+    public void setDrawButtonOutline(boolean drawButtonOutline) {
+        this.drawButtonOutline = drawButtonOutline;
+    }
+
+    /**
      * Sets the background color of the button.
      * @param backgroundColor The color of the background.
      */
@@ -194,6 +226,13 @@ public class WebbButton extends JButton {
         if(drawBackground) {
             g2.setColor(backgroundColor);
             g2.fillRoundRect(0, 0, getWidth(), getHeight(), borderSize, borderSize);
+        }
+
+        if(drawButtonOutline) {
+            g2.setColor(Color.BLACK);
+            final int strokeSize = this.hovering ? 3 : 1;
+            g2.setStroke(new BasicStroke(strokeSize));
+            g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, borderSize, borderSize);
         }
 
         //draw center text

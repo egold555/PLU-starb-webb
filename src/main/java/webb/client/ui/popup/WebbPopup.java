@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 import javax.swing.SwingUtilities;
+import webb.client.ui.WebbWindow;
 import webb.client.ui.components.WebbButton;
 import webb.client.ui.components.WebbRoundedJPanel;
 import webb.client.ui.constants.WebbColors;
@@ -45,11 +46,15 @@ public abstract class WebbPopup extends JDialog {
 
     /**
      * Shows the popup on top of the screen.
-     *
      * @param screen The screen to show the popup on top of.
+     *               use {@link #showPopup()} instead.
      */
+    @Deprecated
     public final void show(Screen screen) {
-        this.parent = (JFrame) SwingUtilities.getRootPane(screen).getParent();
+        this.showPopup();
+    }
+    public final void showPopup() {
+        this.parent = WebbWindow.getInstance();
 
         JPanel glassPane = new JPanel() {
             @Override
