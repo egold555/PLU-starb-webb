@@ -1,11 +1,10 @@
 package starb.client;
 
-import java.awt.*;
+import java.awt.EventQueue;
 import java.util.HashMap;
 import java.util.Map;
+import webb.client.authentication.AuthenticationManager;
 import webb.client.ui.WebbWindow;
-import webb.shared.dtos.old.Player_OLD;
-import webb.server.security.PlayerManager;
 
 /**
  * Creates a single window as an example of a Java GUI with a component
@@ -22,13 +21,12 @@ public class StarbClient {
 
         String inputtedUserName = programArguments.getOrDefault("username", null);
 
-        if(inputtedUserName == null)
+        if(inputtedUserName == null) {
             throw new Exception("Please specify a username using VM options with keyword `username`");
+        }
 
-        Player_OLD player = new Player_OLD(inputtedUserName);
-
-        if(!PlayerManager.authenticate(player)) {
-            throw new Exception("The username: '%s' already exists, please use another username.".formatted(player.username()));
+        if(AuthenticationManager.getInstance().authenticate(inputtedUserName)) {
+            throw new Exception("Failed to authenticate: '%s'. ".formatted(inputtedUserName));
         }
 
         EventQueue.invokeLater( () -> WebbWindow.getInstance().setVisible(true));

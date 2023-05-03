@@ -14,6 +14,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import webb.client.authentication.AuthenticationManager;
 
 public class WebbWebUtilities {
 
@@ -123,6 +124,9 @@ public class WebbWebUtilities {
                 os.close();
             }
 
+            if(options.isAuthenticatedRequest()) {
+                con.setRequestProperty("Authorization", AuthenticationManager.getInstance().getCurrentUser().getUsername());
+            }
 
             int totalBytes = con.getContentLength();
 

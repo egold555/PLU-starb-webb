@@ -11,6 +11,7 @@ import java.util.Set;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
+import webb.client.authentication.AuthenticationManager;
 import webb.client.ui.components.WebbBackButton;
 import webb.client.ui.components.WebbButton;
 import webb.client.ui.constants.WebbColors;
@@ -220,7 +221,7 @@ public class SelectPuzzleScreen extends Screen {
                 requestOptions_user.setDefaultValue(new UserDTO(null, DEFAULT_STATISTICS_DATA));
 
                 WebbWebUtilities.makeRequestAsync(
-                        "/users/USERNAME", //TODO: Replace with actual username
+                        "/users/" + AuthenticationManager.getInstance().getCurrentUser().getUsername(),
                         UserDTO.class,
                         requestOptions_user,
                         reply -> { statisticsData = reply.getStats();}

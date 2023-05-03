@@ -9,6 +9,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.JLabel;
 import javax.swing.SpringLayout;
+import webb.client.authentication.AuthenticationManager;
 import webb.client.ui.components.WebbProgressBar;
 import webb.client.ui.constants.WebbColors;
 import webb.client.ui.constants.WebbFonts;
@@ -97,7 +98,7 @@ public class LoadingScreen extends Screen {
             });
 
             WebbWebUtilities.makeRequestAsync(
-                    "/puzzles/users/username", //TODO: SET USERNAME
+                    "/puzzles/users/" + AuthenticationManager.getInstance().getCurrentUser().getUsername(),
                     UserPuzzleDTO[].class,
                     requestOptions_userPuzzle,
                     (puzzleLevels) -> {

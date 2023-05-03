@@ -12,6 +12,7 @@ public class HTTPRequestOptions<T> {
     private ObjectNode postData = null;
     private HTTPProgressCallback progressCallback = null;
     private T defaultValue = null;
+    private boolean authenticate = true;
 
     /**
      * Returns the progress callback. Default is NULL
@@ -78,9 +79,19 @@ public class HTTPRequestOptions<T> {
     }
 
 
+    /**
+     * Returns whether or not the request is an authenticated request. Default is true.
+     * @return Whether or not the request is an authenticated request.
+     */
+    public boolean isAuthenticatedRequest() {
+        return authenticate;
+    }
 
-
-
-
-
+    /**
+     * Sets whether or not the request should use authentication.
+     * @param authenticate Whether or not the request should use authentication.
+     */
+    public void setAuthenticatedRequest(boolean authenticate) {
+        this.authenticate = authenticate;
+    }
 }
