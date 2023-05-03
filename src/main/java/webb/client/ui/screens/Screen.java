@@ -27,12 +27,6 @@ public abstract class Screen extends JPanel {
 
         this.setLayout(layout);
 
-        // Set the default uncaught exception handler to show a popup with the error.
-        // We also print the error to the console.
-        Thread.setDefaultUncaughtExceptionHandler((t, e) -> {
-            e.printStackTrace();
-            showPopup(new PopupErrorHandler(e));
-        });
     }
 
     /**

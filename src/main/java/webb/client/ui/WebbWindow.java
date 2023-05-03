@@ -7,6 +7,7 @@ import java.util.TimerTask;
 import javax.swing.JFrame;
 import webb.client.ui.audio.BGMusicPlayer;
 import webb.client.ui.audio.SFXPlayer;
+import webb.client.ui.popup.errorhandler.PopupErrorHandler;
 import webb.client.ui.screens.Screen;
 import webb.client.ui.screens.ScreenType;
 import webb.client.ui.screens.options.GameOptions;
@@ -46,6 +47,13 @@ public class WebbWindow extends JFrame {
         this.setSize(600, 600);
 
         this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/webb/images/icon/icon5.png")));
+
+        // Set the default uncaught exception handler to show a popup with the error.
+        // We also print the error to the console.
+        Thread.setDefaultUncaughtExceptionHandler((t, e) -> {
+            e.printStackTrace();
+            new PopupErrorHandler(e).showPopup();
+        });
 
         sfxPlayer.start();
     }
