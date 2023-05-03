@@ -12,8 +12,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 import webb.client.authentication.AuthenticationManager;
+import webb.client.ui.WebbWindow;
 import webb.client.ui.components.WebbBackButton;
 import webb.client.ui.components.WebbButton;
+import webb.client.ui.constants.WebbAudio;
 import webb.client.ui.constants.WebbColors;
 import webb.client.ui.constants.WebbFonts;
 import webb.client.ui.constants.WebbImages;
@@ -211,6 +213,9 @@ public class SelectPuzzleScreen extends Screen {
                 requestOptions_leaderboardUsers.setDefaultValue(DEFAULT_LEADERBOARD_SCORE);
 
                 WebbWebUtilities.makeRequestAsync(
+                WebbWindow.getInstance().getBGMusicPlayer().playBG(WebbAudio.BG_MAIN_MENU);
+
+                WebbWebUtilities.getRequestAsync(
                         "/leaderboards/users/",
                         LeaderboardDTO.class,
                         requestOptions_leaderboardUsers,
