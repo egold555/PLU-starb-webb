@@ -9,9 +9,11 @@ import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.JLabel;
 import javax.swing.SpringLayout;
+import webb.client.authentication.AuthenticationManager;
 import webb.client.ui.components.WebbProgressBar;
 import webb.client.ui.constants.WebbColors;
 import webb.client.ui.constants.WebbFonts;
+import webb.client.ui.helpers.http.HTTPRequestOptions;
 import webb.client.ui.helpers.http.WebbWebUtilities;
 import webb.client.ui.screens.Screen;
 import webb.client.ui.screens.ScreenType;
@@ -56,24 +58,49 @@ public class LoadingScreen extends Screen {
 
         if(!selectPuzzleScreen.hasPopulatedLevelsYet()) {
 
+            HTTPRequestOptions<PuzzleLevelDTO[]> requestOptions_puzzlesLevels = new HTTPRequestOptions<>();
+            requestOptions_puzzlesLevels.setDefaultValue(SelectPuzzleScreen.DEFAULT_LEVELS);
 
+            requestOptions_puzzlesLevels.setProgressCallback((onProgress) -> {
+                progressPuzzleLevels = (int) (onProgress * 100);
+                System.out.println("[Progress Puzzle] Loading progress: " + progressPuzzleLevels + "%");
+                updateProgressBar();
+            });
 
-            WebbWebUtilities.getRequestAsync(
-                    "/puzzles/levels",
+            WebbWebUtilities.makeRequestAsync(
+                    "puzzles/levels",
                     PuzzleLevelDTO[].class,
-                    SelectPuzzleScreen.DEFAULT_LEVELS,
-                    selectPuzzleScreen::setLevels,
-                    (onProgress) -> {
-                        progressPuzzleLevels = (int) (onProgress * 100);
-                        System.out.println("[Progress Puzzle] Loading progress: " + progressPuzzleLevels + "%");
-                        updateProgressBar();
-                    }
+                    requestOptions_puzzlesLevels,
+                    selectPuzzleScreen::setLevels
             );
 
-            WebbWebUtilities.getRequestAsync(
-                    "/puzzles/users/username", //TODO: SET USERNAME
+            HTTPRequestOptions<PuzzleLevelDTO[]> requestOptions_puzzleLevel = new HTTPRequestOptions<>();
+            requestOptions_puzzleLevel.setDefaultValue(SelectPuzzleScreen.DEFAULT_LEVELS);
+            requestOptions_puzzleLevel.setProgressCallback((onProgress) -> {
+                progressPuzzleLevels = (int) (onProgress * 100);
+                System.out.println("[Progress Puzzle] Loading progress: " + progressPuzzleLevels + "%");
+                updateProgressBar();
+            });
+
+            WebbWebUtilities.makeRequestAsync(
+                    "puzzles/levels",
+                    PuzzleLevelDTO[].class,
+                    requestOptions_puzzleLevel,
+                    selectPuzzleScreen::setLevels
+            );
+
+            HTTPRequestOptions<UserPuzzleDTO[]> requestOptions_userPuzzle = new HTTPRequestOptions<>();
+            requestOptions_userPuzzle.setDefaultValue(SelectPuzzleScreen.DEFAULT_USER_LEVEL_PROGRESS);
+            requestOptions_userPuzzle.setProgressCallback((onProgress) -> {
+                progressUserCompletion = (int) (onProgress * 100);
+                System.out.println("[User Puzzle] Loading progress: " + progressUserCompletion + "%");
+                updateProgressBar();
+            });
+
+            WebbWebUtilities.makeRequestAsync(
+                    "puzzles/users/" + AuthenticationManager.getInstance().getCurrentUser().getUsername(),
                     UserPuzzleDTO[].class,
-                    SelectPuzzleScreen.DEFAULT_USER_LEVEL_PROGRESS,
+                    requestOptions_userPuzzle,
                     (puzzleLevels) -> {
 
                         Set<Integer> completedLevels = new HashSet<>();
@@ -85,11 +112,6 @@ public class LoadingScreen extends Screen {
 
                         selectPuzzleScreen.setCompletedLevels(completedLevels);
 
-                    },
-                    (onProgress) -> {
-                        progressUserCompletion = (int) (onProgress * 100);
-                        System.out.println("[User Puzzle] Loading progress: " + progressUserCompletion + "%");
-                        updateProgressBar();
                     }
             );
         }

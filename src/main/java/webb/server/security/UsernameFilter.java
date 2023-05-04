@@ -58,7 +58,8 @@ public class UsernameFilter extends OncePerRequestFilter {
         boolean authenticated = false;
 
         // don't do anything, if the request is a POST request and from /users endpoint
-        if(request.getMethod().equals("POST") && request.getRequestURI().equals("/users")) {
+        //Eric Fix: change equals to contains, because post requests have a trailing slash.
+        if(request.getMethod().equals("POST") && request.getRequestURI().contains("/users")) {
             filterChain.doFilter(request, response);
             return;
         }

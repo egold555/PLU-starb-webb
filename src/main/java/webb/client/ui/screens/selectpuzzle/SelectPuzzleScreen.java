@@ -11,6 +11,7 @@ import java.util.Set;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
+import webb.client.authentication.AuthenticationManager;
 import webb.client.ui.WebbWindow;
 import webb.client.ui.components.WebbBackButton;
 import webb.client.ui.components.WebbButton;
@@ -18,6 +19,7 @@ import webb.client.ui.constants.WebbAudio;
 import webb.client.ui.constants.WebbColors;
 import webb.client.ui.constants.WebbFonts;
 import webb.client.ui.constants.WebbImages;
+import webb.client.ui.helpers.http.HTTPRequestOptions;
 import webb.client.ui.helpers.http.WebbWebUtilities;
 import webb.client.ui.popup.leaderboard.PopupLeaderboard;
 import webb.client.ui.popup.statistics.PopupStatistics;
@@ -209,17 +211,23 @@ public class SelectPuzzleScreen extends Screen {
 
                 WebbWindow.getInstance().getBGMusicPlayer().playBG(WebbAudio.BG_MAIN_MENU);
 
-                WebbWebUtilities.getRequestAsync(
-                        "/leaderboards/users/",
+                HTTPRequestOptions<LeaderboardDTO> requestOptions_leaderboardUsers = new HTTPRequestOptions<>();
+                requestOptions_leaderboardUsers.setDefaultValue(DEFAULT_LEADERBOARD_SCORE);
+
+                WebbWebUtilities.makeRequestAsync(
+                        "leaderboards/users",
                         LeaderboardDTO.class,
-                        DEFAULT_LEADERBOARD_SCORE,
+                        requestOptions_leaderboardUsers,
                         reply -> {leaderboardScores = reply;}
                 );
 
-                WebbWebUtilities.getRequestAsync(
-                        "users/USERNAME", //TODO: Replace with actual username
+                HTTPRequestOptions<UserDTO> requestOptions_user = new HTTPRequestOptions<>();
+                requestOptions_user.setDefaultValue(new UserDTO(null, DEFAULT_STATISTICS_DATA));
+
+                WebbWebUtilities.makeRequestAsync(
+                        "users/" + AuthenticationManager.getInstance().getCurrentUser().getUsername(),
                         UserDTO.class,
-                        new UserDTO(null, DEFAULT_STATISTICS_DATA),
+                        requestOptions_user,
                         reply -> { statisticsData = reply.getStats();}
                 );
 

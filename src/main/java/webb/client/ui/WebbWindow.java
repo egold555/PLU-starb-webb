@@ -51,8 +51,7 @@ public class WebbWindow extends JFrame {
         // Set the default uncaught exception handler to show a popup with the error.
         // We also print the error to the console.
         Thread.setDefaultUncaughtExceptionHandler((t, e) -> {
-            e.printStackTrace();
-            new PopupErrorHandler(e).showPopup();
+            handleError(e);
         });
 
         sfxPlayer.start();
@@ -116,4 +115,13 @@ public class WebbWindow extends JFrame {
      * @return The GameOptions instance.
      */
     public GameOptions getGameOptions() {return gameOptions;}
+
+    /**
+     * Handles an error by showing a popup with the error and printing the error to the console.
+     * @param e The error to handle.
+     */
+    public void handleError(Throwable e) {
+        e.printStackTrace();
+        new PopupErrorHandler(e).showPopup();
+    }
 }

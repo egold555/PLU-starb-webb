@@ -14,6 +14,8 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import webb.client.authentication.AuthenticationManager;
+import webb.client.ui.WebbWindow;
 
 public class WebbWebUtilities {
 
@@ -21,7 +23,8 @@ public class WebbWebUtilities {
     private WebbWebUtilities() {}
 
     //TODO: Change me
-    private static final String BASE_URL = "https://cs390.golde.org/api-mockup/v1/";
+    //private static final String BASE_URL = "https://cs390.golde.org/api-mockup/v1/";
+    private static final String BASE_URL = "http://10.0.0.23:1337/";
 
     //Define the codec for the ObjectMapper to parse.
     //Make sure if there is no empty constructor for the class
@@ -32,31 +35,122 @@ public class WebbWebUtilities {
     private static final ExecutorService THREAD_POOL = Executors.newFixedThreadPool(10);
 
     /**
-     * Makes a GET request to the specified URL and returns the response as a JSON object.
+     * Makes a request to the server and returns the response as a T object.
      * @param urlStr The URL to make the request to.
-     * @return The response as a JSON object.
-     * {
-     *     "success": true, //false if there was any error
-     *     "httpStatusCode": 200, //The HTTP status code we successfully made the request to the server
-     *     "error": "...", //Only present if success is false. Returns the error message from the catch statements
-     *     "data": {...} //The data returned by the server if everything went well. Else its null.
-     * }
+     * @param clazz The class to parse the response into.
+     * @param options The options for the request.
+     * @param futureReply The future reply to reply to.
+     * @param <T> The type of object to parse the response into.
      */
-
-    public static ObjectNode getRequest(String urlStr) {
-        return getRequest(urlStr, (HTTPProgressCallback) null);
+    public static <T> void makeRequestAsync(String urlStr, Class<T> clazz, HTTPRequestOptions<T> options, FutureReply<T> futureReply) {
+        THREAD_POOL.submit(() -> {
+            T node = makeRequest(urlStr, clazz, options);
+            futureReply.reply(node);
+        });
     }
 
-    public static ObjectNode getRequest(String urlStr, HTTPProgressCallback progressCallback) {
+    /**
+     * Makes a request to the server and returns the response as a ObjectNode
+     * @param urlStr The URL to make the request to.
+     * @param options The options for the request.
+     * @param futureReply The future reply to reply to.
+     */
+    public static void makeRequestAsync(String urlStr, HTTPRequestOptions<ObjectNode> options, FutureReply<ObjectNode> futureReply) {
+        THREAD_POOL.submit(() -> {
+            ObjectNode node = makeRequest(urlStr, options);
+            futureReply.reply(node);
+        });
+    }
 
+    /**
+     * Makes a request to the server and returns the response as a T object.
+     * @param urlStr The URL to make the request to.
+     * @param clazz The class to parse the response into.
+     * @param options The options for the request.
+     * @return The response from the server as a T object.
+     * @param <T> The type of object to parse the response into.
+     */
+    public static <T> T makeRequest(String urlStr, Class<T> clazz, HTTPRequestOptions<T> options) {
+        ObjectNode node = makeRequest(urlStr, options);
+        if (node.get("success").asBoolean()) {
+            try {
+                return DEFAULT_JSON_CODEC.treeToValue(node.get("data"), clazz);
+            }
+            catch (Exception e) {
+                //TODO: Handle this better with a popup or something.
+                e.printStackTrace();
+                return options.getDefaultValue();
+            }
+        }
+        else {
+            return options.getDefaultValue();
+        }
+    }
+
+    /**
+     * Makes a request to the server and returns the response as a ObjectNode.
+     * @param urlStr The URL to make the request to.
+     * @param options The options for the request.
+     * @return The response from the server as a ObjectNode.
+     */
+    public static ObjectNode makeRequest(String urlStr, HTTPRequestOptions<?> options) {
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode rootNode = mapper.createObjectNode();
 
         try {
             URL url = new URL(BASE_URL + urlStr);
+
+            if(options.isDebug()) {
+                System.out.println("Making " + options.getRequestType() + " to " + url.toString());
+                System.out.println("  ----- Request -----");
+            }
+
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("GET");
+            con.setRequestMethod(options.getRequestType().name());
+
+            if(options.getRequestType() != RequestType.GET && options.getPostData() != null) {
+                final String body = options.getPostData().toString();
+
+                // Fix for some servers interpreting the request as a GET request if the URL doesn't end with a slash.
+                // This took me an hour to figure out. I hate this.
+                if(!urlStr.endsWith("/") && !urlStr.endsWith("?")) {
+                    urlStr += "/";
+                }
+
+                if(options.isDebug()) {
+                    System.out.println("  Request Body: " + body);
+                }
+
+                con.setDoOutput(true);
+                con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+                con.setRequestProperty( "Content-Length", String.valueOf(body.length()));
+                con.setRequestProperty("Accept", "application/json");
+
+
+                OutputStream os = con.getOutputStream();
+                OutputStreamWriter osw = new OutputStreamWriter(os, StandardCharsets.UTF_8);
+                osw.write(body);
+                osw.flush();
+                osw.close();
+                os.flush();
+                os.close();
+            }
+
+            if(options.isAuthenticatedRequest()) {
+
+                String auth = options.getOverrideAuth() != null ? options.getOverrideAuth() : AuthenticationManager.getInstance().getCurrentUser().getUsername();
+                con.setRequestProperty("Authorization", auth);
+
+                if(options.isDebug()) {
+                    System.out.println("  Auth: " + auth);
+                }
+            }
+
             int totalBytes = con.getContentLength();
+
+            if(options.isDebug()) {
+                System.out.println("  Content Length: " + totalBytes);
+            }
 
             BufferedReader inputReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
 
@@ -66,40 +160,65 @@ public class WebbWebUtilities {
             int bytesReadTotal = 0;
             StringBuilder content = new StringBuilder();
 
-            while((bytesRead = inputReader.read(buffer)) != -1) {
+            while ((bytesRead = inputReader.read(buffer)) != -1) {
                 content.append(buffer, 0, bytesRead);
                 bytesReadTotal += bytesRead;
-                if (progressCallback != null) {
+                if (options.getProgressCallback() != null) {
                     float percentComplete = (float) bytesReadTotal / totalBytes;
-                    progressCallback.onProgressUpdate(percentComplete);
+                    options.getProgressCallback().onProgressUpdate(percentComplete);
                 }
             }
 
             inputReader.close();
 
+            if(options.isDebug()) {
+                System.out.println();
+                System.out.println(" ----- Response -----");
+            }
+
             final int httpStatusCode = con.getResponseCode();
 
+            if(options.isDebug()) {
+                System.out.println("  Bytes Read: " + bytesReadTotal);
+                System.out.println("  Response Code: " + httpStatusCode);
+                System.out.println("  Response Body: " + content.toString());
+            }
+
             // sometimes we don't math correctly even though we read the entire file
-            if (progressCallback != null) {
-                progressCallback.onProgressUpdate(1.0f);
+            if (options.getProgressCallback() != null) {
+                options.getProgressCallback().onProgressUpdate(1.0f);
             }
 
             try {
                 JsonNode jsonNode = mapper.readTree(content.toString());
                 rootNode.put("success", true);
                 rootNode.put("httpStatusCode", httpStatusCode);
-                rootNode.put("dataSizeBytes", bytesRead);
+                rootNode.put("dataSizeBytes", bytesReadTotal);
                 rootNode.set("data", jsonNode);
+
+                if(options.isDebug()) {
+                    System.out.println("  Successfully Parsed JSON: " + jsonNode.toString());
+                }
             }
             catch (Exception e) {
+                handleError(e);
                 rootNode.put("success", false);
                 rootNode.put("httpStatusCode", httpStatusCode);
-                rootNode.put("dataSizeBytes", bytesRead);
+                rootNode.put("dataSizeBytes", bytesReadTotal);
                 rootNode.put("error", e.getMessage());
+
+                if(options.isDebug()) {
+                    System.out.println("  Failed to parse JSON: " + e.getMessage());
+                }
+            }
+
+            if(options.isDebug()) {
+                System.out.println("---------- END REQUEST ----------");
+                System.out.println();
             }
         }
         catch (IOException e) {
-            e.printStackTrace();
+            handleError(e);
             rootNode.put("success", false);
             rootNode.put("error", e.getMessage());
         }
@@ -107,207 +226,8 @@ public class WebbWebUtilities {
         return rootNode;
     }
 
-    /**
-     * Makes a GET request to the specified URL and returns the response as a JSON object.
-     * @param urlStr The URL to make the request to.
-     * @param futureReply  The response as a JSON object.
-     * {
-     *     "success": true, //false if there was any error
-     *     "httpStatusCode": 200, //The HTTP status code we successfully made the request to the server
-     *     "error": "...", //Only present if success is false. Returns the error message from the catch statements
-     *     "data": {...} //The data returned by the server if everything went well. Else its null.
-     * }
-     */
-    public static void getRequestAsync(String urlStr, FutureReply<ObjectNode> futureReply) {
-        getRequestAsync(urlStr, futureReply, (HTTPProgressCallback) null);
+    private static void handleError(Exception e) {
+        WebbWindow.getInstance().handleError(e);
     }
-    public static void getRequestAsync(String urlStr, FutureReply<ObjectNode> futureReply, HTTPProgressCallback progressCallback) {
-        THREAD_POOL.submit(() -> {
-            ObjectNode node = getRequest(urlStr, progressCallback);
-            futureReply.reply(node);
-        });
-    }
-
-    /**
-     * Makes a GET request to the specified URL and returns the response as a Java object.
-     * Returns null if there was an error.
-     * @param urlStr The URL to make the request to.
-     * @param clazz The class of the object to return.
-     * @param futureReply The response as a Java object of T, or null if there was an error.
-     */
-    public static <T> void getRequestAsync(String urlStr, Class<T> clazz, FutureReply<T> futureReply) {
-        getRequestAsync(urlStr, clazz, null, futureReply, null);
-    }
-    public static <T> void getRequestAsync(String urlStr, Class<T> clazz, FutureReply<T> futureReply, HTTPProgressCallback progressCallback) {
-        getRequestAsync(urlStr, clazz, null, futureReply, progressCallback);
-    }
-
-    /**
-     * Makes a GET request to the specified URL and returns the response as a Java object.
-     * @param urlStr The URL to make the request to.
-     * @param clazz The class of the object to return.
-     * @param defaultValue The default value to return if we get an error.
-     * @param futureReply The response as a Java object of T, or defaultValue if there was an error.
-     */
-    public static <T> void getRequestAsync(String urlStr, Class<T> clazz, T defaultValue, FutureReply<T> futureReply) {
-        getRequestAsync(urlStr, clazz, defaultValue, futureReply, (HTTPProgressCallback) null);
-    }
-    public static <T> void getRequestAsync(String urlStr, Class<T> clazz, T defaultValue, FutureReply<T> futureReply, HTTPProgressCallback progressCallback) {
-        getRequestAsync(urlStr, (node) -> {
-            if (node.get("success").asBoolean()) {
-                try {
-                    futureReply.reply(DEFAULT_JSON_CODEC.treeToValue(node.get("data"), clazz));
-                }
-                catch (Exception e) {
-                    e.printStackTrace();
-                    futureReply.reply(defaultValue);
-                }
-            }
-            else {
-                futureReply.reply(defaultValue);
-            }
-        }, progressCallback);
-    }
-
-    /**
-     * Makes a GET request to the specified URL and returns the response as a Java object.
-     * Returns null if there was an error.
-     * @param urlStr The URL to make the request to.
-     * @param clazz The class of the object to return.
-     * @return The response as a Java object of T, or null if there was an error.
-     */
-    public static <T> T getRequest(String urlStr, Class<T> clazz) {
-        return getRequest(urlStr, clazz, (HTTPProgressCallback) null);
-    }
-    public static <T> T getRequest(String urlStr, Class<T> clazz, HTTPProgressCallback progressCallback) {
-        return getRequest(urlStr, clazz, null, progressCallback);
-    }
-
-    /**
-     * Makes a GET request to the specified URL and returns the response as a Java object.
-     * @param urlStr The URL to make the request to.
-     * @param clazz The class of the object to return.
-     * @param defaultValue The default value to return if we get an error.
-     * @return The response as a Java object of T, or defaultValue if there was an error.
-     */
-    public static <T> T getRequest(String urlStr, Class<T> clazz, T defaultValue) {
-        return getRequest(urlStr, clazz, defaultValue, null);
-    }
-    public static <T> T getRequest(String urlStr, Class<T> clazz, T defaultValue, HTTPProgressCallback progressCallback) {
-        ObjectNode node = getRequest(urlStr, progressCallback);
-        if (node.get("success").asBoolean()) {
-            try {
-                return DEFAULT_JSON_CODEC.treeToValue(node.get("data"), clazz);
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-                return defaultValue;
-            }
-        }
-        else {
-            return defaultValue;
-        }
-    }
-
-    /**
-     * Makes a POST request to the specified URL and returns the response as a JSON object.
-     * @param urlStr The URL to make the request to.
-     * @param data The data to send to the server.
-     * @return The response as a JSON object.
-     * {
-     *     "success": true, //false if there was any error
-     *     "httpStatusCode": 200, //The HTTP status code we successfully made the request to the server
-     *     "error": "...", //Only present if success is false. Returns the error message from the catch statements
-     *     "data": {...} //The data returned by the server if everything went well. Else its null.
-     * }
-     */
-    public static ObjectNode sendPostRequest(String urlStr, ObjectNode data) {
-
-        ObjectMapper mapper = new ObjectMapper();
-        ObjectNode rootNode = mapper.createObjectNode();
-
-        try {
-
-            final String body = data.toString();
-
-            // Fox for some servers interpreting the request as a GET request if the URL doesn't end with a slash.
-            // This took me an hour to figure out. I hate this.
-            if(!urlStr.endsWith("/") && !urlStr.endsWith("?")) {
-                urlStr += "/";
-            }
-
-            URL url = new URL(BASE_URL + urlStr);
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setDoOutput(true);
-            con.setRequestMethod("POST");
-            con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-            con.setRequestProperty( "Content-Length", String.valueOf(body.length()));
-            con.setRequestProperty("Accept", "application/json");
-
-
-            OutputStream os = con.getOutputStream();
-            OutputStreamWriter osw = new OutputStreamWriter(os, StandardCharsets.UTF_8);
-            osw.write(body);
-            osw.flush();
-            osw.close();
-            os.flush();
-            os.close();
-            con.connect();
-
-            BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8));
-
-            StringBuilder response = new StringBuilder();
-            String responseLine = null;
-            while ((responseLine = br.readLine()) != null) {
-                response.append(responseLine.trim());
-            }
-
-            final int httpStatusCode = con.getResponseCode();
-
-            if(response.toString().isEmpty() || httpStatusCode == 204) {
-                rootNode.put("success", true);
-                rootNode.put("httpStatusCode", httpStatusCode);
-                return rootNode;
-            }
-
-            try {
-                JsonNode jsonNode = mapper.readTree(response.toString());
-                rootNode.put("success", true);
-                rootNode.put("httpStatusCode", httpStatusCode);
-                rootNode.set("data", jsonNode);
-            }
-            catch (Exception e) {
-                rootNode.put("success", false);
-                rootNode.put("httpStatusCode", httpStatusCode);
-                rootNode.put("error", e.getMessage());
-            }
-        }
-        catch (IOException e) {
-            rootNode.put("success", false);
-            rootNode.put("error", e.getMessage());
-        }
-
-        return rootNode;
-    }
-
-    /**
-     * Makes a POST request to the specified URL and returns the response as a JSON object.
-     * @param urlStr The URL to make the request to.
-     * @param data The data to send to the server.
-     * @param futureReply  The response as a JSON object.
-     * {
-     *     "success": true, //false if there was any error
-     *     "httpStatusCode": 200, //The HTTP status code we successfully made the request to the server
-     *     "error": "...", //Only present if success is false. Returns the error message from the catch statements
-     *     "data": {...} //The data returned by the server if everything went well. Else its null.
-     * }
-     */
-    public static void sendPostRequestAsync(String urlStr, ObjectNode data, FutureReply<ObjectNode> futureReply) {
-        THREAD_POOL.submit(() -> {
-            ObjectNode node = sendPostRequest(urlStr, data);
-            futureReply.reply(node);
-        });
-    }
-
 
 }
