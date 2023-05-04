@@ -148,6 +148,10 @@ public class WebbWebUtilities {
 
             int totalBytes = con.getContentLength();
 
+            if(options.isDebug()) {
+                System.out.println("  Content Length: " + totalBytes);
+            }
+
             BufferedReader inputReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
 
             //read 1024 bytes at a time

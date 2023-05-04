@@ -32,7 +32,6 @@ public class AuthenticationManager {
 
         HTTPRequestOptions<UserDTO> options = new HTTPRequestOptions<>();
         options.setOverrideAuth(username);
-        options.setDebug(true);
 
         currentUser = WebbWebUtilities.makeRequest("users/" + username, UserDTO.class, options);
 
