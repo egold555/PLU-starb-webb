@@ -13,6 +13,9 @@ public class HTTPRequestOptions<T> {
     private HTTPProgressCallback progressCallback = null;
     private T defaultValue = null;
     private boolean authenticate = true;
+    private String overrideAuth = null;
+
+    private boolean debug = false;
 
     /**
      * Returns the progress callback. Default is NULL
@@ -93,5 +96,38 @@ public class HTTPRequestOptions<T> {
      */
     public void setAuthenticatedRequest(boolean authenticate) {
         this.authenticate = authenticate;
+    }
+
+    /**
+     * Should we override the authentication for this request?
+     * @return the value to override the authentication with.
+     */
+    public String getOverrideAuth() {
+        return overrideAuth;
+    }
+
+    /**
+     * Sets the value to override the authentication with.
+     * If no value is set, the default authentication will be used.
+     * @param overrideAuth the value to override the authentication with.
+     */
+    public void setOverrideAuth(String overrideAuth) {
+        this.overrideAuth = overrideAuth;
+    }
+
+    /**
+     * Sets whether or not to print debug information.
+     * @param debug true if debug information should be printed.
+     */
+    public void setDebug(boolean debug) {
+        this.debug = debug;
+    }
+
+    /**
+     * Returns whether or not to print debug information.
+     * @return true if debug information should be printed.
+     */
+    public boolean isDebug() {
+        return debug;
     }
 }

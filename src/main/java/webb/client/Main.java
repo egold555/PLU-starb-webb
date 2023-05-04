@@ -25,9 +25,11 @@ public class Main {
             throw new Exception("Please specify a username using VM options with keyword `username`");
         }
 
-        if(AuthenticationManager.getInstance().authenticate(inputtedUserName)) {
+        if(!AuthenticationManager.getInstance().authenticate(inputtedUserName)) {
             throw new Exception("Failed to authenticate: '%s'. ".formatted(inputtedUserName));
         }
+
+        System.out.println("Successfully authenticated: '%s'".formatted(AuthenticationManager.getInstance().getCurrentUser().getUsername()));
 
         EventQueue.invokeLater( () -> WebbWindow.getInstance().setVisible(true));
     }

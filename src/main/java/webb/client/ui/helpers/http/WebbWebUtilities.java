@@ -22,7 +22,8 @@ public class WebbWebUtilities {
     private WebbWebUtilities() {}
 
     //TODO: Change me
-    private static final String BASE_URL = "https://cs390.golde.org/api-mockup/v1/";
+    //private static final String BASE_URL = "https://cs390.golde.org/api-mockup/v1/";
+    private static final String BASE_URL = "http://10.0.0.23:1337/";
 
     //Define the codec for the ObjectMapper to parse.
     //Make sure if there is no empty constructor for the class
@@ -97,6 +98,12 @@ public class WebbWebUtilities {
 
         try {
             URL url = new URL(BASE_URL + urlStr);
+
+            if(options.isDebug()) {
+                System.out.println("Making " + options.getRequestType() + " to " + url.toString());
+                System.out.println("  ----- Request -----");
+            }
+
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod(options.getRequestType().name());
 
@@ -107,6 +114,10 @@ public class WebbWebUtilities {
                 // This took me an hour to figure out. I hate this.
                 if(!urlStr.endsWith("/") && !urlStr.endsWith("?")) {
                     urlStr += "/";
+                }
+
+                if(options.isDebug()) {
+                    System.out.println("  Request Body: " + body);
                 }
 
                 con.setDoOutput(true);
@@ -125,7 +136,13 @@ public class WebbWebUtilities {
             }
 
             if(options.isAuthenticatedRequest()) {
-                con.setRequestProperty("Authorization", AuthenticationManager.getInstance().getCurrentUser().getUsername());
+
+                String auth = options.getOverrideAuth() != null ? options.getOverrideAuth() : AuthenticationManager.getInstance().getCurrentUser().getUsername();
+                con.setRequestProperty("Authorization", auth);
+
+                if(options.isDebug()) {
+                    System.out.println("  Auth: " + auth);
+                }
             }
 
             int totalBytes = con.getContentLength();
@@ -149,7 +166,18 @@ public class WebbWebUtilities {
 
             inputReader.close();
 
+            if(options.isDebug()) {
+                System.out.println();
+                System.out.println(" ----- Response -----");
+            }
+
             final int httpStatusCode = con.getResponseCode();
+
+            if(options.isDebug()) {
+                System.out.println("  Bytes Read: " + bytesReadTotal);
+                System.out.println("  Response Code: " + httpStatusCode);
+                System.out.println("  Response Body: " + content.toString());
+            }
 
             // sometimes we don't math correctly even though we read the entire file
             if (options.getProgressCallback() != null) {
@@ -160,15 +188,28 @@ public class WebbWebUtilities {
                 JsonNode jsonNode = mapper.readTree(content.toString());
                 rootNode.put("success", true);
                 rootNode.put("httpStatusCode", httpStatusCode);
-                rootNode.put("dataSizeBytes", bytesRead);
+                rootNode.put("dataSizeBytes", bytesReadTotal);
                 rootNode.set("data", jsonNode);
+
+                if(options.isDebug()) {
+                    System.out.println("  Successfully Parsed JSON: " + jsonNode.toString());
+                }
             }
             catch (Exception e) {
                 //TODO: Handle this better with a popup or something.
                 rootNode.put("success", false);
                 rootNode.put("httpStatusCode", httpStatusCode);
-                rootNode.put("dataSizeBytes", bytesRead);
+                rootNode.put("dataSizeBytes", bytesReadTotal);
                 rootNode.put("error", e.getMessage());
+
+                if(options.isDebug()) {
+                    System.out.println("  Failed to parse JSON: " + e.getMessage());
+                }
+            }
+
+            if(options.isDebug()) {
+                System.out.println("---------- END REQUEST ----------");
+                System.out.println();
             }
         }
         catch (IOException e) {
