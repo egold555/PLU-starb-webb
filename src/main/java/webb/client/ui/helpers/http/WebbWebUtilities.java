@@ -15,6 +15,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import webb.client.authentication.AuthenticationManager;
+import webb.client.ui.WebbWindow;
 
 public class WebbWebUtilities {
 
@@ -196,7 +197,7 @@ public class WebbWebUtilities {
                 }
             }
             catch (Exception e) {
-                //TODO: Handle this better with a popup or something.
+                handleError(e);
                 rootNode.put("success", false);
                 rootNode.put("httpStatusCode", httpStatusCode);
                 rootNode.put("dataSizeBytes", bytesReadTotal);
@@ -213,13 +214,16 @@ public class WebbWebUtilities {
             }
         }
         catch (IOException e) {
-            //TODO: Handle this better with a popup or something.
-            e.printStackTrace();
+            handleError(e);
             rootNode.put("success", false);
             rootNode.put("error", e.getMessage());
         }
 
         return rootNode;
+    }
+
+    private static void handleError(Exception e) {
+        WebbWindow.getInstance().handleError(e);
     }
 
 }

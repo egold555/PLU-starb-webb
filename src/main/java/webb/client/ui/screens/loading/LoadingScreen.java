@@ -68,7 +68,7 @@ public class LoadingScreen extends Screen {
             });
 
             WebbWebUtilities.makeRequestAsync(
-                    "/puzzles/levels",
+                    "puzzles/levels",
                     PuzzleLevelDTO[].class,
                     requestOptions_puzzlesLevels,
                     selectPuzzleScreen::setLevels
@@ -83,7 +83,7 @@ public class LoadingScreen extends Screen {
             });
 
             WebbWebUtilities.makeRequestAsync(
-                    "/puzzles/levels",
+                    "puzzles/levels",
                     PuzzleLevelDTO[].class,
                     requestOptions_puzzleLevel,
                     selectPuzzleScreen::setLevels
@@ -98,7 +98,7 @@ public class LoadingScreen extends Screen {
             });
 
             WebbWebUtilities.makeRequestAsync(
-                    "/puzzles/users/" + AuthenticationManager.getInstance().getCurrentUser().getUsername(),
+                    "puzzles/users/" + AuthenticationManager.getInstance().getCurrentUser().getUsername(),
                     UserPuzzleDTO[].class,
                     requestOptions_userPuzzle,
                     (puzzleLevels) -> {

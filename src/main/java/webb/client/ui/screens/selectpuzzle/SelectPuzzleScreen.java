@@ -215,7 +215,7 @@ public class SelectPuzzleScreen extends Screen {
                 requestOptions_leaderboardUsers.setDefaultValue(DEFAULT_LEADERBOARD_SCORE);
 
                 WebbWebUtilities.makeRequestAsync(
-                        "/leaderboards/users/",
+                        "leaderboards/users",
                         LeaderboardDTO.class,
                         requestOptions_leaderboardUsers,
                         reply -> {leaderboardScores = reply;}
@@ -225,7 +225,7 @@ public class SelectPuzzleScreen extends Screen {
                 requestOptions_user.setDefaultValue(new UserDTO(null, DEFAULT_STATISTICS_DATA));
 
                 WebbWebUtilities.makeRequestAsync(
-                        "/users/" + AuthenticationManager.getInstance().getCurrentUser().getUsername(),
+                        "users/" + AuthenticationManager.getInstance().getCurrentUser().getUsername(),
                         UserDTO.class,
                         requestOptions_user,
                         reply -> { statisticsData = reply.getStats();}
