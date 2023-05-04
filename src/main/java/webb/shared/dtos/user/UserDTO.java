@@ -1,5 +1,6 @@
 package webb.shared.dtos.user;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -15,6 +16,7 @@ public class UserDTO extends CreatedUserDTO{
      * @param username the username of the user
      * @param stats the statistics of the user
      */
+    @JsonCreator
     public UserDTO(@JsonProperty("username") String username, @JsonProperty("stats") UserStatsDTO stats) {
         super(username);
         this.stats = stats;
