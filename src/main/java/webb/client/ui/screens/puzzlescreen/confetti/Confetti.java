@@ -1,4 +1,4 @@
-package webb.client.ui.screens.test.confetti;
+package webb.client.ui.screens.puzzlescreen.confetti;
 
 import java.awt.Color;
 import java.awt.Graphics2D;

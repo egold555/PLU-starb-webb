@@ -10,6 +10,9 @@ import javax.swing.SwingUtilities;
 import webb.client.logic.puzzle.CellType;
 import webb.client.logic.puzzle.PuzzleLogic;
 import webb.client.ui.constants.WebbColors;
+import webb.client.ui.helpers.http.HTTPRequestOptions;
+import webb.client.ui.helpers.http.RequestType;
+import webb.client.ui.helpers.http.WebbWebUtilities;
 import webb.shared.dtos.puzzle.created.CreatePuzzleLevelDTO;
 
 public class PuzzleComponent extends JComponent {
@@ -18,7 +21,7 @@ public class PuzzleComponent extends JComponent {
 
     private final PuzzleLogic logic = new PuzzleLogic();
 
-    public PuzzleComponent() {
+    public PuzzleComponent(PuzzleScreen screen) {
         //this.setBorder( new LineBorder( Color.BLUE, 2, true ));
         this.setOpaque(false);
 
@@ -45,11 +48,23 @@ public class PuzzleComponent extends JComponent {
                             repaintLater();
 
                             printBoard();
+
+                            if(logic.isPuzzleCompleted()) {
+                                screen.onPuzzleComplete();
+                            }
+
+                            sendGameUpdatesToServer();
                         }
                     }
                 }
             }
         });
+    }
+
+    private void sendGameUpdatesToServer() {
+        HTTPRequestOptions<Void> options = new HTTPRequestOptions<>();
+        options.setRequestType(RequestType.PUT);
+        WebbWebUtilities.makeRequestAsync();
     }
 
     /**

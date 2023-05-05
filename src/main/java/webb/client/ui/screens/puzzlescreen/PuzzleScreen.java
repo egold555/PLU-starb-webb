@@ -7,9 +7,9 @@ import webb.client.ui.constants.WebbAudio;
 import webb.client.ui.screens.Screen;
 import webb.client.ui.screens.ScreenType;
 import webb.client.ui.screens.puzzlescreen.StopWatch.StopWatchCallback;
+import webb.client.ui.screens.puzzlescreen.confetti.BackgroundConfetti;
 import webb.client.ui.testing.DummyData.DummyPlayPuzzleData;
 import webb.shared.dtos.puzzle.PuzzleLevelDTO;
-import webb.shared.dtos.puzzle.updated.UpdatePuzzleLevelDTO;
 
 /**
  * The screen that displays the puzzle, that the user interacts with.
@@ -23,8 +23,17 @@ public class PuzzleScreen extends Screen {
 
     private PuzzleLevelDTO puzzleToResetTo;
 
+    private BackgroundConfetti confettiMachine;
+
     @Override
     protected void populateComponents(Container contentPane, SpringLayout layout) {
+
+        confettiMachine = new BackgroundConfetti();
+        layout.putConstraint(SpringLayout.NORTH, confettiMachine, 0, SpringLayout.NORTH, contentPane);
+        layout.putConstraint(SpringLayout.SOUTH, confettiMachine, 0, SpringLayout.SOUTH, contentPane);
+        layout.putConstraint(SpringLayout.EAST, confettiMachine, 0, SpringLayout.EAST, contentPane);
+        layout.putConstraint(SpringLayout.WEST, confettiMachine, 0, SpringLayout.WEST, contentPane);
+        this.add(confettiMachine);
 
         //------------------ SIDEBAR ------------------
         sidePanel = new PuzzleSideScreen(this);
@@ -34,7 +43,7 @@ public class PuzzleScreen extends Screen {
         this.add(sidePanel);
 
         //------------------ PUZZLE COMPONENT ------------------
-        puzzleComponent = new PuzzleComponent();
+        puzzleComponent = new PuzzleComponent(this);
         layout.putConstraint(SpringLayout.NORTH, puzzleComponent, 10, SpringLayout.NORTH, contentPane);
         layout.putConstraint(SpringLayout.WEST, puzzleComponent, 10, SpringLayout.WEST, contentPane);
         layout.putConstraint(SpringLayout.SOUTH, puzzleComponent, -10, SpringLayout.SOUTH, contentPane);
@@ -102,6 +111,12 @@ public class PuzzleScreen extends Screen {
             return;
         }
         setPuzzle(puzzleToResetTo);
+    }
+
+    protected void onPuzzleComplete() {
+        stopWatch.stop();
+        confettiMachine.addSomeConfetti(150);
+
     }
 
     protected PuzzleComponent getPuzzleComponent() {

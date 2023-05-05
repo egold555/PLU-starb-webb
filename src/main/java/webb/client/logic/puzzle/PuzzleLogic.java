@@ -107,6 +107,34 @@ public class PuzzleLogic {
     }
 
     /**
+     * Returns true if we have completed the puzzle
+     * @return True if we have completed the puzzle
+     */
+    public boolean isPuzzleCompleted() {
+        for(int row = 0; row < gridSize; row++ ) {
+            for(int col = 0; col < gridSize; col++ ) {
+                CellComponent cell = getCell(col, row);
+
+                //If we have a star that isn't marked as a solution star, then we haven't completed the puzzle
+                if(cell.getType() == CellType.STAR && !cell.isSolutionStar()) {
+                    return false;
+                }
+                //If we have a solution star that isn't marked as a star, then we haven't completed the puzzle
+                else if(cell.getType() != CellType.STAR && cell.isSolutionStar()) {
+                    return false;
+                }
+
+                //If any stars are invalid, we haven't completed the puzzle
+                else if(cell.getType() == CellType.STAR_RED || cell.getType() == CellType.INVALID) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * Mirrors changeType from CellDTO while also clearing adjacently marked cells if c is cleared.
      * @param c
      * @param rightClick
