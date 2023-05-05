@@ -21,6 +21,8 @@ public class PuzzleScreen extends Screen {
     private PuzzleSideScreen sidePanel;
     private StopWatch stopWatch;
 
+    private PuzzleLevelDTO puzzleToResetTo;
+
     @Override
     protected void populateComponents(Container contentPane, SpringLayout layout) {
 
@@ -68,6 +70,7 @@ public class PuzzleScreen extends Screen {
      * TODO: Finish this method once we have real data!
      */
     public void setPuzzle(PuzzleLevelDTO puzzle) {
+        this.puzzleToResetTo = puzzle;
         sidePanel.setStarsRemaining(puzzle.getTotalStars(), puzzle.getTotalStars());
         sidePanel.setPuzzleNumber(puzzle.getId() + 1, puzzle.getNumStars());
         puzzleComponent.setPuzzle(puzzle);
@@ -88,6 +91,17 @@ public class PuzzleScreen extends Screen {
         sidePanel.setPlayersCompleted(puzzle.getSolvedByNumPlayers());
 
         stopWatch.start();
+    }
+
+    /**
+     * Resets the puzzle board by setting it to the puzzle that was last set.
+     */
+    protected void reset() {
+        if(this.puzzleToResetTo == null) {
+            System.err.println("Puzzle to reset to is null! Returning...");
+            return;
+        }
+        setPuzzle(puzzleToResetTo);
     }
 
     protected PuzzleComponent getPuzzleComponent() {

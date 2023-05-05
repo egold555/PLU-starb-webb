@@ -100,6 +100,7 @@ public class PuzzleSideScreen extends WebbRoundedJPanel {
 
         WebbButton resetButton = new WebbButton(WebbImages.PLAY_PUZZLE_RESET_BUTTON, 42, 42, (self, rightClicked) -> {
             System.out.println("Reset button clicked");
+            puzzleScreen.reset();
         });
         innerLayout.putConstraint(SpringLayout.NORTH, resetButton, 20, SpringLayout.SOUTH, timeLabel);
         innerLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, resetButton, 50, SpringLayout.HORIZONTAL_CENTER, innerPanel);
