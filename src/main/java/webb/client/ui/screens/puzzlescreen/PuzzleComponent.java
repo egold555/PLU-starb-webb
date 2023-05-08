@@ -62,7 +62,7 @@ public class PuzzleComponent extends JComponent {
                                 screen.onPuzzleComplete();
                             }
 
-                            sendGameUpdatesToServer();
+                            screen.sendGameUpdatesToServer();
                         }
                     }
                 }
@@ -102,19 +102,7 @@ public class PuzzleComponent extends JComponent {
         return userPuzzleDTO;
     }
 
-    private void sendGameUpdatesToServer() {
-        HTTPRequestOptions<ObjectNode> options = new HTTPRequestOptions<>();
-        options.setRequestType(RequestType.PUT);
-        options.setShouldDisplayError(false); //if this request fails, oh well.
 
-        ObjectMapper mapper = new ObjectMapper();
-        ObjectNode node = mapper.valueToTree(getAsDTO());
-
-        options.setPostData(node);
-
-        final String endpoint = "puzzles/users/" + AuthenticationManager.getInstance().getCurrentUser().getUsername() + "/" + this.puzzleLevel.getId();
-//        WebbWebUtilities.makeRequestAsync(endpoint, options);
-    }
 
     /**
      * Sets the size of the grid, and resets the cells
@@ -139,23 +127,6 @@ public class PuzzleComponent extends JComponent {
         //repaint
         this.repaint();
 
-        tellServerWeLoadedThePuzzle();
-    }
-
-    private void tellServerWeLoadedThePuzzle() {
-        System.out.println("Telling server we loaded the puzzle");
-        HTTPRequestOptions<ObjectNode> options = new HTTPRequestOptions<>();
-        options.setRequestType(RequestType.PUT);
-
-        ObjectMapper mapper = new ObjectMapper();
-        ObjectNode node = mapper.createObjectNode();
-        node.put("levelId", this.puzzleLevel.getId());
-        node.put("userName", AuthenticationManager.getInstance().getCurrentUser().getUsername());
-
-        options.setPostData(node);
-        options.setShouldDisplayError(false);
-
-        WebbWebUtilities.makeRequestAsync("puzzles/users", options);
     }
 
     /**
@@ -286,5 +257,9 @@ public class PuzzleComponent extends JComponent {
         SwingUtilities.invokeLater(() -> {
             repaint();
         });
+    }
+
+    public PuzzleLevelDTO getPuzzleLevel() {
+        return puzzleLevel;
     }
 }

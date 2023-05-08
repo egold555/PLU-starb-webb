@@ -1,9 +1,16 @@
 package webb.client.ui.screens.puzzlescreen;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.awt.Container;
+import java.io.DataOutput;
 import javax.swing.SpringLayout;
+import webb.client.authentication.AuthenticationManager;
 import webb.client.ui.WebbWindow;
 import webb.client.ui.constants.WebbAudio;
+import webb.client.ui.helpers.http.HTTPRequestOptions;
+import webb.client.ui.helpers.http.RequestType;
+import webb.client.ui.helpers.http.WebbWebUtilities;
 import webb.client.ui.popup.congratulations.PopupCongratulations;
 import webb.client.ui.screens.Screen;
 import webb.client.ui.screens.ScreenType;
@@ -11,6 +18,7 @@ import webb.client.ui.screens.puzzlescreen.StopWatch.StopWatchCallback;
 import webb.client.ui.screens.puzzlescreen.confetti.BackgroundConfetti;
 import webb.client.ui.testing.DummyData.DummyPlayPuzzleData;
 import webb.shared.dtos.puzzle.PuzzleLevelDTO;
+import webb.shared.dtos.puzzle.user.created.CreateUserPuzzleDTO;
 
 /**
  * The screen that displays the puzzle, that the user interacts with.
@@ -57,24 +65,6 @@ public class PuzzleScreen extends Screen {
     }
 
     /**
-     * Populates the puzzle screen with dummy data for testing.
-     * TODO: Remove this method once we have real data!
-     */
-    private void populateWithDummyData() {
-        sidePanel.setStarsRemaining(DummyPlayPuzzleData.SIDEBAR_STARTS_REMAINING, DummyPlayPuzzleData.SIDEBAR_STARTS_TOTAL);
-        sidePanel.setPuzzleNumber(DummyPlayPuzzleData.SIDEBAR_PUZZLE_NUMBER, DummyPlayPuzzleData.SIDEBAR_PUZZLE_STAR);
-        sidePanel.setTimeRemaining(DummyPlayPuzzleData.SIDEBAR_TIME_REMAINING);
-        sidePanel.setPlayersCompleted(DummyPlayPuzzleData.SIDEBAR_PLAYERS_COMPLETED);
-
-//        puzzleComponent.setGridSize(DummyPlayPuzzleData.PUZZLE_GRID_SIZE);
-//
-//
-//        for(Entry<Point, CellType> entry : DummyPlayPuzzleData.PUZZLE_GRID_STARS.entrySet()) {
-//            puzzleComponent.getCell(entry.getKey().x, entry.getKey().y).setType(entry.getValue());
-//        }
-    }
-
-    /**
      * Sets the puzzle to display on the screen.
      * @param puzzle The puzzle to display.
      * TODO: Finish this method once we have real data!
@@ -101,6 +91,8 @@ public class PuzzleScreen extends Screen {
         sidePanel.setPlayersCompleted(puzzle.getSolvedByNumPlayers());
 
         stopWatch.start();
+
+        tellServerWeLoadedThePuzzle();
     }
 
     /**
@@ -146,5 +138,49 @@ public class PuzzleScreen extends Screen {
     @Override
     public void onShow() {
         WebbWindow.getInstance().getBGMusicPlayer().playBG(WebbAudio.BG_IN_GAME);
+    }
+
+    private boolean weCanSendTheServerUpdates = false;
+    private void tellServerWeLoadedThePuzzle() {
+        weCanSendTheServerUpdates = false;
+        System.out.println("Telling server we loaded the puzzle");
+        HTTPRequestOptions<ObjectNode> options = new HTTPRequestOptions<>();
+        options.setRequestType(RequestType.POST);
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        CreateUserPuzzleDTO dto = new CreateUserPuzzleDTO(
+                AuthenticationManager.getInstance().getCurrentUser().getUsername(),
+                this.puzzleComponent.getPuzzleLevel().getId()
+        );
+
+        ObjectNode node = mapper.valueToTree(dto);
+
+        options.setPostData(node);
+        options.setShouldDisplayError(false);
+
+        WebbWebUtilities.makeRequestAsync("puzzles/users", options, (response) -> {
+            System.out.println("Server responded to puzzle load request!");
+            weCanSendTheServerUpdates = true;
+        });
+    }
+    protected void sendGameUpdatesToServer() {
+        if(!weCanSendTheServerUpdates) {
+            System.out.println("We can't send the server updates yet!");
+            return;
+        }
+        HTTPRequestOptions<ObjectNode> options = new HTTPRequestOptions<>();
+        options.setRequestType(RequestType.PUT);
+        options.setShouldDisplayError(false); //if this request fails, oh well.
+
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode node = mapper.valueToTree(puzzleComponent.getAsDTO());
+
+        options.setPostData(node);
+
+        final String endpoint = "puzzles/users/" + AuthenticationManager.getInstance().getCurrentUser().getUsername() + "/" + this.puzzleComponent.getPuzzleLevel().getId();
+        WebbWebUtilities.makeRequestAsync(endpoint, options, (response) -> {
+            System.out.println("Server responded to puzzle update request!");
+        });
     }
 }
