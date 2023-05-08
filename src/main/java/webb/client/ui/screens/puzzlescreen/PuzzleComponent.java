@@ -1,25 +1,34 @@
 package webb.client.ui.screens.puzzlescreen;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.awt.BasicStroke;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Line2D;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
+import webb.client.authentication.AuthenticationManager;
 import webb.client.logic.puzzle.CellType;
 import webb.client.logic.puzzle.PuzzleLogic;
 import webb.client.ui.constants.WebbColors;
 import webb.client.ui.helpers.http.HTTPRequestOptions;
 import webb.client.ui.helpers.http.RequestType;
 import webb.client.ui.helpers.http.WebbWebUtilities;
+import webb.shared.dtos.puzzle.CellDTO;
+import webb.shared.dtos.puzzle.PuzzleLevelDTO;
 import webb.shared.dtos.puzzle.created.CreatePuzzleLevelDTO;
+import webb.shared.dtos.puzzle.user.UserPuzzleDTO;
 
 public class PuzzleComponent extends JComponent {
 
     private static final int MARGIN = 15;
 
     private final PuzzleLogic logic = new PuzzleLogic();
+    private PuzzleLevelDTO puzzleLevel;
 
     public PuzzleComponent(PuzzleScreen screen) {
         //this.setBorder( new LineBorder( Color.BLUE, 2, true ));
@@ -61,10 +70,50 @@ public class PuzzleComponent extends JComponent {
         });
     }
 
+    protected UserPuzzleDTO getAsDTO() {
+        UserPuzzleDTO userPuzzleDTO = new UserPuzzleDTO();
+
+        userPuzzleDTO.setUserName(AuthenticationManager.getInstance().getCurrentUser().getUsername());
+        userPuzzleDTO.setLevelId(this.puzzleLevel.getId());
+
+        //Get list of placed cells
+        List<CellDTO> placedStars = new ArrayList<>();
+        List<CellDTO> placedMarkers = new ArrayList<>();
+
+        for(int row = 0; row < logic.getGridSize(); row++ ) {
+            for(int col = 0; col < logic.getGridSize(); col++ ) {
+                CellComponent cell = getCell(col, row);
+                if(cell.getType() == CellType.STAR) {
+                    //must be row col
+                    placedStars.add(cell.toDTO());
+                }
+                else if(cell.getType() == CellType.PLAYER_MARKER) {
+                    //must be row col
+                    placedMarkers.add(cell.toDTO());
+                }
+            }
+        }
+
+        userPuzzleDTO.setPlacedStars(placedStars);
+        userPuzzleDTO.setPlacedMarkers(placedMarkers);
+        //userPuzzleDTO.setStarsRemaining(logic.getStarsRemaining());
+
+
+        return userPuzzleDTO;
+    }
+
     private void sendGameUpdatesToServer() {
-        HTTPRequestOptions<Void> options = new HTTPRequestOptions<>();
+        HTTPRequestOptions<ObjectNode> options = new HTTPRequestOptions<>();
         options.setRequestType(RequestType.PUT);
-        WebbWebUtilities.makeRequestAsync();
+        options.setShouldDisplayError(false); //if this request fails, oh well.
+
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode node = mapper.valueToTree(getAsDTO());
+
+        options.setPostData(node);
+
+        final String endpoint = "puzzles/users/" + AuthenticationManager.getInstance().getCurrentUser().getUsername() + "/" + this.puzzleLevel.getId();
+//        WebbWebUtilities.makeRequestAsync(endpoint, options);
     }
 
     /**
@@ -83,11 +132,30 @@ public class PuzzleComponent extends JComponent {
      * Set the puzzle to be displayed
      * @param puzzle Puzzle to be displayed
      */
-    public void setPuzzle(CreatePuzzleLevelDTO puzzle) {
+    public void setPuzzle(PuzzleLevelDTO puzzle) {
+        this.puzzleLevel = puzzle;
 
         logic.setPuzzle(puzzle);
         //repaint
         this.repaint();
+
+        tellServerWeLoadedThePuzzle();
+    }
+
+    private void tellServerWeLoadedThePuzzle() {
+        System.out.println("Telling server we loaded the puzzle");
+        HTTPRequestOptions<ObjectNode> options = new HTTPRequestOptions<>();
+        options.setRequestType(RequestType.PUT);
+
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode node = mapper.createObjectNode();
+        node.put("levelId", this.puzzleLevel.getId());
+        node.put("userName", AuthenticationManager.getInstance().getCurrentUser().getUsername());
+
+        options.setPostData(node);
+        options.setShouldDisplayError(false);
+
+        WebbWebUtilities.makeRequestAsync("puzzles/users", options);
     }
 
     /**

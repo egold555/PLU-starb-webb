@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
+import webb.client.ui.WebbWindow;
 import webb.client.ui.components.WebbButton;
 import webb.client.ui.components.WebbProgressBar;
 import webb.client.ui.components.WebbRoundedJPanel;
@@ -13,6 +14,9 @@ import webb.client.ui.constants.WebbFonts;
 import webb.client.ui.constants.WebbImages;
 import webb.client.ui.helpers.WebbTextUtilities;
 import webb.client.ui.popup.WebbPopup;
+import webb.client.ui.screens.ScreenType;
+import webb.client.ui.screens.puzzlescreen.PuzzleScreen;
+import webb.client.ui.screens.puzzlescreen.confetti.BackgroundConfetti;
 
 /**
  * A popup that congratulates the user for completing a puzzle.
@@ -26,6 +30,9 @@ public class PopupCongratulations extends WebbPopup {
     private final String CURRENT_TITLE;
     private final String NEXT_TITLE;
 
+    private BackgroundConfetti confettiMachine;
+    private final PuzzleScreen puzzleScreen;
+
     /**
      * Creates a new PopupCongratulations.
      *
@@ -36,8 +43,9 @@ public class PopupCongratulations extends WebbPopup {
      * @param currentTitle The title of the user.
      * @param nextTitle The title of the next rank
      */
-    public PopupCongratulations(long time, int progressMin, int progressMax, int progressCurrent, String currentTitle, String nextTitle) {
+    public PopupCongratulations(PuzzleScreen puzzleScreen, long time, int progressMin, int progressMax, int progressCurrent, String currentTitle, String nextTitle) {
         super("Congratulations!");
+        this.puzzleScreen = puzzleScreen;
         this.setExitButton(false);
         this.TIME = time;
         this.PROGRESS_MIN = progressMin;
@@ -49,6 +57,16 @@ public class PopupCongratulations extends WebbPopup {
 
     @Override
     protected void populateComponents(JPanel contentPane, SpringLayout layout) {
+
+        //------------ Background ------------
+        confettiMachine = new BackgroundConfetti();
+        layout.putConstraint(SpringLayout.NORTH, confettiMachine, 0, SpringLayout.NORTH, contentPane);
+        layout.putConstraint(SpringLayout.SOUTH, confettiMachine, 0, SpringLayout.SOUTH, contentPane);
+        layout.putConstraint(SpringLayout.EAST, confettiMachine, 0, SpringLayout.EAST, contentPane);
+        layout.putConstraint(SpringLayout.WEST, confettiMachine, 0, SpringLayout.WEST, contentPane);
+        this.add(confettiMachine);
+
+        confettiMachine.enableConstantConfetti(true);
 
         //------------ Stars ------------
         WebbSimpleImage starBigLeft = new WebbSimpleImage(WebbImages.POPUP_CONGRATULATIONS_STAR, 59, 59);
@@ -126,6 +144,8 @@ public class PopupCongratulations extends WebbPopup {
         //------------ Buttons ------------
         WebbButton restartButton = new WebbButton("Restart", (self, rightClicked) -> {
             System.out.println("Restart button clicked");
+            this.close();
+            puzzleScreen.reset();
         });
         restartButton.setPreferredSize(new Dimension(142, 43));
         layout.putConstraint(SpringLayout.SOUTH, restartButton, -20, SpringLayout.SOUTH, contentPane);
@@ -135,6 +155,7 @@ public class PopupCongratulations extends WebbPopup {
         WebbButton exitButton = new WebbButton("Exit", (self, rightClicked) -> {
             System.out.println("Exit button clicked");
             this.close();
+            WebbWindow.getInstance().switchScreen(ScreenType.SELECT_PUZZLE);
         });
         exitButton.setPreferredSize(new Dimension(142, 43));
         layout.putConstraint(SpringLayout.SOUTH, exitButton, -20, SpringLayout.SOUTH, contentPane);

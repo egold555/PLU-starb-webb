@@ -3,6 +3,7 @@ package webb.client.logic.puzzle;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import webb.shared.dtos.puzzle.CellDTO;
 
 /**
  * This class represents a single cell in the puzzle grid.
@@ -151,4 +152,8 @@ public class CellLogic {
      */
     public boolean shouldDrawIcon() {return drawIcon;}
 
+    public CellDTO toDTO() {
+        //must be row, col
+        return new CellDTO(new int[]{row, col});
+    }
 }

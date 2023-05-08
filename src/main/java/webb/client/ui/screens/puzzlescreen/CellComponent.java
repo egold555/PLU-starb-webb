@@ -7,6 +7,7 @@ import java.awt.Stroke;
 import webb.client.logic.puzzle.CellLogic;
 import webb.client.logic.puzzle.CellType;
 import webb.client.ui.constants.WebbColors;
+import webb.shared.dtos.puzzle.CellDTO;
 
 /**
  * This class represents a single cell in the puzzle grid.
@@ -120,4 +121,6 @@ public class CellComponent {
     public int getCol() {return this.logic.getCol();}
     public void setSolutionStar() {this.logic.setSolutionStar();}
     public boolean isSolutionStar() {return this.logic.isSolutionStar();}
+
+    public CellDTO toDTO() {return this.logic.toDTO();}
 }

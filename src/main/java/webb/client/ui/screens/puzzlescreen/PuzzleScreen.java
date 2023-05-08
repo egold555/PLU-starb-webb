@@ -4,6 +4,7 @@ import java.awt.Container;
 import javax.swing.SpringLayout;
 import webb.client.ui.WebbWindow;
 import webb.client.ui.constants.WebbAudio;
+import webb.client.ui.popup.congratulations.PopupCongratulations;
 import webb.client.ui.screens.Screen;
 import webb.client.ui.screens.ScreenType;
 import webb.client.ui.screens.puzzlescreen.StopWatch.StopWatchCallback;
@@ -23,17 +24,17 @@ public class PuzzleScreen extends Screen {
 
     private PuzzleLevelDTO puzzleToResetTo;
 
-    private BackgroundConfetti confettiMachine;
+    //private BackgroundConfetti confettiMachine;
 
     @Override
     protected void populateComponents(Container contentPane, SpringLayout layout) {
 
-        confettiMachine = new BackgroundConfetti();
-        layout.putConstraint(SpringLayout.NORTH, confettiMachine, 0, SpringLayout.NORTH, contentPane);
-        layout.putConstraint(SpringLayout.SOUTH, confettiMachine, 0, SpringLayout.SOUTH, contentPane);
-        layout.putConstraint(SpringLayout.EAST, confettiMachine, 0, SpringLayout.EAST, contentPane);
-        layout.putConstraint(SpringLayout.WEST, confettiMachine, 0, SpringLayout.WEST, contentPane);
-        this.add(confettiMachine);
+//        confettiMachine = new BackgroundConfetti();
+//        layout.putConstraint(SpringLayout.NORTH, confettiMachine, 0, SpringLayout.NORTH, contentPane);
+//        layout.putConstraint(SpringLayout.SOUTH, confettiMachine, 0, SpringLayout.SOUTH, contentPane);
+//        layout.putConstraint(SpringLayout.EAST, confettiMachine, 0, SpringLayout.EAST, contentPane);
+//        layout.putConstraint(SpringLayout.WEST, confettiMachine, 0, SpringLayout.WEST, contentPane);
+//        this.add(confettiMachine);
 
         //------------------ SIDEBAR ------------------
         sidePanel = new PuzzleSideScreen(this);
@@ -105,18 +106,32 @@ public class PuzzleScreen extends Screen {
     /**
      * Resets the puzzle board by setting it to the puzzle that was last set.
      */
-    protected void reset() {
+    public void reset() {
         if(this.puzzleToResetTo == null) {
             System.err.println("Puzzle to reset to is null! Returning...");
             return;
         }
         setPuzzle(puzzleToResetTo);
+        WebbWindow.getInstance().getBGMusicPlayer().playBG(WebbAudio.BG_IN_GAME);
     }
 
     protected void onPuzzleComplete() {
+        System.out.println("Puzzle complete!");
         stopWatch.stop();
-        confettiMachine.addSomeConfetti(150);
+        //confettiMachine.enableConstantConfetti(true);
+        WebbWindow.getInstance().getBGMusicPlayer().playBG(WebbAudio.BG_PUZZLE_COMPLETE);
 
+        final long time = stopWatch.getTime();
+
+        showPopup(new PopupCongratulations(
+                this,
+                time,
+                1,
+                3,
+                2,
+                "current",
+                "next"
+        ));
     }
 
     protected PuzzleComponent getPuzzleComponent() {

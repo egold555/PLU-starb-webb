@@ -9,6 +9,7 @@ import javax.swing.JComponent;
 public class BackgroundConfetti extends JComponent {
 
     private final Set<Confetti> confetti = new HashSet<>();
+    private boolean constantConfetti = false;
 
     /**
      * Add some confetti to the background
@@ -76,8 +77,15 @@ public class BackgroundConfetti extends JComponent {
         // Remove the confetti that is out of frame
         confetti.removeAll(toBeRemoved);
 
+        if(constantConfetti && confetti.size() < 50) {
+            addSomeConfetti(50);
+        }
+
     }
 
+    public void enableConstantConfetti(boolean enable) {
+        this.constantConfetti = enable;
+    }
 
 
 }

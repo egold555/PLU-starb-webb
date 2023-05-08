@@ -58,4 +58,8 @@ public class StopWatch {
         public void updateLabels(long currentTime);
     }
 
+    public long getTime() {
+        return currentTime;
+    }
+
 }

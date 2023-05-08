@@ -49,7 +49,7 @@ public abstract class Screen extends JPanel {
      * @param popup The popup to show.
      */
     public void showPopup(WebbPopup popup) {
-        popup.show(this);
+        popup.showPopup();
     }
 
     /**

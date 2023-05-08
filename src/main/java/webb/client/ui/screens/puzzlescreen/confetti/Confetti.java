@@ -45,7 +45,7 @@ public class Confetti {
         return new Confetti(
                 COLORS[(int)randomRange(0, COLORS.length)],
                 new Point(randomRange(10, 20), randomRange(10, 30)),
-                new Point(randomRange(0, screenWidth), 0 ),
+                new Point(randomRange(0, screenWidth), -10 ),
                 randomRange(0, 2 * Math.PI),
                 new Point(1, 1),
                 new Point(randomRange(-25, 25), randomRange(0, -50))
