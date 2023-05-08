@@ -5,6 +5,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletRequestWrapper;
 import jakarta.servlet.http.HttpServletResponse;
+import java.net.URL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -58,8 +59,7 @@ public class UsernameFilter extends OncePerRequestFilter {
         boolean authenticated = false;
 
         // don't do anything, if the request is a POST request and from /users endpoint
-        //Eric Fix: change equals to contains, because post requests have a trailing slash.
-        if(request.getMethod().equals("POST") && request.getRequestURI().contains("/users")) {
+        if(request.getMethod().equals("POST") && request.getRequestURI().equals("/users") || request.getRequestURI().equals("/users/")) {
             filterChain.doFilter(request, response);
             return;
         }
