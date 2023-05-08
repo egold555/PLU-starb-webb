@@ -55,7 +55,7 @@ public class UserPuzzleDTO extends UpdateUserPuzzleDTO {
      */
     public UserPuzzleDTO(int id, String username) {
         // TODO: These must actually be populated with the correct values later on when they start playing the level
-        super(false, 0, null, null, -1);
+        super(false, 0, List.of(), List.of(), 0);
         this.levelId = id;
         this.user = username;
         this.id = generateId();

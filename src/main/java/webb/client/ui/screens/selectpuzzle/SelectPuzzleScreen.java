@@ -5,9 +5,9 @@ import java.awt.FlowLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
@@ -45,7 +45,7 @@ public class SelectPuzzleScreen extends Screen {
         private static final UserStatsDTO DEFAULT_STATISTICS_DATA = new UserStatsDTO(0, 0, 0, 0, 0, "Error fetching statistics data.");
         private UserStatsDTO statisticsData = DEFAULT_STATISTICS_DATA;
 
-        public static final PuzzleLevelDTO[] DEFAULT_LEVELS = new PuzzleLevelDTO[]{new PuzzleLevelDTO(-1, null, null, 0, 0, 0)};
+        public static final PuzzleLevelDTO[] DEFAULT_LEVELS = new PuzzleLevelDTO[0];
         private PuzzleLevelDTO[] levels = DEFAULT_LEVELS;
 
         public static final UserPuzzleDTO[] DEFAULT_USER_LEVEL_PROGRESS = new UserPuzzleDTO[0];
@@ -61,7 +61,8 @@ public class SelectPuzzleScreen extends Screen {
 
         private JLabel pageNumberLabel;
 
-        private Set<Integer> completedLevels = Set.of();
+        //made this a hashmap for quicker ID lookups
+        private Map<Integer, UserPuzzleDTO> userInformationPerPuzzle = new HashMap<Integer, UserPuzzleDTO>();
 
         @Override
         protected void populateComponents(Container contentPane, SpringLayout layout) {
@@ -83,8 +84,6 @@ public class SelectPuzzleScreen extends Screen {
                 layout.putConstraint(SpringLayout.WEST, puzzlePanel, 20, SpringLayout.WEST, contentPane);
                 layout.putConstraint(SpringLayout.SOUTH, puzzlePanel, -70, SpringLayout.SOUTH, contentPane);
 
-                // Default error level
-                puzzlePanel.add(new PuzzleButton(DEFAULT_LEVELS[0]));
 
                 this.add(puzzlePanel);
 
@@ -239,8 +238,12 @@ public class SelectPuzzleScreen extends Screen {
                 this.levels = levels;
         }
 
-        public void setCompletedLevels(Set<Integer> completedLevels) {
-                this.completedLevels = completedLevels;
+        public void setUserLevelData(UserPuzzleDTO[] userLevelData) {
+                for(UserPuzzleDTO userPuzzleDTO : userLevelData) {
+                        final int id = userPuzzleDTO.getLevelId();
+                        userInformationPerPuzzle.put(id, userPuzzleDTO);
+                        System.out.println("Adding User puzzle data for level " + id + ": " + userPuzzleDTO);
+                }
         }
 
         private void showPuzzlePanelPage(int page) {
@@ -257,10 +260,8 @@ public class SelectPuzzleScreen extends Screen {
                 List<PuzzleLevelDTO> levels = levelPages.get(page);
 
                 for (PuzzleLevelDTO level : levels) {
-                        PuzzleButton button = new PuzzleButton(level);
-                        if(completedLevels.contains(level.getId())) {
-                                button.setCompleted(true);
-                        }
+                        UserPuzzleDTO userInfo = getUserInfoForLevel(level.getId());
+                        PuzzleButton button = new PuzzleButton(level, userInfo);
                         puzzlePanel.add(button);
                 }
                 puzzlePanel.revalidate();
@@ -282,6 +283,16 @@ public class SelectPuzzleScreen extends Screen {
 
                 puzzleBack.repaint();
                 puzzleForward.repaint();
+        }
+
+        private UserPuzzleDTO getUserInfoForLevel(int levelId) {
+                if(!userInformationPerPuzzle.containsKey(levelId)) {
+                        UserPuzzleDTO blank = new UserPuzzleDTO(levelId, AuthenticationManager.getInstance().getCurrentUser().getUsername());
+                        userInformationPerPuzzle.put(levelId, blank);
+
+                        System.out.println("Creating blank user info for " + levelId);
+                }
+                return userInformationPerPuzzle.get(levelId);
         }
 
         public boolean hasPopulatedLevelsYet() {

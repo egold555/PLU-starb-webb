@@ -82,7 +82,7 @@ public class PuzzleScreen extends Screen {
     public void setPuzzle(PuzzleLevelDTO puzzle) {
         this.puzzleToResetTo = puzzle;
         sidePanel.setStarsRemaining(puzzle.getTotalStars(), puzzle.getTotalStars());
-        sidePanel.setPuzzleNumber(puzzle.getId() + 1, puzzle.getNumStars());
+        sidePanel.setPuzzleNumber(puzzle.getId(), puzzle.getNumStars());
         puzzleComponent.setPuzzle(puzzle);
 
         if(stopWatch != null) {
