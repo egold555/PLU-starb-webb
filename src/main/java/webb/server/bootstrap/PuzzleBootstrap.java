@@ -1,6 +1,8 @@
 package webb.server.bootstrap;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Arrays;
+import java.util.Comparator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +38,9 @@ public class PuzzleBootstrap implements ApplicationListener<ApplicationReadyEven
         // nothing to load
         if(puzzleFiles == null) return;
 
+        //sort puzzles alphabetically. This way ID 1 is 1-1-1 and the same every time
+        Arrays.sort(puzzleFiles, Comparator.comparing(File::getName));
+
         logger.info("No puzzles in the database. Will now load from " + PUZZLES_FP);
 
         int generatedId = 0;
@@ -60,6 +65,7 @@ public class PuzzleBootstrap implements ApplicationListener<ApplicationReadyEven
                                                                         imported_puzzle.getGridSize(),
                                                                         imported_puzzle.getNumStars(),
                                                                         imported_puzzle.getSolvedByNumPlayers());
+                    logger.info("Imported puzzle: " + puzzleFile.getName() + " as " + saveable_puzzle.toString());
                     repo.save(saveable_puzzle);
                 } catch (Exception e) {
                     logger.error("Unable to load file: " + puzzleFile.getPath(), e);
