@@ -24,6 +24,10 @@ tasks.named('run') {
 	mainClassName = 'webb.client.Main'
 }
 
+tasks.withType(JavaCompile) {
+	options.compilerArgs += ['-Xlint:deprecation']
+}
+
 springBoot {
 	mainClassName = "webb.server.WebbServer"
 }
