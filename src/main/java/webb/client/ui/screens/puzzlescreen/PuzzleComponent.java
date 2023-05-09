@@ -96,6 +96,8 @@ public class PuzzleComponent extends JComponent {
 
         userPuzzleDTO.setPlacedStars(placedStars);
         userPuzzleDTO.setPlacedMarkers(placedMarkers);
+
+        userPuzzleDTO.setCompleted(logic.isPuzzleCompleted());
         //userPuzzleDTO.setStarsRemaining(logic.getStarsRemaining());
 
 

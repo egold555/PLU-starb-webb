@@ -4,10 +4,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.awt.Container;
 import java.io.DataOutput;
+import java.util.concurrent.Future;
 import javax.swing.SpringLayout;
 import webb.client.authentication.AuthenticationManager;
 import webb.client.ui.WebbWindow;
 import webb.client.ui.constants.WebbAudio;
+import webb.client.ui.helpers.http.FutureReply;
 import webb.client.ui.helpers.http.HTTPRequestOptions;
 import webb.client.ui.helpers.http.RequestType;
 import webb.client.ui.helpers.http.WebbWebUtilities;
@@ -18,7 +20,10 @@ import webb.client.ui.screens.puzzlescreen.StopWatch.StopWatchCallback;
 import webb.client.ui.screens.puzzlescreen.confetti.BackgroundConfetti;
 import webb.client.ui.testing.DummyData.DummyPlayPuzzleData;
 import webb.shared.dtos.puzzle.PuzzleLevelDTO;
+import webb.shared.dtos.puzzle.user.UserPuzzleDTO;
 import webb.shared.dtos.puzzle.user.created.CreateUserPuzzleDTO;
+import webb.shared.dtos.user.UserDTO;
+import webb.shared.dtos.user.UserStatsDTO;
 
 /**
  * The screen that displays the puzzle, that the user interacts with.
@@ -32,17 +37,17 @@ public class PuzzleScreen extends Screen {
 
     private PuzzleLevelDTO puzzleToResetTo;
 
-    //private BackgroundConfetti confettiMachine;
+    private BackgroundConfetti confettiMachine;
 
     @Override
     protected void populateComponents(Container contentPane, SpringLayout layout) {
 
-//        confettiMachine = new BackgroundConfetti();
-//        layout.putConstraint(SpringLayout.NORTH, confettiMachine, 0, SpringLayout.NORTH, contentPane);
-//        layout.putConstraint(SpringLayout.SOUTH, confettiMachine, 0, SpringLayout.SOUTH, contentPane);
-//        layout.putConstraint(SpringLayout.EAST, confettiMachine, 0, SpringLayout.EAST, contentPane);
-//        layout.putConstraint(SpringLayout.WEST, confettiMachine, 0, SpringLayout.WEST, contentPane);
-//        this.add(confettiMachine);
+        confettiMachine = new BackgroundConfetti();
+        layout.putConstraint(SpringLayout.NORTH, confettiMachine, 0, SpringLayout.NORTH, contentPane);
+        layout.putConstraint(SpringLayout.SOUTH, confettiMachine, 0, SpringLayout.SOUTH, contentPane);
+        layout.putConstraint(SpringLayout.EAST, confettiMachine, 0, SpringLayout.EAST, contentPane);
+        layout.putConstraint(SpringLayout.WEST, confettiMachine, 0, SpringLayout.WEST, contentPane);
+        this.add(confettiMachine);
 
         //------------------ SIDEBAR ------------------
         sidePanel = new PuzzleSideScreen(this);
@@ -70,6 +75,7 @@ public class PuzzleScreen extends Screen {
      * TODO: Finish this method once we have real data!
      */
     public void setPuzzle(PuzzleLevelDTO puzzle) {
+        confettiMachine.enableConstantConfetti(false);
         this.puzzleToResetTo = puzzle;
         sidePanel.setStarsRemaining(puzzle.getTotalStars(), puzzle.getTotalStars());
         sidePanel.setPuzzleNumber(puzzle.getId(), puzzle.getNumStars());
@@ -108,6 +114,7 @@ public class PuzzleScreen extends Screen {
     }
 
     protected void onPuzzleComplete() {
+        confettiMachine.enableConstantConfetti(true);
         System.out.println("Puzzle complete!");
         stopWatch.stop();
         //confettiMachine.enableConstantConfetti(true);
@@ -115,15 +122,15 @@ public class PuzzleScreen extends Screen {
 
         final long time = stopWatch.getTime();
 
-        showPopup(new PopupCongratulations(
-                this,
-                time,
-                1,
-                3,
-                2,
-                "current",
-                "next"
-        ));
+        sendWeFinishedTheLevel((unused) -> {
+            HTTPRequestOptions<UserDTO> options = new HTTPRequestOptions<>();
+            WebbWebUtilities.makeRequestAsync("users/" + AuthenticationManager.getInstance().getCurrentUser().getUsername(), UserDTO.class, options, (response) -> {
+                showPopup(new PopupCongratulations(this, time, response.getStats()));
+            });
+        });
+
+
+
     }
 
     protected PuzzleComponent getPuzzleComponent() {
@@ -154,7 +161,8 @@ public class PuzzleScreen extends Screen {
                 this.puzzleComponent.getPuzzleLevel().getId()
         );
 
-        ObjectNode node = mapper.valueToTree(dto);
+        final ObjectNode node = mapper.valueToTree(dto);
+
 
         options.setPostData(node);
         options.setShouldDisplayError(false);
@@ -164,6 +172,27 @@ public class PuzzleScreen extends Screen {
             weCanSendTheServerUpdates = true;
         });
     }
+
+    protected void sendWeFinishedTheLevel(FutureReply<Void> callback) {
+        HTTPRequestOptions<ObjectNode> options = new HTTPRequestOptions<>();
+        options.setRequestType(RequestType.PUT);
+        options.setShouldDisplayError(false); //if this request fails, oh well.
+
+        ObjectMapper mapper = new ObjectMapper();
+        UserPuzzleDTO dto = puzzleComponent.getAsDTO();
+        dto.setCompleted(true);
+        dto.setSolveTime(stopWatch.getTime());
+        ObjectNode node = mapper.valueToTree(dto);
+
+        options.setPostData(node);
+
+        final String endpoint = "puzzles/users/" + AuthenticationManager.getInstance().getCurrentUser().getUsername() + "/" + this.puzzleComponent.getPuzzleLevel().getId();
+        WebbWebUtilities.makeRequestAsync(endpoint, options, (response) -> {
+            System.out.println("Server responded to puzzle update request!");
+            callback.reply(null);
+        });
+    }
+
     protected void sendGameUpdatesToServer() {
         if(!weCanSendTheServerUpdates) {
             System.out.println("We can't send the server updates yet!");

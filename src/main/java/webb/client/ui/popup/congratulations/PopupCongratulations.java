@@ -17,6 +17,8 @@ import webb.client.ui.popup.WebbPopup;
 import webb.client.ui.screens.ScreenType;
 import webb.client.ui.screens.puzzlescreen.PuzzleScreen;
 import webb.client.ui.screens.puzzlescreen.confetti.BackgroundConfetti;
+import webb.shared.dtos.user.UserDTO;
+import webb.shared.dtos.user.UserStatsDTO;
 
 /**
  * A popup that congratulates the user for completing a puzzle.
@@ -32,6 +34,17 @@ public class PopupCongratulations extends WebbPopup {
 
     private BackgroundConfetti confettiMachine;
     private final PuzzleScreen puzzleScreen;
+
+    public PopupCongratulations(PuzzleScreen puzzleScreen, long time, UserStatsDTO stats) {
+        this(puzzleScreen,
+                time,
+                0,
+                stats.getPuzzlesUntilNextTitle(),
+                stats.getPuzzlesComplete(),
+                stats.getCurrentTitle(),
+                "Next Title"
+                );
+    }
 
     /**
      * Creates a new PopupCongratulations.
