@@ -1,24 +1,36 @@
 package webb.client.ui.screens.puzzlescreen;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.awt.BasicStroke;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Line2D;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
+import webb.client.authentication.AuthenticationManager;
 import webb.client.logic.puzzle.CellType;
 import webb.client.logic.puzzle.PuzzleLogic;
 import webb.client.ui.constants.WebbColors;
+import webb.client.ui.helpers.http.HTTPRequestOptions;
+import webb.client.ui.helpers.http.RequestType;
+import webb.client.ui.helpers.http.WebbWebUtilities;
+import webb.shared.dtos.puzzle.CellDTO;
+import webb.shared.dtos.puzzle.PuzzleLevelDTO;
 import webb.shared.dtos.puzzle.created.CreatePuzzleLevelDTO;
+import webb.shared.dtos.puzzle.user.UserPuzzleDTO;
 
 public class PuzzleComponent extends JComponent {
 
     private static final int MARGIN = 15;
 
     private final PuzzleLogic logic = new PuzzleLogic();
+    private PuzzleLevelDTO puzzleLevel;
 
-    public PuzzleComponent() {
+    public PuzzleComponent(PuzzleScreen screen) {
         //this.setBorder( new LineBorder( Color.BLUE, 2, true ));
         this.setOpaque(false);
 
@@ -45,12 +57,54 @@ public class PuzzleComponent extends JComponent {
                             repaintLater();
 
                             printBoard();
+
+                            if(logic.isPuzzleCompleted()) {
+                                screen.onPuzzleComplete();
+                            }
+
+                            screen.sendGameUpdatesToServer();
                         }
                     }
                 }
             }
         });
     }
+
+    protected UserPuzzleDTO getAsDTO() {
+        UserPuzzleDTO userPuzzleDTO = new UserPuzzleDTO();
+
+        userPuzzleDTO.setUserName(AuthenticationManager.getInstance().getCurrentUser().getUsername());
+        userPuzzleDTO.setLevelId(this.puzzleLevel.getId());
+
+        //Get list of placed cells
+        List<CellDTO> placedStars = new ArrayList<>();
+        List<CellDTO> placedMarkers = new ArrayList<>();
+
+        for(int row = 0; row < logic.getGridSize(); row++ ) {
+            for(int col = 0; col < logic.getGridSize(); col++ ) {
+                CellComponent cell = getCell(col, row);
+                if(cell.getType() == CellType.STAR) {
+                    //must be row col
+                    placedStars.add(cell.toDTO());
+                }
+                else if(cell.getType() == CellType.PLAYER_MARKER) {
+                    //must be row col
+                    placedMarkers.add(cell.toDTO());
+                }
+            }
+        }
+
+        userPuzzleDTO.setPlacedStars(placedStars);
+        userPuzzleDTO.setPlacedMarkers(placedMarkers);
+
+        userPuzzleDTO.setCompleted(logic.isPuzzleCompleted());
+        //userPuzzleDTO.setStarsRemaining(logic.getStarsRemaining());
+
+
+        return userPuzzleDTO;
+    }
+
+
 
     /**
      * Sets the size of the grid, and resets the cells
@@ -68,11 +122,13 @@ public class PuzzleComponent extends JComponent {
      * Set the puzzle to be displayed
      * @param puzzle Puzzle to be displayed
      */
-    public void setPuzzle(CreatePuzzleLevelDTO puzzle) {
+    public void setPuzzle(PuzzleLevelDTO puzzle) {
+        this.puzzleLevel = puzzle;
 
         logic.setPuzzle(puzzle);
         //repaint
         this.repaint();
+
     }
 
     /**
@@ -203,5 +259,9 @@ public class PuzzleComponent extends JComponent {
         SwingUtilities.invokeLater(() -> {
             repaint();
         });
+    }
+
+    public PuzzleLevelDTO getPuzzleLevel() {
+        return puzzleLevel;
     }
 }

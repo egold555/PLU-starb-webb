@@ -215,6 +215,7 @@ public class ScreenTestComponents extends Screen {
     // Show the congratulations popup with dummy data
     private void showPopupCongratulations() {
         showPopup(new PopupCongratulations(
+                null,
                 DummyCongratulationsData.SOLVE_TIME,
                 DummyCongratulationsData.PROGRESS_MIN,
                 DummyCongratulationsData.PROGRESS_MAX,

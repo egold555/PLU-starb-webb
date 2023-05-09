@@ -14,6 +14,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import webb.client.authentication.AuthenticationManager;
 import webb.client.ui.WebbWindow;
 
@@ -24,7 +25,8 @@ public class WebbWebUtilities {
 
     //TODO: Change me
     //private static final String BASE_URL = "https://cs390.golde.org/api-mockup/v1/";
-    private static final String BASE_URL = "http://10.0.0.23:1337/";
+    //private static final String BASE_URL = "http://10.0.0.23:1337/";
+    private static final String BASE_URL = "http://ericshome.xyz:1337/";
 
     //Define the codec for the ObjectMapper to parse.
     //Make sure if there is no empty constructor for the class
@@ -39,14 +41,37 @@ public class WebbWebUtilities {
      * @param urlStr The URL to make the request to.
      * @param clazz The class to parse the response into.
      * @param options The options for the request.
+     * @param <T> The type of object to parse the response into.
+     */
+    public static <T> void makeRequestAsync(String urlStr, Class<T> clazz, HTTPRequestOptions<T> options) {
+        makeRequestAsync(urlStr, clazz, options, null);
+    }
+
+    /**
+     * Makes a request to the server and returns the response as a T object.
+     * @param urlStr The URL to make the request to.
+     * @param clazz The class to parse the response into.
+     * @param options The options for the request.
      * @param futureReply The future reply to reply to.
      * @param <T> The type of object to parse the response into.
      */
     public static <T> void makeRequestAsync(String urlStr, Class<T> clazz, HTTPRequestOptions<T> options, FutureReply<T> futureReply) {
         THREAD_POOL.submit(() -> {
             T node = makeRequest(urlStr, clazz, options);
-            futureReply.reply(node);
+            if(futureReply != null) {
+                futureReply.reply(node);
+            }
         });
+    }
+
+    /**
+     * Makes a request to the server and returns the response as a ObjectNode
+     * @param urlStr The URL to make the request to.
+     * @param options The options for the request.
+     * @return The response from the server as a ObjectNode.
+     */
+    public static void makeRequestAsync(String urlStr, HTTPRequestOptions<ObjectNode> options) {
+        makeRequestAsync(urlStr, options, null);
     }
 
     /**
@@ -58,7 +83,9 @@ public class WebbWebUtilities {
     public static void makeRequestAsync(String urlStr, HTTPRequestOptions<ObjectNode> options, FutureReply<ObjectNode> futureReply) {
         THREAD_POOL.submit(() -> {
             ObjectNode node = makeRequest(urlStr, options);
-            futureReply.reply(node);
+            if(futureReply != null) {
+                futureReply.reply(node);
+            }
         });
     }
 
@@ -108,6 +135,21 @@ public class WebbWebUtilities {
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod(options.getRequestType().name());
 
+            con.setReadTimeout(5000);
+            con.setConnectTimeout(5000);
+
+            con.setDoInput(true);
+
+            if(options.isAuthenticatedRequest()) {
+
+                String auth = options.getOverrideAuth() != null ? options.getOverrideAuth() : AuthenticationManager.getInstance().getCurrentUser().getUsername();
+                con.setRequestProperty("Authorization", auth);
+
+                if(options.isDebug()) {
+                    System.out.println("  Auth: " + auth);
+                }
+            }
+
             if(options.getRequestType() != RequestType.GET && options.getPostData() != null) {
                 final String body = options.getPostData().toString();
 
@@ -136,47 +178,44 @@ public class WebbWebUtilities {
                 os.close();
             }
 
-            if(options.isAuthenticatedRequest()) {
+            final int httpStatusCode = con.getResponseCode();
 
-                String auth = options.getOverrideAuth() != null ? options.getOverrideAuth() : AuthenticationManager.getInstance().getCurrentUser().getUsername();
-                con.setRequestProperty("Authorization", auth);
 
-                if(options.isDebug()) {
-                    System.out.println("  Auth: " + auth);
-                }
-            }
 
-            int totalBytes = con.getContentLength();
+            long totalBytes = con.getContentLengthLong();
 
             if(options.isDebug()) {
                 System.out.println("  Content Length: " + totalBytes);
             }
 
-            BufferedReader inputReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
-
-            //read 1024 bytes at a time
-            char[] buffer = new char[1024];
             int bytesRead = 0;
             int bytesReadTotal = 0;
             StringBuilder content = new StringBuilder();
 
-            while ((bytesRead = inputReader.read(buffer)) != -1) {
-                content.append(buffer, 0, bytesRead);
-                bytesReadTotal += bytesRead;
-                if (options.getProgressCallback() != null) {
-                    float percentComplete = (float) bytesReadTotal / totalBytes;
-                    options.getProgressCallback().onProgressUpdate(percentComplete);
-                }
-            }
+            if(httpStatusCode >= 200 && httpStatusCode < 300) {
+                BufferedReader inputReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
 
-            inputReader.close();
+                //read 1024 bytes at a time
+                char[] buffer = new char[1024];
+
+                while ((bytesRead = inputReader.read(buffer)) != -1) {
+                    content.append(buffer, 0, bytesRead);
+                    bytesReadTotal += bytesRead;
+                    if (options.getProgressCallback() != null) {
+                        float percentComplete = (float) bytesReadTotal / totalBytes;
+                        options.getProgressCallback().onProgressUpdate(percentComplete);
+                    }
+                }
+
+                inputReader.close();
+            }
 
             if(options.isDebug()) {
                 System.out.println();
                 System.out.println(" ----- Response -----");
             }
 
-            final int httpStatusCode = con.getResponseCode();
+
 
             if(options.isDebug()) {
                 System.out.println("  Bytes Read: " + bytesReadTotal);
@@ -201,7 +240,7 @@ public class WebbWebUtilities {
                 }
             }
             catch (Exception e) {
-                handleError(e);
+                handleError(options, e);
                 rootNode.put("success", false);
                 rootNode.put("httpStatusCode", httpStatusCode);
                 rootNode.put("dataSizeBytes", bytesReadTotal);
@@ -218,7 +257,7 @@ public class WebbWebUtilities {
             }
         }
         catch (IOException e) {
-            handleError(e);
+            handleError(options, e);
             rootNode.put("success", false);
             rootNode.put("error", e.getMessage());
         }
@@ -226,8 +265,13 @@ public class WebbWebUtilities {
         return rootNode;
     }
 
-    private static void handleError(Exception e) {
-        WebbWindow.getInstance().handleError(e);
+    private static void handleError(HTTPRequestOptions<?> option, Exception e) {
+        if(option.shouldDisplayError()) {
+            WebbWindow.getInstance().handleError(e);
+        }
+        else {
+            e.printStackTrace();
+        }
     }
 
 }

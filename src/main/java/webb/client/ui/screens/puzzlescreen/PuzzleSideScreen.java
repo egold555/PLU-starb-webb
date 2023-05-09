@@ -81,6 +81,7 @@ public class PuzzleSideScreen extends WebbRoundedJPanel {
         // Buttons
         WebbButton validateButton = new WebbButton(WebbImages.PLAY_PUZZLE_VALIDATE_BUTTON, 42, 42, (self, rightClicked) -> {
             System.out.println("Validate button clicked");
+            puzzleScreen.onPuzzleComplete();
         });
         innerLayout.putConstraint(SpringLayout.NORTH, validateButton, 20, SpringLayout.SOUTH, timeLabel);
         innerLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, validateButton, -50, SpringLayout.HORIZONTAL_CENTER, innerPanel);
@@ -100,6 +101,7 @@ public class PuzzleSideScreen extends WebbRoundedJPanel {
 
         WebbButton resetButton = new WebbButton(WebbImages.PLAY_PUZZLE_RESET_BUTTON, 42, 42, (self, rightClicked) -> {
             System.out.println("Reset button clicked");
+            puzzleScreen.reset();
         });
         innerLayout.putConstraint(SpringLayout.NORTH, resetButton, 20, SpringLayout.SOUTH, timeLabel);
         innerLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, resetButton, 50, SpringLayout.HORIZONTAL_CENTER, innerPanel);

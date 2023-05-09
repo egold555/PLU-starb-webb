@@ -101,18 +101,7 @@ public class LoadingScreen extends Screen {
                     "puzzles/users/" + AuthenticationManager.getInstance().getCurrentUser().getUsername(),
                     UserPuzzleDTO[].class,
                     requestOptions_userPuzzle,
-                    (puzzleLevels) -> {
-
-                        Set<Integer> completedLevels = new HashSet<>();
-                        for(UserPuzzleDTO puzzleLevel : puzzleLevels) {
-                            if(puzzleLevel.isCompleted()) {
-                                completedLevels.add(puzzleLevel.getLevelId());
-                            }
-                        }
-
-                        selectPuzzleScreen.setCompletedLevels(completedLevels);
-
-                    }
+                    selectPuzzleScreen::setUserLevelData
             );
         }
 

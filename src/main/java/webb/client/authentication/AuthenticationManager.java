@@ -1,6 +1,9 @@
 package webb.client.authentication;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import webb.client.ui.helpers.http.HTTPRequestOptions;
+import webb.client.ui.helpers.http.RequestType;
 import webb.client.ui.helpers.http.WebbWebUtilities;
 import webb.shared.dtos.user.UserDTO;
 
@@ -34,6 +37,22 @@ public class AuthenticationManager {
         options.setOverrideAuth(username);
 
         currentUser = WebbWebUtilities.makeRequest("users/" + username, UserDTO.class, options);
+
+        return currentUser != null;
+    }
+
+    public boolean createUser(String username) {
+        HTTPRequestOptions<UserDTO> options = new HTTPRequestOptions<>();
+        options.setOverrideAuth(username);
+        options.setRequestType(RequestType.POST);
+
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode node = mapper.createObjectNode();
+        node.put("username", username);
+
+        options.setPostData(node);
+
+        currentUser = WebbWebUtilities.makeRequest("users/", UserDTO.class, options);
 
         return currentUser != null;
     }

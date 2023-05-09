@@ -122,6 +122,6 @@ public class WebbWindow extends JFrame {
      */
     public void handleError(Throwable e) {
         e.printStackTrace();
-        new PopupErrorHandler(e).showPopup();
+        //new PopupErrorHandler(e).showPopup();
     }
 }

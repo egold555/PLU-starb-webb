@@ -4,7 +4,7 @@ import java.awt.Container;
 import javax.swing.SpringLayout;
 import webb.client.ui.components.WebbButton;
 import webb.client.ui.screens.Screen;
-import webb.client.ui.screens.test.confetti.BackgroundConfetti;
+import webb.client.ui.screens.puzzlescreen.confetti.BackgroundConfetti;
 
 public class ScreenTestConfetti extends Screen {
 

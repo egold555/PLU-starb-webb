@@ -10,6 +10,7 @@ public class WebbAudio {
     public static final String BG_IN_GAME = "in_game";
     public static final String SFX_CLICK = "ui_button_click";
     public static final String SFX_BTN_HOVER = "ui_button_hover";
+    public static final String BG_PUZZLE_COMPLETE = "game_win_bg";
 
     static {
         try {

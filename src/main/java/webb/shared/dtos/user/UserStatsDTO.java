@@ -1,5 +1,6 @@
 package webb.shared.dtos.user;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -29,6 +30,7 @@ public class UserStatsDTO {
      * @param currentTitle the current title of the user
      *
      */
+    @JsonCreator
     public UserStatsDTO(
             @JsonProperty("maxSolveTime") long maxSolveTime,
             @JsonProperty("minSolveTime") long minSolveTime,

@@ -46,13 +46,7 @@ public abstract class WebbPopup extends JDialog {
 
     /**
      * Shows the popup on top of the screen.
-     * @param screen The screen to show the popup on top of.
-     *               use {@link #showPopup()} instead.
      */
-    @Deprecated
-    public final void show(Screen screen) {
-        this.showPopup();
-    }
     public final void showPopup() {
         this.parent = WebbWindow.getInstance();
 

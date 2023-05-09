@@ -15,7 +15,9 @@ public class HTTPRequestOptions<T> {
     private boolean authenticate = true;
     private String overrideAuth = null;
 
-    private boolean debug = false;
+    private static boolean debug = true;
+
+    private boolean shouldDisplayError = true;
 
     /**
      * Returns the progress callback. Default is NULL
@@ -119,9 +121,9 @@ public class HTTPRequestOptions<T> {
      * Sets whether or not to print debug information.
      * @param debug true if debug information should be printed.
      */
-    public void setDebug(boolean debug) {
-        this.debug = debug;
-    }
+//    public void setDebug(boolean debug) {
+//        this.debug = debug;
+//    }
 
     /**
      * Returns whether or not to print debug information.
@@ -129,5 +131,13 @@ public class HTTPRequestOptions<T> {
      */
     public boolean isDebug() {
         return debug;
+    }
+
+    public void setShouldDisplayError(boolean shouldDisplayError) {
+        this.shouldDisplayError = shouldDisplayError;
+    }
+
+    public boolean shouldDisplayError() {
+        return shouldDisplayError;
     }
 }

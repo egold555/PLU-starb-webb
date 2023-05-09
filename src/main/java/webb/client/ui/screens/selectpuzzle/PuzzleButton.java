@@ -15,6 +15,7 @@ import webb.client.ui.constants.WebbImages;
 import webb.client.ui.screens.ScreenType;
 import webb.client.ui.screens.puzzlescreen.PuzzleScreen;
 import webb.shared.dtos.puzzle.PuzzleLevelDTO;
+import webb.shared.dtos.puzzle.user.UserPuzzleDTO;
 
 /**
  * A button that represents a puzzle.
@@ -23,10 +24,11 @@ import webb.shared.dtos.puzzle.PuzzleLevelDTO;
 public class PuzzleButton extends JPanel {
 
     private final PuzzleLevelDTO level;
-    private boolean completed = false;
+    private final UserPuzzleDTO userData;
 
-    public PuzzleButton(PuzzleLevelDTO level) {
+    public PuzzleButton(PuzzleLevelDTO level, UserPuzzleDTO userData) {
         this.level = level;
+        this.userData = userData;
         this.setOpaque(false);
 
         SpringLayout innerLayout = new SpringLayout();
@@ -70,15 +72,16 @@ public class PuzzleButton extends JPanel {
      */
     public PuzzleLevelDTO getPuzzleLevelDTO() {return level;}
 
-    public void setCompleted(boolean completed) {
-        this.completed = completed;
-    }
 
     @Override
     public void paint(Graphics g) {
         super.paint(g);
         Graphics2D g2 = (Graphics2D) g;
-        if(completed) {
+        if(userData == null) {
+            System.out.println("PuzzleButton: userData is null. Not drawing.");
+            return;
+        }
+        if(userData.isCompleted()) {
             g2.drawImage(WebbImages.PUZZLE_SELECTION_LEVEL_COMPLETE_EMBLEM, 120, 0, 50, 50, null);
         }
 
