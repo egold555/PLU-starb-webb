@@ -18,6 +18,7 @@ import webb.client.ui.screens.Screen;
 import webb.client.ui.screens.ScreenType;
 import webb.client.ui.screens.puzzlescreen.StopWatch.StopWatchCallback;
 import webb.client.ui.screens.puzzlescreen.confetti.BackgroundConfetti;
+import webb.client.ui.screens.selectpuzzle.SelectPuzzleScreen;
 import webb.client.ui.testing.DummyData.DummyPlayPuzzleData;
 import webb.shared.dtos.puzzle.PuzzleLevelDTO;
 import webb.shared.dtos.puzzle.user.UserPuzzleDTO;
@@ -122,6 +123,9 @@ public class PuzzleScreen extends Screen {
 
         final long time = stopWatch.getTime();
 
+        SelectPuzzleScreen selectPuzzleScreen = (SelectPuzzleScreen) ScreenType.SELECT_PUZZLE.getScreenInstance();
+        selectPuzzleScreen.markClientSideWeFinishedAPuzzle(puzzleComponent.getPuzzleLevel().getId());
+
         sendWeFinishedTheLevel((unused) -> {
             HTTPRequestOptions<UserDTO> options = new HTTPRequestOptions<>();
             WebbWebUtilities.makeRequestAsync("users/" + AuthenticationManager.getInstance().getCurrentUser().getUsername(), UserDTO.class, options, (response) -> {
@@ -191,6 +195,7 @@ public class PuzzleScreen extends Screen {
             System.out.println("Server responded to puzzle update request!");
             callback.reply(null);
         });
+
     }
 
     protected void sendGameUpdatesToServer() {

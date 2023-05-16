@@ -246,6 +246,13 @@ public class SelectPuzzleScreen extends Screen {
                 }
         }
 
+        public void markClientSideWeFinishedAPuzzle(int puzzleId) {
+                System.out.println("Marking puzzle " + puzzleId + " as completed client side");
+                UserPuzzleDTO userPuzzleDTO = getUserInfoForLevel(puzzleId);
+                userPuzzleDTO.setCompleted(true);
+                userInformationPerPuzzle.put(puzzleId, userPuzzleDTO);
+        }
+
         private void showPuzzlePanelPage(int page) {
                 if(page < 0 || page > levelPages.size() - 1) {
                         System.out.println("Invalid page number: " + page);
