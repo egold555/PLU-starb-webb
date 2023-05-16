@@ -22,6 +22,9 @@ public class UserStatsDTO {
     @NotBlank
     private String currentTitle;
 
+    @NotBlank
+    private String nextTitle;
+
     /** Creates a new UserStats object
      * @param maxSolveTime the maximum solve time of the usser in ms
      * @param minSolveTime the minimum solve time of the user in ms
@@ -130,4 +133,19 @@ public class UserStatsDTO {
     public float getTimeInSeconds(long time) {
         return (float) time / 1000;
     }
+
+    /**
+     * @return the next title of the user
+     */
+    public String getNextTitle() {
+        return nextTitle;
+    }
+
+    /**
+     * @param nextTitle the next title of the user
+     */
+    public void setNextTitle(String nextTitle) {
+        this.nextTitle = nextTitle;
+    }
+
 }

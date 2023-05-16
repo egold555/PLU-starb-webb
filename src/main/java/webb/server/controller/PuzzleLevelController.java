@@ -15,9 +15,8 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("puzzles/levels")
+@RequestMapping(path="puzzles/levels")
 @Validated
-@CrossOrigin("*")
 public class PuzzleLevelController {
 
     private final PuzzleRepository puzzleRepository;

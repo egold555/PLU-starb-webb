@@ -12,7 +12,7 @@ public enum TITLES {
 
     private final String title;
 
-    private TITLES(String s) {
+    TITLES(String s) {
         title = s;
    }
 

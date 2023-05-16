@@ -77,7 +77,7 @@ public class CellLogic {
     private void changeType(boolean rightClick) {
 
         if(!rightClick){
-            if(type == CellType.EMPTY || type == CellType.AMARKER) {
+            if(type == CellType.EMPTY || type == CellType.AMARKER || type == CellType.VMARKER) {
                 type = CellType.STAR;
             }
             else if(type == CellType.STAR || type == CellType.INVALID){
