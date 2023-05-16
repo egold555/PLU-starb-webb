@@ -127,18 +127,31 @@ public class UserService {
         return new LeaderboardDTO(entries);
     }
 
+    /**
+     * Updates a user's stats.
+     * @param username
+     * @param newUserStats
+     */
     public void updateUserStats(String username, UserStatsDTO newUserStats) {
         UserDTO userFound = fetchUser(username);
         userFound.setStats(newUserStats);
         saveUser(userFound);
     }
 
+
+    /**
+     * Determines the user's current title and how many puzzles they need to complete to get the next one.
+     * As of now, the titles are determined by the number of puzzles completed. Every 4 puzzles completed, the user gets a new title.
+     * @param username
+     */
     public void determineTitles(String username) {
         UserDTO user = fetchUser(username);
         List<TITLES> titles = List.of(TITLES.values());
 
-        System.out.println("Puzzles completed: " + user.getStats().getPuzzlesComplete());
         int titleIndex = user.getStats().getPuzzlesComplete() / 4;
+        int nextTitleIndex = titleIndex + 1;
+
+        // if the user has completed all the puzzles, set the title to the last one
         if (titleIndex >= titles.size()) {
             titleIndex = titles.size() - 1;
         }
@@ -147,6 +160,13 @@ public class UserService {
         user.getStats().setCurrentTitle(currentTitle.toString());
         user.getStats().setPuzzlesUntilNextTitle((titleIndex + 1) * 4 - user.getStats().getPuzzlesComplete());
 
+        if(nextTitleIndex > titles.size() - 1) {
+            user.getStats().setNextTitle("You have completed all the puzzles!");
+        } else {
+            TITLES nextTitle = titles.get(nextTitleIndex);
+            user.getStats().setNextTitle(nextTitle.toString());
+        }
+        
         saveUser(user);
     }
 }
