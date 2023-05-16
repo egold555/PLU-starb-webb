@@ -17,8 +17,7 @@ import java.util.List;
 
 @Validated
 @RestController
-@RequestMapping("puzzles/users")
-@CrossOrigin("*")
+@RequestMapping(path="puzzles/users")
 public class UserPuzzleController {
 
     private  final UserPuzzleService userPuzzleService;

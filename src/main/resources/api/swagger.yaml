@@ -447,6 +447,8 @@ definitions:
             type: integer
           currentTitle:
             type: string
+          nextTitle:
+            type: string
   CreateUser:
     type: object
     properties:

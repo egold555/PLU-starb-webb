@@ -15,7 +15,6 @@ import java.security.Principal;
 
 @RestController
 @RequestMapping(path="leaderboards")
-@CrossOrigin("*")
 public class LeaderboardController {
     /**
      * service for managing users
