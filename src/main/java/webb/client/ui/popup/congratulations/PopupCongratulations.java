@@ -42,7 +42,7 @@ public class PopupCongratulations extends WebbPopup {
                 stats.getPuzzlesUntilNextTitle(),
                 stats.getPuzzlesComplete(),
                 stats.getCurrentTitle(),
-                "Next Title"
+                stats.getNextTitle()
                 );
     }
 
