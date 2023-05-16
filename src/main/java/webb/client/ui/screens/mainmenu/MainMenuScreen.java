@@ -18,6 +18,8 @@ import webb.client.ui.screens.mainmenu.background.BackgroundSpacePanel;
  */
 public class MainMenuScreen extends Screen {
 
+    private WebbButton testButton;
+
     @Override
     protected void populateComponents(Container contentPane, SpringLayout layout) {
 
@@ -87,7 +89,7 @@ public class MainMenuScreen extends Screen {
 
         //----------- Test button ----------------
 
-        WebbButton testButton = new WebbButton("Test", (self, rightClicked) -> {
+        testButton = new WebbButton("Test", (self, rightClicked) -> {
             System.out.println("Test button pressed");
             this.switchScreenTo(ScreenType.TEST_COMPONENTS);
         });
@@ -96,7 +98,10 @@ public class MainMenuScreen extends Screen {
         layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, testButton, 0, SpringLayout.HORIZONTAL_CENTER, contentPane);
         layout.putConstraint(SpringLayout.NORTH, testButton, 10, SpringLayout.SOUTH, quitButton);
 
+        testButton.setVisible(false);
         this.add(testButton);
+
+
 
         //----------- Background space panel ----------------
         BackgroundSpacePanel backgroundSpacePanel = new BackgroundSpacePanel();
@@ -110,5 +115,9 @@ public class MainMenuScreen extends Screen {
     @Override
     public void onShow() {
         WebbWindow.getInstance().getBGMusicPlayer().playBG(WebbAudio.BG_MAIN_MENU);
+
+        if(WebbWindow.getInstance().getGameOptions().isTestButtonEnabled()) {
+            testButton.setVisible(true);
+        }
     }
 }
