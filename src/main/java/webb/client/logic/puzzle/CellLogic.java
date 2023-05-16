@@ -3,7 +3,6 @@ package webb.client.logic.puzzle;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
-import webb.shared.dtos.puzzle.CellDTO;
 
 /**
  * This class represents a single cell in the puzzle grid.
@@ -77,7 +76,7 @@ public class CellLogic {
     private void changeType(boolean rightClick) {
 
         if(!rightClick){
-            if(type == CellType.EMPTY || type == CellType.AMARKER) {
+            if(type == CellType.EMPTY || type == CellType.AMARKER || type == CellType.VMARKER) {
                 type = CellType.STAR;
             }
             else if(type == CellType.STAR || type == CellType.INVALID){
@@ -152,8 +151,4 @@ public class CellLogic {
      */
     public boolean shouldDrawIcon() {return drawIcon;}
 
-    public CellDTO toDTO() {
-        //must be row, col
-        return new CellDTO(new int[]{row, col});
-    }
 }
