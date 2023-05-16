@@ -14,8 +14,7 @@ import webb.shared.dtos.user.updated.UpdatedUserStatsDTO;
 import java.security.Principal;
 @Validated
 @RestController
-@RequestMapping("users")
-@CrossOrigin("*")
+@RequestMapping(path="users")
 public class UserController {
     /**
      * Service object for managing User entities.
@@ -56,6 +55,8 @@ public class UserController {
     public ResponseEntity<UserDTO> createUser(@RequestBody CreatedUserDTO newUser) {
         UserDTO user = new UserDTO(newUser.getUsername());
         userService.createAccount(user);
+        userService.determineTitles(user.getUsername());
+        user = userService.fetchUser(user.getUsername());
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
