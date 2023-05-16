@@ -27,12 +27,11 @@ public class Main {
 
         if(!AuthenticationManager.getInstance().authenticate(inputtedUserName)) {
             //throw new Exception("Failed to authenticate: '%s'. ".formatted(inputtedUserName));
-            System.err.println("Failed to authenticate: '%s'. ".formatted(inputtedUserName));
-            System.out.println("Attempting to create a new user for '%s'".formatted(inputtedUserName));
+            System.err.println("Failed to authenticate: '%s' Attempting to create a new user for '%s'".formatted(inputtedUserName, inputtedUserName));
 
             if(!AuthenticationManager.getInstance().createUser(inputtedUserName)) {
                 throw new Exception("Failed to create user: '%s'. ".formatted(inputtedUserName));
-            };
+            }
 
         }
 
