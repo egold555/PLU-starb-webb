@@ -38,6 +38,10 @@ public class BackgroundConfetti extends JComponent {
 
     }
 
+    public void removeAllConfetti() {
+        confetti.clear();
+    }
+
     // The last time the confetti was updated
     private long lastTime = System.currentTimeMillis();
 
@@ -85,6 +89,10 @@ public class BackgroundConfetti extends JComponent {
 
     public void enableConstantConfetti(boolean enable) {
         this.constantConfetti = enable;
+
+        if(!enable) {
+            removeAllConfetti();
+        }
     }
 
 
