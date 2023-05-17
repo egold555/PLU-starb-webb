@@ -46,8 +46,8 @@ public class PositionDirectionSpeedScale {
         final boolean dirY = RNG.nextBoolean();
 
         // random position in a corner
-        final double x = dirX ? -imgWidth : screenWidth + imgWidth;
-        final double y = dirY ? -imgHeight : screenHeight + imgHeight;
+        final double x = dirX ? -imgWidth : screenWidth + imgWidth / 2d;
+        final double y = dirY ? -imgHeight : screenHeight + imgHeight / 2d;
 
         // random direction
         double dx = RNG.nextDouble();
