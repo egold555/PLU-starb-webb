@@ -7,7 +7,7 @@ info:
     name: Starbo API Support
     url: 'https://www.starbo.com/support'
     email: support@starbo.com
-host: 'localhost:1391'
+host: 'localhost:1337'
 basePath: /
 schemes:
   - http
