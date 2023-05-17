@@ -13,14 +13,19 @@ Steps to Play Game:
 
 > Make sure IntelliJ is running and on starb-webb repo before preceding on the next steps
 
-1) Click over to the run configuration for StarbClient (next to the green run button)
+1. Click over to the run configuration for StarbClient (next to the green run button)
 <img src="doc/tutorial/tutorial_Pt1.png" width="400px">
-2) Click "edit configurations"
+
+2. Click "edit configurations"
 <br><img src="doc/tutorial/tutorial_Pt2.png" width="400px">
-3) In the program arguments options text field, add `-username=.` put a username of your choice. The argument username is required field followed by any username that is not currently in `src/main/resources/webb/data/userdata.json`
-4) To start the database run docker and run command `docker compose up -d`
-5) Start WebbServer. Click Start Server Button below. 
-6) If are you using gradlew use this command line in terminal and choose a username of your choice: ` - ./gradlew run --args="-username="` 
+
+3. In the program arguments options text field, add `-username=.` put a username of your choice. The argument username is required field followed by any username that is not currently in `src/main/resources/webb/data/userdata.json`
+
+4. To start the database run docker and run command `docker compose up -d`
+
+5. Start WebbServer. Click Start Server Button below. 
+
+6. If are you using gradlew use this command line in terminal and choose a username of your choice: ` - ./gradlew run --args="-username="` 
       Code located in: `src/main/java/Webb/Main`
 
 Now, You should be able to Play! Enjoy our game!!
